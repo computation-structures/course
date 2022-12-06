@@ -49,25 +49,25 @@ choice.</p>
 circumstance by introducing the concept of a random variable.
 For our application, we&#700;ll always be dealing with
 circumstances where there are a finite number N of distinct
-choices, so we&#700;ll be using a discrete random variable \(X\)
+choices, so we&#700;ll be using a discrete random variable $X$
 that can take on one of the N possible values from the set
-\(\{x_1, x_2, ..., x_N\}\).  The probability that \(X\) will take on
-the value \(x_1\) is given by the probability \(p_1\), the value
-\(x_2\) by probability \(p_2\), and so on.  The smaller the
-probability, the more uncertain it is that \(X\) will take on that
+$\{x_1, x_2, ..., x_N\}$.  The probability that $X$ will take on
+the value $x_1$ is given by the probability $p_1$, the value
+$x_2$ by probability $p_2$, and so on.  The smaller the
+probability, the more uncertain it is that $X$ will take on that
 particular value.</p>
 
 <p>Claude Shannon, in his seminal work on the
 <a href="https://www.tnt.uni-hannover.de/edu/vorlesungen/InfoTheor/download/shannon1948.pdf" target="_blank">theory of comunication</a>,
 defined the information received when learning that
-\(X\) had taken on the value \(x_i\) as</p>
+$X$ had taken on the value $x_i$ as</p>
 \[ \begin{equation} \tag{1}
 I(x_i)=\log_2 \left( \frac{1}{p_i} \right) \textrm{bits}
 \end{equation} \]
 
 <p>Note that the uncertainty of a choice is inversely proportional
 its probability, so the term inside of the log is basically the
-uncertainty of that particular choice.  We use the \(\log_2\) to
+uncertainty of that particular choice.  We use the $\log_2$ to
 measure the magnitude of the uncertainty in bits where a bit is
 a quantity that can take on the value 0 or 1.  Think of the
 information content as the number of bits we would require to
@@ -87,7 +87,7 @@ I(\textrm{data})=\log_2 \left( \frac{1}{p_{\textrm{data}}} \right) \textrm{ bits
 \end{equation} \]
 
 <p>In our example, the probability of learning that a card chosen
-randomly from a 52-card deck is a Heart is \(13/52 = 0.25\), the
+randomly from a 52-card deck is a Heart is $13/52 = 0.25$, the
 number of Hearts over the total number of choices.  So the
 information content is computed as</p>
 \[ \begin{equation*}
@@ -95,31 +95,31 @@ I(\textrm{heart}) = \log_2 \left( \frac{1}{p_{\textrm{heart}}} \right) = \log_2 
 \end{equation*} \]
 
 <p>This example is one we encounter often: we receive partial
-information about \(N\) equally-probable choices (each choice has
-probability \(1/N\)) that narrows the number of choices down to
-\(M\).  The probability of receiving such information is \(M(1/N)\),
+information about $N$ equally-probable choices (each choice has
+probability $1/N$) that narrows the number of choices down to
+$M$.  The probability of receiving such information is $M(1/N)$,
 so the information content is</p>
 \[ \begin{equation} \tag{3}
-I(\textrm{N choices \(\rightarrow\) M choices}) = \log_2 \left( \frac{1}{M(1/N)} \right) = \log_2 \left( \frac{N}{M} \right) \textrm{ bits}.
+I(\textrm{N choices $\rightarrow$ M choices}) = \log_2 \left( \frac{1}{M(1/N)} \right) = \log_2 \left( \frac{N}{M} \right) \textrm{ bits}.
 \end{equation} \]
 
 <p>If we now receive a further message narrowing the number
 of choices down to 1, the information of this second message is</p>
 \[ \begin{equation*}
-I(\textrm{M choices \(\rightarrow\) 1 choice}) = \log_2 \left( \frac{M}{1} \right) \textrm{ bits}.
+I(\textrm{M choices $\rightarrow$ 1 choice}) = \log_2 \left( \frac{M}{1} \right) \textrm{ bits}.
 \end{equation*} \]
 
 <p>As a sanity check, we can compute the total information content
 from both messages by summing the information content of each message:</p>
 \[ \begin{equation*} \begin{split}
-I(\textrm{N choices \(\rightarrow\) M choices \(\rightarrow\) 1 choice}) &amp; = \log_2 \left( \frac{N}{M} \right) + \log_2 \left( \frac{M}{1} \right) \\
+I(\textrm{N choices $\rightarrow$ M choices $\rightarrow$ 1 choice}) &amp; = \log_2 \left( \frac{N}{M} \right) + \log_2 \left( \frac{M}{1} \right) \\
 &amp; = \log_2 \left( \frac{N}{M}\cdot\frac{M}{1} \right) \\
 &amp; = \log_2(N) \textrm{ bits}.
 \end{split} \end{equation*} \]
 
 <p>This makes sense!  Together the two messages narrow the number
 of choices from N down to 1, so by equation (3), we&#700;ve received
-\(\log_2 (N/1)\) bits of information.</p>
+$\log_2 (N/1)$ bits of information.</p>
 
 <img style="height: 400px;" src="https://github.com/computation-structures/course/blob/main/png/info/Slide05.png?raw=true"/>
 
@@ -128,19 +128,19 @@ of choices from N down to 1, so by equation (3), we&#700;ve received
 <ul>
   <li>If we learn the result (heads or tails) of a flip of a fair
   coin, we go from 2 choices to a single choice.  So, using our
-  equation, the information received is \(\log_2(2/1) = 1\) bit.
+  equation, the information received is $\log_2(2/1) = 1$ bit.
   This makes sense: it would take us one bit to encode which of
   the two possibilities actually happened, say, &#8220;1&#8221;
   for heads and &#8220;0&#8221; for tails.</li>
   <li>Reviewing the example from earlier, learning that a card
-  drawn from a fresh deck is a Heart gives us \(\log_2(52/13) = 2\)
+  drawn from a fresh deck is a Heart gives us $\log_2(52/13) = 2$
   bits of information.  Again this makes sense: it would take us
   two bits to encode which of the four possible card suits had
   turned up.</li>
   <li>Finally consider what information we get from rolling two
   dice, one red and one green.  Each die has six faces, so there
   are 36 possible combinations.  Once we learn the exact outcome
-  of the roll, we&#700;ve received \(\log_2(36/1) = 5.17\) bits of
+  of the roll, we&#700;ve received $\log_2(36/1) = 5.17$ bits of
   information.</li>
 </ul>
 
@@ -174,26 +174,26 @@ not the Ace of Spades.</p>
 <p>In the next section we&#700;re going to start our discussion
 on how to actually engineer the bit encodings we&#700;ll use to
 encode information, but first we&#700;ll need a way to evaluate
-the efficacy of an encoding.  The <i>entropy</i>, \(H(X)\), of a
-discrete random variable \(X\) is the average amount of
-information received when learning the value of \(X\):</p>
+the efficacy of an encoding.  The <i>entropy</i>, $H(X)$, of a
+discrete random variable $X$ is the average amount of
+information received when learning the value of $X$:</p>
 
 \[ \begin{equation} \tag{4}
 \label{eq:entropy} H(X) = E(I(X)) = \sum_i p_i \log_2 \left( \frac{1}{p_i} \right)
 \end{equation} \]
 
-<p>Shannon followed Boltzmann&#700;s lead in using \(H\), the
-upper-case variant of the Greek letter \(\eta\) (eta), for
-&#8220;entropy&#8221; since \(E\) was already used for
+<p>Shannon followed Boltzmann&#700;s lead in using $H$, the
+upper-case variant of the Greek letter $\eta$ (eta), for
+&#8220;entropy&#8221; since $E$ was already used for
 &#8220;expected value,&#8221; the mathematicians&#700; name for
 &#8220;average.&#8221; We compute the expected value in the usual
 way: we take the weighted sum, where the amount of information
-received when learning of a particular choice \(i\), \(log_2(1/p_i)\)
+received when learning of a particular choice $i$, $log_2(1/p_i)$
 is weighted by the probability of that choice actually
 happening.</p>
 
 <p>Here&#700;s an example.  We have a random variable that can
-take on one of four values \(\{A,B,C,D\}\).  The probabilities of
+take on one of four values $\{A,B,C,D\}$.  The probabilities of
 each choice are shown in the table, along with the associated
 information content.</p>
 
@@ -214,9 +214,9 @@ our discussion of variable-length encodings.</p>
 
 <p>So, what is the entropy telling us?  Suppose we have a sequence
 of data describing a sequence of values of the random variable
-\(X\).</p>
+$X$.</p>
 
-<p>If, on the average, we use less than \(H(X)\) bits transmit each
+<p>If, on the average, we use less than $H(X)$ bits transmit each
 piece of data in the sequence, we will not be sending enough
 information to resolve the uncertainty about the values.  In
 other words, the entropy is a lower bound on the number of bits
@@ -225,14 +225,14 @@ wouldn&#700;t be good if the goal was to unambiguously describe
 the sequence of values &#8212; we&#700;d have failed at our
 job!</p>
 
-<p>On the other hand, if we send, on the average, more than \(H(X)\)
+<p>On the other hand, if we send, on the average, more than $H(X)$
 bits to describe the sequence of values, we will not be making
 the most effective use of our resources, since the same
 information might have been able to be represented with fewer
 bits.  This okay, but perhaps with some insights we could do
 better.</p>
 
-<p>Finally, if we send on the average exactly \(H(X)\) bits then
+<p>Finally, if we send on the average exactly $H(X)$ bits then
 we&#700;d have the perfect encoding.  Alas, perfection is, as
 always, a tough goal, so most of the time we&#700;ll have to
 settle for getting close.</p>
@@ -247,7 +247,7 @@ An <i>encoding</i> is an unambiguous mapping between bit strings
 and the members of the set of data to be encoded.</p>
 
 <p>For example, suppose we have a set of four symbols
-\(\{A,B,C,D\}\) and we want to use bit strings to encode messages
+$\{A,B,C,D\}$ and we want to use bit strings to encode messages
 constructed of these symbols, <i>e.g.</i>, ABBA.
 If we choose to encode the message one character at a time, our
 encoding would assign a unique bit string to each symbol.  The
@@ -332,14 +332,14 @@ symbols and start decoding with the 5th bit of message.</p>
 <p>Mr. Blue is telling us about the entropy for random variables
 that have N equally-probable outcomes.  In this case, each
 element of the sum in the entropy formula is simply
-\((1/N)\cdot\log_2(N)\), and, since there are N elements in the
-sequence, the resulting entropy is just \(\log_2(N)\).</p>
+$(1/N)\cdot\log_2(N)$, and, since there are N elements in the
+sequence, the resulting entropy is just $\log_2(N)$.</p>
 
 <p>Let&#700;s look at some simple examples.  In binary-coded
 decimal, each digit of a decimal number is encoded separately.
 Since there are 10 different decimal digits, we&#700;ll need to
 use a 4-bit code to represent the 10 possible choices.  The
-associated entropy is \(\log_2(10)\), which is 3.322 bits.  We can
+associated entropy is $\log_2(10)$, which is 3.322 bits.  We can
 see that our chosen encoding is inefficient in the sense that
 we&#700;d use more than the minimum number of bits necessary to
 encode, say, a number with 1000 decimal digits: our encoding
@@ -349,7 +349,7 @@ length 1000.</p>
 
 <p>Another common encoding is ASCII, the code used to represent
 English text in computing and communication.  ASCII has 94
-printing characters, so the associated entropy is \(\log_2(94)\)
+printing characters, so the associated entropy is $\log_2(94)$
 or 6.555 bits, so we would use 7 bits in our fixed-length
 encoding for each character.</p>
 
@@ -371,8 +371,8 @@ numeric value into the corresponding integer is shown in the
 figure above &#8212; just multiply each binary digit by its
 corresponding weight in the base-2 representation.  For example,
 here&#700;s a 12-bit binary number, with the weight of each binary
-digit shown above.  We can compute its value as \(0\cdot2^{11}\) plus
-\(1\cdot2^{10}\) plus \(1\cdot2^9\), and so on.  Keeping only the non-zero
+digit shown above.  We can compute its value as $0\cdot2^{11}$ plus
+$1\cdot2^{10}$ plus $1\cdot2^9$, and so on.  Keeping only the non-zero
 terms and expanding the powers-of-two gives us the sum</p>
 
 <p>1024 + 512 + 256 + 128 + 64 + 16</p>
@@ -381,7 +381,7 @@ terms and expanding the powers-of-two gives us the sum</p>
 
 <p>With this N-bit representation, the smallest number that can be
 represented is 0 (when all the binary digits are 0) and the
-largest number is \(2^N - 1\) (when all the binary digits are 1).
+largest number is $2^N - 1$ (when all the binary digits are 1).
 Many digital systems are designed to support operations on
 binary-encoded numbers of some fixed size, <i>e.g.</i>, choosing
 a 32-bit or a 64-bit representation, which means that they would
@@ -410,7 +410,7 @@ and hexadecimal is shown in the table to the left in the figure above.</p>
 
 <p>To convert a binary number to hex, group the binary digits into
 sets of 4, starting with the least-significant bit (that&#700;s
-the bit with weight \(2^0\)).  Then use the table to convert each
+the bit with weight $2^0$).  Then use the table to convert each
 4-bit pattern into the corresponding hex digit: 0000 is the hex
 digit 0, 1101 is the hex digit D, and 0111 is the hex digit 7.
 The resulting hex representation is 7D0. To prevent any confusion,
@@ -459,17 +459,17 @@ as the <i>sign bit</i> &#8212; if it&#700;s 1, the represented
 number is negative.</p>
 
 <p>The most negative N-bit number has a 1-bit in the high-order
-position, representing the value \(-2^{N-1}\).  The most positive
+position, representing the value $-2^{N-1}$.  The most positive
 N-bit number has a 0 in the negative-weight high-order bit and
 1&#700;s for all the positive-weight bits, representing the
-value \(2^{N-1}-1\).  This gives us the range of possible values,
+value $2^{N-1}-1$.  This gives us the range of possible values,
 <i>e.g.</i>, in an 8-bit two&#700;s complement
-representation, the most negative number is \(-2^7 = -128\) and
-the most positive number is \(2^7 - 1 = 127\).</p>
+representation, the most negative number is $-2^7 = -128$ and
+the most positive number is $2^7 - 1 = 127$.</p>
 
 <p>If all N bits are 1, think of that as the sum of the most
 negative number with the most positive number, <i>i.e.</i>,
-\(-2^{N-1} + 2^{N-1}-1\), which equals -1.  And, of course, if all
+$-2^{N-1} + 2^{N-1}-1$, which equals -1.  And, of course, if all
 N bits are 0, that&#700;s the unique representation of 0.</p>
 
 <img style="height: 400px;" src="https://github.com/computation-structures/course/blob/main/png/info/Slide16.png?raw=true"/>
@@ -492,9 +492,9 @@ Reorganizing terms, we see that &#x2212;A equals 1 plus the quantity
 (&#x2212;1) &#x2212; A.  As we saw above, the two&#700;s complement
 representation for &#x2212;1 is all 1-bits, so we can write that
 subtraction as all 1&#700;s minus the individual bits of A:
-\(A_0\), \(A_1\), ... up to \(A_{N-1}\).  If a particular bit \(A_i\) is
-0, then \(-A_i = 1\) and if \(A_i\) is 1, then \(1-A_i = 0\).  So in
-each column, the result is the bitwise complement of \(A_i\),
+$A_0$, $A_1$, ... up to $A_{N-1}$.  If a particular bit $A_i$ is
+0, then $-A_i = 1$ and if $A_i$ is 1, then $1-A_i = 0$.  So in
+each column, the result is the bitwise complement of $A_i$,
 which we&#700;ll write using the C-language bitwise complement
 operator tilde.  So we see that -A equals the bitwise complement
 of A plus 1.  Ta-dah!</p>
@@ -513,20 +513,20 @@ have the same information content, <i>i.e.</i>, all the choices
 have an equal probability of occurring.  If those choices
 don&#700;t have the same information content, we can do better.
 To see how, consider the expected length of an encoding,
-computed by considering each \(x_i\) to be encoded, and weighting
-the length of its encoding by \(p_i\), the probability of its
+computed by considering each $x_i$ to be encoded, and weighting
+the length of its encoding by $p_i$, the probability of its
 occurrence.  By &#8220;doing better&#8221; we mean that we can
 find encodings that have a shorter expected length than a
 fixed-length encoding.  Ideally we&#700;d like the expected
-length of the encoding for the \(x_i\) to match the entropy H(X),
+length of the encoding for the $x_i$ to match the entropy H(X),
 which is the expected information content.</p>
 
-<p>We know that if \(x_i\) has a higher probability (<i>i.e.</i>, a
-larger \(p_i\)), that is has a smaller information content, so
-we&#700;d like to use shorter encodings.  If \(x_i\) has a lower
+<p>We know that if $x_i$ has a higher probability (<i>i.e.</i>, a
+larger $p_i$), that is has a smaller information content, so
+we&#700;d like to use shorter encodings.  If $x_i$ has a lower
 probability, then we&#700;d use a longer encoding.</p>
 
-<p>So we&#700;ll be constructing encodings where the \(x_i\) may
+<p>So we&#700;ll be constructing encodings where the $x_i$ may
 have different length codes &#8212; we call these variable-length
 encodings.</p>
 
@@ -755,8 +755,8 @@ sophisticated encoding to detect more errors.</p>
 
 <img style="height: 400px;" src="https://github.com/computation-structures/course/blob/main/png/info/Slide26.png?raw=true"/>
 
-<p>In general, to detect some number \(E\) of errors, we need a
-minimum Hamming distance of \(E+1\) between code words.  We can
+<p>In general, to detect some number $E$ of errors, we need a
+minimum Hamming distance of $E+1$ between code words.  We can
 see this graphically in the figure above which shows how errors can corrupt
 the valid code words 000 and 111, which have a Hamming distance
 of 3.  In theory this means we should be able to detect up to
@@ -770,7 +770,7 @@ detect the occurrence of up to 2 errors.</p>
 
 <p>Basically our error detection scheme relies on choosing code
 words far enough apart, as measured by Hamming distance, so that
-\(E\) errors can&#700;t corrupt one valid code word so that it
+$E$ errors can&#700;t corrupt one valid code word so that it
 looks like another valid code word.</p>
 
 ## Error Correction
@@ -793,8 +793,8 @@ original code word was 000 and there has been a single-bit
 error.</p>
 
 <p>Again we can generalize this insight: if we want to correct up
-to \(E\) errors, the minimum Hamming distance between valid code
-words must be at least \(2E + 1\).  For example, to correct
+to $E$ errors, the minimum Hamming distance between valid code
+words must be at least $2E + 1$.  For example, to correct
 single-bit errors we need valid code words with a minimum
 Hamming distance of 3.</p>
 
