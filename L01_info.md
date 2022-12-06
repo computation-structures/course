@@ -1,7 +1,7 @@
 
- ## Quantifying Information
+## Basics of Information
 
-<img style="height: 300" src="https://github.com/computation-structures/course/blob/main/png/info/Slide02.png?raw=true"/>
+### Quantifying Information
 
 <p>In order to build circuits that manipulate, transmit or store
 information, we are going to need some engineering tools to help
@@ -12,6 +12,8 @@ mathematics that help us determine if our encoding is a good one.
 We&#700;ll also look into what we can do if our representation gets
 corrupted by errors. It would be nice to detect that something bad
 has happened and possibly even correct the problem.</p>
+
+<img style="height: 300" src="https://github.com/computation-structures/course/blob/main/png/info/Slide02.png?raw=true"/>
 
 <p>Let&#700;s start by asking &#8220;what is information?&#8221;  From our
 engineering perspective, we&#700;ll define information as data
