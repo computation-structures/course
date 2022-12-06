@@ -24,17 +24,18 @@ used to review their understanding of the material.  I hope this material
 will be of use to students interested in how computers work and to my teaching
 collegues who introduce those students to the digital world.
 
-The course materials reflect the substantial input of many MIT colleagues.
-Steve Ward was the originator of the course in the early 1980's and in
-many ways what you see here is his brain child.  Other contributors over
-the years include Bert Halstead, Greg Papadopoulos, Gill Pratt, Leonard
-McMillan, Silvina Hanono Wachman, and Daniel Sanchez.
+The course materials are the result of a collaborative effort by many
+MIT colleagues.  Steve Ward was the originator of the course in the
+early 1980's and in many ways what you see here is his brain child.
+Other contributors over the years include Bert Halstead, Greg
+Papadopoulos, Gill Pratt, Leonard McMillan, Silvina Hanono Wachman,
+and Daniel Sanchez.
 
 Enjoy!
 
-#### Syllabus
+## Syllabus
 
-* L01 Basics of information  <a href="https://github.com/computation-structures/course/blob/main/L01%20Basics%20of%20Information.md">Lecture</a>  <a href="https://github.com/computation-structures/course/blob/main/L01_worksheet.pdf">Worksheet</a>
+* L01 Basics of information: <a href="https://github.com/computation-structures/course/blob/main/L01_Basics_of_Information.md">Lecture</a>, <a href="https://github.com/computation-structures/course/blob/main/L01_worksheet.pdf">Worksheet</a>
 
 
 
