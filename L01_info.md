@@ -3,7 +3,7 @@
 
 ![Slide02](https://github.com/computation-structures/course/blob/main/png/info/Slide02.png?raw=true)
 
-<IMG class="lecslide" src="/static/info/Slide02.png"/>
+<img height="500" src="https://github.com/computation-structures/course/blob/main/png/info/Slide02.png?raw=true"/>
 
 <p>In order to build circuits that manipulate, transmit or store
 information, we are going to need some engineering tools to help
