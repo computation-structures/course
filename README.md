@@ -27,16 +27,14 @@ collegues who introduce those students to the digital world.
 The course materials are the result of a collaborative effort by many
 MIT colleagues.  Steve Ward was the originator of the course in the
 early 1980's and in many ways what you see here is his brain child.
-Other contributors over the years include Bert Halstead, Greg
-Papadopoulos, Gill Pratt, Leonard McMillan, Silvina Hanono Wachman,
+Other contributors over the years include Bert Halstead, Silvina
+Hanono Wachman, Leonard McMillan, Greg Papadopoulos, Gill Pratt,
 Daniel Sanchez, and Chris Terman.
 
 Enjoy! -- *Chris Terman*
 
 ## Syllabus
 
-* L01 Basics of information: <a href="https://github.com/computation-structures/course/blob/main/L01_Basics_of_Information.md">Lecture</a>, <a href="https://github.com/computation-structures/course/blob/main/L01_worksheet.pdf">Worksheet</a>
+* L01 Basics of Information: <a href="https://github.com/computation-structures/course/blob/main/L01_Basics_of_Information.md">Lecture</a>, <a href="https://github.com/computation-structures/course/blob/main/L01_worksheet.pdf">Worksheet</a>
 
-
-
-
+* L02 The Digital Abstraction: <a href="https://github.com/computation-structures/course/blob/main/L02_The_Digital_Abstraction.md">Lecture</a>, <a href="https://github.com/computation-structures/course/blob/main/L02_worksheet.pdf">Worksheet</a>
