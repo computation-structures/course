@@ -31,7 +31,7 @@ Other contributors over the years include Bert Halstead, Greg
 Papadopoulos, Gill Pratt, Leonard McMillan, Silvina Hanono Wachman,
 and Daniel Sanchez.
 
-Enjoy!
+Enjoy!  *-- Chris Terman*
 
 ## Syllabus
 
