@@ -1,9 +1,7 @@
 
  ## Quantifying Information
 
-![Slide02](https://github.com/computation-structures/course/blob/main/png/info/Slide02.png?raw=true)
-
-<img height="500" src="https://github.com/computation-structures/course/blob/main/png/info/Slide02.png?raw=true"/>
+<img style="height: 300" src="https://github.com/computation-structures/course/blob/main/png/info/Slide02.png?raw=true"/>
 
 <p>In order to build circuits that manipulate, transmit or store
 information, we are going to need some engineering tools to help
