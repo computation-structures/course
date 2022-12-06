@@ -43,7 +43,7 @@ choice.</p>
   know exactly what the choice was.</li>
 </ul>
 
-<img style="height: 400px;" src="https://github.com/computation-structures/course/blob/main/png/info/Slide03.png?raw=true"/>
+<p align="center"><img style="height: 400px;" src="https://github.com/computation-structures/course/blob/main/png/info/Slide03.png?raw=true"/></p>
 
 <p>Mathematicians like to model uncertainty about a particular
 circumstance by introducing the concept of a random variable.
@@ -62,8 +62,6 @@ particular value.</p>
 defined the information received when learning that
 $X$ had taken on the value $x_i$ as</p>
 
-$$ I(x_i)=\log_2 \left( \frac{1}{p_i} \right) \textrm{bits} $$
-
 $$ \begin{equation} \tag{1}
 I(x_i)=\log_2 \left( \frac{1}{p_i} \right) \textrm{bits}
 \end{equation} $$
@@ -76,7 +74,7 @@ a quantity that can take on the value 0 or 1.  Think of the
 information content as the number of bits we would require to
 encode this choice.</p>
 
-<img style="height: 400px;" src="https://github.com/computation-structures/course/blob/main/png/info/Slide04.png?raw=true"/>
+<p align="center"><img style="height: 400px;" src="https://github.com/computation-structures/course/blob/main/png/info/Slide04.png?raw=true"/></p>
 
 <p>Suppose the data we receive doesn&#700;t resolve all the
 uncertainty.  For example, when earlier we received the data
@@ -85,6 +83,7 @@ since we know more about the card than we did before the
 receiving the data, but we don&#700;t yet know the exact card,
 so some uncertainty still remains.  We can slightly modify
 Equation (1) as follows</p>
+
 $$ \begin{equation} \tag{2}
 I(\textrm{data})=\log_2 \left( \frac{1}{p_{\textrm{data}}} \right) \textrm{ bits}.
 \end{equation} $$
@@ -93,6 +92,7 @@ I(\textrm{data})=\log_2 \left( \frac{1}{p_{\textrm{data}}} \right) \textrm{ bits
 randomly from a 52-card deck is a Heart is $13/52 = 0.25$, the
 number of Hearts over the total number of choices.  So the
 information content is computed as</p>
+
 $$ \begin{equation*}
 I(\textrm{heart}) = \log_2 \left( \frac{1}{p_{\textrm{heart}}} \right) = \log_2 \left( \frac{1}{0.25} \right) = 2 \textrm{ bits}.
 \end{equation*} $$
@@ -102,18 +102,21 @@ information about $N$ equally-probable choices (each choice has
 probability $1/N$) that narrows the number of choices down to
 $M$.  The probability of receiving such information is $M(1/N)$,
 so the information content is</p>
+
 $$ \begin{equation} \tag{3}
 I(\textrm{N choices $\rightarrow$ M choices}) = \log_2 \left( \frac{1}{M(1/N)} \right) = \log_2 \left( \frac{N}{M} \right) \textrm{ bits}.
 \end{equation} $$
 
 <p>If we now receive a further message narrowing the number
 of choices down to 1, the information of this second message is</p>
+
 $$ \begin{equation*}
 I(\textrm{M choices $\rightarrow$ 1 choice}) = \log_2 \left( \frac{M}{1} \right) \textrm{ bits}.
 \end{equation*} $$
 
 <p>As a sanity check, we can compute the total information content
 from both messages by summing the information content of each message:</p>
+
 $$ \begin{equation*} \begin{split}
 I(\textrm{N choices $\rightarrow$ M choices $\rightarrow$ 1 choice}) &amp; = \log_2 \left( \frac{N}{M} \right) + \log_2 \left( \frac{M}{1} \right) \\
 &amp; = \log_2 \left( \frac{N}{M}\cdot\frac{M}{1} \right) \\
@@ -124,7 +127,7 @@ I(\textrm{N choices $\rightarrow$ M choices $\rightarrow$ 1 choice}) &amp; = \lo
 of choices from N down to 1, so by equation (3), we&#700;ve received
 $\log_2 (N/1)$ bits of information.</p>
 
-<img style="height: 400px;" src="https://github.com/computation-structures/course/blob/main/png/info/Slide05.png?raw=true"/>
+<p align="center"><img style="height: 400px;" src="https://github.com/computation-structures/course/blob/main/png/info/Slide05.png?raw=true"/></p>
 
 <p>Let&#700;s look at some examples.</p>
 
@@ -157,7 +160,7 @@ unambiguously encode the results.  Whether we can come up with
 an encoding that achieves this lower bound is an interesting
 question that we&#700;ll take up later in this chapter.</p>
 
-<img style="height: 400px;" src="https://github.com/computation-structures/course/blob/main/png/info/Slide06.png?raw=true"/>
+<p align="center"><img style="height: 400px;" src="https://github.com/computation-structures/course/blob/main/png/info/Slide06.png?raw=true"/></p>
 
 <p>To wrap up, let&#700;s return to our initial example.
 Here&#700;s a table showing the different choices for the data
@@ -172,7 +175,7 @@ the most information when we learn that the card is the suicide
 King and the least information when we learn that the card is
 not the Ace of Spades.</p>
 
-<img style="height: 400px;" src="https://github.com/computation-structures/course/blob/main/png/info/Slide07.png?raw=true"/>
+<p align="center"><img style="height: 400px;" src="https://github.com/computation-structures/course/blob/main/png/info/Slide07.png?raw=true"/></p>
 
 <p>In the next section we&#700;re going to start our discussion
 on how to actually engineer the bit encodings we&#700;ll use to
@@ -201,19 +204,21 @@ each choice are shown in the table, along with the associated
 information content.</p>
 
 <p>Now we&#700;ll compute the entropy using Equation (4):
+
 $$ \begin{equation*}
 \begin{split}
 H(X) &amp; = (1/3)(1.58) + (1/2)(1) + (1/12)(3.58) + (1/12)(3.58) \\
 &amp; = 1.626 \textrm{ bits.}
 \end{split}
 \end{equation*} $$
+
 This is telling us that a clever encoding scheme should, on the
 average, be able to do better than simply encoding each symbol
 using 2 bits to represent which of the four possible values is
 next.  Food for thought!  We&#700;ll discuss this further in
 our discussion of variable-length encodings.</p>
 
-<img style="height: 400px;" src="https://github.com/computation-structures/course/blob/main/png/info/Slide08.png?raw=true"/>
+<p align="center"><img style="height: 400px;" src="https://github.com/computation-structures/course/blob/main/png/info/Slide08.png?raw=true"/></p>
 
 <p>So, what is the entropy telling us?  Suppose we have a sequence
 of data describing a sequence of values of the random variable
@@ -240,9 +245,9 @@ we&#700;d have the perfect encoding.  Alas, perfection is, as
 always, a tough goal, so most of the time we&#700;ll have to
 settle for getting close.</p>
 
-## Encodings
+### Encodings
 
-<img style="height: 400px;" src="https://github.com/computation-structures/course/blob/main/png/info/Slide09.png?raw=true"/>
+<p align="center"><img style="height: 400px;" src="https://github.com/computation-structures/course/blob/main/png/info/Slide09.png?raw=true"/></p>
 
 <p>Next we turn our attention to encoding data as sequences of
 0&#700;s and 1&#700;s, <i>i.e.</i>, a string of bits.
@@ -286,7 +291,7 @@ decodings: ABBA of course, but also ADA or ABC depending on how we
 group the bits.  This attempt at specifying an encoding has failed
 since the message cannot be interpreted unambiguously.</p>
 
-<img style="height: 400px;" src="https://github.com/computation-structures/course/blob/main/png/info/Slide10.png?raw=true"/>
+<p align="center"><img style="height: 400px;" src="https://github.com/computation-structures/course/blob/main/png/info/Slide10.png?raw=true"/></p>
 
 <p>Graphically we can represent an unambiguous encoding as a
 binary tree, labeling the branches from each tree node with 0
@@ -318,7 +323,7 @@ the message from the sheep is decoded as follows:</p>
 <p>The final decoded message, BAA, is not totally unexpected, at
 least from an American sheep.</p>
 
-<img style="height: 400px;" src="https://github.com/computation-structures/course/blob/main/png/info/Slide11.png?raw=true"/>
+<p align="center"><img style="height: 400px;" src="https://github.com/computation-structures/course/blob/main/png/info/Slide11.png?raw=true"/></p>
 
 <p>If the symbols we are trying to encode occur with equal
 probability (or if we have no <i>a priori</i> reason to believe
@@ -356,9 +361,9 @@ printing characters, so the associated entropy is $\log_2(94)$
 or 6.555 bits, so we would use 7 bits in our fixed-length
 encoding for each character.</p>
 
-## Encoding Numbers
+### Encoding Numbers
 
-<img style="height: 400px;" src="https://github.com/computation-structures/course/blob/main/png/info/Slide12.png?raw=true"/>
+<p align="center"><img style="height: 400px;" src="https://github.com/computation-structures/course/blob/main/png/info/Slide12.png?raw=true"/></p>
 
 <p>One of the most important encodings is the one we use to
 represent numbers.  Let&#700;s start by thinking about a
@@ -391,7 +396,7 @@ a 32-bit or a 64-bit representation, which means that they would
 need multiple operations when dealing with numbers too large to
 be represented as a single 32-bit or 64-bit binary string.</p>
 
-<img style="height: 400px;" src="https://github.com/computation-structures/course/blob/main/png/info/Slide13.png?raw=true"/>
+<p align="center"><img style="height: 400px;" src="https://github.com/computation-structures/course/blob/main/png/info/Slide13.png?raw=true"/></p>
 
 <p>Long strings of binary digits are tedious and error-prone to
 transcribe, so let&#700;s find a more convenient notation,
@@ -423,7 +428,7 @@ representation for the binary number
 0111&#160;1101&#160;0000. This notation convention is used by many
 programming languages for entering binary bit strings.</p>
 
-<img style="height: 400px;" src="https://github.com/computation-structures/course/blob/main/png/info/Slide14.png?raw=true"/>
+<p align="center"><img style="height: 400px;" src="https://github.com/computation-structures/course/blob/main/png/info/Slide14.png?raw=true"/></p>
 
 <p>Our final challenge is figuring out how to represent signed
 integers, <i>e.g.</i>, what should be our representation for the
@@ -450,7 +455,7 @@ different than the circuitry for doing subtraction.  Of course,
 we&#700;re used to that &#8212; in elementary school we learned
 one technique for addition and another for subtraction.</p>
 
-<img style="height: 400px;" src="https://github.com/computation-structures/course/blob/main/png/info/Slide15.png?raw=true"/>
+<p align="center"><img style="height: 400px;" src="https://github.com/computation-structures/course/blob/main/png/info/Slide15.png?raw=true"/></p>
 
 <p>To keep the circuitry simple, most modern digital systems use
 the two&#700;s complement binary representation for signed
@@ -475,7 +480,7 @@ negative number with the most positive number, <i>i.e.</i>,
 $-2^{N-1} + 2^{N-1}-1$, which equals -1.  And, of course, if all
 N bits are 0, that&#700;s the unique representation of 0.</p>
 
-<img style="height: 400px;" src="https://github.com/computation-structures/course/blob/main/png/info/Slide16.png?raw=true"/>
+<p align="center"><img style="height: 400px;" src="https://github.com/computation-structures/course/blob/main/png/info/Slide16.png?raw=true"/></p>
 
 <p>Let&#700;s see what happens when we add the N-bit values for
 &#x2212;1 and 1, keeping an N-bit answer.  In the rightmost column, 1
@@ -507,9 +512,9 @@ hand at the following exercises.  All you need to remember is
 how to do binary addition and two&#700;s complement negation
 (which is <i>bitwise complement and add 1</i>).</p>
 
-## Variable-length Encodings
+### Variable-length Encodings
 
-<img style="height: 400px;" src="https://github.com/computation-structures/course/blob/main/png/info/Slide17.png?raw=true"/>
+<p align="center"><img style="height: 400px;" src="https://github.com/computation-structures/course/blob/main/png/info/Slide17.png?raw=true"/></p>
 
 <p>Fixed-length encodings work well when all the possible choices
 have the same information content, <i>i.e.</i>, all the choices
@@ -533,7 +538,7 @@ probability, then we&#700;d use a longer encoding.</p>
 have different length codes &#8212; we call these variable-length
 encodings.</p>
 
-<img style="height: 400px;" src="https://github.com/computation-structures/course/blob/main/png/info/Slide18.png?raw=true"/>
+<p align="center"><img style="height: 400px;" src="https://github.com/computation-structures/course/blob/main/png/info/Slide18.png?raw=true"/></p>
 
 <p>Here&#700;s an example we&#700;ve seen before.  There are
 four possible choices to encode (A, B, C, and D), each with the
@@ -581,7 +586,7 @@ general, it would be nice to have a systematic way to generate
 the best-possible variable-length code, and that&#700;s the
 subject of the next video.</p>
 
-<img style="height: 400px;" src="https://github.com/computation-structures/course/blob/main/png/info/Slide19.png?raw=true"/>
+<p align="center"><img style="height: 400px;" src="https://github.com/computation-structures/course/blob/main/png/info/Slide19.png?raw=true"/></p>
 
 <p>Given a set of symbols and their probabilities, Huffman&#700;s
 Algorithm tells us how to construct an optimal variable-length
@@ -627,7 +632,7 @@ tree, not the labels along the path from root to leaf.  So all
 these different encodings are equivalent in terms of their
 efficiency.</p>
 
-<img style="height: 400px;" src="https://github.com/computation-structures/course/blob/main/png/info/Slide20.png?raw=true"/>
+<p align="center"><img style="height: 400px;" src="https://github.com/computation-structures/course/blob/main/png/info/Slide20.png?raw=true"/></p>
 
 <p>Optimal sounds pretty good!  Does that mean we
 can&#700;t do any better?  Well, not by encoding symbols
@@ -653,9 +658,9 @@ reductions from the original file size.  If you&#700;d like to
 learn more, look up &#8220;LZW&#8221; on Wikipedia to read about
 the Lempel-Ziv-Welch data compression algorithm.</p>
 
-## Error Detection
+### Error Detection
 
-<img style="height: 400px;" src="https://github.com/computation-structures/course/blob/main/png/info/Slide21.png?raw=true"/>
+<p align="center"><img style="height: 400px;" src="https://github.com/computation-structures/course/blob/main/png/info/Slide21.png?raw=true"/></p>
 
 <p>Now let&#700;s think a bit about what happens if there&#700;s
 an error and one or more of the bits in our encoded data gets
@@ -678,7 +683,7 @@ detect that an error has occurred. So this simple encoding
 doesn&#700;t work very well if there&#700;s the possibility of
 single-bit errors.</p>
 
-<img style="height: 400px;" src="https://github.com/computation-structures/course/blob/main/png/info/Slide22.png?raw=true"/>
+<p align="center"><img style="height: 400px;" src="https://github.com/computation-structures/course/blob/main/png/info/Slide22.png?raw=true"/></p>
 
 <p>To help with our discussion, we&#700;ll introduce the notion
 of <i>Hamming distance</i>, defined as the number of positions
@@ -690,7 +695,7 @@ Hamming distance of two encodings is 0, then the two encodings
 are identical.  Hamming distance is a handy tool for measuring
 how to encodings differ.</p>
 
-<img style="height: 400px;" src="https://github.com/computation-structures/course/blob/main/png/info/Slide23.png?raw=true"/>
+<p align="center"><img style="height: 400px;" src="https://github.com/computation-structures/course/blob/main/png/info/Slide23.png?raw=true"/></p>
 
 <p>How does this help us think about single-bit errors?  A
 single-bit error changes exactly one of the bits of an encoding,
@@ -711,7 +716,7 @@ and a corrupted encoding of heads &#8212; she can&#700;t detect that
 an error occurred.  Let&#700;s figure how to solve her
 problem!</p>
 
-<img style="height: 400px;" src="https://github.com/computation-structures/course/blob/main/png/info/Slide24.png?raw=true"/>
+<p align="center"><img style="height: 400px;" src="https://github.com/computation-structures/course/blob/main/png/info/Slide24.png?raw=true"/></p>
 
 <p>The insight is to come up with a set of valid code words such
 that a single-bit error does NOT produce another valid code
@@ -732,7 +737,7 @@ bit to our original encoding for <i>tails</i> gives us 11.  The
 minimum Hamming distance between code words has increased from 1
 to 2.</p>
 
-<img style="height: 400px;" src="https://github.com/computation-structures/course/blob/main/png/info/Slide25.png?raw=true"/>
+<p align="center"><img style="height: 400px;" src="https://github.com/computation-structures/course/blob/main/png/info/Slide25.png?raw=true"/></p>
 
 <p>How does this help?  Consider what happens when there&#700;s a
 single-bit error: 00 would be corrupted to 01 or 10, neither of
@@ -756,7 +761,7 @@ even number of 1-bits and hence appear to be okay.  Parity is
 useful for detecting single-bit errors; we&#700;ll need a more
 sophisticated encoding to detect more errors.</p>
 
-<img style="height: 400px;" src="https://github.com/computation-structures/course/blob/main/png/info/Slide26.png?raw=true"/>
+<p align="center"><img style="height: 400px;" src="https://github.com/computation-structures/course/blob/main/png/info/Slide26.png?raw=true"/></p>
 
 <p>In general, to detect some number $E$ of errors, we need a
 minimum Hamming distance of $E+1$ between code words.  We can
@@ -776,9 +781,9 @@ words far enough apart, as measured by Hamming distance, so that
 $E$ errors can&#700;t corrupt one valid code word so that it
 looks like another valid code word.</p>
 
-## Error Correction
+### Error Correction
 
-<img style="height: 400px;" src="https://github.com/computation-structures/course/blob/main/png/info/Slide27.png?raw=true"/>
+<p align="center"><img style="height: 400px;" src="https://github.com/computation-structures/course/blob/main/png/info/Slide27.png?raw=true"/></p>
 
 <p>Is there any chance we can not only detect a single-bit error
 but also correct the error to recover the original data?  Sure!
@@ -810,6 +815,6 @@ by Hamming distance) we can ensure that we can detect and even
 correct errors that have corrupted our encoded data.  Pretty
 neat!</p>
 
-## Summary
+### Summary
 
-<img style="height: 400px;" src="https://github.com/computation-structures/course/blob/main/png/info/Slide28.png?raw=true"/>
+<p align="center"><img style="height: 400px;" src="https://github.com/computation-structures/course/blob/main/png/info/Slide28.png?raw=true"/></p>
