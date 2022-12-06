@@ -29,9 +29,9 @@ MIT colleagues.  Steve Ward was the originator of the course in the
 early 1980's and in many ways what you see here is his brain child.
 Other contributors over the years include Bert Halstead, Greg
 Papadopoulos, Gill Pratt, Leonard McMillan, Silvina Hanono Wachman,
-and Daniel Sanchez.
+Daniel Sanchez, and Chris Terman.
 
-Enjoy!  *-- Chris Terman*
+Enjoy! -- *Chris Terman*
 
 ## Syllabus
 
