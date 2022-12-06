@@ -13,7 +13,7 @@ has happened and possibly even correct the problem.</p>
 
 ### Quantifying Information
 
-<img style="border: 1px solid black; padding:10px; height:400px" src="https://github.com/computation-structures/course/blob/main/png/info/Slide02.png?raw=true"/>
+<p align="center"><img style="border: 1px solid black; padding:10px; height:400px" src="https://github.com/computation-structures/course/blob/main/png/info/Slide02.png?raw=true"/></p>
 
 <p>Let&#700;s start by asking &#8220;what is information?&#8221;  From our
 engineering perspective, we&#700;ll define information as data
