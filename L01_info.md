@@ -13,7 +13,7 @@ has happened and possibly even correct the problem.</p>
 
 ### Quantifying Information
 
-<p align="center"><img style="border: 1px solid black; padding:10px; height:400px" src="https://github.com/computation-structures/course/blob/main/png/info/Slide02.png?raw=true"/></p>
+<p align="center"><img style="border:1px solid black; padding:10px; height:400px" src="https://github.com/computation-structures/course/blob/main/png/info/Slide02.png?raw=true"/></p>
 
 <p>Let&#700;s start by asking &#8220;what is information?&#8221;  From our
 engineering perspective, we&#700;ll define information as data
@@ -61,6 +61,9 @@ particular value.</p>
 <a href="https://www.tnt.uni-hannover.de/edu/vorlesungen/InfoTheor/download/shannon1948.pdf" target="_blank">theory of comunication</a>,
 defined the information received when learning that
 $X$ had taken on the value $x_i$ as</p>
+
+$$ I(x_i)=\log_2 \left( \frac{1}{p_i} \right) \textrm{bits} $$
+
 $$ \begin{equation} \tag{1}
 I(x_i)=\log_2 \left( \frac{1}{p_i} \right) \textrm{bits}
 \end{equation} $$
