@@ -11,7 +11,7 @@ We&#700;ll also look into what we can do if our representation gets
 corrupted by errors. It would be nice to detect that something bad
 has happened and possibly even correct the problem.</p>
 
-### Quantifying Information
+## Quantifying Information
 
 <p align="center"><img style="border:1px solid black; padding:10px; height:400px" src="https://github.com/computation-structures/course/blob/main/png/info/Slide02.png?raw=true"/></p>
 
@@ -245,7 +245,7 @@ we&#700;d have the perfect encoding.  Alas, perfection is, as
 always, a tough goal, so most of the time we&#700;ll have to
 settle for getting close.</p>
 
-### Encodings
+## Encodings
 
 <p align="center"><img style="height: 400px;" src="https://github.com/computation-structures/course/blob/main/png/info/Slide09.png?raw=true"/></p>
 
@@ -361,7 +361,7 @@ printing characters, so the associated entropy is $\log_2(94)$
 or 6.555 bits, so we would use 7 bits in our fixed-length
 encoding for each character.</p>
 
-### Encoding Numbers
+## Encoding Numbers
 
 <p align="center"><img style="height: 400px;" src="https://github.com/computation-structures/course/blob/main/png/info/Slide12.png?raw=true"/></p>
 
@@ -512,7 +512,7 @@ hand at the following exercises.  All you need to remember is
 how to do binary addition and two&#700;s complement negation
 (which is <i>bitwise complement and add 1</i>).</p>
 
-### Variable-length Encodings
+## Variable-length Encodings
 
 <p align="center"><img style="height: 400px;" src="https://github.com/computation-structures/course/blob/main/png/info/Slide17.png?raw=true"/></p>
 
@@ -658,7 +658,7 @@ reductions from the original file size.  If you&#700;d like to
 learn more, look up &#8220;LZW&#8221; on Wikipedia to read about
 the Lempel-Ziv-Welch data compression algorithm.</p>
 
-### Error Detection
+## Error Detection
 
 <p align="center"><img style="height: 400px;" src="https://github.com/computation-structures/course/blob/main/png/info/Slide21.png?raw=true"/></p>
 
@@ -781,7 +781,7 @@ words far enough apart, as measured by Hamming distance, so that
 $E$ errors can&#700;t corrupt one valid code word so that it
 looks like another valid code word.</p>
 
-### Error Correction
+## Error Correction
 
 <p align="center"><img style="height: 400px;" src="https://github.com/computation-structures/course/blob/main/png/info/Slide27.png?raw=true"/></p>
 
@@ -815,6 +815,6 @@ by Hamming distance) we can ensure that we can detect and even
 correct errors that have corrupted our encoded data.  Pretty
 neat!</p>
 
-### Summary
+## Summary
 
 <p align="center"><img style="height: 400px;" src="https://github.com/computation-structures/course/blob/main/png/info/Slide28.png?raw=true"/></p>
