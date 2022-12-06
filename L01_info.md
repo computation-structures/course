@@ -61,9 +61,9 @@ particular value.</p>
 <a href="https://www.tnt.uni-hannover.de/edu/vorlesungen/InfoTheor/download/shannon1948.pdf" target="_blank">theory of comunication</a>,
 defined the information received when learning that
 $X$ had taken on the value $x_i$ as</p>
-\[ \begin{equation} \tag{1}
+$$ \begin{equation} \tag{1}
 I(x_i)=\log_2 \left( \frac{1}{p_i} \right) \textrm{bits}
-\end{equation} \]
+\end{equation} $$
 
 <p>Note that the uncertainty of a choice is inversely proportional
 its probability, so the term inside of the log is basically the
@@ -82,40 +82,40 @@ since we know more about the card than we did before the
 receiving the data, but we don&#700;t yet know the exact card,
 so some uncertainty still remains.  We can slightly modify
 Equation (1) as follows</p>
-\[ \begin{equation} \tag{2}
+$$ \begin{equation} \tag{2}
 I(\textrm{data})=\log_2 \left( \frac{1}{p_{\textrm{data}}} \right) \textrm{ bits}.
-\end{equation} \]
+\end{equation} $$
 
 <p>In our example, the probability of learning that a card chosen
 randomly from a 52-card deck is a Heart is $13/52 = 0.25$, the
 number of Hearts over the total number of choices.  So the
 information content is computed as</p>
-\[ \begin{equation*}
+$$ \begin{equation*}
 I(\textrm{heart}) = \log_2 \left( \frac{1}{p_{\textrm{heart}}} \right) = \log_2 \left( \frac{1}{0.25} \right) = 2 \textrm{ bits}.
-\end{equation*} \]
+\end{equation*} $$
 
 <p>This example is one we encounter often: we receive partial
 information about $N$ equally-probable choices (each choice has
 probability $1/N$) that narrows the number of choices down to
 $M$.  The probability of receiving such information is $M(1/N)$,
 so the information content is</p>
-\[ \begin{equation} \tag{3}
+$$ \begin{equation} \tag{3}
 I(\textrm{N choices $\rightarrow$ M choices}) = \log_2 \left( \frac{1}{M(1/N)} \right) = \log_2 \left( \frac{N}{M} \right) \textrm{ bits}.
-\end{equation} \]
+\end{equation} $$
 
 <p>If we now receive a further message narrowing the number
 of choices down to 1, the information of this second message is</p>
-\[ \begin{equation*}
+$$ \begin{equation*}
 I(\textrm{M choices $\rightarrow$ 1 choice}) = \log_2 \left( \frac{M}{1} \right) \textrm{ bits}.
-\end{equation*} \]
+\end{equation*} $$
 
 <p>As a sanity check, we can compute the total information content
 from both messages by summing the information content of each message:</p>
-\[ \begin{equation*} \begin{split}
+$$ \begin{equation*} \begin{split}
 I(\textrm{N choices $\rightarrow$ M choices $\rightarrow$ 1 choice}) &amp; = \log_2 \left( \frac{N}{M} \right) + \log_2 \left( \frac{M}{1} \right) \\
 &amp; = \log_2 \left( \frac{N}{M}\cdot\frac{M}{1} \right) \\
 &amp; = \log_2(N) \textrm{ bits}.
-\end{split} \end{equation*} \]
+\end{split} \end{equation*} $$
 
 <p>This makes sense!  Together the two messages narrow the number
 of choices from N down to 1, so by equation (3), we&#700;ve received
@@ -178,9 +178,9 @@ the efficacy of an encoding.  The <i>entropy</i>, $H(X)$, of a
 discrete random variable $X$ is the average amount of
 information received when learning the value of $X$:</p>
 
-\[ \begin{equation} \tag{4}
+$$ \begin{equation} \tag{4}
 \label{eq:entropy} H(X) = E(I(X)) = \sum_i p_i \log_2 \left( \frac{1}{p_i} \right)
-\end{equation} \]
+\end{equation} $$
 
 <p>Shannon followed Boltzmann&#700;s lead in using $H$, the
 upper-case variant of the Greek letter $\eta$ (eta), for
@@ -198,12 +198,12 @@ each choice are shown in the table, along with the associated
 information content.</p>
 
 <p>Now we&#700;ll compute the entropy using Equation (4):
-\[ \begin{equation*}
+$$ \begin{equation*}
 \begin{split}
 H(X) &amp; = (1/3)(1.58) + (1/2)(1) + (1/12)(3.58) + (1/12)(3.58) \\
 &amp; = 1.626 \textrm{ bits.}
 \end{split}
-\end{equation*} \]
+\end{equation*} $$
 This is telling us that a clever encoding scheme should, on the
 average, be able to do better than simply encoding each symbol
 using 2 bits to represent which of the four possible values is
