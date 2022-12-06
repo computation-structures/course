@@ -1,5 +1,4 @@
-
-## Basics of Information
+# Basics of Information
 
 <p>In order to build circuits that manipulate, transmit or store
 information, we are going to need some engineering tools to help
@@ -185,7 +184,7 @@ discrete random variable $X$ is the average amount of
 information received when learning the value of $X$:</p>
 
 $$ \begin{equation} \tag{4}
-\label{eq:entropy} H(X) = E(I(X)) = \sum_i p_i \log_2 \left( \frac{1}{p_i} \right)
+H(X) = E(I(X)) = \sum_i p_i \log_2 \left( \frac{1}{p_i} \right)
 \end{equation} $$
 
 <p>Shannon followed Boltzmann&#700;s lead in using $H$, the
