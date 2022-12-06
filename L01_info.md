@@ -1,7 +1,7 @@
 
  ## Quantifying Information
 
-![Slide02](https://github.com/computation-structures/course/png/info/Slide02.png?raw=true)
+![Slide02](https://github.com/computation-structures/course/blob/main/png/info/Slide02.png?raw=true)
 
 <IMG class="lecslide" src="/static/info/Slide02.png"/>
 
