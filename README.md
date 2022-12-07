@@ -40,3 +40,5 @@ Enjoy! -- *Chris Terman*
 * L02 The Digital Abstraction: <a href="https://github.com/computation-structures/course/blob/main/L02_The_Digital_Abstraction.md">Lecture</a>, <a href="https://github.com/computation-structures/course/blob/main/L02_worksheet.pdf">Worksheet</a>
 
 * L03 CMOS Technology: <a href="https://github.com/computation-structures/course/blob/main/L03_CMOS_Technology.md">Lecture</a>, <a href="https://github.com/computation-structures/course/blob/main/L03_worksheet.pdf">Worksheet</a>
+
+* L04 Combinational Logic: <a href="https://github.com/computation-structures/course/blob/main/L04_Combinational_Logic.md">Lecture</a>, <a href="https://github.com/computation-structures/course/blob/main/L04_worksheet.pdf">Worksheet</a>
