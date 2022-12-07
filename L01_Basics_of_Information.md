@@ -3,7 +3,7 @@
 <p>In order to build circuits that manipulate, transmit or store
 information, we are going to need some engineering tools to help
 us determine if we&#700;re choosing a good representation for the
-information &#8212; that&#700;s the subject of this chapter.  We&#700;ll study
+information &#8212; that&#700;s the subject of this lecture.  We&#700;ll study
 different ways of encoding information as bits and learn the
 mathematics that help us determine if our encoding is a good one.
 We&#700;ll also look into what we can do if our representation gets
@@ -157,7 +157,7 @@ need a total of 60 bits.  What this formula is telling us is
 that we would need not 60 bits, but only 52 bits to
 unambiguously encode the results.  Whether we can come up with
 an encoding that achieves this lower bound is an interesting
-question that we&#700;ll take up later in this chapter.</p>
+question that we&#700;ll take up later in this lecture.</p>
 
 <p align="center"><img style="height: 400px;" src="https://github.com/computation-structures/course/blob/main/lecture_slides/info/Slide6.png?raw=true"/></p>
 
@@ -750,7 +750,7 @@ say that corrupted code words have a <i>parity error</i>.</p>
 <p>It&#700;s easy to perform a parity check: simply count the
 number of 1s in the code word.  If it&#700;s even, a single-bit
 error has NOT occurred; if it&#700;s odd, a single-bit error
-HAS occurred.  We&#700;ll see in a couple of chapters that the
+HAS occurred.  We&#700;ll see in a couple of lectures that the
 Boolean function exclusive-or can be used to perform parity
 checks.</p>
 

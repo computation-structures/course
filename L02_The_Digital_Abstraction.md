@@ -1,13 +1,13 @@
 # The Digital Abstaction
 
+<p>In the previous lecture, we discussed how to encode information as
+sequences of bits.  In this lecture, we turn our attention to finding
+a useful physical representation for bits, our first step in building
+devices that can process information.</p>
+
 ## Encoding Information
 
 <p align="center"><img style="height:400px;" src="https://github.com/computation-structures/course/blob/main/lecture_slides/digital/Slide2.png?raw=true"/></p>
-
-<p>In the previous chapter, we discussed how to encode information as
-sequences of bits.  In this chapter, we turn our attention to finding
-a useful physical representation for bits, our first step in building
-devices that can process information.</p>
 
 <p>So, what makes a good bit, <i>i.e.</i>, what properties do we want
 our physical representation of bits to have?</p>
@@ -384,7 +384,7 @@ outputs will only visit a particular component at most once.</p>
 <p>Our claim is that systems built using these composition rules will
 themselves be combinational devices.  In other words, we can build big
 combinational devices out of combinational components.  Unlike our
-flaky analog system from the start of the chapter, the system can be
+flaky analog system from the start of the lecture, the system can be
 of any size and still be expected to obey the static discipline.</p>
 
 <p>Why is this true?</p>
@@ -621,7 +621,7 @@ operating range are called nonlinear devices.</p>
 <p>Together these observations tell us that we cannot use only linear
 devices such as resistors, capacitors and inductors, to build
 combinational devices.  We&#700;ll need nonlinear devices with gain &gt;
-1.  Finding such devices is the subject of the next chapter.</p>
+1.  Finding such devices is the subject of the next lecture.</p>
 
 <p align="center"><img style="height:400px;" src="https://github.com/computation-structures/course/blob/main/lecture_slides/digital/Slide19.png?raw=true"/></p>
 

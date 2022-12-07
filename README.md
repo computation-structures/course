@@ -38,3 +38,5 @@ Enjoy! -- *Chris Terman*
 * L01 Basics of Information: <a href="https://github.com/computation-structures/course/blob/main/L01_Basics_of_Information.md">Lecture</a>, <a href="https://github.com/computation-structures/course/blob/main/L01_worksheet.pdf">Worksheet</a>
 
 * L02 The Digital Abstraction: <a href="https://github.com/computation-structures/course/blob/main/L02_The_Digital_Abstraction.md">Lecture</a>, <a href="https://github.com/computation-structures/course/blob/main/L02_worksheet.pdf">Worksheet</a>
+
+* L03 CMOS Technology: <a href="https://github.com/computation-structures/course/blob/main/L03_CMOS_Technology.md">Lecture</a>, <a href="https://github.com/computation-structures/course/blob/main/L03_worksheet.pdf">Worksheet</a>
