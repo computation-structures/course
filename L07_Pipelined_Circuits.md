@@ -6,7 +6,7 @@ to improve that performance.</p>
 
 ## Latency and Throughput
 
-<p align="center"><img style="height:400px;" src="https://github.com/computation-structures/course/blob/main/lecture_slides/pipelined_circuits/Slide2.png?raw=true"/></p>
+<p align="center"><img style="height:400px;" src="https://github.com/computation-structures/course/blob/main/lecture_slides/pipelined/Slide2.png?raw=true"/></p>
 
 <p>We&#700;ll start by putting aside circuits for a moment and look at
 an everyday example that will help us understand the proposed
@@ -29,7 +29,7 @@ or in taking dried loads out of the dryer.  Let&#700;s assume
 we move the laundry through the system as fast as possible,
 moving loads to the next processing step as soon as we can.</p>
 
-<p align="center"><img style="height:400px;" src="https://github.com/computation-structures/course/blob/main/lecture_slides/pipelined_circuits/Slide3.png?raw=true"/></p>
+<p align="center"><img style="height:400px;" src="https://github.com/computation-structures/course/blob/main/lecture_slides/pipelined/Slide3.png?raw=true"/></p>
 
 <p>Most of us wait to do laundry until we&#700;ve accumulated
 several loads.  That turns out to be a good strategy!
@@ -47,7 +47,7 @@ outputs.</p>
 of laundry.  Now let&#700;s think about doing N loads of
 laundry.</p>
 
-<p align="center"><img style="height:400px;" src="https://github.com/computation-structures/course/blob/main/lecture_slides/pipelined_circuits/Slide4.png?raw=true"/></p>
+<p align="center"><img style="height:400px;" src="https://github.com/computation-structures/course/blob/main/lecture_slides/pipelined/Slide4.png?raw=true"/></p>
 
 <p>Here at MIT we like to make gentle fun of our colleagues at the
 prestigious institution just up the river from us.  So
@@ -76,7 +76,7 @@ the dryer is running and that inefficiency has a cost in terms
 of the rate at which N load of laundry can move through the
 system.</p>
 
-<p align="center"><img style="height:400px;" src="https://github.com/computation-structures/course/blob/main/lecture_slides/pipelined_circuits/Slide5.png?raw=true"/></p>
+<p align="center"><img style="height:400px;" src="https://github.com/computation-structures/course/blob/main/lecture_slides/pipelined/Slide5.png?raw=true"/></p>
 
 <p>As engineering students here in Computatation Structures, we see that it makes
 sense to overlap washing and drying.  So in step 1 we wash the
@@ -110,7 +110,7 @@ for.  But in the performance analysis of pipelined systems,
 we&#700;re interested in the steady state where we&#700;re
 assuming that we have an infinite supply of inputs.</p>
 
-<p align="center"><img style="height:400px;" src="https://github.com/computation-structures/course/blob/main/lecture_slides/pipelined_circuits/Slide6.png?raw=true"/></p>
+<p align="center"><img style="height:400px;" src="https://github.com/computation-structures/course/blob/main/lecture_slides/pipelined/Slide6.png?raw=true"/></p>
 
 <p>We see that there are two interesting performance metrics.  The
 first is the latency of the system, the time it takes for the
@@ -143,7 +143,7 @@ processing is thus determined by the slowest stage.</p>
 
 ## Pipelined Circuits
 
-<p align="center"><img style="height:400px;" src="https://github.com/computation-structures/course/blob/main/lecture_slides/pipelined_circuits/Slide7.png?raw=true"/></p>
+<p align="center"><img style="height:400px;" src="https://github.com/computation-structures/course/blob/main/lecture_slides/pipelined/Slide7.png?raw=true"/></p>
 
 <p>Okay, now let&#700;s apply all this analysis to improving the
 performance of our circuits.  The latency of a combinational
@@ -176,7 +176,7 @@ the first stage computes F(X) and G(X), and the second stage
 computes H(X)?  If we can, then we can increase the throughput
 of the system.</p>
 
-<p align="center"><img style="height:400px;" src="https://github.com/computation-structures/course/blob/main/lecture_slides/pipelined_circuits/Slide8.png?raw=true"/></p>
+<p align="center"><img style="height:400px;" src="https://github.com/computation-structures/course/blob/main/lecture_slides/pipelined/Slide8.png?raw=true"/></p>
 
 <p>Mr. Blue&#700;s inspiration is to use registers to hold the
 values F(X) and G(X) for use by H, while the F and G modules
@@ -210,7 +210,7 @@ output every clock period, or 25 ns.  The pipeline system has
 considerably better throughput at the cost of a small increase
 in latency.</p>
 
-<p align="center"><img style="height:400px;" src="https://github.com/computation-structures/course/blob/main/lecture_slides/pipelined_circuits/Slide9.png?raw=true"/></p>
+<p align="center"><img style="height:400px;" src="https://github.com/computation-structures/course/blob/main/lecture_slides/pipelined/Slide9.png?raw=true"/></p>
 
 <p>Pipeline diagrams help us visualize the operation of a
 pipelined system.  The rows of the pipeline diagram represent
@@ -241,7 +241,7 @@ output every clock cycle.</p>
 progresses through the system or see what all the stages are
 doing in any particular cycle.</p>
 
-<p align="center"><img style="height:400px;" src="https://github.com/computation-structures/course/blob/main/lecture_slides/pipelined_circuits/Slide10.png?raw=true"/></p>
+<p align="center"><img style="height:400px;" src="https://github.com/computation-structures/course/blob/main/lecture_slides/pipelined/Slide10.png?raw=true"/></p>
 
 <p>We&#700;ll define a K-stage pipeline (or K-pipeline for short)
 as an acyclic circuit having exactly K registers on every path
@@ -274,7 +274,7 @@ system&#700;s clock.  And the throughput of a K-pipeline is the
 frequency of the system&#700;s clock, <i>i.e.</i>, 1 over the
 clock period.</p>
 
-<p align="center"><img style="height:400px;" src="https://github.com/computation-structures/course/blob/main/lecture_slides/pipelined_circuits/Slide11.png?raw=true"/></p>
+<p align="center"><img style="height:400px;" src="https://github.com/computation-structures/course/blob/main/lecture_slides/pipelined/Slide11.png?raw=true"/></p>
 
 <p>Here&#700;s a failed attempt at pipelining a circuit.  For
 what value of K is the circuit a K-pipeline?  Well, let&#700;s
@@ -297,7 +297,7 @@ the previous value of the Y input.</p>
 need to develop a technique for pipelining a circuit that
 guarantees the result will be well-formed.</p>
 
-<p align="center"><img style="height:400px;" src="https://github.com/computation-structures/course/blob/main/lecture_slides/pipelined_circuits/Slide12.png?raw=true"/></p>
+<p align="center"><img style="height:400px;" src="https://github.com/computation-structures/course/blob/main/lecture_slides/pipelined/Slide12.png?raw=true"/></p>
 
 <p>Here&#700;s our strategy that will ensure if we add a pipeline
 register along one path from system inputs to system outputs, we
@@ -345,7 +345,7 @@ maintaining the same throughput and latency.  For example, we
 could have included the E module in the same pipeline stage as
 the F module.</p>
 
-<p align="center"><img style="height:400px;" src="https://github.com/computation-structures/course/blob/main/lecture_slides/pipelined_circuits/Slide13.png?raw=true"/></p>
+<p align="center"><img style="height:400px;" src="https://github.com/computation-structures/course/blob/main/lecture_slides/pipelined/Slide13.png?raw=true"/></p>
 
 <p>Okay, let&#700;s review our pipelining strategy.</p>
 
@@ -382,7 +382,7 @@ can&#700;t increase the throughput any further.  How do we
 continue to improve the performance of circuits in light of
 these performance bottlenecks?</p>
 
-<p align="center"><img style="height:400px;" src="https://github.com/computation-structures/course/blob/main/lecture_slides/pipelined_circuits/Slide14.png?raw=true"/></p>
+<p align="center"><img style="height:400px;" src="https://github.com/computation-structures/course/blob/main/lecture_slides/pipelined/Slide14.png?raw=true"/></p>
 
 <p>One solution is to use pipelined components if they&#700;re
 available!  Suppose we&#700;re able to replace the original A
@@ -408,7 +408,7 @@ that question in the next section.</p>
 <sequential display_name="Interleaving" url_name="Interleaving">
 <vertical display_name="Interleaving">
 
-<p align="center"><img style="height:400px;" src="https://github.com/computation-structures/course/blob/main/lecture_slides/pipelined_circuits/Slide15.png?raw=true"/></p>
+<p align="center"><img style="height:400px;" src="https://github.com/computation-structures/course/blob/main/lecture_slides/pipelined/Slide15.png?raw=true"/></p>
 
 <p>Computation Structures students work around the dryer bottleneck by finding a
 laundromat that has two dryers for every washer.  Looking at the
@@ -434,7 +434,7 @@ with a clock period of 30 minutes and a latency of 60 minutes.
 In other words, by interleaving the operation of 2 unpipelined
 components we can achieve the effect of a 2-stage pipeline.</p>
 
-<p align="center"><img style="height:400px;" src="https://github.com/computation-structures/course/blob/main/lecture_slides/pipelined_circuits/Slide16.png?raw=true"/></p>
+<p align="center"><img style="height:400px;" src="https://github.com/computation-structures/course/blob/main/lecture_slides/pipelined/Slide16.png?raw=true"/></p>
 
 <p>Returning to the example of the previous section, we
 couldn&#700;t improve the throughput of our pipelined system
@@ -447,7 +447,7 @@ strategy to achieve the effect of a 2-stage pipeline using two
 instances of the unpipelined C component.  Let&#700;s try
 that...</p>
 
-<p align="center"><img style="height:400px;" src="https://github.com/computation-structures/course/blob/main/lecture_slides/pipelined_circuits/Slide17.png?raw=true"/></p>
+<p align="center"><img style="height:400px;" src="https://github.com/computation-structures/course/blob/main/lecture_slides/pipelined/Slide17.png?raw=true"/></p>
 
 <p>Here&#700;s a circuit for a general-purpose two-way
 interleaver, using, in this case, two copies of the unpipelined
@@ -467,7 +467,7 @@ the state bit changes right after each rising clock edge.</p>
 <p>To help us understand the circuit, we&#700;ll look at some
 signal waveforms to illustrate its operation.</p>
 
-<p align="center"><img style="height:400px;" src="https://github.com/computation-structures/course/blob/main/lecture_slides/pipelined_circuits/Slide18.png?raw=true"/></p>
+<p align="center"><img style="height:400px;" src="https://github.com/computation-structures/course/blob/main/lecture_slides/pipelined/Slide18.png?raw=true"/></p>
 
 <p>To start, here are the waveforms for the CLK signal and our FSM
 state bit from the previous slide.</p>
@@ -512,7 +512,7 @@ internal latches and multiplexer, and the setup time of the
 output register.  So the clock cycle has to be just a little bit
 longer than half the propagation delay of the C module.</p>
 
-<p align="center"><img style="height:400px;" src="https://github.com/computation-structures/course/blob/main/lecture_slides/pipelined_circuits/Slide19.png?raw=true"/></p>
+<p align="center"><img style="height:400px;" src="https://github.com/computation-structures/course/blob/main/lecture_slides/pipelined/Slide19.png?raw=true"/></p>
 
 <p>We can treat the interleaving circuit as a 2-stage pipeline,
 consuming an input value every clock cycle and producing a
@@ -523,7 +523,7 @@ pipeline diagrams, we treat it just like a N-stage pipeline.  So
 N of our pipelining contours have to pass through the
 component.</p>
 
-<p align="center"><img style="height:400px;" src="https://github.com/computation-structures/course/blob/main/lecture_slides/pipelined_circuits/Slide20.png?raw=true"/></p>
+<p align="center"><img style="height:400px;" src="https://github.com/computation-structures/course/blob/main/lecture_slides/pipelined/Slide20.png?raw=true"/></p>
 
 <p>Here we&#700;ve replaced the slow unpipelined C component with
 a 2-way interleaved C-prime component.</p>
@@ -546,7 +546,7 @@ is now the F module, with a propagation delay of 5 ns.</p>
 every 5 ns, and with 5 contours, it&#700;s a 5-pipeline so the
 latency is 5 times the clock period or 25 ns.</p>
 
-<p align="center"><img style="height:400px;" src="https://github.com/computation-structures/course/blob/main/lecture_slides/pipelined_circuits/Slide21.png?raw=true"/></p>
+<p align="center"><img style="height:400px;" src="https://github.com/computation-structures/course/blob/main/lecture_slides/pipelined/Slide21.png?raw=true"/></p>
 
 <p>By running pipelined systems in parallel we can continue to
 increase the throughput.  Here we show a laundry with 2 washers
@@ -570,7 +570,7 @@ world.</p>
 
 ## Control Structure Alternatives
 
-<p align="center"><img style="height:400px;" src="https://github.com/computation-structures/course/blob/main/lecture_slides/pipelined_circuits/Slide22.png?raw=true"/></p>
+<p align="center"><img style="height:400px;" src="https://github.com/computation-structures/course/blob/main/lecture_slides/pipelined/Slide22.png?raw=true"/></p>
 
 <p>We&#700;ve been designing our processing pipelines to have all
 the stages operate in lock step, choosing the clock period to
@@ -607,7 +607,7 @@ clock edge.  Either stage can delay a transfer if they are still
 working on producing the next output or consuming the previous
 input.</p>
 
-<p align="center"><img style="height:400px;" src="https://github.com/computation-structures/course/blob/main/lecture_slides/pipelined_circuits/Slide23.png?raw=true"/></p>
+<p align="center"><img style="height:400px;" src="https://github.com/computation-structures/course/blob/main/lecture_slides/pipelined/Slide23.png?raw=true"/></p>
 
 <p>It&#700;s possible, although considerably more difficult, to
 build a clock-free asynchronous self-timed system that uses a
@@ -647,7 +647,7 @@ the A stage deasserts HERE-IS-X, then the yellow box waits until
 both the B and C stages have deasserted their GOT-X signals,
 before deasserting GOT-X to the A stage.</p>
 
-<p align="center"><img style="height:400px;" src="https://github.com/computation-structures/course/blob/main/lecture_slides/pipelined_circuits/Slide24.png?raw=true"/></p>
+<p align="center"><img style="height:400px;" src="https://github.com/computation-structures/course/blob/main/lecture_slides/pipelined/Slide24.png?raw=true"/></p>
 
 <p>Let&#700;s watch the system in action!  When a signal is
 asserted we&#700;ll show it in red, otherwise it&#700;s shown
@@ -696,7 +696,7 @@ and produces outputs, and so the system can process data at the
 fastest possible speed, rather than waiting for the worst-case
 processing delay.</p>
 
-<p align="center"><img style="height:400px;" src="https://github.com/computation-structures/course/blob/main/lecture_slides/pipelined_circuits/Slide25.png?raw=true"/></p>
+<p align="center"><img style="height:400px;" src="https://github.com/computation-structures/course/blob/main/lecture_slides/pipelined/Slide25.png?raw=true"/></p>
 
 <p>Let&#700;s summarize what we&#700;ve learned about
 controlling pipelined systems.  The most straightforward
@@ -731,7 +731,7 @@ speed-ups make the extra work worthwhile.</p>
 
 ## Summary
 
-<p align="center"><img style="height:400px;" src="https://github.com/computation-structures/course/blob/main/lecture_slides/pipelined_circuits/Slide26.png?raw=true"/></p>
+<p align="center"><img style="height:400px;" src="https://github.com/computation-structures/course/blob/main/lecture_slides/pipelined/Slide26.png?raw=true"/></p>
 
 <p>We characterized the performance of our systems by measuring
 their latency and throughput.  For combinational circuits, the
