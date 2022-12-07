@@ -1,12 +1,12 @@
 # Combinational Logic
 
-##Sum of Products
-
-<p align="center"><img style="height:400px;" src="https://github.com/computation-structures/course/blob/main/lecture_slides/combinational/Slide2.png?raw=true"/></p>
-
 <p>In this lecture, you&#700;ll learn various techniques for
 creating combinational logic circuits that implement a
 particular functional specification.</p>
+
+## Sum of Products
+
+<p align="center"><img style="height:400px;" src="https://github.com/computation-structures/course/blob/main/lecture_slides/combinational/Slide2.png?raw=true"/></p>
 
 <p>A functional specification is part of the static discipline we
 use to build the combinational logic abstraction of a circuit.
@@ -26,8 +26,9 @@ representation that specifies the values of the outputs for each
 possible combination of the digital inputs.  If a device has N
 digital inputs, its truth table will have $2^N$ rows.  In the
 example shown here, the device has 3 inputs, each of which can
-have the value 0 or the value 1.  There are $2 \cdot 2 \cdot 2 =
-2^3 = 8$ combinations of the three input values, so there are 8
+have the value 0 or the value 1.  There are
+$2 \cdot 2 \cdot 2 = 2^3 = 8$
+combinations of the three input values, so there are 8
 rows in the truth table.  It&#700;s straightforward to
 systematically enumerate the 8 combinations, which makes it easy
 to ensure that no combination is omitted when building the
@@ -267,7 +268,7 @@ will yield the smallest overall $t_{\textrm{PD}}$ unless we know
 the $t_{\textrm{PD}}$ of the circuits that compute the values
 for the input signals.</p>
 
-##Inverting Logic
+## Inverting Logic
 
 <p align="center"><img style="height:400px;" src="https://github.com/computation-structures/course/blob/main/lecture_slides/combinational/Slide7.png?raw=true"/></p>
 

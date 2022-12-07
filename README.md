@@ -15,7 +15,7 @@ intended to give students hands-on experience in designing digital
 systems; students complete the gate-level design for a RISC processor
 during the lab exercises.
 
-I was involved in teaching the subject from Fall 1995 through Spring 2018
+I was involved in teaching 6.004 from Fall 1995 through Spring 2018
 to a total of 8647 registered students (about 25% of the undergraduates
 attending MIT during that period).  This repo contains the course materials
 I used in Spring 2018 including the lecture slides, edited transcripts
