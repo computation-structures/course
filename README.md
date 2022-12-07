@@ -44,3 +44,5 @@ Enjoy! -- *Chris Terman*
 * L04 Combinational Logic: <a href="https://github.com/computation-structures/course/blob/main/L04_Combinational_Logic.md">Lecture</a>, <a href="https://github.com/computation-structures/course/blob/main/L04_worksheet.pdf">Worksheet</a>
 
 * L05 Sequential Logic: <a href="https://github.com/computation-structures/course/blob/main/L05_Sequential_Logic.md">Lecture</a>, <a href="https://github.com/computation-structures/course/blob/main/L05_worksheet.pdf">Worksheet</a>
+
+* L06 Sequential Logic: <a href="https://github.com/computation-structures/course/blob/main/L06_Finite_State_Machines.md">Lecture</a>, <a href="https://github.com/computation-structures/course/blob/main/L06_worksheet.pdf">Worksheet</a>
