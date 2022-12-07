@@ -9,7 +9,7 @@ circuits given a functional specification that told us how
 output values were related to the current values of the
 inputs.</p>
 
-<p>But here's a simple device we can&#700;t build with
+<p>But here&#700;s a simple device we can&#700;t build with
 combinational logic.  The device has a light that serves as the
 output and push button that serves as the input.  If the light
 is off and we push the button, the light turns on.  If the light

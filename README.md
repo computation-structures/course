@@ -42,3 +42,5 @@ Enjoy! -- *Chris Terman*
 * L03 CMOS Technology: <a href="https://github.com/computation-structures/course/blob/main/L03_CMOS_Technology.md">Lecture</a>, <a href="https://github.com/computation-structures/course/blob/main/L03_worksheet.pdf">Worksheet</a>
 
 * L04 Combinational Logic: <a href="https://github.com/computation-structures/course/blob/main/L04_Combinational_Logic.md">Lecture</a>, <a href="https://github.com/computation-structures/course/blob/main/L04_worksheet.pdf">Worksheet</a>
+
+* L05 Sequential Logic: <a href="https://github.com/computation-structures/course/blob/main/L05_Sequential_Logic.md">Lecture</a>, <a href="https://github.com/computation-structures/course/blob/main/L05_worksheet.pdf">Worksheet</a>
