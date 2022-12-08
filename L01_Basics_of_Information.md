@@ -1,4 +1,4 @@
-<p align="center"><img style="border: 1px solid black;" style="height:400px;" src="https://github.com/computation-structures/course/blob/main/lecture_slides/info/Slide1.png?raw=true"/></p>
+<p align="center"><img style="height:400px; border: 1px solid black;" src="https://github.com/computation-structures/course/blob/main/lecture_slides/info/Slide1.png?raw=true"/></p>
 
 
 <p>In order to build circuits that manipulate, transmit or store
