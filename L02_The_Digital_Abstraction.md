@@ -1,4 +1,4 @@
-# The Digital Abstaction
+<p align="center"><img style="height:450px;" src="https://github.com/computation-structures/course/blob/main/lecture_slides/digital/Slide1.png?raw=true"/></p>
 
 <p>In the previous lecture, we discussed how to encode information as
 sequences of bits.  In this lecture, we turn our attention to finding
@@ -7,7 +7,7 @@ devices that can process information.</p>
 
 ## Encoding Information
 
-<p align="center"><img style="height:400px;" src="https://github.com/computation-structures/course/blob/main/lecture_slides/digital/Slide2.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="https://github.com/computation-structures/course/blob/main/lecture_slides/digital/Slide2.png?raw=true"/></p>
 
 <p>So, what makes a good bit, <i>i.e.</i>, what properties do we want
 our physical representation of bits to have?</p>
@@ -40,7 +40,7 @@ like our representation of bits to make it easy to quickly access,
 transform, combine, transmit and store the information they
 encode.</p>
 
-<p align="center"><img style="height:400px;" src="https://github.com/computation-structures/course/blob/main/lecture_slides/digital/Slide3.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="https://github.com/computation-structures/course/blob/main/lecture_slides/digital/Slide3.png?raw=true"/></p>
 
 <p>Assuming we don&#700;t want to carry around buckets of gooey DNA
 or stone chisels, how should we represent bits?</p>
@@ -84,7 +84,7 @@ time constants are small, but sadly not zero.</p>
 <p>We have good engineering solutions for these challenges, so
 let&#700;s get started!</p>
 
-<p align="center"><img style="height:400px;" src="https://github.com/computation-structures/course/blob/main/lecture_slides/digital/Slide4.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="https://github.com/computation-structures/course/blob/main/lecture_slides/digital/Slide4.png?raw=true"/></p>
 
 <p>Consider the problem of using voltages to represent the information
 in a black-and-white image.  Each (x,y) point in the image has an
@@ -121,7 +121,7 @@ time.</p>
 constrained by our ability to reliably and quickly distinguish the
 voltage at particular time.</p>
 
-<p align="center"><img style="height:400px;" src="https://github.com/computation-structures/course/blob/main/lecture_slides/digital/Slide5.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="https://github.com/computation-structures/course/blob/main/lecture_slides/digital/Slide5.png?raw=true"/></p>
 
 <p>To complete our project of representing a complete image,
 we&#700;ll scan the image in some prescribed raster order &#8212;
@@ -136,7 +136,7 @@ so-called sync signals.  We call this a <i>continuous waveform</i> to
 indicate that it can take on any value in the specified range at a
 particular point in time.</p>
 
-<p align="center"><img style="height:400px;" src="https://github.com/computation-structures/course/blob/main/lecture_slides/digital/Slide6.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="https://github.com/computation-structures/course/blob/main/lecture_slides/digital/Slide6.png?raw=true"/></p>
 
 <p>Now let&#700;s see what happens when we try to build a system to
 process this signal.</p>
@@ -171,7 +171,7 @@ behavior: if the components work and we hook them up obeying whatever
 the rules are for connecting blocks, we would expect the system to
 work as intended.</p>
 
-<p align="center"><img style="height:400px;" src="https://github.com/computation-structures/course/blob/main/lecture_slides/digital/Slide7.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="https://github.com/computation-structures/course/blob/main/lecture_slides/digital/Slide7.png?raw=true"/></p>
 
 <p>So, let&#700;s build a system with our COPY and INVERTING blocks.
 Here&#700;s an image processing system using a few instances each
@@ -187,7 +187,7 @@ off and it looks like sharp changes in intensity have been smoothed
 out, creating a blurry reproduction of the original.  What went
 wrong?</p>
 
-<p align="center"><img style="height:400px;" src="https://github.com/computation-structures/course/blob/main/lecture_slides/digital/Slide8.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="https://github.com/computation-structures/course/blob/main/lecture_slides/digital/Slide8.png?raw=true"/></p>
 
 <p>Why doesn&#700;t theory match reality?</p>
 
@@ -234,7 +234,7 @@ accumulate.  How to do that is our next topic.</p>
 
 ## The Digital Abstraction
 
-<p align="center"><img style="height:400px;" src="https://github.com/computation-structures/course/blob/main/lecture_slides/digital/Slide9.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="https://github.com/computation-structures/course/blob/main/lecture_slides/digital/Slide9.png?raw=true"/></p>
 
 <p>To solve our engineering problem, we will introduce what
 we&#700;ll call the <i>digital abstraction</i>.  The key insight is
@@ -257,7 +257,7 @@ progress to report on building quantum computers.  But for this
 course, we&#700;ll focus on how to use classical continuous
 phenomenon to create digital systems.</p>
 
-<p align="center"><img style="height:400px;" src="https://github.com/computation-structures/course/blob/main/lecture_slides/digital/Slide10.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="https://github.com/computation-structures/course/blob/main/lecture_slides/digital/Slide10.png?raw=true"/></p>
 
 <p>The key idea in using voltages digitally is to have a signaling
 convention that encodes only one bit of information at
@@ -320,7 +320,7 @@ give it a green checkmark for now.  After a bit more discussion,
 we&#700;ll need to make one more small tweak before we get to where
 we want to go.</p>
 
-<p align="center"><img style="height:400px;" src="https://github.com/computation-structures/course/blob/main/lecture_slides/digital/Slide11.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="https://github.com/computation-structures/course/blob/main/lecture_slides/digital/Slide11.png?raw=true"/></p>
 
 <p>We&#700;re now in a position to define our what it means to be a
 digital processing element.  We say a device is a <i>combinational
@@ -364,7 +364,7 @@ output value.</p>
 discipline</i>, which must be satisfied by all combinational
 devices.</p>
 
-<p align="center"><img style="height:400px;" src="https://github.com/computation-structures/course/blob/main/lecture_slides/digital/Slide12.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="https://github.com/computation-structures/course/blob/main/lecture_slides/digital/Slide12.png?raw=true"/></p>
 
 <p>In order to build larger combinational systems from combinational
 components, we&#700;ll follow the composition rules set forth
@@ -389,7 +389,7 @@ of any size and still be expected to obey the static discipline.</p>
 
 <p>Why is this true?</p>
 
-<p align="center"><img style="height:400px;" src="https://github.com/computation-structures/course/blob/main/lecture_slides/digital/Slide13.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="https://github.com/computation-structures/course/blob/main/lecture_slides/digital/Slide13.png?raw=true"/></p>
 
 <p>To see why the claim is true, consider the following system built
 from the combinational devices A, B and C.  Let&#700;s see if we can
@@ -442,7 +442,7 @@ complexity.</p>
 
 ## Dealing With Noise
 
-<p align="center"><img style="height:400px;" src="https://github.com/computation-structures/course/blob/main/lecture_slides/digital/Slide14.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="https://github.com/computation-structures/course/blob/main/lecture_slides/digital/Slide14.png?raw=true"/></p>
 
 <p>There&#700;s one more issue we need to deal with before finalizing
 our signaling specification.  Consider the following combinational
@@ -468,7 +468,7 @@ specification so that outputs have to obey tighter bounds than the
 inputs, the idea being to ensure that valid output signals can be
 affected by noise without becoming invalid input signals.</p>
 
-<p align="center"><img style="height:400px;" src="https://github.com/computation-structures/course/blob/main/lecture_slides/digital/Slide15.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="https://github.com/computation-structures/course/blob/main/lecture_slides/digital/Slide15.png?raw=true"/></p>
 
 <p>Can we avoid the problem altogether by somehow avoiding noise?  A
 nice thought, but not a goal that we can achieve if we&#700;re
@@ -497,7 +497,7 @@ unavoidable.  However, we can predict the magnitude of the noise and
 adjust our signaling specification appropriately &#8212; let&#700;s
 see how this would work.</p>
 
-<p align="center"><img style="height:400px;" src="https://github.com/computation-structures/course/blob/main/lecture_slides/digital/Slide16.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="https://github.com/computation-structures/course/blob/main/lecture_slides/digital/Slide16.png?raw=true"/></p>
 
 <p>Our proposed fix to the noise problem is to provide separate
 signaling specifications for digital inputs and digital outputs.  To
@@ -530,7 +530,7 @@ accumulate and eventually cause signaling errors.  The bottom line:
 digital signaling doesn&#700;t suffer from the problems we saw in our
 earlier analog signaling example!</p>
 
-<p align="center"><img style="height:400px;" src="https://github.com/computation-structures/course/blob/main/lecture_slides/digital/Slide17.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="https://github.com/computation-structures/course/blob/main/lecture_slides/digital/Slide17.png?raw=true"/></p>
 
 <p>Let&#700;s make some measurements using one of the simplest
 combinational devices: a buffer.  A buffer has a single input and
@@ -578,7 +578,7 @@ curve on the graph.  Notice that the curve does not pass through the
 shaded regions, meeting the expectations we set out above for the
 behavior of a legal combinational device.</p>
 
-<p align="center"><img style="height:400px;" src="https://github.com/computation-structures/course/blob/main/lecture_slides/digital/Slide18.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="https://github.com/computation-structures/course/blob/main/lecture_slides/digital/Slide18.png?raw=true"/></p>
 
 <p>There are two interesting observations to be made about voltage
 transfer characteristics.</p>
@@ -623,7 +623,7 @@ devices such as resistors, capacitors and inductors, to build
 combinational devices.  We&#700;ll need nonlinear devices with gain &gt;
 1.  Finding such devices is the subject of the next lecture.</p>
 
-<p align="center"><img style="height:400px;" src="https://github.com/computation-structures/course/blob/main/lecture_slides/digital/Slide19.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="https://github.com/computation-structures/course/blob/main/lecture_slides/digital/Slide19.png?raw=true"/></p>
 
 <p>Let&#700;s look at a concrete example.  This graph shows the
 voltage transfer characteristic for a particular device and
@@ -665,4 +665,4 @@ $V_{\textrm{IL}}$ = 1V, $V_{\textrm{IH}}$ = 3V and $V_{\textrm{OH}}$ =
 
 ## Summary
 
-<p align="center"><img style="height:400px;" src="https://github.com/computation-structures/course/blob/main/lecture_slides/digital/Slide20.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="https://github.com/computation-structures/course/blob/main/lecture_slides/digital/Slide20.png?raw=true"/></p>

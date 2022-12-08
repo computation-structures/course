@@ -1,8 +1,8 @@
-# Finite State Machines
+<p align="center"><img style="height:450px;" src="https://github.com/computation-structures/course/blob/main/lecture_slides/fsm/Slide1.png?raw=true"/></p>
 
 ## Finite State Machines
 
-<p align="center"><img style="height:400px;" src="https://github.com/computation-structures/course/blob/main/lecture_slides/fsm/Slide2.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="https://github.com/computation-structures/course/blob/main/lecture_slides/fsm/Slide2.png?raw=true"/></p>
 
 <p>In the last lecture we developed sequential logic, which
 contains both combinational logic and memory components.</p>
@@ -45,7 +45,7 @@ logic system.</p>
 <p>All the tasks are pretty interesting, so let&#700;s get
 started!</p>
 
-<p align="center"><img style="height:400px;" src="https://github.com/computation-structures/course/blob/main/lecture_slides/fsm/Slide3.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="https://github.com/computation-structures/course/blob/main/lecture_slides/fsm/Slide3.png?raw=true"/></p>
 
 <p>As an example sequential system, let&#700;s make a combination
 lock.  The lock has a 1-bit input signal, where the user enters
@@ -69,7 +69,7 @@ incorrect, we only need to know that is incorrect.</p>
 <p>With that observation in mind, let&#700;s figure out how to
 represent the desired behavior of our digital system.</p>
 
-<p align="center"><img style="height:400px;" src="https://github.com/computation-structures/course/blob/main/lecture_slides/fsm/Slide4.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="https://github.com/computation-structures/course/blob/main/lecture_slides/fsm/Slide4.png?raw=true"/></p>
 
 <p>We can characterize the behavior of a sequential system using a
 new abstraction called a finite state machine, or FSM for short.
@@ -121,7 +121,7 @@ of both S and the current inputs.</p>
 <p>Now that we have our abstraction in place, let&#700;s see how
 to use it to design our combinational lock.</p>
 
-<p align="center"><img style="height:400px;" src="https://github.com/computation-structures/course/blob/main/lecture_slides/fsm/Slide5.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="https://github.com/computation-structures/course/blob/main/lecture_slides/fsm/Slide5.png?raw=true"/></p>
 
 <p>We&#700;ll describe the operation of the FSM for our
 combination lock using a state transition diagram.  Initially,
@@ -168,7 +168,7 @@ two bits might be the first two bits of a valid combination
 sequence and so the FSM transitions to S01, indicating that a
 sequence of 0-1 has been entered over the last two bits.</p>
 
-<p align="center"><img style="height:400px;" src="https://github.com/computation-structures/course/blob/main/lecture_slides/fsm/Slide6.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="https://github.com/computation-structures/course/blob/main/lecture_slides/fsm/Slide6.png?raw=true"/></p>
 
 <p>We&#700;ve been working with an FSM where the outputs are
 function of the current state, called a Moore machine.  Here the
@@ -208,7 +208,7 @@ for every combination of current state and input value.</p>
 
 ## FSM Implementation
 
-<p align="center"><img style="height:400px;" src="https://github.com/computation-structures/course/blob/main/lecture_slides/fsm/Slide7.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="https://github.com/computation-structures/course/blob/main/lecture_slides/fsm/Slide7.png?raw=true"/></p>
 
 <p>All the information in a state transition diagram can be
 represented in tabular form as a truth table.  The rows of the
@@ -237,7 +237,7 @@ combinational logic for the FSM.  Of course, we can take the
 easy way out and simply use a read-only memory to do the
 job!</p>
 
-<p align="center"><img style="height:400px;" src="https://github.com/computation-structures/course/blob/main/lecture_slides/fsm/Slide8.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="https://github.com/computation-structures/course/blob/main/lecture_slides/fsm/Slide8.png?raw=true"/></p>
 
 <p>In this circuit, a read-only memory is used to compute the next
 state and outputs from the current state and inputs.
@@ -268,7 +268,7 @@ Lecture 5 to check that this is so.  For now, we&#700;ll assume
 that the timing of transitions on the inputs are properly
 synchronized with the rising edges of the clock.</p>
 
-<p align="center"><img style="height:400px;" src="https://github.com/computation-structures/course/blob/main/lecture_slides/fsm/Slide9.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="https://github.com/computation-structures/course/blob/main/lecture_slides/fsm/Slide9.png?raw=true"/></p>
 
 <p>So now we have the FSM abstraction to use when designing the
 functionality of a sequential logic system, and a
@@ -293,7 +293,7 @@ registers at the next rising clock edge.  This process repeats
 over-and-over as the FSM follows the state transitions dictated
 by the state transition diagram.</p>
 
-<p align="center"><img style="height:400px;" src="https://github.com/computation-structures/course/blob/main/lecture_slides/fsm/Slide10.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="https://github.com/computation-structures/course/blob/main/lecture_slides/fsm/Slide10.png?raw=true"/></p>
 
 <p>There are a few housekeeping details that need our
 attention.</p>
@@ -334,7 +334,7 @@ input transitions don&#700;t violate the dynamic discipline for
 the state register.  We&#700;ll get to this in the last section
 of this lecture.</p>
 
-<p align="center"><img style="height:400px;" src="https://github.com/computation-structures/course/blob/main/lecture_slides/fsm/Slide11.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="https://github.com/computation-structures/course/blob/main/lecture_slides/fsm/Slide11.png?raw=true"/></p>
 
 <p>Let&#700;s think a bit more about the FSM abstraction.</p>
 
@@ -368,7 +368,7 @@ button the light turns off if it was on.  And when you push the
 seems to happen.  What state transition diagram could we draw
 based on our experiments?</p>
 
-<p align="center"><img style="height:400px;" src="https://github.com/computation-structures/course/blob/main/lecture_slides/fsm/Slide12.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="https://github.com/computation-structures/course/blob/main/lecture_slides/fsm/Slide12.png?raw=true"/></p>
 
 <p>Consider the following two state transition diagrams.  The top
 diagram describes the behavior we observed in our experiments:
@@ -393,7 +393,7 @@ state in the machine.</p>
 <p>Our answer is also complicated by the observation that FSMs
 with different number of states may be equivalent.</p>
 
-<p align="center"><img style="height:400px;" src="https://github.com/computation-structures/course/blob/main/lecture_slides/fsm/Slide13.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="https://github.com/computation-structures/course/blob/main/lecture_slides/fsm/Slide13.png?raw=true"/></p>
 
 <p>Here are two FSMs, one with 2 states, one with 5 states.  Are
 they different?  Well, not in any practical sense.  Since the
@@ -409,7 +409,7 @@ the context of our next example.</p>
 
 ## FSM Example: Roboant
 
-<p align="center"><img style="height:400px;" src="https://github.com/computation-structures/course/blob/main/lecture_slides/fsm/Slide14.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="https://github.com/computation-structures/course/blob/main/lecture_slides/fsm/Slide14.png?raw=true"/></p>
 
 <p>Surprise!  We&#700;ve just been given a robotic ant that has
 an FSM for its brain.  The inputs to the FSM come from the
@@ -431,7 +431,7 @@ on the wall and walk so that our hand stays on the wall.</p>
 
 <p>Let&#700;s try to implement this strategy.</p>
 
-<p align="center"><img style="height:400px;" src="https://github.com/computation-structures/course/blob/main/lecture_slides/fsm/Slide15.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="https://github.com/computation-structures/course/blob/main/lecture_slides/fsm/Slide15.png?raw=true"/></p>
 
 <p>We&#700;ll assume that initially our ant is lost in space.
 The only sensible strategy to walk forward until we find a maze
@@ -440,7 +440,7 @@ causing the ant to move forward until at least one of the
 antennae touches something,
 <i>i.e.</i>, at least one of the L or R inputs is a 1.</p>
 
-<p align="center"><img style="height:400px;" src="https://github.com/computation-structures/course/blob/main/lecture_slides/fsm/Slide16.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="https://github.com/computation-structures/course/blob/main/lecture_slides/fsm/Slide16.png?raw=true"/></p>
 
 <p>So now the ant finds itself in one of these three situations.
 To implement the right-hand rule, the ant should
@@ -449,7 +449,7 @@ cleared the wall.  To do this, we&#700;ll add a
 rotate-counterclockwise state, which asserts the turn-left
 output until both L and R are 0.</p>
 
-<p align="center"><img style="height:400px;" src="https://github.com/computation-structures/course/blob/main/lecture_slides/fsm/Slide17.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="https://github.com/computation-structures/course/blob/main/lecture_slides/fsm/Slide17.png?raw=true"/></p>
 
 <p>Now the ant is standing with a wall to its right and we can
 start the process of following the wall with its right antenna.
@@ -458,7 +458,7 @@ immediately touch the wall again.  The WALL1 state asserts both
 the turn-right and forward outputs, then checks the right
 antenna to see what to do next.</p>
 
-<p align="center"><img style="height:400px;" src="https://github.com/computation-structures/course/blob/main/lecture_slides/fsm/Slide18.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="https://github.com/computation-structures/course/blob/main/lecture_slides/fsm/Slide18.png?raw=true"/></p>
 
 <p>If the right antenna does touch, as expected, the ant turns
 left to free the antenna and then steps forward. The WALL2 state
@@ -477,7 +477,7 @@ reaches an inside corner, it rotates to put the new wall on its
 right and keeps going.  What happens when it reaches an outside
 corner?</p>
 
-<p align="center"><img style="height:400px;" src="https://github.com/computation-structures/course/blob/main/lecture_slides/fsm/Slide19.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="https://github.com/computation-structures/course/blob/main/lecture_slides/fsm/Slide19.png?raw=true"/></p>
 
 <p>When the ant is in the WALL1 state, it moves forward and turns
 right, then checks its right antenna, expecting the find the
@@ -490,7 +490,7 @@ WALL2 state when the ant reaches the wall again.</p>
 
 <p>Hey, this might even work!</p>
 
-<p align="center"><img style="height:400px;" src="https://github.com/computation-structures/course/blob/main/lecture_slides/fsm/Slide20.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="https://github.com/computation-structures/course/blob/main/lecture_slides/fsm/Slide20.png?raw=true"/></p>
 
 <p>Earlier we talked about about finding equivalent FSMs with
 fewer states.  Now we&#700;ll develop an approach for finding
@@ -530,7 +530,7 @@ to WALL2.</p>
 that the WALL1 and CORNER states are equivalent and can be
 merged.</p>
 
-<p align="center"><img style="height:400px;" src="https://github.com/computation-structures/course/blob/main/lecture_slides/fsm/Slide21.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="https://github.com/computation-structures/course/blob/main/lecture_slides/fsm/Slide21.png?raw=true"/></p>
 
 <p>This gives us the four-state FSM shown here, where we&#700;ve
 called the single merged state WALL1.  This smaller, equivalent
@@ -561,7 +561,7 @@ dragging its lower right-hand corner.</p>
 <iframe src="/static/tools/roboant.html"
         style="width: 800px; height: 500px; border: none; resize: both; overflow: auto;"/>
 
-<p align="center"><img style="height:400px;" src="https://github.com/computation-structures/course/blob/main/lecture_slides/fsm/Slide22.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="https://github.com/computation-structures/course/blob/main/lecture_slides/fsm/Slide22.png?raw=true"/></p>
 
 <p>Let&#700;s look at what we&#700;d need to do if we wanted to
 implement the FSM using logic gates instead a ROM for the
@@ -589,7 +589,7 @@ appropriate three rows to the transition table.</p>
 <p>We can continue in a similar manner to encode the transitions
 one-by-one.</p>
 
-<p align="center"><img style="height:400px;" src="https://github.com/computation-structures/course/blob/main/lecture_slides/fsm/Slide23.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="https://github.com/computation-structures/course/blob/main/lecture_slides/fsm/Slide23.png?raw=true"/></p>
 
 <p>Here&#700;s the final table, where we&#700;ve used
 don&#700;t cares to reduce the number of rows for presentation.
@@ -606,7 +606,7 @@ do the same for the other next-state bit.</p>
 <p>We can follow a similar process to derive minimal
 sum-of-products expressions for the motion-control outputs.</p>
 
-<p align="center"><img style="height:400px;" src="https://github.com/computation-structures/course/blob/main/lecture_slides/fsm/Slide24.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="https://github.com/computation-structures/course/blob/main/lecture_slides/fsm/Slide24.png?raw=true"/></p>
 
 <p>Implementing each sum-of-products in a straight-forward fashion
 with AND and OR gates, we get the following schematic for the
@@ -614,7 +614,7 @@ ant brain.  Pretty neat!  Who knew that maze following behavior
 could be implemented with a couple of D registers and a handful
 of logic gates?</p>
 
-<p align="center"><img style="height:400px;" src="https://github.com/computation-structures/course/blob/main/lecture_slides/fsm/Slide25.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="https://github.com/computation-structures/course/blob/main/lecture_slides/fsm/Slide25.png?raw=true"/></p>
 
 <p>There are many complex behaviors that can be created with
 surprisingly simple FSMs.  Early on, the computer graphics folks
@@ -639,7 +639,7 @@ your life...</p>
 
 ## Synchronization and Metastability
 
-<p align="center"><img style="height:400px;" src="https://github.com/computation-structures/course/blob/main/lecture_slides/fsm/Slide26.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="https://github.com/computation-structures/course/blob/main/lecture_slides/fsm/Slide26.png?raw=true"/></p>
 
 <p>Okay, it&#700;s finally time to investigate issues caused by
 asynchronous inputs to a sequential logic circuit.  By
@@ -663,7 +663,7 @@ that only changes shortly after the rising edge of the clock.
 We&#700;d use a synchronizer on each asynchronous input and
 solve our timing problems that way.</p>
 
-<p align="center"><img style="height:400px;" src="https://github.com/computation-structures/course/blob/main/lecture_slides/fsm/Slide27.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="https://github.com/computation-structures/course/blob/main/lecture_slides/fsm/Slide27.png?raw=true"/></p>
 
 <p>Here&#700;s a detailed specification for our synchronizer.</p>
 
@@ -690,7 +690,7 @@ values of $t_{\textrm{E}}$ and $t_{\textrm{D}}$ can we build a
 synchronizer that&#700;s guaranteed to meet this specification
 even when using components that are 100% reliable.</p>
 
-<p align="center"><img style="height:400px;" src="https://github.com/computation-structures/course/blob/main/lecture_slides/fsm/Slide28.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="https://github.com/computation-structures/course/blob/main/lecture_slides/fsm/Slide28.png?raw=true"/></p>
 
 <p>But can&#700;t we just use a D register to solve the problem?
 We&#700;ll connect IN to the register&#700;s data input and
@@ -718,7 +718,7 @@ we&#700;ll see when we look more carefully at the operation of
 the register&#700;s master latch when B and C change at about
 the same time.</p>
 
-<p align="center"><img style="height:400px;" src="https://github.com/computation-structures/course/blob/main/lecture_slides/fsm/Slide29.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="https://github.com/computation-structures/course/blob/main/lecture_slides/fsm/Slide29.png?raw=true"/></p>
 
 <p>Recall that the master latch is really just a lenient MUX that
 can be configured as a bi-stable storage element using a
@@ -745,7 +745,7 @@ towards the stable equilibrium points.  Here&#700;s the issue
 we face: we can&#700;t bound the amount of time the system will
 spend in the metastable state.</p>
 
-<p align="center"><img style="height:400px;" src="https://github.com/computation-structures/course/blob/main/lecture_slides/fsm/Slide30.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="https://github.com/computation-structures/course/blob/main/lecture_slides/fsm/Slide30.png?raw=true"/></p>
 
 <p>Here&#700;s what we know about the metastable state.</p>
 
@@ -805,7 +805,7 @@ synchronizers and related problems and learn about the
 mathematics behind the exponential probabilities, please see
 Lecture 10 of the Course Notes.</p>
 
-<p align="center"><img style="height:400px;" src="https://github.com/computation-structures/course/blob/main/lecture_slides/fsm/Slide31.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="https://github.com/computation-structures/course/blob/main/lecture_slides/fsm/Slide31.png?raw=true"/></p>
 
 <p>Our approach to dealing with asynchronous inputs is to put the
 potentially metastable value coming out of our D-register
