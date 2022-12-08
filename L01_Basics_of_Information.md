@@ -1,4 +1,4 @@
-# Basics of Information
+<p align="center"><img style="height:400px;" src="https://github.com/computation-structures/course/blob/main/lecture_slides/info/Slide1.png?raw=true"/></p>
 
 <p>In order to build circuits that manipulate, transmit or store
 information, we are going to need some engineering tools to help
