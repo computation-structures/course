@@ -1,4 +1,4 @@
-<p align="center"><img style="height:400px; border: 1px solid black;" src="https://github.com/computation-structures/course/blob/main/lecture_slides/info/Slide1.png?raw=true"/></p>
+<p align="center"><img  src="https://github.com/computation-structures/course/blob/main/lecture_slides/info/Slide1.png?raw=true"/></p>
 
 
 <p>In order to build circuits that manipulate, transmit or store
@@ -13,7 +13,7 @@ has happened and possibly even correct the problem.</p>
 
 ## Quantifying Information
 
-<p align="center"><img style="height:400px;" src="https://github.com/computation-structures/course/blob/main/lecture_slides/info/Slide2.png?raw=true"/></p>
+<p align="center"><img  src="https://github.com/computation-structures/course/blob/main/lecture_slides/info/Slide2.png?raw=true"/></p>
 
 <p>Let&#700;s start by asking &#8220;what is information?&#8221;  From our
 engineering perspective, we&#700;ll define information as data
@@ -43,7 +43,7 @@ choice.</p>
   know exactly what the choice was.</li>
 </ul>
 
-<p align="center"><img style="height: 400px;" src="https://github.com/computation-structures/course/blob/main/lecture_slides/info/Slide3.png?raw=true"/></p>
+<p align="center"><img style="height: 540px;" src="https://github.com/computation-structures/course/blob/main/lecture_slides/info/Slide3.png?raw=true"/></p>
 
 <p>Mathematicians like to model uncertainty about a particular
 circumstance by introducing the concept of a random variable.
@@ -74,7 +74,7 @@ a quantity that can take on the value 0 or 1.  Think of the
 information content as the number of bits we would require to
 encode this choice.</p>
 
-<p align="center"><img style="height: 400px;" src="https://github.com/computation-structures/course/blob/main/lecture_slides/info/Slide4.png?raw=true"/></p>
+<p align="center"><img style="height: 540px;" src="https://github.com/computation-structures/course/blob/main/lecture_slides/info/Slide4.png?raw=true"/></p>
 
 <p>Suppose the data we receive doesn&#700;t resolve all the
 uncertainty.  For example, when earlier we received the data
@@ -127,7 +127,7 @@ I(\textrm{N choices $\rightarrow$ M choices $\rightarrow$ 1 choice}) &amp; = \lo
 of choices from N down to 1, so by equation (3), we&#700;ve received
 $\log_2 (N/1)$ bits of information.</p>
 
-<p align="center"><img style="height: 400px;" src="https://github.com/computation-structures/course/blob/main/lecture_slides/info/Slide5.png?raw=true"/></p>
+<p align="center"><img style="height: 540px;" src="https://github.com/computation-structures/course/blob/main/lecture_slides/info/Slide5.png?raw=true"/></p>
 
 <p>Let&#700;s look at some examples.</p>
 
@@ -160,7 +160,7 @@ unambiguously encode the results.  Whether we can come up with
 an encoding that achieves this lower bound is an interesting
 question that we&#700;ll take up later in this lecture.</p>
 
-<p align="center"><img style="height: 400px;" src="https://github.com/computation-structures/course/blob/main/lecture_slides/info/Slide6.png?raw=true"/></p>
+<p align="center"><img style="height: 540px;" src="https://github.com/computation-structures/course/blob/main/lecture_slides/info/Slide6.png?raw=true"/></p>
 
 <p>To wrap up, let&#700;s return to our initial example.
 Here&#700;s a table showing the different choices for the data
@@ -175,7 +175,7 @@ the most information when we learn that the card is the suicide
 King and the least information when we learn that the card is
 not the Ace of Spades.</p>
 
-<p align="center"><img style="height: 400px;" src="https://github.com/computation-structures/course/blob/main/lecture_slides/info/Slide7.png?raw=true"/></p>
+<p align="center"><img style="height: 540px;" src="https://github.com/computation-structures/course/blob/main/lecture_slides/info/Slide7.png?raw=true"/></p>
 
 <p>In the next section we&#700;re going to start our discussion
 on how to actually engineer the bit encodings we&#700;ll use to
@@ -218,7 +218,7 @@ using 2 bits to represent which of the four possible values is
 next.  Food for thought!  We&#700;ll discuss this further in
 our discussion of variable-length encodings.</p>
 
-<p align="center"><img style="height: 400px;" src="https://github.com/computation-structures/course/blob/main/lecture_slides/info/Slide8.png?raw=true"/></p>
+<p align="center"><img style="height: 540px;" src="https://github.com/computation-structures/course/blob/main/lecture_slides/info/Slide8.png?raw=true"/></p>
 
 <p>So, what is the entropy telling us?  Suppose we have a sequence
 of data describing a sequence of values of the random variable
