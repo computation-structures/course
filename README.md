@@ -35,18 +35,24 @@ Enjoy! -- *Chris Terman*
 
 ## Syllabus
 
-* L01 Basics of Information: <a href="https://github.com/computation-structures/course/blob/main/L01_Basics_of_Information.md">Lecture</a>, <a href="https://github.com/computation-structures/course/blob/main/L01_worksheet.pdf">Worksheet</a>
+* Digital Circuits
 
-* L02 The Digital Abstraction: <a href="https://github.com/computation-structures/course/blob/main/L02_The_Digital_Abstraction.md">Lecture</a>, <a href="https://github.com/computation-structures/course/blob/main/L02_worksheet.pdf">Worksheet</a>
+  * L01 Basics of Information: <a href="https://github.com/computation-structures/course/blob/main/L01_Basics_of_Information.md">Lecture</a>, <a href="https://github.com/computation-structures/course/blob/main/L01_worksheet.pdf">Worksheet</a>
 
-* L03 CMOS Technology: <a href="https://github.com/computation-structures/course/blob/main/L03_CMOS_Technology.md">Lecture</a>, <a href="https://github.com/computation-structures/course/blob/main/L03_worksheet.pdf">Worksheet</a>
+  * L02 The Digital Abstraction: <a href="https://github.com/computation-structures/course/blob/main/L02_The_Digital_Abstraction.md">Lecture</a>, <a href="https://github.com/computation-structures/course/blob/main/L02_worksheet.pdf">Worksheet</a>
 
-* L04 Combinational Logic: <a href="https://github.com/computation-structures/course/blob/main/L04_Combinational_Logic.md">Lecture</a>, <a href="https://github.com/computation-structures/course/blob/main/L04_worksheet.pdf">Worksheet</a>
+  * L03 CMOS Technology: <a href="https://github.com/computation-structures/course/blob/main/L03_CMOS_Technology.md">Lecture</a>, <a href="https://github.com/computation-structures/course/blob/main/L03_worksheet.pdf">Worksheet</a>
 
-* L05 Sequential Logic: <a href="https://github.com/computation-structures/course/blob/main/L05_Sequential_Logic.md">Lecture</a>, <a href="https://github.com/computation-structures/course/blob/main/L05_worksheet.pdf">Worksheet</a>
+  * L04 Combinational Logic: <a href="https://github.com/computation-structures/course/blob/main/L04_Combinational_Logic.md">Lecture</a>, <a href="https://github.com/computation-structures/course/blob/main/L04_worksheet.pdf">Worksheet</a>
 
-* L06 Finite State Machines: <a href="https://github.com/computation-structures/course/blob/main/L06_Finite_State_Machines.md">Lecture</a>, <a href="https://github.com/computation-structures/course/blob/main/L06_worksheet.pdf">Worksheet</a>
+  * L05 Sequential Logic: <a href="https://github.com/computation-structures/course/blob/main/L05_Sequential_Logic.md">Lecture</a>, <a href="https://github.com/computation-structures/course/blob/main/L05_worksheet.pdf">Worksheet</a>
 
-* L07 Pipelined Circuits: <a href="https://github.com/computation-structures/course/blob/main/L07_Pipelined_Circuits.md">Lecture</a>, <a href="https://github.com/computation-structures/course/blob/main/L07_worksheet.pdf">Worksheet</a>
+  * L06 Finite State Machines: <a href="https://github.com/computation-structures/course/blob/main/L06_Finite_State_Machines.md">Lecture</a>, <a href="https://github.com/computation-structures/course/blob/main/L06_worksheet.pdf">Worksheet</a>
 
-* L08 Design Tradeoffs: <a href="https://github.com/computation-structures/course/blob/main/L08_Design_Tradeoffs.md">Lecture</a>, <a href="https://github.com/computation-structures/course/blob/main/L08_worksheet.pdf">Worksheet</a>
+  * L07 Pipelined Circuits: <a href="https://github.com/computation-structures/course/blob/main/L07_Pipelined_Circuits.md">Lecture</a>, <a href="https://github.com/computation-structures/course/blob/main/L07_worksheet.pdf">Worksheet</a>
+
+  * L08 Design Tradeoffs: <a href="https://github.com/computation-structures/course/blob/main/L08_Design_Tradeoffs.md">Lecture</a>, <a href="https://github.com/computation-structures/course/blob/main/L08_worksheet.pdf">Worksheet</a>
+
+* Programmable Architectures
+
+  * L09 Design an Instruction Set: <a href="https://github.com/computation-structures/course/blob/main/L0_Designing_an_Instruction.md">Lecture</a>, <a href="https://github.com/computation-structures/course/blob/main/L09_worksheet.pdf">Worksheet</a>
