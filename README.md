@@ -56,3 +56,8 @@ Enjoy! -- *Chris Terman*
 * Programmable Architectures
 
   * L09 Designing an Instruction Set: <a href="https://github.com/computation-structures/course/blob/main/L09_Designing_an_Instruction_Set.md">Lecture</a>, <a href="https://github.com/computation-structures/course/blob/main/L09_worksheet.pdf">Worksheet</a>
+
+  * L10a Assembly Language: <a href="https://github.com/computation-structures/course/blob/main/L10a_Assembly_Language.md">Lecture</a>
+
+  * L10b Models of Computation: <a href="https://github.com/computation-structures/course/blob/main/L10b_Models_of_Computation.md">Lecture</a>
+
