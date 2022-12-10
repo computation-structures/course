@@ -48,3 +48,5 @@ Enjoy! -- *Chris Terman*
 * L06 Finite State Machines: <a href="https://github.com/computation-structures/course/blob/main/L06_Finite_State_Machines.md">Lecture</a>, <a href="https://github.com/computation-structures/course/blob/main/L06_worksheet.pdf">Worksheet</a>
 
 * L07 Pipelined Circuits: <a href="https://github.com/computation-structures/course/blob/main/L07_Pipelined_Circuits.md">Lecture</a>, <a href="https://github.com/computation-structures/course/blob/main/L07_worksheet.pdf">Worksheet</a>
+
+* L08 Design Tradeoffs: <a href="https://github.com/computation-structures/course/blob/main/L08_Design_Tradeoffs.md">Lecture</a>, <a href="https://github.com/computation-structures/course/blob/main/L08_worksheet.pdf">Worksheet</a>
