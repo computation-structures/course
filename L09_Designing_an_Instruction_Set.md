@@ -1058,7 +1058,7 @@ lecture.</p>
 
 ## Beta ISA Summary
 
-<img class="lecslide" src="/static/isa/Slide33.png"/>
+<p align="center"><img style="height:450px;" src="https://github.com/computation-structures/course/blob/main/lecture_slides/isa//Slide33.png?raw=true"/></p>
 
 <p>That wraps up the design of the Beta instruction set
 architecture.  In summary, the Beta has 32 registers to hold
