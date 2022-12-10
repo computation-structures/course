@@ -1,3 +1,5 @@
+<p align="center"><img style="height:450px;" src="https://github.com/computation-structures/course/blob/main/lecture_slides/assembly/Slide1.png?raw=true"/></p>
+
 ## Review: Beta ISA
 
 <p align="center"><img style="height:450px;" src="https://github.com/computation-structures/course/blob/main/lecture_slides/assembly/Slide2.png?raw=true"/></p>
