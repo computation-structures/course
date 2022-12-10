@@ -55,4 +55,4 @@ Enjoy! -- *Chris Terman*
 
 * Programmable Architectures
 
-  * L09 Design an Instruction Set: <a href="https://github.com/computation-structures/course/blob/main/L0_Designing_an_Instruction_Set.md">Lecture</a>, <a href="https://github.com/computation-structures/course/blob/main/L09_worksheet.pdf">Worksheet</a>
+  * L09 Designing an Instruction Set: <a href="https://github.com/computation-structures/course/blob/main/L0_Designing_an_Instruction_Set.md">Lecture</a>, <a href="https://github.com/computation-structures/course/blob/main/L09_worksheet.pdf">Worksheet</a>
