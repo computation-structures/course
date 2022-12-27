@@ -123,6 +123,6 @@ skills and understanding.  There are interesting times ahead in the
 world of digital systems and we can certainly use your help in
 inventing the future!</p>
 
-<p>We&#700;d welcome any feedback you have about the course
-Good bye for now... and good luck
-in your future studies...</p>
+<p>We&#700;d welcome any feedback you have about the course.</p>
+
+<p>Good bye for now... and good luck in your future studies...</p>
