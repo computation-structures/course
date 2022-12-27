@@ -10,7 +10,7 @@ Starting at the device level, the course develops a hierarchical set
 of building blocks — logic gates, combinational and sequential
 circuits, finite-state machines, processors and finally complete
 systems. Both hardware and software mechanisms are explored through a
-series of design examples. The problem sets and lab exercises are
+series of design examples. The worksheets and lab exercises are
 intended to give students hands-on experience in designing digital
 systems; students complete the gate-level design for a RISC processor
 during the lab exercises.
@@ -39,7 +39,7 @@ Enjoy!
 
   * L02. The Digital Abstraction: <a href="lectures/L02_The_Digital_Abstraction.md">Lecture</a>, <a href="worksheets/pdfs/L02_worksheet.pdf">Worksheet</a>
 
-  * L03. CMOS Technology: <a href="lectures/L03_CMOS_Technology.md">Lecture</a>, <a href="worksheets/pdfs/L03_worksheet.pdf">Worksheet</a>
+  * L03. CMOS Technology: <a href="lectures/L03_CMOS_Technology.md">Lecture</a>, <a href="worksheets/pdfs/L03_worksheet.pdf">Worksheet</a>, <a href="https://computationstructures.org/exercises/cmos/lab.html">Online lab: CMOS Technology</a>
 
   * L04. Combinational Logic: <a href="lectures/L04_Combinational_Logic.md">Lecture</a>, <a href="worksheets/pdfs/L04_worksheet.pdf">Worksheet</a>
 
