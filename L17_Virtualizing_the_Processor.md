@@ -13,8 +13,8 @@ illusion of having its own large address space.</p>
 
 <p>Both the virtual and physical address spaces are divided into a
 sequence of pages, each holding some fixed number of locations.
-For example if each page holds $2^12$ bytes, a 32-bit address
-space would have $2^32/2^12 = 2^20$ pages.  In this example the
+For example if each page holds $2^{12}$ bytes, a 32-bit address
+space would have $2^{32}/2^{12} = 2^{20}$ pages.  In this example the
 32-bit address can be thought of as having two fields: a 20-bit
 page number formed from the high-order address bits and a 12-bit
 page offset formed from the low-order address bits.  This
