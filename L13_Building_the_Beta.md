@@ -229,25 +229,25 @@ design!</p>
 execute ALU instructions with two register operands.  Each
 instruction requires the same processing steps:</p>
 
-<p>Fetch, where the 32-bit encoded instruction is read from main
+* Fetch, where the 32-bit encoded instruction is read from main
 memory from the location specified by the program counter
-(PC).</p>
+(PC).
 
-<p>Decode, where the opcode field (instruction bits [31:26]) is
+* Decode, where the opcode field (instruction bits [31:26]) is
 used to determine the values for the datapath control
-signals.</p>
+signals.
 
-<p>Read, where the contents of the registers specified by the RA
+* Read, where the contents of the registers specified by the RA
 and RB fields (instruction bits [20:16] and [15:11]) are read
-from the register file.</p>
+from the register file.
 
-<p>Execute, where the requested operation is performed on the two
+* Execute, where the requested operation is performed on the two
 operand values.  We&#700;ll also need to compute the next value
-for the PC.</p>
+for the PC.
 
-<p>And Write-back, where the result of the operation is written to
+* And Write-back, where the result of the operation is written to
 the register file in the register specified by the RC field
-(instruction bits [25:21]).</p>
+(instruction bits [25:21]).
 
 <p>The system&#700;s clock signal is connected to the register
 file and the PC register.  At the rising edge of the clock, the
