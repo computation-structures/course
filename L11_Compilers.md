@@ -1,8 +1,8 @@
-<p align="center"><img style="height:450px;" src="lecture_slides/compilers/Slide1.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/compilers/Slide1.png"/></p>
 
 ## Interpretation and Compilation
 
-<p align="center"><img style="height:450px;" src="lecture_slides/compilers/Slide2.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/compilers/Slide2.png"/></p>
 
 <p>Today we&#700;re going to talk about how to translate
 high-level languages into code that computers can execute.</p>
@@ -37,7 +37,7 @@ statements in assembly language.</p>
 high-level language programs into code that will run on the
 Beta.</p>
 
-<p align="center"><img style="height:450px;" src="lecture_slides/compilers/Slide3.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/compilers/Slide3.png"/></p>
 
 <p>Here we see Euclid&#700;s algorithm for determining the
 greatest common divisor of two numbers, in this case the
@@ -82,7 +82,7 @@ hand?  The answer depends on how we choose to run high-level
 language programs. The two basic execution strategies are
 <i>interpretation</i> and <i>compilation</i>.</p>
 
-<p align="center"><img style="height:450px;" src="lecture_slides/compilers/Slide4.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/compilers/Slide4.png"/></p>
 
 <p>To interpret a high-level language program, we&#700;ll write a
 special program called an <i>interpreter</i> that runs on
@@ -117,7 +117,7 @@ computational approach is most effective before making a more
 substantial investment in creating a more efficient
 implementation.</p>
 
-<p align="center"><img style="height:450px;" src="lecture_slides/compilers/Slide5.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/compilers/Slide5.png"/></p>
 
 <p>We&#700;ll use a compilation implementation strategy when we
 have computational tasks that we need to execute repeatedly and
@@ -156,7 +156,7 @@ away the details of the actual computer we&#700;ll use to run
 the program.  And both strategies are widely used in modern
 computer systems!</p>
 
-<p align="center"><img style="height:450px;" src="lecture_slides/compilers/Slide6.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/compilers/Slide6.png"/></p>
 
 <p>Let&#700;s summarize the differences between interpretation
 and compilation.</p>
@@ -198,7 +198,7 @@ away that flexibility in exchange for fast execution.</p>
 
 ## Compiling Expressions
 
-<p align="center"><img style="height:450px;" src="lecture_slides/compilers/Slide7.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/compilers/Slide7.png"/></p>
 
 <p>A compiler is a program that translates a high-level language
 program into a functionally equivalent sequence of machine
@@ -229,7 +229,7 @@ compiling C programs into assembly.  Then, in the next section,
 we&#700;ll dive more deeply into how a modern compiler
 works.</p>
 
-<p align="center"><img style="height:450px;" src="lecture_slides/compilers/Slide8.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/compilers/Slide8.png"/></p>
 
 <p>There are two main routines in our simple compiler:
 compile_statement and compile_expr.  The job of
@@ -278,7 +278,7 @@ complications to understand and deal with.</p>
 <p>Happily, compiling the other types of expressions and
 statements is straightforward, so let&#700;s get started.</p>
 
-<p align="center"><img style="height:450px;" src="lecture_slides/compilers/Slide9.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/compilers/Slide9.png"/></p>
 
 <p>What code do we need to put the value of a constant into a
 register?  If the constant will fit into the 16-bit constant
@@ -321,7 +321,7 @@ results in registers.  Then generate the appropriate ALU
 instruction to combine the operands and leave the answer in a
 register.</p>
 
-<p align="center"><img style="height:450px;" src="lecture_slides/compilers/Slide10.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/compilers/Slide10.png"/></p>
 
 <p>Let&#700;s look at example to see how all this works.  Here
 have an assignment expression that requires a subtract, a
@@ -384,7 +384,7 @@ considering just one or two instructions at a time.</p>
 
 ## Compling Statements
 
-<p align="center"><img style="height:450px;" src="lecture_slides/compilers/Slide11.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/compilers/Slide11.png"/></p>
 
 <p>Now let&#700;s turn our attention to compile_statement.</p>
 
@@ -399,7 +399,7 @@ turn.  The code for statement_2 will immediately follow the code
 generated for statement_1.  Execution will proceed sequentially
 through the code for each statement.</p>
 
-<p align="center"><img style="height:450px;" src="lecture_slides/compilers/Slide12.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/compilers/Slide12.png"/></p>
 
 <p>Here we see the simplest form the conditional statement, where
 we need to generate code to evaluate the test expression and
@@ -420,7 +420,7 @@ generation task down step-by-step into smaller and smaller
 tasks, generating the necessary code to glue all the pieces
 together in the appropriate fashion.</p>
 
-<p align="center"><img style="height:450px;" src="lecture_slides/compilers/Slide13.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/compilers/Slide13.png"/></p>
 
 <p>And here&#700;s the template for the WHILE statement, which
 looks a lot like the template for the IF statement with a branch
@@ -445,7 +445,7 @@ FOR loop is executed once for each value of the loop index.</p>
 here, which can then be compiled using the templates shown
 above.</p>
 
-<p align="center"><img style="height:450px;" src="lecture_slides/compilers/Slide14.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/compilers/Slide14.png"/></p>
 
 <p>In this example, we&#700;ve applied our templates to generate
 code for the iterative implementation of the factorial function
@@ -456,7 +456,7 @@ efficient code, but not bad given the simplicity of the
 recursive-descent approach for compiling high-level
 programs.</p>
 
-<p align="center"><img style="height:450px;" src="lecture_slides/compilers/Slide15.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/compilers/Slide15.png"/></p>
 
 <p>It&#700;s a simple matter to modify the recursive-descent
 process to accommodate variable values that are stored in
@@ -477,7 +477,7 @@ marveled at having authored my own compiler in an afternoon!</p>
 
 ## Compiler Frontend
 
-<p align="center"><img style="height:450px;" src="lecture_slides/compilers/Slide16.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/compilers/Slide16.png"/></p>
 
 <p>A modern compiler starts by analyzing the source program text
 to produce an equivalent sequence of operations expressed in a
@@ -512,7 +512,7 @@ the Beta ISA we saw how a CMOVE followed by an arithmetic
 operation can be shorted to a single operation with a constant
 operand.</p>
 
-<p align="center"><img style="height:450px;" src="lecture_slides/compilers/Slide17.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/compilers/Slide17.png"/></p>
 
 <p>The analysis phase starts by scanning the source text and
 generating a sequence of token objects that identify the type of
@@ -526,7 +526,7 @@ number.  The scanning phase reports illegal tokens, <i>e.g.</i>,
 the token &#8220;3x&#8221; would cause an error since in C it
 would not be a legal number or a legal variable name.</p>
 
-<p align="center"><img style="height:450px;" src="lecture_slides/compilers/Slide18.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/compilers/Slide18.png"/></p>
 
 <p>The parsing phase processes the sequence of tokens to build the
 syntax tree, which captures the structure of the original
@@ -544,7 +544,7 @@ generation template.  We won&#700;t do that quite yet since
 there&#700;s still some work to be done analyzing and
 transforming the tree.</p>
 
-<p align="center"><img style="height:450px;" src="lecture_slides/compilers/Slide19.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/compilers/Slide19.png"/></p>
 
 <p>The syntax tree makes it easy to verify that the program is
 semantically correct, <i>e.g.</i>, to check that the types of
@@ -569,7 +569,7 @@ operations.</p>
 
 ## Optimizations
 
-<p align="center"><img style="height:450px;" src="lecture_slides/compilers/Slide20.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/compilers/Slide20.png"/></p>
 
 <p>The syntax tree is a useful intermediate representation (IR)
 that is independent of both the source language and the target
@@ -583,7 +583,7 @@ optimizations on the IR.  The optimized IR is then translated by
 the code generation phase into sequences of instructions for the
 target ISA.</p>
 
-<p align="center"><img style="height:450px;" src="lecture_slides/compilers/Slide21.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/compilers/Slide21.png"/></p>
 
 <p>A common IR is to reorganize the syntax tree into what&#700;s
 called a control flow graph (CFG).  Each node in the graph is a
@@ -602,7 +602,7 @@ of this block.</p>
 <p>The edges of the graph indicate the branches that take us to
 another basic block.</p>
 
-<p align="center"><img style="height:450px;" src="lecture_slides/compilers/Slide22.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/compilers/Slide22.png"/></p>
 
 <p>For example, here&#700;s the CFG for GCD.</p>
 
@@ -629,7 +629,7 @@ to *all* the predecessor blocks.</p>
 <p>The CFG looks a lot like the state transition diagram for a
 high-level FSM!</p>
 
-<p align="center"><img style="height:450px;" src="lecture_slides/compilers/Slide23.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/compilers/Slide23.png"/></p>
 
 <p>We&#700;ll optimize the IR by performing multiple passes over
 the CFG.  Each pass performs a specific, simple optimization.
@@ -652,7 +652,7 @@ references to the variable.</p>
 <p>We can compute the value of expressions that have constant
 operands.  This is called <i>constant folding</i>.</p>
 
-<p align="center"><img style="height:450px;" src="lecture_slides/compilers/Slide24.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/compilers/Slide24.png"/></p>
 
 <p>To illustrate how these optimizations work, consider this
 slightly silly source program and its CFG.  Note that
@@ -660,7 +660,7 @@ we&#700;ve broken down complicated expressions into simple
 binary operations, using temporary variable names (e.g,
 &#8220;_t1&#8221;) to name the intermediate results.</p>
 
-<p align="center"><img style="height:450px;" src="lecture_slides/compilers/Slide25.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/compilers/Slide25.png"/></p>
 
 <p>Let&#700;s get started!</p>
 
@@ -675,7 +675,7 @@ we can replace all references to X with the constant 3.</p>
 <p>Now perform constant folding, evaluating any constant
 expressions.</p>
 
-<p align="center"><img style="height:450px;" src="lecture_slides/compilers/Slide26.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/compilers/Slide26.png"/></p>
 
 <p>Here&#700;s the updated CFG, ready for another round of
 optimizations.</p>
@@ -686,7 +686,7 @@ optimizations.</p>
 
 <p>And, finally, constant folding.</p>
 
-<p align="center"><img style="height:450px;" src="lecture_slides/compilers/Slide27.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/compilers/Slide27.png"/></p>
 
 <p>So after two rounds of these simple operations, we&#700;ve
 thinned out a number of assignments.  Onto round three!</p>
@@ -696,7 +696,7 @@ a conditional branch, eliminating entire basic blocks from the
 IR, either because they&#700;re now empty or because they can
 no longer be reached.</p>
 
-<p align="center"><img style="height:450px;" src="lecture_slides/compilers/Slide28.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/compilers/Slide28.png"/></p>
 
 <p>Wow, the IR is now considerably smaller.</p>
 
@@ -706,7 +706,7 @@ no longer be reached.</p>
 
 <p>Followed by more dead code elimination.</p>
 
-<p align="center"><img style="height:450px;" src="lecture_slides/compilers/Slide29.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/compilers/Slide29.png"/></p>
 
 <p>The passes continue until we discover there are no further
 optimizations to perform, so we&#700;re done!</p>
@@ -726,7 +726,7 @@ code.</p>
 
 ## Code Generation
 
-<p align="center"><img style="height:450px;" src="lecture_slides/compilers/Slide30.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/compilers/Slide30.png"/></p>
 
 <p>Okay, we&#700;re done with optimizations.  Now it&#700;s time
 to generate instructions for the target ISA.</p>
@@ -749,7 +749,7 @@ branches wherever possible.</p>
 <p>And finally perform any target-specific peephole
 optimizations.</p>
 
-<p align="center"><img style="height:450px;" src="lecture_slides/compilers/Slide31.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/compilers/Slide31.png"/></p>
 
 <p>Here&#700;s the original CFG for the GCD code, along with the
 slightly optimized CFG.  GCD isn&#700;t as trivial as the
@@ -761,7 +761,7 @@ values from the top basic block to the following
 &#8220;if&#8221; block since the &#8220;if&#8221; block has
 multiple predecessors.</p>
 
-<p align="center"><img style="height:450px;" src="lecture_slides/compilers/Slide32.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/compilers/Slide32.png"/></p>
 
 <p>Here&#700;s how the code generator will process the optimized
 CFG.</p>
@@ -780,7 +780,7 @@ smaller.  Good job, compiler!</p>
 
 ## Summary
 
-<p align="center"><img style="height:450px;" src="lecture_slides/compilers/Slide33.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/compilers/Slide33.png"/></p>
 
 <p>Here are all the compilation steps shown in order, along with
 their input and output data structures.  Collectively they
