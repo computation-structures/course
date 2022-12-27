@@ -256,17 +256,17 @@ terminated.</p>
 generate code to compute the value of an expression, leaving the
 result in some register.  Expressions take many forms:</p>
 
-<p>simple constant values</p>
+* simple constant values
 
-<p>values from scalar or array variables,</p>
+* values from scalar or array variables,
 
-<p>assignment expressions that compute a value and then store the
-result in some variable,</p>
+* assignment expressions that compute a value and then store the
+result in some variable,
 
-<p>unary or binary operations that combine the values of their
+* unary or binary operations that combine the values of their
 operands with the specified operator.  Complex arithmetic
 expressions can be decomposed into sequences of unary and binary
-operations.</p>
+operations.
 
 <p>And, finally, procedure calls, where a named sequence of
 statements will be executed with the values of the supplied
