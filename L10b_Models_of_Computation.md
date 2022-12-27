@@ -1,8 +1,8 @@
-<p align="center"><img style="height:450px;" src="lecture_slides/models/Slide1.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/models/Slide1.png"/></p>
 
 ## Computability
 
-<p align="center"><img style="height:450px;" src="lecture_slides/models/Slide2.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/models/Slide2.png"/></p>
 
 <p>An interesting question for computer architects is what
 capabilities must be included in the ISA?  When we studied
@@ -24,7 +24,7 @@ prove what can be computed and what can&#700;t.  And hopefully
 we can ensure that the Beta ISA has the functionality needed to
 perform any computation.</p>
 
-<p align="center"><img style="height:450px;" src="lecture_slides/models/Slide3.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/models/Slide3.png"/></p>
 
 <p>The roots of computer science stem from the evaluation of many
 alternative mathematical models of computation to determine the
@@ -45,7 +45,7 @@ certainty.</p>
 words, can we come up with FSM implementations that implement
 all computations that can be solved by any digital device?</p>
 
-<p align="center"><img style="height:450px;" src="lecture_slides/models/Slide4.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/models/Slide4.png"/></p>
 
 <p>Despite their usefulness and flexibility, there are common
 problems that cannot be solved by any FSM.  For example, can we
@@ -76,7 +76,7 @@ models of computation might we consider? Mathematics to the
 rescue, in this case in the form of a British mathematician
 named Alan Turing.</p>
 
-<p align="center"><img style="height:450px;" src="lecture_slides/models/Slide5.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/models/Slide5.png"/></p>
 
 <p>In the early 1930&#700;s Alan Turing was one of many
 mathematicians studying the limits of proof and computation.  He
@@ -115,7 +115,7 @@ large supply of integers!</p>
 TM as well.  So we can talk about TM 347 running on input 51,
 producing the answer 42.</p>
 
-<p align="center"><img style="height:450px;" src="lecture_slides/models/Slide6.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/models/Slide6.png"/></p>
 
 <p>There are many other models of computation, each of which
 describes a class of integer functions where a computation is
@@ -129,7 +129,7 @@ proving the existence of problems unsolvable by realizable
 machines.  Which, of course, meant characterizing the problems
 that could be solved by realizable machines.</p>
 
-<p align="center"><img style="height:450px;" src="lecture_slides/models/Slide7.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/models/Slide7.png"/></p>
 
 <p>It turned out that each model was capable of computing
 <i>exactly</i> the same set of integer functions!  This was
@@ -157,7 +157,7 @@ lecture.</p>
 
 ## Universality
 
-<p align="center"><img style="height:450px;" src="lecture_slides/models/Slide8.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/models/Slide8.png"/></p>
 
 <p>Okay, we&#700;ve decided that Turing Machines can model any
 realizable computation.  In other words for every computation we
@@ -166,7 +166,7 @@ will do the job.  But how does this help us design a
 general-purpose computer?  Or are there some computations that
 will require a special-purpose machine no matter what?</p>
 
-<p align="center"><img style="height:450px;" src="lecture_slides/models/Slide9.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/models/Slide9.png"/></p>
 
 <p>What we&#700;d like to find is a universal function U: it
 would take two arguments, k and j, and then compute the result
@@ -181,7 +181,7 @@ known universal TM has 4 states uses 6 tape symbols.  A
 universal machine is capable of performing any computation that
 can be performed by any TM!</p>
 
-<p align="center"><img style="height:450px;" src="lecture_slides/models/Slide10.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/models/Slide10.png"/></p>
 
 <p>What&#700;s going on here?  k encodes a <i>program</i>;
 &#8212; a description of some arbitrary TM that performs a particular
@@ -192,7 +192,7 @@ write out the answer.  The notion of interpreting a coded
 representation of a computation is a key idea and forms the
 basis for our stored program computer.</p>
 
-<p align="center"><img style="height:450px;" src="lecture_slides/models/Slide11.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/models/Slide11.png"/></p>
 
 <p>The Universal Turing Machine is the paradigm for modern
 general-purpose computers.  Given an ISA we want to know if
@@ -211,7 +211,7 @@ computation that fits into memory.</p>
 conditional branches and some simple arithmetic, it will be
 Turing Universal.</p>
 
-<p align="center"><img style="height:450px;" src="lecture_slides/models/Slide12.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/models/Slide12.png"/></p>
 
 <p>This notion of encoding a program in a way that allows it to be
 data to some other program is a key idea in computer
@@ -240,7 +240,7 @@ bottom line: we&#700;re good to go with the Beta ISA!</p>
 
 ## Uncomputability
 
-<p align="center"><img style="height:450px;" src="lecture_slides/models/Slide13.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/models/Slide13.png"/></p>
 
 <p>We&#700;ve discussed computable functions.  Are there
 uncomputable functions?</p>
@@ -261,7 +261,7 @@ which outcome we&#700;ll get: given two integer arguments k and
 j, the Halting function determines if the kth TM halts when
 given a tape containing j as the input.</p>
 
-<p align="center"><img style="height:450px;" src="lecture_slides/models/Slide14.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/models/Slide14.png"/></p>
 
 <p>Let&#700;s quickly sketch an argument as to why the Halting
 function is not computable.  Well, suppose it was computable,
