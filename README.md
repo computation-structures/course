@@ -109,4 +109,4 @@ Enjoy!
 
   * <a href="https://computationstructures.org/exercises/tinyos/lab.html">Tiny Operating System</a>
 
-  * <a href="https://computationstructures.org/exercises/dp/lab.html">Optimizing the Beta</a>
+  * <a href="https://computationstructures.org/exercises/dp/lab.html">Optimizing the Beta</a> (optional, extra points!)
