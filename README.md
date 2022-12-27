@@ -76,3 +76,5 @@ Enjoy!
   * L17 Virtualizing the Processor: <a href="L17_Virtualizing_the_Processor.md">Lecture</a>, <a href="L17_worksheet.pdf">Worksheet</a>
 
   * L18 Devices and Interrupts: <a href="L18_Devices_and_Interrupts.md">Lecture</a>, <a href="L18_worksheet.pdf">Worksheet</a>
+
+  * L19 Concurrency & Synchronization: <a href="L19_Concurrency_and_Synchronization.md">Lecture</a>, <a href="L19_worksheet.pdf">Worksheet</a>
