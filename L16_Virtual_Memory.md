@@ -664,8 +664,7 @@ $2^{23}/2^{10} = 2^{13}$ pages.</p>
 
 <p>What fraction of virtual memory can be resident at any given
 time?  There are $2^v$ virtual pages, of which $2^m$ can be
-resident.  So the fraction of resident pages is $2^m/2^v =
-2^{14}/2^{22} = 1/2^8$.</p>
+resident.  So the fraction of resident pages is $2^m/2^v = 2^{14}/2^{22} = 1/2^8$.</p>
 
 <p>What is the physical address for virtual address 0x1804?  Which
 MMU components are involved in the translation?  First we have
