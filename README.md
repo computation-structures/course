@@ -15,19 +15,19 @@ intended to give students hands-on experience in designing digital
 systems; students complete the gate-level design for a RISC processor
 during the lab exercises.
 
-This repo contains the course materials used between Fall 1995 and
+This repository contains the course materials used between Fall 1995 and
 Spring 2018 including the lecture slides, edited transcripts of the
 lectures, and the worksheets of past quiz problems that students used
 to review their understanding of the material.  We hope this material
 will be of use to students interested in how computers work and to my
 teaching collegues who introduce those students to the digital world.
 
-The course materials are the result of a collaborative effort by many
-MIT colleagues.  Steve Ward was the originator of the course in the
-early 1980's and in many ways what you see here is his brain child.
-Other contributors over the years include Bert Halstead, Silvina
-Hanono Wachman, Leonard McMillan, Greg Papadopoulos, Gill Pratt,
-Daniel Sanchez, and Chris Terman.
+The course materials are a collaborative effort by many MIT
+colleagues.  Steve Ward was the originator of the course in the early
+1980's and in many ways what you see here is his brain child.  Other
+contributors over the years include Bert Halstead, Silvina Hanono
+Wachman, Leonard McMillan, Greg Papadopoulos, Gill Pratt, Daniel
+Sanchez, and Chris Terman.
 
 Enjoy!
 
