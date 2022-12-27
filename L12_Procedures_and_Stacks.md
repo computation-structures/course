@@ -549,30 +549,30 @@ will work:</p>
 
 <p>The calling procedure (<i>caller</i>) will</p>
 
-<p>PUSH the argument values onto the stack in reverse order</p>
+* PUSH the argument values onto the stack in reverse order
 
-<p>Branch to the entry point of the callee, putting the return
-address into the linkage pointer.</p>
+* Branch to the entry point of the callee, putting the return
+address into the linkage pointer.
 
-<p>When the callee returns, remove the argument values from the
-stack.</p>
+* When the callee returns, remove the argument values from the
+stack.
 
 <p>The called procedure (<i>callee</i>) will</p>
 
-<p>Perform the promised computation, leaving the result in R0.</p>
+* Perform the promised computation, leaving the result in R0.
 
-<p>Jump to the return address when the computation has
-finished</p>
+* Jump to the return address when the computation has
+finished
 
-<p>Remove any items it has placed on the stack, leaving the stack
+* Remove any items it has placed on the stack, leaving the stack
 as it was when the procedure was entered.  Note that the
 arguments were PUSHed on the stack by the caller, so it will be
-up to the caller to remove them.</p>
+up to the caller to remove them.
 
-<p>Preserve the values in all registers except R0, which holds the
+* Preserve the values in all registers except R0, which holds the
 return value.  So the caller can assume any values placed in
 registers before a nested call will be there when the nested
-call returns.</p>
+call returns.
 
 <p align="center"><img style="height:450px;" src="lecture_slides/stacks/Slide17.png?raw=true"/></p>
 
@@ -731,7 +731,7 @@ exactly what the program has been up to.  Pretty neat...</p>
 <p>Wrapping up, we&#700;ve been dedicating some registers to help
 with our various software conventions.  To summarize:</p>
 
-<p>R31 is always zero, as defined by the ISA.</p>
+* R31 is always zero, as defined by the ISA.
 
 <p>We&#700;ll also dedicate R30 to a particular function in the
 ISA when we discuss the implementation of the Beta in the next
@@ -740,11 +740,11 @@ chapter.  Meanwhile, don&#700;t use R30 in your code!</p>
 <p>The remaining dedicated registers are connected with our
 software conventions:</p>
 
-<p>R29 (SP) is used as the stack pointer,</p>
+* R29 (SP) is used as the stack pointer,
 
-<p>R28 (LP) is used as the linkage pointer, and</p>
+* R28 (LP) is used as the linkage pointer, and
 
-<p>R27 (BP) is used as the base pointer.</p>
+* R27 (BP) is used as the base pointer.
 
 <p>As you practice reading and writing code, you&#700;ll grow
 familiar with these dedicated registers.</p>
