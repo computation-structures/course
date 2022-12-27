@@ -373,7 +373,7 @@ happen if we have multiple producers and multiple consumers.</p>
 Automated teller machines allow bank customers to perform a
 variety of transactions: deposits, withdrawals, transfers, etc.
 Let&#700;s consider what happens when two customers try to
-withdraw $50 from the same account at the same time.</p>
+withdraw <span>$50</span> from the same account at the same time.</p>
 
 <p>A portion of the bank&#700;s code for a withdrawal transaction
 is shown in the upper right.  This code is responsible for
@@ -387,9 +387,9 @@ the two withdrawal transactions cause two different processes to
 be created, each of which will run the Debit code.  If each of
 the calls to Debit run to completion without interruption, we
 get the desired outcome: the first transaction debits the
-account by \$50, then the second transaction does the same.  The
-net result is that you and your friend have \$100 and the
-balance is \$100 less.</p>
+account by <span>$50</span>, then the second transaction does the same.  The
+net result is that you and your friend have <span>$100</span> and the
+balance is <span>$100</span> less.</p>
 
 <p>So far, so good.</p>
 
@@ -397,11 +397,11 @@ balance is \$100 less.</p>
 
 <p>But what if the process for the first transaction is
 interrupted just after it&#700;s read the balance?  The second
-process subtracts \$50 from the balance, completing that
+process subtracts <span>$50</span> from the balance, completing that
 transaction.  Now the first process resumes, using the now
 out-of-date balance it loaded just before being interrupted.
-The net result is that you and your friend have \$100, but the
-balance has only been debited by \$50.</p>
+The net result is that you and your friend have <span>$100</span>, but the
+balance has only been debited by <span>$50</span>.</p>
 
 <p>The moral of the story is that we need to be careful when
 writing code that reads and writes shared data since other
