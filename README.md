@@ -62,5 +62,5 @@ Enjoy! -- *Chris Terman*
 
   * L10b Models of Computation: <a href="L10b_Models_of_Computation.md">Lecture</a>
 
-  * L11 Compilers: <a href="L11_compilers.md">Lecture</a>, <a href="L11_worksheet.pdf">Worksheet</a>
+  * L11 Compilers: <a href="L11_Compilers.md">Lecture</a>, <a href="L11_worksheet.pdf">Worksheet</a>
 
