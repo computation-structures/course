@@ -1,8 +1,8 @@
-<p align="center"><img style="height:450px;" src="lecture_slides/stacks/Slide1.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/stacks/Slide1.png"/></p>
 
 ## Procedures
 
-<p align="center"><img style="height:450px;" src="lecture_slides/stacks/Slide2.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/stacks/Slide2.png"/></p>
 
 <p>One of the most useful abstractions provided by high-level
 languages is the notion of a procedure or subroutine, which is a
@@ -74,7 +74,7 @@ particularly efficient.</p>
 Let&#700;s turn our attention to how to implement procedures
 using the Beta ISA.</p>
 
-<p align="center"><img style="height:450px;" src="lecture_slides/stacks/Slide3.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/stacks/Slide3.png"/></p>
 
 <p>A possible implementation is to <i>inline</i> the
 procedure, where we replace the procedure call with a copy of
@@ -122,7 +122,7 @@ stores the result in an agreed-upon location and then resumes
 execution of the calling program by jumping to the supplied
 return address.</p>
 
-<p align="center"><img style="height:450px;" src="lecture_slides/stacks/Slide4.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/stacks/Slide4.png"/></p>
 
 <p>To complete this implementation plan we need a <i>calling
 convention</i> that specifies where to store the argument
@@ -147,7 +147,7 @@ return addresses and return values.  In particular, we&#700;ll
 use the same convention when compiling the recursive call
 fact(n-1) as we did for the initial call to fact(3).</p>
 
-<p align="center"><img style="height:450px;" src="lecture_slides/stacks/Slide5.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/stacks/Slide5.png"/></p>
 
 <p>Okay.  In the code shown on the right we&#700;ve used our
 proposed convention when compiling the Beta code for fact().
@@ -213,7 +213,7 @@ let&#700;s see if we can solve the problem another way.</p>
 <sequential display_name="Activation Records and Stacks" url_name="stacks">
 <vertical display_name="Activation Records and Stacks">
 
-<p align="center"><img style="height:450px;" src="lecture_slides/stacks/Slide6.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/stacks/Slide6.png"/></p>
 
 <p>The problem we need to solve is where to store the values
 needed by procedure: its arguments, its return address, its
@@ -235,7 +235,7 @@ execution.</p>
 activation record when the procedure is called, which can then
 be reclaimed when the procedure returns.</p>
 
-<p align="center"><img style="height:450px;" src="lecture_slides/stacks/Slide7.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/stacks/Slide7.png"/></p>
 
 <p>Let&#700;s see how activation records come and go as execution
 proceeds.</p>
@@ -276,7 +276,7 @@ complete until the nested procedure call returns.  What we need
 is a storage scheme that efficiently supports the allocation and
 deallocation of activation records as shown here.</p>
 
-<p align="center"><img style="height:450px;" src="lecture_slides/stacks/Slide8.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/stacks/Slide8.png"/></p>
 
 <p>Early compiler writers recognized that activation records are
 allocated and deallocated in last-in first-out (LIFO) order.  So
@@ -302,7 +302,7 @@ is no longer sufficient and we&#700;ll need another scheme for
 allocating and deallocating activation records.  But
 that&#700;s a topic for another course!</p>
 
-<p align="center"><img style="height:450px;" src="lecture_slides/stacks/Slide9.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/stacks/Slide9.png"/></p>
 
 <p>Here&#700;s how we&#700;ll implement the stack on the
 Beta:</p>
@@ -347,7 +347,7 @@ you&#700;ll need to read up on the conventions adopted by the
 particular ISA or programming language you&#700;ll be
 using.</p>
 
-<p align="center"><img style="height:450px;" src="lecture_slides/stacks/Slide10.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/stacks/Slide10.png"/></p>
 
 <p>We&#700;ve added some convenience macros to UASM to support
 stacks.</p>
@@ -390,7 +390,7 @@ language program, we should be able to find the corresponding
 POP or DEALLOCATE, which would indicate that stack discipline is
 maintained.</p>
 
-<p align="center"><img style="height:450px;" src="lecture_slides/stacks/Slide11.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/stacks/Slide11.png"/></p>
 
 <p>We&#700;ll use stacks to save values we&#700;ll need later.
 For example, if we need to use some registers for a computation
@@ -410,7 +410,7 @@ activation records during procedure calls.</p>
 
 ## Stack Frames
 
-<p align="center"><img style="height:450px;" src="lecture_slides/stacks/Slide12.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/stacks/Slide12.png"/></p>
 
 <p>We&#700;ll use the stack to hold a procedure&#700;s
 activation record.  That includes the values of the arguments to
@@ -455,7 +455,7 @@ stack, preserving stack discipline.</p>
 procedure.  The rest of the work happens in the called
 procedure.</p>
 
-<p align="center"><img style="height:450px;" src="lecture_slides/stacks/Slide13.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/stacks/Slide13.png"/></p>
 
 <p>The code at the start of the called procedure completes the
 allocation of the activation record.  Since when we&#700;re
@@ -498,7 +498,7 @@ stack, <i>e.g.</i>, during procedure calls.  It will be easier
 to understand the generated code if we use BP for all stack
 frame references.</p>
 
-<p align="center"><img style="height:450px;" src="lecture_slides/stacks/Slide14.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/stacks/Slide14.png"/></p>
 
 <p>Let&#700;s return to the question about the order of argument
 values in the stack frame.  We adopted the convention of PUSHing
@@ -507,7 +507,7 @@ first argument is the last one to be PUSHED.</p>
 
 <p>So, why PUSH argument values in reverse order?</p>
 
-<p align="center"><img style="height:450px;" src="lecture_slides/stacks/Slide15.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/stacks/Slide15.png"/></p>
 
 <p>With the arguments PUSHed in reverse order, the first argument
 (labeled &#8220;arg 0&#8221;) will be at a fixed offset from the
@@ -542,7 +542,7 @@ building the activation record for a nested procedure call!</p>
 
 ## Compiling a Procedure
 
-<p align="center"><img style="height:450px;" src="lecture_slides/stacks/Slide16.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/stacks/Slide16.png"/></p>
 
 <p>Okay, here&#700;s our final contract for how procedure calls
 will work:</p>
@@ -574,7 +574,7 @@ return value.  So the caller can assume any values placed in
 registers before a nested call will be there when the nested
 call returns.
 
-<p align="center"><img style="height:450px;" src="lecture_slides/stacks/Slide17.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/stacks/Slide17.png"/></p>
 
 <p>We saw the code template for procedure calls on an earlier
 slide.</p>
@@ -603,7 +603,7 @@ back to the calling procedure.</p>
 templates.  Meanwhile, you can refer back to this slide whenever
 you need to generate code for a procedure call.</p>
 
-<p align="center"><img style="height:450px;" src="lecture_slides/stacks/Slide18.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/stacks/Slide18.png"/></p>
 
 <p>Here&#700;s the code our compiler would generate for the C
 implementation of factorial shown on the left.</p>
@@ -630,7 +630,7 @@ mentioned earlier, some optimizing compilers can make the
 tradeoff of inlining small non-recursive procedures saving this
 small amount of overhead.</p>
 
-<p align="center"><img style="height:450px;" src="lecture_slides/stacks/Slide19.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/stacks/Slide19.png"/></p>
 
 <p>So have we solved the activation record storage issue for
 recursive procedures?</p>
@@ -656,7 +656,7 @@ stack frames, you can show you understand our conventions for
 procedure call and return.  Don&#700;t be surprised to find
 such a question on a quiz :)</p>
 
-<p align="center"><img style="height:450px;" src="lecture_slides/stacks/Slide20.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/stacks/Slide20.png"/></p>
 
 <p>Let&#700;s practice our newfound skill and see what we can
 determine about a running program which we&#700;ve stopped
@@ -726,7 +726,7 @@ represented by the values of the PC, the registers, and main
 memory, once we&#700;re given that information we can tell
 exactly what the program has been up to.  Pretty neat...</p>
 
-<p align="center"><img style="height:450px;" src="lecture_slides/stacks/Slide21.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/stacks/Slide21.png"/></p>
 
 <p>Wrapping up, we&#700;ve been dedicating some registers to help
 with our various software conventions.  To summarize:</p>
@@ -751,7 +751,7 @@ familiar with these dedicated registers.</p>
 
 ## Summary
 
-<p align="center"><img style="height:450px;" src="lecture_slides/stacks/Slide22.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/stacks/Slide22.png"/></p>
 
 <p>In thinking about how to implement procedures, we discovered
 the need for an activation record to store the information
