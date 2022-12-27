@@ -39,7 +39,7 @@ Enjoy!
 
   * L02. The Digital Abstraction: <a href="lectures/L02_The_Digital_Abstraction.md">Lecture</a>, <a href="worksheets/pdfs/L02_worksheet.pdf">Worksheet</a>
 
-  * L03. CMOS Technology: <a href="lectures/L03_CMOS_Technology.md">Lecture</a>, <a href="worksheets/pdfs/L03_worksheet.pdf">Worksheet</a>, <a href="https://computationstructures.org/exercises/cmos/lab.html">Online lab: CMOS Technology</a>
+  * L03. CMOS Technology: <a href="lectures/L03_CMOS_Technology.md">Lecture</a>, <a href="worksheets/pdfs/L03_worksheet.pdf">Worksheet</a>
 
   * L04. Combinational Logic: <a href="lectures/L04_Combinational_Logic.md">Lecture</a>, <a href="worksheets/pdfs/L04_worksheet.pdf">Worksheet</a>
 
@@ -84,3 +84,29 @@ Enjoy!
   * L21. Parallel Processing: <a href="lectures/L21_Parallel_Processing.md">Lecture</a>
 
   * <a href="Wrap_up.md">Wrap-up</a>
+
+* **Online labs**
+
+  * <a href="https://computationstructures.org/exercises/cmos/lab.html">CMOS Technology</a>
+
+  * <a href="https://computationstructures.org/exercises/adder/lab.html">CMOS Adder</a>
+
+  * <a href="https://computationstructures.org/exercises/fsm/lab.html">FSMs</a>
+
+  * <a href="https://computationstructures.org/exercises/alu/lab.html">32-bit ALU</a>
+
+  * <a href="https://computationstructures.org/exercises/assembly/lab.html">Assembly Language</a>
+  
+  * <a href="https://computationstructures.org/exercises/procedures/lab.html">Procedures &amp; Stacks</a>
+    
+  * <a href="https://computationstructures.org/exercises/beta/lab.html">Building the Beta</a>
+
+  * <a href="https://computationstructures.org/exercises/caches/lab.html">Caches</a>
+
+  * <a href="https://computationstructures.org/exercises/illop/lab.html">Emulating Instructions</a>
+
+  * <a href="https://computationstructures.org/exercises/illop/lab.html">Emulating Instructions</a>
+
+  * <a href="https://computationstructures.org/exercises/tinyos/lab.html">Tiny Operating System</a>
+
+  * <a href="https://computationstructures.org/exercises/dp/lab.html">Optimizing the Beta</a>
