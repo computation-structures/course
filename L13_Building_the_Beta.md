@@ -1,8 +1,8 @@
-<p align="center"><img style="height:450px;" src="lecture_slides/beta/Slide1.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/beta/Slide1.png"/></p>
 
 ## Building Blocks
 
-<p align="center"><img style="height:450px;" src="lecture_slides/beta/Slide2.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/beta/Slide2.png"/></p>
 
 <p>Today we&#700;re going to describe the datapath and control
 logic needed to execute Beta instructions.  In an upcoming lab
@@ -39,7 +39,7 @@ power efficiency.  Clearly the designers of the Apple Watch have
 a different set of design goals then the designers of high-end
 desktop computers.</p>
 
-<p align="center"><img style="height:450px;" src="lecture_slides/beta/Slide3.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/beta/Slide3.png"/></p>
 
 <p>The performance of a processor is inversely proportional to the
 length of time it takes to run a program.  The shorter the
@@ -78,7 +78,7 @@ implementation&#700;s throughput.  We&#700;ll talk about the
 implementation of a pipelined processor in some upcoming
 lectures.</p>
 
-<p align="center"><img style="height:450px;" src="lecture_slides/beta/Slide4.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/beta/Slide4.png"/></p>
 
 <p>Here&#700;s a quick refresher on the Beta ISA.  The Beta has
 thirty-two 32-bit registers that hold values for use by the
@@ -108,7 +108,7 @@ instructions into the signals needed to control the operation of
 the datapath.  In fact, we&#700;ll be able to use many of the
 instruction bits as-is!</p>
 
-<p align="center"><img style="height:450px;" src="lecture_slides/beta/Slide5.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/beta/Slide5.png"/></p>
 
 <p>We&#700;ll build our datapath incrementally, starting with the
 logic needed to perform the ALU instructions, then add
@@ -142,7 +142,7 @@ stored.</p>
 <p>You might find it useful to review the lectures on
 combinational and sequential logic in Part 1 of the course.</p>
 
-<p align="center"><img style="height:450px;" src="lecture_slides/beta/Slide6.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/beta/Slide6.png"/></p>
 
 <p>The Beta ISA specifies thirty-two 32-bit registers as part of
 the datapath.  These are shown as the magenta rectangles in the
@@ -185,7 +185,7 @@ data.</p>
 should always produce a zero value.  The register file has
 internal logic to ensure that happens.</p>
 
-<p align="center"><img style="height:450px;" src="lecture_slides/beta/Slide7.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/beta/Slide7.png"/></p>
 
 <p>Here&#700;s a timing diagram that shows the register file in
 operation.  To read a value from the register file, supply a
@@ -223,7 +223,7 @@ design!</p>
 
 ## ALU Instructions
 
-<p align="center"><img style="height:450px;" src="lecture_slides/beta/Slide8.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/beta/Slide8.png"/></p>
 
 <p>Our first task is to work on the datapath logic needed to
 execute ALU instructions with two register operands.  Each
@@ -264,7 +264,7 @@ are executed.  If the clock period was 10ns, the clock frequency
 would be 100 MHz and our Beta would be executing instructions at
 100 MIPS!</p>
 
-<p align="center"><img style="height:450px;" src="lecture_slides/beta/Slide9.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/beta/Slide9.png"/></p>
 
 <p>Here&#700;s a sketch showing the hardware needed for the Fetch
 and Decode steps.</p>
@@ -287,7 +287,7 @@ determine the values for other control signals, we&#700;ll need
 some logic that computes their values from the bits of the
 opcode field.</p>
 
-<p align="center"><img style="height:450px;" src="lecture_slides/beta/Slide10.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/beta/Slide10.png"/></p>
 
 <p>Now let&#700;s fill in the datapath logic needed to execute
 ALU instructions with two register operands.  The instruction
@@ -317,7 +317,7 @@ introduce you to Werf, the Computation Structures mascot, who, of course, is
 named after her favorite control signal, which she&#700;s
 constantly mentioning.</p>
 
-<p align="center"><img style="height:450px;" src="lecture_slides/beta/Slide11.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/beta/Slide11.png"/></p>
 
 <p>Let&#700;s follow the flow of data as we execute the ALU
 instruction.  After the instruction has been fetched, supplying
@@ -337,7 +337,7 @@ we&#700;ll need to set WERF to 1 to enable the write.</p>
 reduced-instruction set computer architecture: the datapath
 logic required for execution is very straightforward!</p>
 
-<p align="center"><img style="height:450px;" src="lecture_slides/beta/Slide12.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/beta/Slide12.png"/></p>
 
 <p>The other form of ALU instructions uses a constant as the
 second ALU operand.  The 32-bit operand is formed by
@@ -360,7 +360,7 @@ complement in the lecture on &#8220;Basics of Information&#8221;.  So to form a
 it&#700;s high-order bit (ID[15]) sixteen times as we make the
 connection to the BSEL MUX.</p>
 
-<p align="center"><img style="height:450px;" src="lecture_slides/beta/Slide13.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/beta/Slide13.png"/></p>
 
 <p>During execution of ALU-with-constant instructions, the flow of
 data is much as it was before.  The one difference is that the
@@ -378,7 +378,7 @@ task.</p>
 
 ## Load and Store
 
-<p align="center"><img style="height:450px;" src="lecture_slides/beta/Slide14.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/beta/Slide14.png"/></p>
 
 <p>The LD and ST instructions access main memory.  Note that its
 the same main memory that holds the instructions, even though
@@ -414,7 +414,7 @@ we&#700;ll see the use for the other MUX input when we get to
 the implementation of branches and jumps.  The two-bit WDSEL
 signal is used to select the source of the write-back value.</p>
 
-<p align="center"><img style="height:450px;" src="lecture_slides/beta/Slide15.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/beta/Slide15.png"/></p>
 
 <p>Let&#700;s follow the flow of data when executing the LD
 instruction.  The ALU operands are chosen just as they are for
@@ -426,7 +426,7 @@ who&#700;s control signals are set for a read operation.  The
 WDSEL control signals are set to 2 to route the returning data
 to the register file.</p>
 
-<p align="center"><img style="height:450px;" src="lecture_slides/beta/Slide16.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/beta/Slide16.png"/></p>
 
 <p>Execution of the ST instruction is very similar to the
 execution of the LD instruction, with one extra complication.
@@ -449,7 +449,7 @@ write data port of main memory.</p>
 a result into the register file.  So the WERF control signal
 will be 0 when executing ST.</p>
 
-<p align="center"><img style="height:450px;" src="lecture_slides/beta/Slide17.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/beta/Slide17.png"/></p>
 
 <p>Here&#700;s the flow of data when executing ST.  The operands
 are selected as for LD and the ALU performs the address
@@ -480,7 +480,7 @@ minimization of the logic equations.</p>
 <sequential display_name="Jumps and Branches" url_name="jmpbr">
 <vertical display_name="Jumps and Branches">
 
-<p align="center"><img style="height:450px;" src="lecture_slides/beta/Slide18.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/beta/Slide18.png"/></p>
 
 <p>We&#700;re on the home stretch now.  For all the instructions
 up until now, the next instruction has come from the location
@@ -502,7 +502,7 @@ written to the RC register.  When WDSEL is 0, the
 &#8220;0&#8221; input of the WDSEL MUX is used to select the
 PC+4 value as the write-back data.</p>
 
-<p align="center"><img style="height:450px;" src="lecture_slides/beta/Slide19.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/beta/Slide19.png"/></p>
 
 <p>Here&#700;s how the data flow works.  The output of the PC+4
 adder is is routed to the register file and WERF is set to 1 to
@@ -518,7 +518,7 @@ cares&#8221;, except, of course for the memory write enable
 (MWR), which can never be &#8220;don&#700;t care&#8221; lest we
 cause an accidental write to some memory location.</p>
 
-<p align="center"><img style="height:450px;" src="lecture_slides/beta/Slide20.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/beta/Slide20.png"/></p>
 
 <p>The branch instruction requires an additional adder to compute
 the target address by adding the scaled offset from the
@@ -550,7 +550,7 @@ next value of the PC.  If the branch is not taken, PCSEL will be
 0 and execution will continue with the next instruction at
 PC+4.</p>
 
-<p align="center"><img style="height:450px;" src="lecture_slides/beta/Slide21.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/beta/Slide21.png"/></p>
 
 <p>As in the JMP instruction, the PC+4 value is routed to the
 register file to be written into the RC register at end of the
@@ -568,7 +568,7 @@ is the branch target or the PC+4 value.</p>
 <p>The remaining control signals are unused and set to their
 default &#8220;don&#700;t care&#8221; values.</p>
 
-<p align="center"><img style="height:450px;" src="lecture_slides/beta/Slide22.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/beta/Slide22.png"/></p>
 
 <p>We have one last instruction to introduce: the LDR or
 load-relative instruction.  LDR behaves like a normal LD
@@ -593,7 +593,7 @@ after the code for a procedure.  Note that we have to be careful
 to place the storage location so that it won&#700;t be executed
 as an instruction!</p>
 
-<p align="center"><img style="height:450px;" src="lecture_slides/beta/Slide23.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/beta/Slide23.png"/></p>
 
 <p>To route the output of the offset adder to the main memory
 address port, we&#700;ll add ASEL MUX so we can select either
@@ -626,7 +626,7 @@ processor.</p>
 overlaps that of the BSEL MUX, so the increased functionality it
 provides comes with no cost in performance.</p>
 
-<p align="center"><img style="height:450px;" src="lecture_slides/beta/Slide24.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/beta/Slide24.png"/></p>
 
 <p>Here&#700;s the data flow for the LDR instruction.  The output
 of the offset adder is routed through the ASEL MUX to the ALU.
@@ -641,7 +641,7 @@ values.</p>
 
 ## Exceptions
 
-<p align="center"><img style="height:450px;" src="lecture_slides/beta/Slide25.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/beta/Slide25.png"/></p>
 
 <p>One last bit of housekeeping, then we&#700;re done!  What
 should our hardware do if for some reason an instruction
@@ -682,7 +682,7 @@ interfacing running programs to the operating system (OS) and to
 allow the OS to deal with external events without any awareness
 on the part of the running program.</p>
 
-<p align="center"><img style="height:450px;" src="lecture_slides/beta/Slide26.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/beta/Slide26.png"/></p>
 
 <p>So our plan is to interrupt the running program, acting like
 the current instruction was actually a procedure call to the
@@ -701,7 +701,7 @@ exception would occur.</p>
 asynchronous exceptions resulting from external events whose
 timing is unrelated to the currently running program.</p>
 
-<p align="center"><img style="height:450px;" src="lecture_slides/beta/Slide27.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/beta/Slide27.png"/></p>
 
 <p>The implementation for both types of exceptions is the same.
 When an exception is detected, the Beta hardware will behave as
@@ -733,7 +733,7 @@ performing a JMP(XP).</p>
 
 <p>Pretty neat!</p>
 
-<p align="center"><img style="height:450px;" src="lecture_slides/beta/Slide28.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/beta/Slide28.png"/></p>
 
 <p>To handle exceptions, we only need a few simple changes to the
 datapath.</p>
@@ -749,7 +749,7 @@ of the current instruction.</p>
 constant addresses for the exception handlers.  In our case, 0x4
 for illegal operations, and 0x8 for interrupts.</p>
 
-<p align="center"><img style="height:450px;" src="lecture_slides/beta/Slide29.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/beta/Slide29.png"/></p>
 
 <p>Here&#700;s the flow of control during an exception.  The PC+4
 value for the interrupted instruction is routed through the
@@ -771,7 +771,7 @@ interrupted program.</p>
 
 ## Beta: Our &#8220;Final Answer&#8221;
 
-<p align="center"><img style="height:450px;" src="lecture_slides/beta/Slide30.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/beta/Slide30.png"/></p>
 
 <p>Okay, we&#700;re done!  Here&#700;s the final datapath for
 executing instructions and handling exceptions.  Please take a
@@ -798,7 +798,7 @@ that extra circuitry is there for a reason!  If you&#700;re
 curious, I&#700;d recommend taking a course on advanced
 processor architecture.</p>
 
-<p align="center"><img style="height:450px;" src="lecture_slides/beta/Slide31.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/beta/Slide31.png"/></p>
 
 <p>Here we&#700;ve gathered up all the control signal settings
 for each class of instructions, including the settings needed
@@ -829,7 +829,7 @@ start with the ROM implementation and get everything else
 working.  Then come back later when you feel like hacking logic
 gates :)</p>
 
-<p align="center"><img style="height:450px;" src="lecture_slides/beta/Slide32.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/beta/Slide32.png"/></p>
 
 <p>So that&#700;s what it takes to design the hardware for a
 simple 32-bit computer.  Of course, we made the job easy for
