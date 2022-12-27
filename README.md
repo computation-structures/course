@@ -64,3 +64,5 @@ Enjoy! -- *Chris Terman*
 
   * L11 Compilers: <a href="L11_Compilers.md">Lecture</a>, <a href="L11_worksheet.pdf">Worksheet</a>
 
+  * L12 Procedures and Stacks: <a href="L12_Procedures_and_Stacks.md">Lecture</a>, <a href="L12_worksheet.pdf">Worksheet</a>
+
