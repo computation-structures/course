@@ -1,5 +1,5 @@
 <p align="center"><img style="height:450px;" src="lecture_slides/caches/Slide1.png"/></p>
-
+ 
 ## Memory Technologies
 
 <p align="center"><img style="height:450px;" src="lecture_slides/caches/Slide2.png"/></p>
