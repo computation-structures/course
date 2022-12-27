@@ -74,3 +74,5 @@ Enjoy!
   * L16 Virtual Memory: <a href="L16_Virtual_Memory.md">Lecture</a>, <a href="L16_worksheet.pdf">Worksheet</a>
 
   * L17 Virtualizing the Processor: <a href="L17_Virtualizing_the_Processor.md">Lecture</a>, <a href="L17_worksheet.pdf">Worksheet</a>
+
+  * L18 Devices and Interrupts: <a href="L18_Devices_and_Interrupts.md">Lecture</a>, <a href="L18_worksheet.pdf">Worksheet</a>
