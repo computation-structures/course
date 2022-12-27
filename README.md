@@ -67,3 +67,5 @@ Enjoy! -- *Chris Terman*
   * L12 Procedures and Stacks: <a href="L12_Procedures_and_Stacks.md">Lecture</a>, <a href="L12_worksheet.pdf">Worksheet</a>
 
   * L13 Building the Beta: <a href="L13_Building_the_Beta.md">Lecture</a>, <a href="L13_worksheet.pdf">Worksheet</a>
+
+  * L14 Caches and the Memory Hierarchy: <a href="L14_Caches_and_the_Memory_Hierarchy.md">Lecture</a>, <a href="L14_worksheet.pdf">Worksheet</a>
