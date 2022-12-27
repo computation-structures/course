@@ -68,3 +68,7 @@ Enjoy!
   * L14 Caches and the Memory Hierarchy: <a href="L14_Caches_and_the_Memory_Hierarchy.md">Lecture</a>, <a href="L14_worksheet.pdf">Worksheet</a>
 
   * L15 Pipelining the Beta: <a href="L15_Pipelining_the_Beta.md">Lecture</a>, <a href="L15_worksheet.pdf">Worksheet</a>
+
+* Computer Organization
+
+  * L16 Virtual Memory: <a href="L16_Virtual_Memory.md">Lecture</a>, <a href="L16_worksheet.pdf">Worksheet</a>

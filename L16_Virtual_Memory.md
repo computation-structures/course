@@ -1,979 +1,947 @@
-<chapter display_name="Virtual Memory" url_name="vm">
-  <sequential display_name="Extending the Memory Hierachy" url_name="more_hierarchy">
-    <vertical display_name="Extending the Memory Hierachy">
-
-      <img class="lecslide" src="/static/vm/Slide02.png"/>
-
-      <p>In this chapter, we return to the memory system that we last
-      discussed in &#8220;The Memory Hierarchy&#8221;.  There we
-      learned about the fundamental tradeoff in current memory
-      technologies: as the memory&#700;s capacity increases, so does it
-      access time.  It takes some architectural cleverness to build a
-      memory system that has a large capacity and a small average
-      access time.  The cleverness is embodied in the cache, a
-      hardware subsystem that lives between the CPU and main memory.
-      Modern CPUs have several levels of cache, where where the
-      modest-capacity first level has an access time close to that of
-      the CPU, and higher levels of cache have slower access times but
-      larger capacities.</p>
-
-      <img class="lecslide" src="/static/vm/Slide03.png"/>
-
-      <p>Caches give fast access to a small number of memory locations,
-      using associative addressing so that the cache has the ability
-      to hold the contents of the memory locations the CPU is
-      accessing most frequently.  The current contents of the cache
-      are managed automatically by the hardware.  Caches work well
-      because of the principle of locality: if the CPU accesses
-      location X at time T, it&#700;s likely to access nearby locations in
-      the not-too-distant future.  The cache is organized so that
-      nearby locations can all reside in the cache simultaneously,
-      using a simple indexing scheme to choose which cache location
-      should be checked for a matching address.  If the address
-      requested by the CPU resides in the cache, access time is quite
-      fast.</p>
-
-      <p>In order to increase the probability that requested addresses
-      reside in the cache, we introduced the notion of
-      <i>associativity</i>, which increased the number of cache
-      locations checked on each access and solved the problem of
-      having, say, instructions and data compete for the same cache
-      locations.</p>
-
-      <p>We also discussed appropriate choices for block size (the
-      number of words in a cache line), replacement policy (how to
-      choose which cache line to reuse on a cache miss), and write
-      policy (deciding when to write changed data back to main
-      memory).  We&#700;ll see these same choices again in this chapter as
-      we work to expand the memory hierarchy beyond main memory.</p>
-
-      <img class="lecslide" src="/static/vm/Slide04.png"/>
-
-      <p>We never discussed where the data in main memory comes from and
-      how the process of filling main memory is managed.  That&#700;s the
-      topic of this chapter.</p>
-
-      <p>Flash drives and hard disks provide storage options that have
-      more capacity than main memory, with the added benefit of being
-      non-volatile, <i>i.e.</i>, they continue to store data even when
-      turned off.  The generic name for these new devices is
-      <i>secondary storage</i>, where data will reside until
-      it&#700;s moved to <i>primary storage</i>, <i>i.e.</i>, main
-      memory, for use.  So when we first turn on a computer system,
-      all of it s data will be found in secondary storage, which we&#700;ll
-      think of as the final level of our memory hierarchy.</p>
-
-      <p>As we think about the right memory architecture, we&#700;ll build on
-      the ideas from our previous discussion of caches, and, indeed,
-      think of main memory as another level of cache for the
-      permanent, high-capacity secondary storage.  We&#700;ll be building
-      what we call a virtual memory system, which, like caches, will
-      automatically move data from secondary storage into main memory
-      as needed.  The virtual memory system will also let us control
-      what data can be accessed by the program, serving as a stepping
-      stone to building a system that can securely run many programs
-      on a single CPU.</p>
-
-      <p>Let&#700;s get started!</p>
-
-      <img class="lecslide" src="/static/vm/Slide05.png"/>
-
-      <p>Here we see the cache and main memory, the two components of
-      our memory system as developed in the chapter on &#8220;Memory
-      Hierarchy&#8221;.  And here&#700;s our new secondary storage
-      layer.  The good news: the capacity of secondary storage is
-      huge!  Even the most modest modern computer system will have
-      100&#700;s of gigabytes of secondary storage and having a
-      terabyte or two is not uncommon on medium-size desktop
-      computers.  Secondary storage for the cloud can grow to many
-      petabytes (a petabyte is \(10^{15}\) bytes or a million
-      gigabytes).</p>
-
-      <p>The bad news: disk access times are 100,000 times longer that
-      those of DRAM.  So the change in access time from DRAM to disk
-      is much, much larger than the change from caches to DRAM.</p>
-
-      <p>When looking at DRAM timing, we discovered that the additional
-      access time for retrieving a contiguous block of words was small
-      compared to the access time for the first word, so fetching a
-      block was the right plan assuming we&#700;d eventually access the
-      additional words.  For disks, the access time difference between
-      the first word and successive words is even more dramatic.  So,
-      not surprisingly, we&#700;ll be reading fairly large blocks of data
-      from disk.</p>
-
-      <p>The consequence of the much, much larger secondary-storage
-      access time is that it will be very time consuming to access
-      disk if the data we need is not in main memory.  So we need to
-      design our virtual memory system to minimize misses when
-      accessing main memory.  A miss, and the subsequent disk access,
-      will have a huge impact on the average memory access time, so
-      the miss rate will need to be very, very, small compared to,
-      say, the rate of executing instructions.</p>
-
-      <img class="lecslide" src="/static/vm/Slide06.png"/>
-
-      <p>Given the enormous miss penalties of secondary storage, what
-      does that tell us about how it should be used as part of our
-      memory hierarchy?</p>
-
-      <p>We will need high associativity, <i>i.e.</i>, we need a great
-      deal of flexibility on how data from disk can be located in main
-      memory.  In other words, if our working set of memory accesses
-      fit in main memory, our virtual memory system should make that
-      possible, avoiding unnecessary collisions between accesses to
-      one block of data and another.</p>
-
-      <p>We&#700;ll want to use a large block size to take advantage of the
-      low incremental cost of reading successive words from disk.
-      And, given the principle of locality, we&#700;d expect to be
-      accessing other words of the block, thus amortizing the cost of
-      the miss over many future hits.</p>
-
-      <p>Finally, we&#700;ll want to use a write-back strategy where we&#700;ll
-      only update the contents of disk when data that&#700;s changed in
-      main memory needs to be replaced by data from other blocks of
-      secondary storage.</p>
-
-      <p>There is upside to misses having such long latencies.  We can
-      manage the organization of main memory and the accesses to
-      secondary storage in software.  Even it takes 1000&#700;s of
-      instructions to deal with the consequences of a miss, executing
-      those instructions is quick compared to the access time of a
-      disk.  So our strategy will be to handle hits in hardware and
-      misses in software.  This will lead to simple memory management
-      hardware and the possibility of using very clever strategies
-      implemented in software to figure out what to do on misses.</p>
-
-    </vertical>
-  </sequential>
-  <sequential display_name="Basics of Virtual Memory" url_name="virtual_memory">
-    <vertical display_name="Basics of Virtual Memory">
-
-      <img class="lecslide" src="/static/vm/Slide07.png"/>
-
-      <p>Here&#700;s how our virtual memory system will work.  The memory
-      addresses generated by the CPU are called virtual addresses to
-      distinguish them from the physical addresses used by main
-      memory.  In between the CPU and main memory there&#700;s a new piece
-      of hardware called the memory management unit (MMU).  The MMU&#700;s
-      job is to translate virtual addresses to physical addresses.</p>
-
-      <p>&#8220;But wait!&#8221; you say.  &#8220;Doesn&#700;t the cache go
-      between the CPU and main memory?&#8221; You&#700;re right and at the
-      end of this chapter we&#700;ll talk about how to use both an MMU and
-      a cache.  But for now, let&#700;s assume there&#700;s only an MMU and no
-      cache.</p>
-
-      <p>The MMU hardware translates virtual addresses to physical
-      addresses using a simple table lookup.  This table is called the
-      page map or page table.  Conceptually, the MMU uses the virtual
-      address as index to select an entry in the table, which tells us
-      the corresponding physical address.  The table allows a
-      particular virtual address to be found anywhere in main memory.
-      In normal operation we&#700;d want to ensure that two virtual
-      addresses don&#700;t map to the same physical address.  But it would
-      be okay if some of the virtual addresses did not have a
-      translation to a physical address.  This would indicate that the
-      contents of the requested virtual address haven&#700;t yet been
-      loaded into main memory, so the MMU would signal a
-      memory-management exception to the CPU, which could assign a
-      location in physical memory and perform the required I/O
-      operation to initialize that location from secondary
-      storage.</p>
-
-      <p>The MMU table gives the system a lot of control over how
-      physical memory is accessed by the program running on the CPU.
-      For example, we could arrange to run multiple programs in quick
-      succession (a technique called time sharing) by changing the
-      page map when we change programs.  Main memory locations
-      accessible to one program could be made inaccessible to another
-      program by proper management of their respective page maps.  And
-      we could use memory-management exceptions to load program
-      contents into main memory on demand instead of having to load
-      the entire program before execution starts.  In fact, we only
-      need to ensure the current working set of a program is actually
-      resident in main memory.  Locations not currently being used
-      could live in secondary storage until needed.  In this chapter
-      and next, we&#700;ll see how the MMU plays a central role in the
-      design of a modern timesharing computer system.</p>
-
-      <img class="lecslide" src="/static/vm/Slide08.png"/>
-
-      <p>Of course, we&#700;d need an impossibly large table to separately
-      map each virtual address to a physical address.  So instead we
-      divide both the virtual and physical address spaces into
-      fixed-sized blocks, called pages.  Page sizes are always a
-      power-of-2 bytes, say \(2^p\) bytes, so p is the number address
-      bits needed to select a particular location on the page.  We&#700;ll
-      the use low-order p bits of the virtual or physical address as
-      the page offset.  The remaining address bits tell us which page
-      is being accessed and are called the page number.</p>
-
-      <p>A typical page size is 4KB to 16KB, which correspond to p=12
-      and p=14 respectively.  Suppose p=12.  So if the CPU produces a
-      32-bit virtual address, the low-order 12 bits of the virtual
-      address are the page offset and the high-order 20 bits are the
-      virtual page number.  Similarly, the low-order p bits of the
-      physical address are the page offset and the remaining physical
-      address bits are the physical page number.</p>
-
-      <p>The key idea is that the MMU will manage pages, not individual
-      locations.  We&#700;ll move entire pages from secondary storage into
-      main memory.  By the principal of locality, if a program access
-      one location on a page, we expect it will soon access other
-      nearby locations. By choosing the page offset from the low-order
-      address bits, we&#700;ll ensure that nearby locations live on the
-      same page (unless of course we&#700;re near one end of the page or
-      the other).  So pages naturally capture the notion of
-      locality. And since pages are large, by dealing with pages when
-      accessing secondary storage, we&#700;ll take advantage that reading
-      or writing many locations is only slightly more time consuming
-      than accessing the first location.</p>
-
-      <p>The MMU will map virtual page numbers to physical page numbers.
-      It does this by using the virtual page number (VPN) as an index
-      into the page table.  Each entry in the page table indicates if
-      the page is resident in main memory and, if it is, provides the
-      appropriate physical page number (PPN).  The PPN is combined
-      with the page offset to form the physical address for main
-      memory.</p>
-
-      <p>If the requested virtual page is NOT resident in main memory,
-      the MMU signals a memory-management exception, called a page
-      fault, to the CPU so it can load the appropriate page from
-      secondary storage and set up the appropriate mapping in the
-      MMU.</p>
-
-      <p>Our plan to use main memory as page cache is called
-      <i>paging</i> or sometimes <i>demand paging</i>
-      since movements of pages to and from secondary storage is
-      determined by the demands of the program.</p>
-
-      <img class="lecslide" src="/static/vm/Slide09.png"/>
-
-      <p>So here&#700;s the plan.  Initially all the virtual pages for a
-      program reside in secondary storage and the MMU is
-      empty, <i>i.e.</i>, there are no pages resident in physical
-      memory.</p>
-
-      <p>The CPU starts running the program and each virtual address it
-      generates, either for an instruction fetch or data access, is
-      passed to the MMU to be mapped to a physical address in main
-      memory.</p>
-
-      <p>If the virtual address is resident in physical memory, the main
-      memory hardware can complete the access.</p>
-
-      <p>If the virtual address in NOT resident in physical memory, the
-      MMU signals a page fault exception, forcing the CPU to switch
-      execution to special code called the page fault handler.  The
-      handler allocates a physical page to hold the requested virtual
-      page and loads the virtual page from secondary storage into main
-      memory.  It then adjusts the page map entry for the requested
-      virtual page to show that it is now resident and to indicate the
-      physical page number for the newly allocated and initialized
-      physical page.</p>
-
-      <p>When trying to allocate a physical page, the handler may
-      discover that all physical pages are currently in use.  In this
-      case it chooses an existing page to replace, <i>e.g.</i>, a
-      resident virtual page that hasn&#700;t been recently accessed.  It
-      swaps the contents of the chosen virtual page out to secondary
-      storage and updates the page map entry for the replaced virtual
-      page to indicate it is no longer resident.  Now there&#700;s a free
-      physical page to re-use to hold the contents of the virtual page
-      that was missing.</p>
-
-      <p>The working set of the program, <i>i.e.</i>, the set of pages
-      the program is currently accessing, is loaded into main memory
-      through a series of page faults.  After a flurry of page faults
-      when the program starts running, the working set changes slowly,
-      so the frequency of page faults drops dramatically, perhaps
-      close to zero if the program is small and well-behaved.  It is
-      possible to write programs that constantly generate page faults,
-      a phenomenon called thrashing.  Given the long access times of
-      secondary storage, a program that&#700;s thrashing runs <i>very</i>
-      slowly, usually so slowly that user&#700;s give up and rewrite the
-      program to behave more sensibly.</p>
-
-      <img class="lecslide" src="/static/vm/Slide10.png"/>
-
-      <p>The design of the page map is straightforward.  There&#700;s one
-      entry in the page map for each virtual page.  For example, if
-      the CPU generates a 32-bit virtual address and the page size is
-      \(2^{12}\) bytes, the virtual page number has \(32-12 = 20\) bits and
-      the page table will have \(2^{20}\) entries.</p>
-
-      <p>Each entry in the page table contains a <i>resident
-      bit</i> (R) which is set to 1 when the virtual page is
-      resident in physical memory.  If R is 0, an access to that
-      virtual page will cause a page fault.  If R is 1, the entry also
-      contains the PPN, indicating where to find the virtual page in
-      main memory.</p>
-
-      <p>There&#700;s one additional state bit called the <i>dirty
-      bit</i> (D).  When a page has just been loaded from secondary
-      storage, it&#700;s <i>clean</i>, <i>i.e</i>, the contents of physical
-      memory match the contents of the page in secondary storage.  So
-      the D bit is set to 0.  If subsequently the CPU stores into a
-      location on the page, the D bit for the page is set to 1,
-      indicating the page is <i>dirty</i>, <i>i.e.</i>, the
-      contents of memory now differ from the contents of secondary
-      storage.  If a dirty page is ever chosen for replacement, its
-      contents must be written to secondary storage in order to save
-      the changes before the page gets reused.</p>
-
-      <p>Some MMUs have additional state bits in each page table entry.
-      For example, there could be a <i>read-only</i> bit which,
-      when set, would generate an exception if the program attempts to
-      store into the page.  This would be useful for protecting code
-      pages from accidentally being corrupted by errant data accesses,
-      a very handy debugging feature.</p>
-
-      <img class="lecslide" src="/static/vm/Slide11.png"/>
-
-      <p>Here&#700;s an example of the MMU in action.  To make things simple,
-      assume that the virtual address is 12 bits, consisting of an
-      8-bit page offset and a 4-bit virtual page number.  So there are
-      \(2^4 = 16\) virtual pages.  The physical address is 11 bits,
-      divided into the same 8-bit page offset and a 3-bit physical
-      page number.  So there are \(2^3 = 8\) physical pages.</p>
-
-      <p>On the left we see a diagram showing the contents of the
-      16-entry page map, <i>i.e.</i>, an entry for each virtual page.
-      Each page table entry includes a dirty bit (D), a resident bit
-      (R) and a 3-bit physical page number, for a total of 5 bits.  So
-      the page map has 16 entries, each with 5-bits, for a total of
-      16*5 = 80 bits.  The first entry in the table is for virtual
-      page 0, the second entry for virtual page 1, and so on.</p>
-
-      <p>In the middle of the slide there&#700;s a diagram of physical memory
-      showing the 8 physical pages.  The annotation for each physical
-      page shows the virtual page number of its contents.  Note that
-      there&#700;s no particular order to how virtual pages are stored in
-      physical memory &#8212; which page holds what is determined by
-      which pages are free at the time of a page fault.  In general,
-      after the program has run for a while, we&#700;d expected to find the
-      sort of jumbled ordering we see here.</p>
-
-      <p>Let&#700;s follow along as the MMU handles the request for virtual
-      address 0x2C8, generated by the execution of the LD instruction
-      shown here.  Splitting the virtual address into page number and
-      offset, we see that the VPN is 2 and the offset is 0xC8.
-      Looking at the page map entry with index 2, we see that the R
-      bit is 1, indicating that virtual page 2 is resident in physical
-      memory.  The PPN field of entry tells us that virtual page 2 can
-      be found in physical page 4.</p>
-
-      <p>Combining the PPN with the 8-bit offset, we find that the
-      contents of virtual address 0x2C8 can be found in main memory
-      location 0x4C8.  Note that the offset is unchanged by the
-      translation process &#8212; the offset into the physical page is
-      always the same as the offset into the virtual page.</p>
-
-    </vertical>
-  </sequential>
-  <sequential display_name="Building the MMU" url_name="mmu">
-    <vertical display_name="Building the MMU">
-
-      <img class="lecslide" src="/static/vm/Slide12.png"/>
-
-      <p>Let&#700;s review what happens when the CPU accesses a non-resident
-      virtual page, <i>i.e.</i>, a page with its resident bit set to
-      0.  In the example shown here, the CPU is trying to access
-      virtual page 5.</p>
-
-      <p>In this case, the MMU signals a page fault exception, causing
-      the CPU to suspend execution of the program and switch to the
-      page fault handler, which is code that deals with the page
-      fault.  The handler starts by either finding an unused physical
-      page or, if necessary, creating an unused page by selecting an
-      in-use page and making it available.  In our example, the
-      handler has chosen virtual page 1 for reuse.  If the selected
-      page is dirty, <i>i.e.</i>, its D bit is 1 indicating that its
-      contents have changed since being read from secondary storage,
-      write it back to secondary storage.  Finally, mark the selected
-      virtual page as no longer resident.  In the &#8220;after&#8221;
-      figure, we see that the R bit for virtual page 1 has been set to
-      0.  Now physical page 4 is available for re-use.</p>
-
-      <p>Are there any restrictions on which page we can select?
-      Obviously, we can&#700;t select the page that holds the code for the
-      page fault handler.  Pages immune from selection are called
-      <i>wired</i> pages.  And it would very inefficient to
-      choose the page that holds the code that made the initial memory
-      access, since we expect to start executing that code as soon as
-      we finish handling the page fault.</p>
-
-      <p>The optimal strategy would be to choose the page whose next use
-      will occur farthest in the future.  But, of course, this
-      involves knowledge of future execution paths and so isn&#700;t a
-      realizable strategy.  Wikipedia provides a nice description of
-      the many strategies for choosing a replacement page, with their
-      various tradeoffs between ease of implementation and impact on
-      the rate of page faults &#8212; see the URL given at the bottom
-      of the slide.  The aging algorithm they describe is frequently
-      used since it offers near optimal performance at a moderate
-      implementation cost.</p>
-
-      <p>Next, the desired virtual page is read from secondary storage
-      into the selected physical page.  In our example, virtual page 5
-      is now loaded into physical page 4.</p>
-
-      <p>Then the R bit and PPN fields in the page table entry for
-      virtual page 5 are updated to indicate that the contents of that
-      virtual page now reside in physical page 4.</p>
-
-      <p>Finally the handler is finished and execution of the original
-      program is resumed, re-executing the instruction that caused the
-      page fault.  Since the page map has been updated, this time the
-      access succeeds and execution continues.</p>
-
-      <img class="lecslide" src="/static/vm/Slide13.png"/>
-
-      <p>To double-check our understanding of page faults, let&#700;s run
-      through an example.  Here&#700;s the same setup as in our previous
-      example, but this time consider a store instruction that&#700;s
-      making an access to virtual address 0x600, which is located on
-      virtual page 6.</p>
-
-      <p>Checking the page table entry for VPN 6, we see that its R bit
-      0 indicating that it is NOT resident in main memory, which
-      causes a page fault exception.</p>
-
-      <p>The page fault handler selects VPN 0xE for replacement since
-      we&#700;ve been told in the setup that it&#700;s the least-recently-used
-      page.</p>
-
-      <p>The page table entry for VPN 0xE has D=1 so the handler writes
-      the contents of VPN 0xE, which is found in PPN 0x5, to secondary
-      storage.  Then it updates the page table to indicate that VPN
-      0xE is no longer resident.</p>
-
-      <p>Next, the contents of VPN 0x6 are read from secondary storage
-      into the now available PPN 0x5.</p>
-
-      <p>Now the handler updates the page table entry for VPN 0x6 to
-      indicate that it&#700;s resident in PPN 0x5.</p>
-
-      <p>The page fault handler has completed its work, so program
-      execution resumes and the ST instruction is re-executed.  This
-      time the MMU is able to translate virtual address 0x600 to
-      physical address 0x500.  And since the ST instruction modifies
-      the contents of VPN 0x6, it&#700;s D bit is set to 1.</p>
-
-      <p>Whew!  We&#700;re done :)</p>
-
-      <img class="lecslide" src="/static/vm/Slide14.png"/>
-
-      <p>We can think of the work of the MMU as being divided into two
-      tasks, which as computer scientists, we would think of as two
-      procedures.  In this formulation the information in the page map
-      is held in several arrays: the R array holds the resident bits,
-      the D array holds the dirty bits, the PPN array holds the
-      physical page numbers, and the DiskAdr array holds the location
-      in secondary storage for each virtual page.</p>
-
-      <p>The VtoP procedure is invoked on each memory access to
-      translate the virtual address into a physical address.  If the
-      requested virtual page is not resident, the PageFault procedure
-      is invoked to make the page resident.  Once the requested page
-      is resident, the VPN is used as an index to lookup the
-      corresponding PPN, which is then concatenated with the page
-      offset to form the physical address.</p>
-
-      <p>The PageFault routine starts by selecting a virtual page to be
-      replaced, writing out its contents if it&#700;s dirty.  The selected
-      page is then marked as not resident.</p>
-
-      <p>Finally the desired virtual page is read from secondary storage
-      and the page map information updated to reflect that it&#700;s now
-      resident in the newly filled physical page.</p>
-
-      <img class="lecslide" src="/static/vm/Slide15.png"/>
-
-      <p>We&#700;ll use hardware to implement the VtoP functionality since
-      it&#700;s needed for every memory access.  The call to the PageFault
-      procedure is accomplished via a page fault exception, which
-      directs the CPU to execute the appropriate handler software that
-      contains the PageFault procedure.</p>
-
-      <p>This is a good strategy to pursue in all our implementation
-      choices: use hardware for the operations that need to be fast,
-      but use exceptions to handle the (hopefully infrequent)
-      exceptional cases in software.  Since the software is executed
-      by the CPU, which is itself a piece of hardware, what we&#700;re
-      really doing is making the tradeoff between using
-      special-purpose hardware (<i>e.g.</i>, the MMU) or using
-      general-purpose hardware (<i>e.g.</i>, the CPU).  In general,
-      one should be skeptical of proposals to use special-purpose
-      hardware, reserving that choice for operations that truly are
-      commonplace and whose performance is critical to the overall
-      performance of the system.</p>
-
-      <img class="lecslide" src="/static/vm/Slide16.png"/>
-
-      <p>There are three architectural parameters that characterize a
-      virtual memory system and hence the architecture of the MMU.</p>
-
-      <p>P is the number of address bits used for the page offset in
-      both virtual and physical addresses.  V is the number of address
-      bits used for the virtual page number.  And M is the number of
-      address bits used for the physical page number.  All the other
-      parameters, listed on the right, are derived from these three
-      parameters.</p>
-
-      <p>As mentioned earlier, the typical page size is between 4KB and
-      16KB, the sweet spot in the tradeoff between the downside of
-      using physical memory to hold unwanted locations and the upside
-      of reading as much as possible from secondary storage so as to
-      amortize the high cost of accessing the initial word over as
-      many words as possible.</p>
-
-      <p>The size of the virtual address is determined by the ISA.
-      We&#700;re now making the transition from 32-bit architectures, which
-      support a 4 gigabyte virtual address space, to 64-bit
-      architectures, which support a 16 exabyte virtual address space.
-      &#8220;Exa&#8221; is the SI prefix for \(10^{18}\) - a 64-bit
-      address can access a lot of memory!</p>
-
-      <p>The limitations of a small virtual address have been the main
-      cause for the extinction of many ISAs.  Of course, each
-      generation of engineers thinks that the transition they make
-      will be the final one!  I can remember when we all thought that
-      32 bits was an unimaginably large address.  Back then we&#700;re
-      buying memory by the megabyte and only in our fantasies did we
-      think one could have a system with several thousand megabytes.
-      Today&#700;s CPU architects are feeling pretty smug about 64 bits
-      &#8212; we&#700;ll see how they feel in a couple of decades!</p>
-
-      <p>The size of physical addresses is currently between 30 bits
-      (for embedded processors with modest memory needs) and 40+ bits
-      (for servers that handle large data sets).  Since CPU
-      implementations are expected to change every couple of years,
-      the choice of physical memory size can be adjusted to match
-      current technologies.  Since programmers use virtual addresses,
-      they&#700;re insulated from this implementation choice.  The MMU
-      ensures that existing software will continue to function
-      correctly with different sizes of physical memory.  The
-      programmer may notice differences in performance, but not in
-      basic functionality.</p>
-
-      <img class="lecslide" src="/static/vm/Slide17.png"/>
-
-      <p>For example, suppose our system supported a 32-bit virtual
-      address, a 30-bit physical address and a 4KB page size.  So $p =
-      12\(, \)v = 32-12 = 20\(, and \)m = 30 &#8212; 12 = 18$.</p>
-
-      <p>There are \(2^m\) physical pages, which is \(2^{18}\) in our
-      example.</p>
-
-      <p>There are \(2^v\) virtual pages, which is \(2^{20}\) in our
-      example.</p>
-
-      <p>And since there is one entry in the page map for each virtual
-      page, there are \(2^{20}\) (approximately one million) page map
-      entries.</p>
-
-      <p>Each page map entry contains a PPN, an R bit and a D bit, for a
-      total of m+2 bits, which is 20 bits in our example.  So there
-      are approximately 20 million bits in the page map.</p>
-
-      <p>If we were thinking of using a large special-purpose static RAM
-      to hold the page map, this would get pretty expensive!</p>
-
-      <img class="lecslide" src="/static/vm/Slide18.png"/>
-
-      <p>But why use a special-purpose memory for the page map?  Why not
-      use a portion of main memory, which we have a lot of and have
-      already bought and paid for!</p>
-
-      <p>We could use a register, called the page map pointer, to hold
-      the address of the page map array in main memory.  In other
-      words, the page map would occupy some number of dedicated
-      physical pages.  Using the desired virtual page number as an
-      index, the hardware could perform the usual array access
-      calculation to fetch the needed page map entry from main
-      memory.</p>
-
-      <p>The downside of this proposed implementation is that it now
-      takes two accesses to physical memory to perform one virtual
-      access: the first to retrieve the page table entry needed for
-      the virtual-to-physical address translation, and the second to
-      actually access the requested location.</p>
-
-      <img class="lecslide" src="/static/vm/Slide19.png"/>
-
-      <p>Once again, caches to the rescue.  Most systems incorporate a
-      special-purpose cache, called a translation look-aside buffer
-      (TLB), that maps virtual page numbers to physical page numbers.
-      The TLB is usually small and quite fast.  It&#700;s usually
-      fully-associative to ensure the best possible hit ratio by
-      avoiding collisions.  If the PPN is found by using the TLB, the
-      access to main memory for the page table entry can be avoided,
-      and we&#700;re back to a single physical access for each virtual
-      access.</p>
-
-      <p>The hit ratio of a TLB is quite high, usually better than 99%.
-      This isn&#700;t too surprising since locality and the notion of a
-      working set suggest that only a small number of pages are in
-      active use over short periods of time.</p>
-
-      <p>As we&#700;ll see in a few slides, there are interesting variations
-      to this simple TLB page-map-in-main-memory architecture.  But
-      the basic strategy will remain the same.</p>
-
-      <img class="lecslide" src="/static/vm/Slide20.png"/>
-
-      <p>Putting it all together: the virtual address generated by the
-      CPU is first processed by the TLB to see if the appropriate
-      translation from VPN to PPN has been cached.  If so, the main
-      memory access can proceed directly.</p>
-
-      <p>If the desired mapping is not in the TLB, the appropriate entry
-      in the page map is accessed in main memory.  If the page is
-      resident, the PPN field of the page map entry is used to
-      complete the address translation.  And, of course, the
-      translation is cached in the TLB so that subsequent accesses to
-      this page can avoid the access to the page map.</p>
-
-      <p>If the desired page is not resident, the MMU triggers a page
-      fault exception and the page fault handler code will deal with
-      the problem.</p>
-
-      <img class="lecslide" src="/static/vm/Slide21.png"/>
-
-      <p>Here&#700;s a final example showing all the pieces in action.  In
-      this example, \(p = 10\), \(v = 22\), and \(m = 14\).</p>
-
-      <p>How many pages can reside in physical memory at one time?
-      There are \(2^m\) physical pages, so \(2^{14}\).</p>
-
-      <p>How many entries are there in the page table?  There&#700;s one
-      entry for each virtual page and there are \(2^v\) virtual pages,
-      so there are \(2^{22}\) entries in the page table.</p>
-
-      <p>How many bits per entry in the page table?  Assume each entry
-      holds the PPN, the resident bit, and the dirty bit.  Since the
-      PPN is m bits, there are \(m+2\) bits in each entry, so 16
-      bits.</p>
-
-      <p>How many pages does the page table occupy?  There are \(2^v\)
-      page table entries, each occupying \((m+2)/8\) bytes, so the total
-      size of the page table in this example is \(2^{23}\) bytes.  Each
-      page holds \(2^p = 2^10\) bytes, so the page table occupies
-      \(2^{23}/2^{10} = 2^{13}\) pages.</p>
-
-      <p>What fraction of virtual memory can be resident at any given
-      time?  There are \(2^v\) virtual pages, of which \(2^m\) can be
-      resident.  So the fraction of resident pages is $2^m/2^v =
-      2^{14}/2^{22} = 1/2^8$.</p>
-
-      <p>What is the physical address for virtual address 0x1804?  Which
-      MMU components are involved in the translation?  First we have
-      have decompose the virtual address into VPN and offset.  The
-      offset is the low-order 10 bits, so is 0x004 in this example.
-      The VPN is the remaining address bits, so the VPN is 0x6.
-      Looking first in the TLB, we that the VPN-to-PPN mapping for VPN
-      0x6 is cached, so we can construct the physical address by
-      concatenating the PPN (0x2) with the 10-bit offset (0x4) to get
-      a physical address of 0x804.  You&#700;re right!  It&#700;s a bit of pain
-      to do all the bit manipulations when p is not a multiple of
-      4.</p>
-
-      <p>How about virtual address 0x1080?  For this address the VPN is
-      0x4 and the offset is 0x80.  The translation for VPN 0x4 is not
-      cached in the TLB, so we have to check the page map, which tells
-      us that the page is resident in physical page 5.  Concatenating
-      the PPN and offset, we get 0x1480 as the physical address.</p>
-
-      <p>Finally, how about virtual address 0x0FC?  Here the VPN is 0
-      and the offset 0xFC.  The mapping for VPN 0 is not found in the
-      TLB and checking the page map reveals that VPN 0 is not resident
-      in main memory, so a page fault exception is triggered.</p>
-
-      <p>There are a few things to note about the example TLB and page
-      map contents.  Note that a TLB entry can be invalid (it&#700;s R bit
-      is 0).  This can happen when a virtual page is replaced, so when
-      we change the R bit to 0 in the page map, we have to do the same
-      in the TLB.  And should we be concerned that PPN 0x5 appears
-      twice in the page table?  Note that the entry for VPN 0x3
-      doesn&#700;t matter since it&#700;s R bit is 0.  Typically when marking a
-      page not resident, we don&#700;t bother to clear out the other fields
-      in the entry since they won&#700;t be used when R=0.  So there&#700;s only
-      one <i>valid</i> mapping to PPN 5.</p>
-
-    </vertical>
-  </sequential>
-  <sequential display_name="Contexts" url_name="contexts">
-    <vertical display_name="Contexts">
-
-      <img class="lecslide" src="/static/vm/Slide22.png"/>
-
-      <p>The page map provides the context for interpreting virtual
-      addresses,
-      <i>i.e.</i>, it provides the information needed to correctly
-      determine where to find a virtual address in main memory or
-      secondary storage.</p>
-
-      <p>Several programs may be simultaneously loaded into main memory,
-      each with its own context.  Note that the separate contexts
-      ensure that the programs don&#700;t interfere which each other.  For
-      example, the physical location for virtual address 0 in one
-      program will be different than the physical location for virtual
-      address 0 in another program.  Each program operates
-      independently in its own virtual address space.  It&#700;s the
-      context provided by the page map that allows them to coexist and
-      share a common physical memory.  So we need to switch contexts
-      when switching programs.  This is accomplished by reloading the
-      page map.</p>
-
-      <img class="lecslide" src="/static/vm/Slide23.png"/>
-
-      <p>In a timesharing system, the CPU will periodically switch from
-      running one program to another, giving the illusion that
-      multiple programs are each running on their own virtual machine.
-      This is accomplished by switching contexts when switching the
-      CPU state to the next program.</p>
-
-      <p>There&#700;s a privileged set of code called the operating system
-      (OS) that manages the sharing of one physical processor and main
-      memory amongst many programs, each with its own CPU state and
-      virtual address space.  The OS is effectively creating many
-      virtual machines and choreographing their execution using a
-      single set of shared physical resources.</p>
-
-      <p>The OS runs in a special OS context, which we call the kernel.
-      The OS contains the necessary exception handlers and timesharing
-      support.  Since it has to manage physical memory, it&#700;s allowed
-      to access any physical location as it deals with page faults,
-      etc.  Exceptions in running programs cause the hardware to
-      switch to the kernel context, which we call entering
-      <i>kernel mode</i>.  After the exception handling is
-      complete, execution of the program resumes in what we call
-      <i>user mode</i>.</p>
-
-      <p>Since the OS runs in kernel mode it has privileged access to
-      many hardware registers that are inaccessible in user mode.
-      These include the MMU state, I/O devices, and so on.  User-mode
-      programs that need to access, say, the disk, need to make a
-      request to the OS kernel to perform the operation, giving the OS
-      the chance to vet the request for appropriate permissions, etc.
-      We&#700;ll see how all of this works in an upcoming chapter.</p>
-
-      <img class="lecslide" src="/static/vm/Slide24.png"/>
-
-      <p>User-mode programs (aka applications) are written as if they
-      have access to the entire virtual address space.  They often
-      obey the same conventions such as the address of the first
-      instruction in the program, the initial value for the stack
-      pointer, etc.  Since all these virtual addresses are interpreted
-      using the current context, by controlling the contexts the OS
-      can ensure that the programs can coexist without conflict.</p>
-
-      <p>The diagram on the right shows a standard plan for organizing
-      the virtual address space of an application.  Typically the
-      first virtual page is made inaccessible, which helps catch
-      errors involving references to initialized (<i>i.e.</i>,
-      zero-valued) pointers.  Then come some number of read-only pages
-      that hold the application&#700;s code and perhaps the code from any
-      shared libraries it uses.  Marking code pages as read-only
-      avoids hard-to-find bugs where errant data accesses
-      inadvertently change the program!</p>
-
-      <p>Then there are read-write pages holding the application&#700;s
-      statically allocated data structures.  The rest of the virtual
-      address space is divided between two data regions that can grow
-      over time.  The first is the application&#700;s stack, used to hold
-      procedure activation records.  Here we show it located at the
-      lower end of the virtual address space since our convention is
-      that the stack grows towards higher addresses.</p>
-
-      <p>The other growable region is the heap, used when dynamically
-      allocating storage for long-lived data structures.
-      &#8220;Dynamically&#8221; means that the allocation and
-      deallocation of objects is done by explicit procedure calls
-      while the application is running.  In other words, we don&#700;t know
-      which objects will be created until the program actually
-      executes.  As shown here, as the heap expands it grows towards
-      lower addresses.</p>
-
-      <p>The page fault handler knows to allocate new pages when these
-      regions grow.  Of course, if they ever meet somewhere in the
-      middle and more space is needed, the application is out of luck
-      &#8212; it&#700;s run out of virtual memory!</p>
-
-      <img class="lecslide" src="/static/vm/Slide25.png"/>
-
-      <p>There are a few MMU implementation details we can tweak for
-      more efficiency or functionality.</p>
-
-      <p>In our simple page-map implementation, the full page map occupies
-      some number of physical pages.  Using the numbers shown here, if
-      each entry in the page map occupies one word of main memory,
-      we&#700;d need \(2^{20}\) words (or \(2^{10}\) pages) to hold the page
-      table.  If we have multiple contexts, we would need multiple page
-      tables, and the demands on our physical memory resources would start
-      to get large.</p>
-
-      <p>The MMU implementation shown here uses a hierarchical page map.
-      The top 10 bits of virtual address are used to access a
-      <i>page directory</i>, which indicates the physical page
-      that holds the page map for that segment of the virtual address
-      space.  The key idea is that the page map segments are in
-      virtual memory, <i>i.e.</i>, they don&#700;t all have to be resident
-      at any given time.  If the running application is only actively
-      using a small portion of its virtual address space, we may only
-      need a handful of pages to hold the page directory and the
-      necessary page map segments.  The resultant savings really add
-      up when there are many applications, each with their own
-      context.</p>
-
-      <p>In this example, note that the middle entries in the page
-      directory,
-      <i>i.e.</i>, the entries corresponding to the as-yet unallocated
-      virtual memory between the stack and heap, are all marked as not
-      resident.  So no page map resources need be devoted to holding a
-      zillion page map entries all marked &#8220;not
-      resident&#8221;.</p>
-
-      <p>Accessing the page map now requires two access to main memory
-      (first to the page directory, then to the appropriate segment of
-      the page map), but the TLB makes the impact of that additional
-      access negligible.</p>
-
-      <img class="lecslide" src="/static/vm/Slide26.png"/>
-
-      <p>Normally when changing contexts, the OS would reload the
-      page-table pointer to point to the appropriate page table (or
-      page table directory if we adopt the scheme from the previous
-      slide).  Since this context switch in effect changes all the
-      entries in the page table, the OS would also have to invalidate
-      all the entries in the TLB cache.  This naturally has a huge
-      impact on the TLB hit ratio and the average memory access time
-      takes a huge hit because of the all page map accesses that are
-      now necessary until the TLB is refilled.</p>
-
-      <p>To reduce the impact of context switches, some MMUs include a
-      context-number register whose contents are concatenated with the
-      virtual page number to form the query to the TLB.  Essentially
-      this means that the tag field in the TLB cache entries will
-      expand to include the context number provided at the time the
-      TLB entry was filled.</p>
-
-      <p>To switch contexts, the OS would now reload both the
-      context-number register and the page-table pointer.  With a new
-      context number, entries in the TLB for other contexts would no
-      longer match, so no need to flush the TLB on a context switch.
-      If the TLB has sufficient capacity to cache the VPN-to-PPN
-      mappings for several contexts, context switches would no longer
-      have a substantial impact on average memory access time.</p>
-
-    </vertical>
-  </sequential>
-  <sequential display_name="Summary" url_name="summary">
-    <vertical display_name="Summary">
-
-      <img class="lecslide" src="/static/vm/Slide27.png"/>
-
-      <p>Finally, let&#700;s return to the question about how to incorporate
-      both a cache and an MMU into our memory system.</p>
-
-      <p>The first choice is to place the cache between the CPU and the
-      MMU,
-      <i>i.e.</i>, the cache would work on virtual addresses.  This
-      seems good: the cost of the VPN-to-PPN translation is only
-      incurred on a cache miss.  The difficulty comes when there&#700;s a
-      context switch, which changes the effective contents of virtual
-      memory.  After all that was the point of the context switch,
-      since we want to switch execution to another program.  But that
-      means the OS would have to invalidate all the entries in the
-      cache when performing a context switch, which makes the cache
-      miss ratio quite large until the cache is refilled.  So once
-      again the performance impact of a context switch would be quite
-      high.</p>
-
-      <p>We can solve this problem by caching physical
-      addresses, <i>i.e.</i>, placing the cache between the MMU and
-      main memory.  Thus the contents of the cache are unaffected by
-      context switches &#8212; the requested physical addresses will
-      be different, but the cache handles that in due course.  The
-      downside of this approach is that we have to incur the cost of
-      the MMU translation before we can start the cache access,
-      slightly increasing the average memory access time.</p>
-
-      <img class="lecslide" src="/static/vm/Slide28.png"/>
-
-      <p>But if we&#700;re clever we don&#700;t have to wait for the MMU to finish
-      before starting the access to the cache.  To get started, the
-      cache needs the line number from the virtual address in order to
-      fetch the appropriate cache line.  If the address bits used for
-      the line number are completely contained in the page offset of
-      the virtual address, those bits are unaffected by the MMU
-      translation, and so the cache lookup can happen in parallel with
-      the MMU operation.</p>
-
-      <p>Once the cache lookup is complete, the tag field of the cache
-      line can be compared with the appropriate bits of the physical
-      address produced by the MMU.  If there was a TLB hit in the MMU,
-      the physical address should be available at about the same time
-      as the tag field produced by the cache lookup.</p>
-
-      <p>By performing the MMU translation and cache lookup in parallel,
-      there&#700;s usually no impact on the average memory access time!
-      Voila, the best of both worlds: a physically addressed cache
-      that incurs no time penalty for MMU translation.</p>
-
-      <p>One final detail: one way to increase the capacity of the cache
-      is to increase the number of cache lines and hence the number of
-      bits of address used as the line number.  Since we want the line
-      number to fit into the page offset field of the virtual address,
-      we&#700;re limited in how many cache lines we can have.  The same
-      argument applies to increasing the block size.  So to increase
-      the capacity of the cache our only option is to increase the
-      cache associativity, which adds capacity without affecting the
-      address bits used for the line number.</p>
-
-      <img class="lecslide" src="/static/vm/Slide29.png"/>
-
-      <p>That&#700;s it for our discussion of virtual memory.  We use the MMU
-      to provide the context for mapping virtual addresses to physical
-      addresses.  By switching contexts we can create the illusion of
-      many virtual address spaces, so many programs can share a single
-      CPU and physical memory without interfering with each other.</p>
-
-      <p>We discussed using a page map to translate virtual page numbers
-      to physical page numbers.  To save costs, we located the page
-      map in physical memory and used a TLB to eliminate the cost of
-      accessing the page map for most virtual memory accesses.  Access
-      to a non-resident page causes a page fault exception, allowing
-      the OS to manage the complexities of equitably sharing physical
-      memory across many applications.</p>
-
-      <p>We saw that providing contexts was the first step towards
-      creating virtual machines, which is the topic of our next
-      chapter.</p>
-
-    </vertical>
-  </sequential>
-  <sequential display_name="&#9998; Worksheet" url_name="worksheet">
-    <vertical display_name="&#9998; Worksheet">
-
-      <p>This worksheet contains exercises for the chapter, selected from
-      old quiz problems. If you can successfully answer the questions on
-      the worksheet, you&#700;ve mastered the material for the chapter! We&#700;ve
-      also included a link to the answers, but you&#700;ll get the most out of
-      the worksheet if you work on the exercises before reading the
-      answers.</p>
-
-      <ul>
-        <li><a href="/static/vm/worksheet.pdf" target="_blank">
-        Worksheet: Virtual Memory</a></li>
-        <li><a href="/static/vm/answers.pdf" target="_blank">
-        Answers: Virtual Memory</a></li>
-      </ul>
-
-    </vertical>
-  </sequential>
-</chapter>
+<p align="center"><img style="height:450px;" src="lecture_slides/vm/Slide1.png"/></p>
+
+## Extending the Memory Hierachy
+
+<p align="center"><img style="height:450px;" src="lecture_slides/vm/Slide2.png"/></p>
+
+<p>In this lecture, we return to the memory system that we last
+discussed in &#8220;The Memory Hierarchy&#8221;.  There we
+learned about the fundamental tradeoff in current memory
+technologies: as the memory&#700;s capacity increases, so does it
+access time.  It takes some architectural cleverness to build a
+memory system that has a large capacity and a small average
+access time.  The cleverness is embodied in the cache, a
+hardware subsystem that lives between the CPU and main memory.
+Modern CPUs have several levels of cache, where where the
+modest-capacity first level has an access time close to that of
+the CPU, and higher levels of cache have slower access times but
+larger capacities.</p>
+
+<p align="center"><img style="height:450px;" src="lecture_slides/vm/Slide3.png"/></p>
+
+<p>Caches give fast access to a small number of memory locations,
+using associative addressing so that the cache has the ability
+to hold the contents of the memory locations the CPU is
+accessing most frequently.  The current contents of the cache
+are managed automatically by the hardware.  Caches work well
+because of the principle of locality: if the CPU accesses
+location X at time T, it&#700;s likely to access nearby locations in
+the not-too-distant future.  The cache is organized so that
+nearby locations can all reside in the cache simultaneously,
+using a simple indexing scheme to choose which cache location
+should be checked for a matching address.  If the address
+requested by the CPU resides in the cache, access time is quite
+fast.</p>
+
+<p>In order to increase the probability that requested addresses
+reside in the cache, we introduced the notion of
+<i>associativity</i>, which increased the number of cache
+locations checked on each access and solved the problem of
+having, say, instructions and data compete for the same cache
+locations.</p>
+
+<p>We also discussed appropriate choices for block size (the
+number of words in a cache line), replacement policy (how to
+choose which cache line to reuse on a cache miss), and write
+policy (deciding when to write changed data back to main
+memory).  We&#700;ll see these same choices again in this lecture as
+we work to expand the memory hierarchy beyond main memory.</p>
+
+<p align="center"><img style="height:450px;" src="lecture_slides/vm/Slide4.png"/></p>
+
+<p>We never discussed where the data in main memory comes from and
+how the process of filling main memory is managed.  That&#700;s the
+topic of this lecture.</p>
+
+<p>Flash drives and hard disks provide storage options that have
+more capacity than main memory, with the added benefit of being
+non-volatile, <i>i.e.</i>, they continue to store data even when
+turned off.  The generic name for these new devices is
+<i>secondary storage</i>, where data will reside until
+it&#700;s moved to <i>primary storage</i>, <i>i.e.</i>, main
+memory, for use.  So when we first turn on a computer system,
+all of it s data will be found in secondary storage, which we&#700;ll
+think of as the final level of our memory hierarchy.</p>
+
+<p>As we think about the right memory architecture, we&#700;ll build on
+the ideas from our previous discussion of caches, and, indeed,
+think of main memory as another level of cache for the
+permanent, high-capacity secondary storage.  We&#700;ll be building
+what we call a virtual memory system, which, like caches, will
+automatically move data from secondary storage into main memory
+as needed.  The virtual memory system will also let us control
+what data can be accessed by the program, serving as a stepping
+stone to building a system that can securely run many programs
+on a single CPU.</p>
+
+<p>Let&#700;s get started!</p>
+
+<p align="center"><img style="height:450px;" src="lecture_slides/vm/Slide5.png"/></p>
+
+<p>Here we see the cache and main memory, the two components of
+our memory system as developed in the lecture on &#8220;Memory
+Hierarchy&#8221;.  And here&#700;s our new secondary storage
+layer.  The good news: the capacity of secondary storage is
+huge!  Even the most modest modern computer system will have
+100&#700;s of gigabytes of secondary storage and having a
+terabyte or two is not uncommon on medium-size desktop
+computers.  Secondary storage for the cloud can grow to many
+petabytes (a petabyte is $10^{15}$ bytes or a million
+gigabytes).</p>
+
+<p>The bad news: disk access times are 100,000 times longer that
+those of DRAM.  So the change in access time from DRAM to disk
+is much, much larger than the change from caches to DRAM.</p>
+
+<p>When looking at DRAM timing, we discovered that the additional
+access time for retrieving a contiguous block of words was small
+compared to the access time for the first word, so fetching a
+block was the right plan assuming we&#700;d eventually access the
+additional words.  For disks, the access time difference between
+the first word and successive words is even more dramatic.  So,
+not surprisingly, we&#700;ll be reading fairly large blocks of data
+from disk.</p>
+
+<p>The consequence of the much, much larger secondary-storage
+access time is that it will be very time consuming to access
+disk if the data we need is not in main memory.  So we need to
+design our virtual memory system to minimize misses when
+accessing main memory.  A miss, and the subsequent disk access,
+will have a huge impact on the average memory access time, so
+the miss rate will need to be very, very, small compared to,
+say, the rate of executing instructions.</p>
+
+<p align="center"><img style="height:450px;" src="lecture_slides/vm/Slide6.png"/></p>
+
+<p>Given the enormous miss penalties of secondary storage, what
+does that tell us about how it should be used as part of our
+memory hierarchy?</p>
+
+<p>We will need high associativity, <i>i.e.</i>, we need a great
+deal of flexibility on how data from disk can be located in main
+memory.  In other words, if our working set of memory accesses
+fit in main memory, our virtual memory system should make that
+possible, avoiding unnecessary collisions between accesses to
+one block of data and another.</p>
+
+<p>We&#700;ll want to use a large block size to take advantage of the
+low incremental cost of reading successive words from disk.
+And, given the principle of locality, we&#700;d expect to be
+accessing other words of the block, thus amortizing the cost of
+the miss over many future hits.</p>
+
+<p>Finally, we&#700;ll want to use a write-back strategy where we&#700;ll
+only update the contents of disk when data that&#700;s changed in
+main memory needs to be replaced by data from other blocks of
+secondary storage.</p>
+
+<p>There is upside to misses having such long latencies.  We can
+manage the organization of main memory and the accesses to
+secondary storage in software.  Even it takes 1000&#700;s of
+instructions to deal with the consequences of a miss, executing
+those instructions is quick compared to the access time of a
+disk.  So our strategy will be to handle hits in hardware and
+misses in software.  This will lead to simple memory management
+hardware and the possibility of using very clever strategies
+implemented in software to figure out what to do on misses.</p>
+
+</vertical>
+</sequential>
+<sequential display_name="Basics of Virtual Memory" url_name="virtual_memory">
+<vertical display_name="Basics of Virtual Memory">
+
+<p align="center"><img style="height:450px;" src="lecture_slides/vm/Slide7.png"/></p>
+
+<p>Here&#700;s how our virtual memory system will work.  The memory
+addresses generated by the CPU are called virtual addresses to
+distinguish them from the physical addresses used by main
+memory.  In between the CPU and main memory there&#700;s a new piece
+of hardware called the memory management unit (MMU).  The MMU&#700;s
+job is to translate virtual addresses to physical addresses.</p>
+
+<p>&#8220;But wait!&#8221; you say.  &#8220;Doesn&#700;t the cache go
+between the CPU and main memory?&#8221; You&#700;re right and at the
+end of this lecture we&#700;ll talk about how to use both an MMU and
+a cache.  But for now, let&#700;s assume there&#700;s only an MMU and no
+cache.</p>
+
+<p>The MMU hardware translates virtual addresses to physical
+addresses using a simple table lookup.  This table is called the
+page map or page table.  Conceptually, the MMU uses the virtual
+address as index to select an entry in the table, which tells us
+the corresponding physical address.  The table allows a
+particular virtual address to be found anywhere in main memory.
+In normal operation we&#700;d want to ensure that two virtual
+addresses don&#700;t map to the same physical address.  But it would
+be okay if some of the virtual addresses did not have a
+translation to a physical address.  This would indicate that the
+contents of the requested virtual address haven&#700;t yet been
+loaded into main memory, so the MMU would signal a
+memory-management exception to the CPU, which could assign a
+location in physical memory and perform the required I/O
+operation to initialize that location from secondary
+storage.</p>
+
+<p>The MMU table gives the system a lot of control over how
+physical memory is accessed by the program running on the CPU.
+For example, we could arrange to run multiple programs in quick
+succession (a technique called time sharing) by changing the
+page map when we change programs.  Main memory locations
+accessible to one program could be made inaccessible to another
+program by proper management of their respective page maps.  And
+we could use memory-management exceptions to load program
+contents into main memory on demand instead of having to load
+the entire program before execution starts.  In fact, we only
+need to ensure the current working set of a program is actually
+resident in main memory.  Locations not currently being used
+could live in secondary storage until needed.  In this lecture
+and next, we&#700;ll see how the MMU plays a central role in the
+design of a modern timesharing computer system.</p>
+
+<p align="center"><img style="height:450px;" src="lecture_slides/vm/Slide8.png"/></p>
+
+<p>Of course, we&#700;d need an impossibly large table to separately
+map each virtual address to a physical address.  So instead we
+divide both the virtual and physical address spaces into
+fixed-sized blocks, called pages.  Page sizes are always a
+power-of-2 bytes, say $2^p$ bytes, so p is the number address
+bits needed to select a particular location on the page.  We&#700;ll
+the use low-order p bits of the virtual or physical address as
+the page offset.  The remaining address bits tell us which page
+is being accessed and are called the page number.</p>
+
+<p>A typical page size is 4KB to 16KB, which correspond to p=12
+and p=14 respectively.  Suppose p=12.  So if the CPU produces a
+32-bit virtual address, the low-order 12 bits of the virtual
+address are the page offset and the high-order 20 bits are the
+virtual page number.  Similarly, the low-order p bits of the
+physical address are the page offset and the remaining physical
+address bits are the physical page number.</p>
+
+<p>The key idea is that the MMU will manage pages, not individual
+locations.  We&#700;ll move entire pages from secondary storage into
+main memory.  By the principal of locality, if a program access
+one location on a page, we expect it will soon access other
+nearby locations. By choosing the page offset from the low-order
+address bits, we&#700;ll ensure that nearby locations live on the
+same page (unless of course we&#700;re near one end of the page or
+the other).  So pages naturally capture the notion of
+locality. And since pages are large, by dealing with pages when
+accessing secondary storage, we&#700;ll take advantage that reading
+or writing many locations is only slightly more time consuming
+than accessing the first location.</p>
+
+<p>The MMU will map virtual page numbers to physical page numbers.
+It does this by using the virtual page number (VPN) as an index
+into the page table.  Each entry in the page table indicates if
+the page is resident in main memory and, if it is, provides the
+appropriate physical page number (PPN).  The PPN is combined
+with the page offset to form the physical address for main
+memory.</p>
+
+<p>If the requested virtual page is NOT resident in main memory,
+the MMU signals a memory-management exception, called a page
+fault, to the CPU so it can load the appropriate page from
+secondary storage and set up the appropriate mapping in the
+MMU.</p>
+
+<p>Our plan to use main memory as page cache is called
+<i>paging</i> or sometimes <i>demand paging</i>
+since movements of pages to and from secondary storage is
+determined by the demands of the program.</p>
+
+<p align="center"><img style="height:450px;" src="lecture_slides/vm/Slide9.png"/></p>
+
+<p>So here&#700;s the plan.  Initially all the virtual pages for a
+program reside in secondary storage and the MMU is
+empty, <i>i.e.</i>, there are no pages resident in physical
+memory.</p>
+
+<p>The CPU starts running the program and each virtual address it
+generates, either for an instruction fetch or data access, is
+passed to the MMU to be mapped to a physical address in main
+memory.</p>
+
+<p>If the virtual address is resident in physical memory, the main
+memory hardware can complete the access.</p>
+
+<p>If the virtual address in NOT resident in physical memory, the
+MMU signals a page fault exception, forcing the CPU to switch
+execution to special code called the page fault handler.  The
+handler allocates a physical page to hold the requested virtual
+page and loads the virtual page from secondary storage into main
+memory.  It then adjusts the page map entry for the requested
+virtual page to show that it is now resident and to indicate the
+physical page number for the newly allocated and initialized
+physical page.</p>
+
+<p>When trying to allocate a physical page, the handler may
+discover that all physical pages are currently in use.  In this
+case it chooses an existing page to replace, <i>e.g.</i>, a
+resident virtual page that hasn&#700;t been recently accessed.  It
+swaps the contents of the chosen virtual page out to secondary
+storage and updates the page map entry for the replaced virtual
+page to indicate it is no longer resident.  Now there&#700;s a free
+physical page to re-use to hold the contents of the virtual page
+that was missing.</p>
+
+<p>The working set of the program, <i>i.e.</i>, the set of pages
+the program is currently accessing, is loaded into main memory
+through a series of page faults.  After a flurry of page faults
+when the program starts running, the working set changes slowly,
+so the frequency of page faults drops dramatically, perhaps
+close to zero if the program is small and well-behaved.  It is
+possible to write programs that constantly generate page faults,
+a phenomenon called thrashing.  Given the long access times of
+secondary storage, a program that&#700;s thrashing runs <i>very</i>
+slowly, usually so slowly that user&#700;s give up and rewrite the
+program to behave more sensibly.</p>
+
+<p align="center"><img style="height:450px;" src="lecture_slides/vm/Slide10.png"/></p>
+
+<p>The design of the page map is straightforward.  There&#700;s one
+entry in the page map for each virtual page.  For example, if
+the CPU generates a 32-bit virtual address and the page size is
+$2^{12}$ bytes, the virtual page number has $32-12 = 20$ bits and
+the page table will have $2^{20}$ entries.</p>
+
+<p>Each entry in the page table contains a <i>resident
+bit</i> (R) which is set to 1 when the virtual page is
+resident in physical memory.  If R is 0, an access to that
+virtual page will cause a page fault.  If R is 1, the entry also
+contains the PPN, indicating where to find the virtual page in
+main memory.</p>
+
+<p>There&#700;s one additional state bit called the <i>dirty
+bit</i> (D).  When a page has just been loaded from secondary
+storage, it&#700;s <i>clean</i>, <i>i.e</i>, the contents of physical
+memory match the contents of the page in secondary storage.  So
+the D bit is set to 0.  If subsequently the CPU stores into a
+location on the page, the D bit for the page is set to 1,
+indicating the page is <i>dirty</i>, <i>i.e.</i>, the
+contents of memory now differ from the contents of secondary
+storage.  If a dirty page is ever chosen for replacement, its
+contents must be written to secondary storage in order to save
+the changes before the page gets reused.</p>
+
+<p>Some MMUs have additional state bits in each page table entry.
+For example, there could be a <i>read-only</i> bit which,
+when set, would generate an exception if the program attempts to
+store into the page.  This would be useful for protecting code
+pages from accidentally being corrupted by errant data accesses,
+a very handy debugging feature.</p>
+
+<p align="center"><img style="height:450px;" src="lecture_slides/vm/Slide11.png"/></p>
+
+<p>Here&#700;s an example of the MMU in action.  To make things simple,
+assume that the virtual address is 12 bits, consisting of an
+8-bit page offset and a 4-bit virtual page number.  So there are
+$2^4 = 16$ virtual pages.  The physical address is 11 bits,
+divided into the same 8-bit page offset and a 3-bit physical
+page number.  So there are $2^3 = 8$ physical pages.</p>
+
+<p>On the left we see a diagram showing the contents of the
+16-entry page map, <i>i.e.</i>, an entry for each virtual page.
+Each page table entry includes a dirty bit (D), a resident bit
+(R) and a 3-bit physical page number, for a total of 5 bits.  So
+the page map has 16 entries, each with 5-bits, for a total of
+16*5 = 80 bits.  The first entry in the table is for virtual
+page 0, the second entry for virtual page 1, and so on.</p>
+
+<p>In the middle of the slide there&#700;s a diagram of physical memory
+showing the 8 physical pages.  The annotation for each physical
+page shows the virtual page number of its contents.  Note that
+there&#700;s no particular order to how virtual pages are stored in
+physical memory &#8212; which page holds what is determined by
+which pages are free at the time of a page fault.  In general,
+after the program has run for a while, we&#700;d expected to find the
+sort of jumbled ordering we see here.</p>
+
+<p>Let&#700;s follow along as the MMU handles the request for virtual
+address 0x2C8, generated by the execution of the LD instruction
+shown here.  Splitting the virtual address into page number and
+offset, we see that the VPN is 2 and the offset is 0xC8.
+Looking at the page map entry with index 2, we see that the R
+bit is 1, indicating that virtual page 2 is resident in physical
+memory.  The PPN field of entry tells us that virtual page 2 can
+be found in physical page 4.</p>
+
+<p>Combining the PPN with the 8-bit offset, we find that the
+contents of virtual address 0x2C8 can be found in main memory
+location 0x4C8.  Note that the offset is unchanged by the
+translation process &#8212; the offset into the physical page is
+always the same as the offset into the virtual page.</p>
+
+## Building the MMU
+
+<p align="center"><img style="height:450px;" src="lecture_slides/vm/Slide12.png"/></p>
+
+<p>Let&#700;s review what happens when the CPU accesses a non-resident
+virtual page, <i>i.e.</i>, a page with its resident bit set to
+0.  In the example shown here, the CPU is trying to access
+virtual page 5.</p>
+
+<p>In this case, the MMU signals a page fault exception, causing
+the CPU to suspend execution of the program and switch to the
+page fault handler, which is code that deals with the page
+fault.  The handler starts by either finding an unused physical
+page or, if necessary, creating an unused page by selecting an
+in-use page and making it available.  In our example, the
+handler has chosen virtual page 1 for reuse.  If the selected
+page is dirty, <i>i.e.</i>, its D bit is 1 indicating that its
+contents have changed since being read from secondary storage,
+write it back to secondary storage.  Finally, mark the selected
+virtual page as no longer resident.  In the &#8220;after&#8221;
+figure, we see that the R bit for virtual page 1 has been set to
+0.  Now physical page 4 is available for re-use.</p>
+
+<p>Are there any restrictions on which page we can select?
+Obviously, we can&#700;t select the page that holds the code for the
+page fault handler.  Pages immune from selection are called
+<i>wired</i> pages.  And it would very inefficient to
+choose the page that holds the code that made the initial memory
+access, since we expect to start executing that code as soon as
+we finish handling the page fault.</p>
+
+<p>The optimal strategy would be to choose the page whose next use
+will occur farthest in the future.  But, of course, this
+involves knowledge of future execution paths and so isn&#700;t a
+realizable strategy.  Wikipedia provides a nice description of
+the many strategies for choosing a replacement page, with their
+various tradeoffs between ease of implementation and impact on
+the rate of page faults &#8212; see the URL given at the bottom
+of the slide.  The aging algorithm they describe is frequently
+used since it offers near optimal performance at a moderate
+implementation cost.</p>
+
+<p>Next, the desired virtual page is read from secondary storage
+into the selected physical page.  In our example, virtual page 5
+is now loaded into physical page 4.</p>
+
+<p>Then the R bit and PPN fields in the page table entry for
+virtual page 5 are updated to indicate that the contents of that
+virtual page now reside in physical page 4.</p>
+
+<p>Finally the handler is finished and execution of the original
+program is resumed, re-executing the instruction that caused the
+page fault.  Since the page map has been updated, this time the
+access succeeds and execution continues.</p>
+
+<p align="center"><img style="height:450px;" src="lecture_slides/vm/Slide13.png"/></p>
+
+<p>To double-check our understanding of page faults, let&#700;s run
+through an example.  Here&#700;s the same setup as in our previous
+example, but this time consider a store instruction that&#700;s
+making an access to virtual address 0x600, which is located on
+virtual page 6.</p>
+
+<p>Checking the page table entry for VPN 6, we see that its R bit
+0 indicating that it is NOT resident in main memory, which
+causes a page fault exception.</p>
+
+<p>The page fault handler selects VPN 0xE for replacement since
+we&#700;ve been told in the setup that it&#700;s the least-recently-used
+page.</p>
+
+<p>The page table entry for VPN 0xE has D=1 so the handler writes
+the contents of VPN 0xE, which is found in PPN 0x5, to secondary
+storage.  Then it updates the page table to indicate that VPN
+0xE is no longer resident.</p>
+
+<p>Next, the contents of VPN 0x6 are read from secondary storage
+into the now available PPN 0x5.</p>
+
+<p>Now the handler updates the page table entry for VPN 0x6 to
+indicate that it&#700;s resident in PPN 0x5.</p>
+
+<p>The page fault handler has completed its work, so program
+execution resumes and the ST instruction is re-executed.  This
+time the MMU is able to translate virtual address 0x600 to
+physical address 0x500.  And since the ST instruction modifies
+the contents of VPN 0x6, it&#700;s D bit is set to 1.</p>
+
+<p>Whew!  We&#700;re done :)</p>
+
+<p align="center"><img style="height:450px;" src="lecture_slides/vm/Slide14.png"/></p>
+
+<p>We can think of the work of the MMU as being divided into two
+tasks, which as computer scientists, we would think of as two
+procedures.  In this formulation the information in the page map
+is held in several arrays: the R array holds the resident bits,
+the D array holds the dirty bits, the PPN array holds the
+physical page numbers, and the DiskAdr array holds the location
+in secondary storage for each virtual page.</p>
+
+<p>The VtoP procedure is invoked on each memory access to
+translate the virtual address into a physical address.  If the
+requested virtual page is not resident, the PageFault procedure
+is invoked to make the page resident.  Once the requested page
+is resident, the VPN is used as an index to lookup the
+corresponding PPN, which is then concatenated with the page
+offset to form the physical address.</p>
+
+<p>The PageFault routine starts by selecting a virtual page to be
+replaced, writing out its contents if it&#700;s dirty.  The selected
+page is then marked as not resident.</p>
+
+<p>Finally the desired virtual page is read from secondary storage
+and the page map information updated to reflect that it&#700;s now
+resident in the newly filled physical page.</p>
+
+<p align="center"><img style="height:450px;" src="lecture_slides/vm/Slide15.png"/></p>
+
+<p>We&#700;ll use hardware to implement the VtoP functionality since
+it&#700;s needed for every memory access.  The call to the PageFault
+procedure is accomplished via a page fault exception, which
+directs the CPU to execute the appropriate handler software that
+contains the PageFault procedure.</p>
+
+<p>This is a good strategy to pursue in all our implementation
+choices: use hardware for the operations that need to be fast,
+but use exceptions to handle the (hopefully infrequent)
+exceptional cases in software.  Since the software is executed
+by the CPU, which is itself a piece of hardware, what we&#700;re
+really doing is making the tradeoff between using
+special-purpose hardware (<i>e.g.</i>, the MMU) or using
+general-purpose hardware (<i>e.g.</i>, the CPU).  In general,
+one should be skeptical of proposals to use special-purpose
+hardware, reserving that choice for operations that truly are
+commonplace and whose performance is critical to the overall
+performance of the system.</p>
+
+<p align="center"><img style="height:450px;" src="lecture_slides/vm/Slide16.png"/></p>
+
+<p>There are three architectural parameters that characterize a
+virtual memory system and hence the architecture of the MMU.</p>
+
+<p>P is the number of address bits used for the page offset in
+both virtual and physical addresses.  V is the number of address
+bits used for the virtual page number.  And M is the number of
+address bits used for the physical page number.  All the other
+parameters, listed on the right, are derived from these three
+parameters.</p>
+
+<p>As mentioned earlier, the typical page size is between 4KB and
+16KB, the sweet spot in the tradeoff between the downside of
+using physical memory to hold unwanted locations and the upside
+of reading as much as possible from secondary storage so as to
+amortize the high cost of accessing the initial word over as
+many words as possible.</p>
+
+<p>The size of the virtual address is determined by the ISA.
+We&#700;re now making the transition from 32-bit architectures, which
+support a 4 gigabyte virtual address space, to 64-bit
+architectures, which support a 16 exabyte virtual address space.
+&#8220;Exa&#8221; is the SI prefix for $10^{18}$ - a 64-bit
+address can access a lot of memory!</p>
+
+<p>The limitations of a small virtual address have been the main
+cause for the extinction of many ISAs.  Of course, each
+generation of engineers thinks that the transition they make
+will be the final one!  I can remember when we all thought that
+32 bits was an unimaginably large address.  Back then we&#700;re
+buying memory by the megabyte and only in our fantasies did we
+think one could have a system with several thousand megabytes.
+Today&#700;s CPU architects are feeling pretty smug about 64 bits
+&#8212; we&#700;ll see how they feel in a couple of decades!</p>
+
+<p>The size of physical addresses is currently between 30 bits
+(for embedded processors with modest memory needs) and 40+ bits
+(for servers that handle large data sets).  Since CPU
+implementations are expected to change every couple of years,
+the choice of physical memory size can be adjusted to match
+current technologies.  Since programmers use virtual addresses,
+they&#700;re insulated from this implementation choice.  The MMU
+ensures that existing software will continue to function
+correctly with different sizes of physical memory.  The
+programmer may notice differences in performance, but not in
+basic functionality.</p>
+
+<p align="center"><img style="height:450px;" src="lecture_slides/vm/Slide17.png"/></p>
+
+<p>For example, suppose our system supported a 32-bit virtual
+address, a 30-bit physical address and a 4KB page size.  So $p =
+12$, $v = 32-12 = 20$, and $m = 30 &#8212; 12 = 18$.</p>
+
+<p>There are $2^m$ physical pages, which is $2^{18}$ in our
+example.</p>
+
+<p>There are $2^v$ virtual pages, which is $2^{20}$ in our
+example.</p>
+
+<p>And since there is one entry in the page map for each virtual
+page, there are $2^{20}$ (approximately one million) page map
+entries.</p>
+
+<p>Each page map entry contains a PPN, an R bit and a D bit, for a
+total of m+2 bits, which is 20 bits in our example.  So there
+are approximately 20 million bits in the page map.</p>
+
+<p>If we were thinking of using a large special-purpose static RAM
+to hold the page map, this would get pretty expensive!</p>
+
+<p align="center"><img style="height:450px;" src="lecture_slides/vm/Slide18.png"/></p>
+
+<p>But why use a special-purpose memory for the page map?  Why not
+use a portion of main memory, which we have a lot of and have
+already bought and paid for!</p>
+
+<p>We could use a register, called the page map pointer, to hold
+the address of the page map array in main memory.  In other
+words, the page map would occupy some number of dedicated
+physical pages.  Using the desired virtual page number as an
+index, the hardware could perform the usual array access
+calculation to fetch the needed page map entry from main
+memory.</p>
+
+<p>The downside of this proposed implementation is that it now
+takes two accesses to physical memory to perform one virtual
+access: the first to retrieve the page table entry needed for
+the virtual-to-physical address translation, and the second to
+actually access the requested location.</p>
+
+<p align="center"><img style="height:450px;" src="lecture_slides/vm/Slide19.png"/></p>
+
+<p>Once again, caches to the rescue.  Most systems incorporate a
+special-purpose cache, called a translation look-aside buffer
+(TLB), that maps virtual page numbers to physical page numbers.
+The TLB is usually small and quite fast.  It&#700;s usually
+fully-associative to ensure the best possible hit ratio by
+avoiding collisions.  If the PPN is found by using the TLB, the
+access to main memory for the page table entry can be avoided,
+and we&#700;re back to a single physical access for each virtual
+access.</p>
+
+<p>The hit ratio of a TLB is quite high, usually better than 99%.
+This isn&#700;t too surprising since locality and the notion of a
+working set suggest that only a small number of pages are in
+active use over short periods of time.</p>
+
+<p>As we&#700;ll see in a few slides, there are interesting variations
+to this simple TLB page-map-in-main-memory architecture.  But
+the basic strategy will remain the same.</p>
+
+<p align="center"><img style="height:450px;" src="lecture_slides/vm/Slide20.png"/></p>
+
+<p>Putting it all together: the virtual address generated by the
+CPU is first processed by the TLB to see if the appropriate
+translation from VPN to PPN has been cached.  If so, the main
+memory access can proceed directly.</p>
+
+<p>If the desired mapping is not in the TLB, the appropriate entry
+in the page map is accessed in main memory.  If the page is
+resident, the PPN field of the page map entry is used to
+complete the address translation.  And, of course, the
+translation is cached in the TLB so that subsequent accesses to
+this page can avoid the access to the page map.</p>
+
+<p>If the desired page is not resident, the MMU triggers a page
+fault exception and the page fault handler code will deal with
+the problem.</p>
+
+<p align="center"><img style="height:450px;" src="lecture_slides/vm/Slide21.png"/></p>
+
+<p>Here&#700;s a final example showing all the pieces in action.  In
+this example, $p = 10$, $v = 22$, and $m = 14$.</p>
+
+<p>How many pages can reside in physical memory at one time?
+There are $2^m$ physical pages, so $2^{14}$.</p>
+
+<p>How many entries are there in the page table?  There&#700;s one
+entry for each virtual page and there are $2^v$ virtual pages,
+so there are $2^{22}$ entries in the page table.</p>
+
+<p>How many bits per entry in the page table?  Assume each entry
+holds the PPN, the resident bit, and the dirty bit.  Since the
+PPN is m bits, there are $m+2$ bits in each entry, so 16
+bits.</p>
+
+<p>How many pages does the page table occupy?  There are $2^v$
+page table entries, each occupying $(m+2)/8$ bytes, so the total
+size of the page table in this example is $2^{23}$ bytes.  Each
+page holds $2^p = 2^10$ bytes, so the page table occupies
+$2^{23}/2^{10} = 2^{13}$ pages.</p>
+
+<p>What fraction of virtual memory can be resident at any given
+time?  There are $2^v$ virtual pages, of which $2^m$ can be
+resident.  So the fraction of resident pages is $2^m/2^v =
+2^{14}/2^{22} = 1/2^8$.</p>
+
+<p>What is the physical address for virtual address 0x1804?  Which
+MMU components are involved in the translation?  First we have
+have decompose the virtual address into VPN and offset.  The
+offset is the low-order 10 bits, so is 0x004 in this example.
+The VPN is the remaining address bits, so the VPN is 0x6.
+Looking first in the TLB, we that the VPN-to-PPN mapping for VPN
+0x6 is cached, so we can construct the physical address by
+concatenating the PPN (0x2) with the 10-bit offset (0x4) to get
+a physical address of 0x804.  You&#700;re right!  It&#700;s a bit of pain
+to do all the bit manipulations when p is not a multiple of
+4.</p>
+
+<p>How about virtual address 0x1080?  For this address the VPN is
+0x4 and the offset is 0x80.  The translation for VPN 0x4 is not
+cached in the TLB, so we have to check the page map, which tells
+us that the page is resident in physical page 5.  Concatenating
+the PPN and offset, we get 0x1480 as the physical address.</p>
+
+<p>Finally, how about virtual address 0x0FC?  Here the VPN is 0
+and the offset 0xFC.  The mapping for VPN 0 is not found in the
+TLB and checking the page map reveals that VPN 0 is not resident
+in main memory, so a page fault exception is triggered.</p>
+
+<p>There are a few things to note about the example TLB and page
+map contents.  Note that a TLB entry can be invalid (it&#700;s R bit
+is 0).  This can happen when a virtual page is replaced, so when
+we change the R bit to 0 in the page map, we have to do the same
+in the TLB.  And should we be concerned that PPN 0x5 appears
+twice in the page table?  Note that the entry for VPN 0x3
+doesn&#700;t matter since it&#700;s R bit is 0.  Typically when marking a
+page not resident, we don&#700;t bother to clear out the other fields
+in the entry since they won&#700;t be used when R=0.  So there&#700;s only
+one <i>valid</i> mapping to PPN 5.</p>
+
+## Contexts
+
+<p align="center"><img style="height:450px;" src="lecture_slides/vm/Slide22.png"/></p>
+
+<p>The page map provides the context for interpreting virtual
+addresses,
+<i>i.e.</i>, it provides the information needed to correctly
+determine where to find a virtual address in main memory or
+secondary storage.</p>
+
+<p>Several programs may be simultaneously loaded into main memory,
+each with its own context.  Note that the separate contexts
+ensure that the programs don&#700;t interfere which each other.  For
+example, the physical location for virtual address 0 in one
+program will be different than the physical location for virtual
+address 0 in another program.  Each program operates
+independently in its own virtual address space.  It&#700;s the
+context provided by the page map that allows them to coexist and
+share a common physical memory.  So we need to switch contexts
+when switching programs.  This is accomplished by reloading the
+page map.</p>
+
+<p align="center"><img style="height:450px;" src="lecture_slides/vm/Slide23.png"/></p>
+
+<p>In a timesharing system, the CPU will periodically switch from
+running one program to another, giving the illusion that
+multiple programs are each running on their own virtual machine.
+This is accomplished by switching contexts when switching the
+CPU state to the next program.</p>
+
+<p>There&#700;s a privileged set of code called the operating system
+(OS) that manages the sharing of one physical processor and main
+memory amongst many programs, each with its own CPU state and
+virtual address space.  The OS is effectively creating many
+virtual machines and choreographing their execution using a
+single set of shared physical resources.</p>
+
+<p>The OS runs in a special OS context, which we call the kernel.
+The OS contains the necessary exception handlers and timesharing
+support.  Since it has to manage physical memory, it&#700;s allowed
+to access any physical location as it deals with page faults,
+etc.  Exceptions in running programs cause the hardware to
+switch to the kernel context, which we call entering
+<i>kernel mode</i>.  After the exception handling is
+complete, execution of the program resumes in what we call
+<i>user mode</i>.</p>
+
+<p>Since the OS runs in kernel mode it has privileged access to
+many hardware registers that are inaccessible in user mode.
+These include the MMU state, I/O devices, and so on.  User-mode
+programs that need to access, say, the disk, need to make a
+request to the OS kernel to perform the operation, giving the OS
+the chance to vet the request for appropriate permissions, etc.
+We&#700;ll see how all of this works in an upcoming lecture.</p>
+
+<p align="center"><img style="height:450px;" src="lecture_slides/vm/Slide24.png"/></p>
+
+<p>User-mode programs (aka applications) are written as if they
+have access to the entire virtual address space.  They often
+obey the same conventions such as the address of the first
+instruction in the program, the initial value for the stack
+pointer, etc.  Since all these virtual addresses are interpreted
+using the current context, by controlling the contexts the OS
+can ensure that the programs can coexist without conflict.</p>
+
+<p>The diagram on the right shows a standard plan for organizing
+the virtual address space of an application.  Typically the
+first virtual page is made inaccessible, which helps catch
+errors involving references to initialized (<i>i.e.</i>,
+zero-valued) pointers.  Then come some number of read-only pages
+that hold the application&#700;s code and perhaps the code from any
+shared libraries it uses.  Marking code pages as read-only
+avoids hard-to-find bugs where errant data accesses
+inadvertently change the program!</p>
+
+<p>Then there are read-write pages holding the application&#700;s
+statically allocated data structures.  The rest of the virtual
+address space is divided between two data regions that can grow
+over time.  The first is the application&#700;s stack, used to hold
+procedure activation records.  Here we show it located at the
+lower end of the virtual address space since our convention is
+that the stack grows towards higher addresses.</p>
+
+<p>The other growable region is the heap, used when dynamically
+allocating storage for long-lived data structures.
+&#8220;Dynamically&#8221; means that the allocation and
+deallocation of objects is done by explicit procedure calls
+while the application is running.  In other words, we don&#700;t know
+which objects will be created until the program actually
+executes.  As shown here, as the heap expands it grows towards
+lower addresses.</p>
+
+<p>The page fault handler knows to allocate new pages when these
+regions grow.  Of course, if they ever meet somewhere in the
+middle and more space is needed, the application is out of luck
+&#8212; it&#700;s run out of virtual memory!</p>
+
+<p align="center"><img style="height:450px;" src="lecture_slides/vm/Slide25.png"/></p>
+
+<p>There are a few MMU implementation details we can tweak for
+more efficiency or functionality.</p>
+
+<p>In our simple page-map implementation, the full page map occupies
+some number of physical pages.  Using the numbers shown here, if
+each entry in the page map occupies one word of main memory,
+we&#700;d need $2^{20}$ words (or $2^{10}$ pages) to hold the page
+table.  If we have multiple contexts, we would need multiple page
+tables, and the demands on our physical memory resources would start
+to get large.</p>
+
+<p>The MMU implementation shown here uses a hierarchical page map.
+The top 10 bits of virtual address are used to access a
+<i>page directory</i>, which indicates the physical page
+that holds the page map for that segment of the virtual address
+space.  The key idea is that the page map segments are in
+virtual memory, <i>i.e.</i>, they don&#700;t all have to be resident
+at any given time.  If the running application is only actively
+using a small portion of its virtual address space, we may only
+need a handful of pages to hold the page directory and the
+necessary page map segments.  The resultant savings really add
+up when there are many applications, each with their own
+context.</p>
+
+<p>In this example, note that the middle entries in the page
+directory,
+<i>i.e.</i>, the entries corresponding to the as-yet unallocated
+virtual memory between the stack and heap, are all marked as not
+resident.  So no page map resources need be devoted to holding a
+zillion page map entries all marked &#8220;not
+resident&#8221;.</p>
+
+<p>Accessing the page map now requires two access to main memory
+(first to the page directory, then to the appropriate segment of
+the page map), but the TLB makes the impact of that additional
+access negligible.</p>
+
+<p align="center"><img style="height:450px;" src="lecture_slides/vm/Slide26.png"/></p>
+
+<p>Normally when changing contexts, the OS would reload the
+page-table pointer to point to the appropriate page table (or
+page table directory if we adopt the scheme from the previous
+slide).  Since this context switch in effect changes all the
+entries in the page table, the OS would also have to invalidate
+all the entries in the TLB cache.  This naturally has a huge
+impact on the TLB hit ratio and the average memory access time
+takes a huge hit because of the all page map accesses that are
+now necessary until the TLB is refilled.</p>
+
+<p>To reduce the impact of context switches, some MMUs include a
+context-number register whose contents are concatenated with the
+virtual page number to form the query to the TLB.  Essentially
+this means that the tag field in the TLB cache entries will
+expand to include the context number provided at the time the
+TLB entry was filled.</p>
+
+<p>To switch contexts, the OS would now reload both the
+context-number register and the page-table pointer.  With a new
+context number, entries in the TLB for other contexts would no
+longer match, so no need to flush the TLB on a context switch.
+If the TLB has sufficient capacity to cache the VPN-to-PPN
+mappings for several contexts, context switches would no longer
+have a substantial impact on average memory access time.</p>
+
+## Summary
+
+<p align="center"><img style="height:450px;" src="lecture_slides/vm/Slide27.png"/></p>
+
+<p>Finally, let&#700;s return to the question about how to incorporate
+both a cache and an MMU into our memory system.</p>
+
+<p>The first choice is to place the cache between the CPU and the
+MMU,
+<i>i.e.</i>, the cache would work on virtual addresses.  This
+seems good: the cost of the VPN-to-PPN translation is only
+incurred on a cache miss.  The difficulty comes when there&#700;s a
+context switch, which changes the effective contents of virtual
+memory.  After all that was the point of the context switch,
+since we want to switch execution to another program.  But that
+means the OS would have to invalidate all the entries in the
+cache when performing a context switch, which makes the cache
+miss ratio quite large until the cache is refilled.  So once
+again the performance impact of a context switch would be quite
+high.</p>
+
+<p>We can solve this problem by caching physical
+addresses, <i>i.e.</i>, placing the cache between the MMU and
+main memory.  Thus the contents of the cache are unaffected by
+context switches &#8212; the requested physical addresses will
+be different, but the cache handles that in due course.  The
+downside of this approach is that we have to incur the cost of
+the MMU translation before we can start the cache access,
+slightly increasing the average memory access time.</p>
+
+<p align="center"><img style="height:450px;" src="lecture_slides/vm/Slide28.png"/></p>
+
+<p>But if we&#700;re clever we don&#700;t have to wait for the MMU to finish
+before starting the access to the cache.  To get started, the
+cache needs the line number from the virtual address in order to
+fetch the appropriate cache line.  If the address bits used for
+the line number are completely contained in the page offset of
+the virtual address, those bits are unaffected by the MMU
+translation, and so the cache lookup can happen in parallel with
+the MMU operation.</p>
+
+<p>Once the cache lookup is complete, the tag field of the cache
+line can be compared with the appropriate bits of the physical
+address produced by the MMU.  If there was a TLB hit in the MMU,
+the physical address should be available at about the same time
+as the tag field produced by the cache lookup.</p>
+
+<p>By performing the MMU translation and cache lookup in parallel,
+there&#700;s usually no impact on the average memory access time!
+Voila, the best of both worlds: a physically addressed cache
+that incurs no time penalty for MMU translation.</p>
+
+<p>One final detail: one way to increase the capacity of the cache
+is to increase the number of cache lines and hence the number of
+bits of address used as the line number.  Since we want the line
+number to fit into the page offset field of the virtual address,
+we&#700;re limited in how many cache lines we can have.  The same
+argument applies to increasing the block size.  So to increase
+the capacity of the cache our only option is to increase the
+cache associativity, which adds capacity without affecting the
+address bits used for the line number.</p>
+
+<p align="center"><img style="height:450px;" src="lecture_slides/vm/Slide29.png"/></p>
+
+<p>That&#700;s it for our discussion of virtual memory.  We use the MMU
+to provide the context for mapping virtual addresses to physical
+addresses.  By switching contexts we can create the illusion of
+many virtual address spaces, so many programs can share a single
+CPU and physical memory without interfering with each other.</p>
+
+<p>We discussed using a page map to translate virtual page numbers
+to physical page numbers.  To save costs, we located the page
+map in physical memory and used a TLB to eliminate the cost of
+accessing the page map for most virtual memory accesses.  Access
+to a non-resident page causes a page fault exception, allowing
+the OS to manage the complexities of equitably sharing physical
+memory across many applications.</p>
+
+<p>We saw that providing contexts was the first step towards
+creating virtual machines, which is the topic of our next
+lecture.</p>
