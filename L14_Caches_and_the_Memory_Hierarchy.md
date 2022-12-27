@@ -2,7 +2,7 @@
 
 ## Memory Technologies
 
-<p align="center"><img style="height:450px;" src="lecture_slides/caches/Slide2.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/caches/Slide2.png"/></p>
 
 <p>In the last chpater we completed the design of the Beta, our
 reduced-instruction-set computer.  The simple organization of the Beta
@@ -31,7 +31,7 @@ chapter is to understand the nature of the bottleneck and to see if
 there architectural improvements we might make to minimize the problem
 as much as possible.</p>
 
-<p align="center"><img style="height:450px;" src="lecture_slides/caches/Slide3.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/caches/Slide3.png"/></p>
 
 <p>We have a number of memory technologies at our disposal, varying
 widely in their capacity, latency, bandwidth, energy efficiency and
@@ -77,7 +77,7 @@ high capacity.</p>
 <p>Let&#700;s learn a bit more about each of these four memory technologies,
 then we&#700;ll return to the job of building our memory system.</p>
 
-<p align="center"><img style="height:450px;" src="lecture_slides/caches/Slide4.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/caches/Slide4.png"/></p>
 
 <p>SRAMs are organized as an array of memory locations, where a memory
 access is either reading or writing all the bits in a single location.
@@ -104,7 +104,7 @@ is driven onto the bit lines to be stored into the enabled bit cells.</p>
 <p>Larger SRAMs will have a more complex organization in order to
 minimize the length, and hence the capacitance, of the bit lines.</p>
 
-<p align="center"><img style="height:450px;" src="lecture_slides/caches/Slide5.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/caches/Slide5.png"/></p>
 
 <p>The heart of the SRAM are the bit cells.  The typical cell has two
 CMOS inverters wired in a positive feedback loop to create a bistable
@@ -124,7 +124,7 @@ bitlines.  When the wordline is low, the access FETs are off and the
 bistable feedback loop is isolated from the bitlines and will happily
 maintain the stored value as long as there&#700;s power.</p>
 
-<p align="center"><img style="height:450px;" src="lecture_slides/caches/Slide6.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/caches/Slide6.png"/></p>
 
 <p>During a read operation, the drivers first recharge all the bitlines
 to Vdd (<i>i.e.</i>, a logical 1 value) and then disconnect, leaving the
@@ -151,7 +151,7 @@ expertise with the analog behavior of MOSFETs and some cleverness to
 ensure electrical noise will not interfere with the correct operation
 of the circuitry.</p>
 
-<p align="center"><img style="height:450px;" src="lecture_slides/caches/Slide7.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/caches/Slide7.png"/></p>
 
 <p>Write operations start by driving the bitlines to the appropriate
 values.  In the example shown here, we want to write a 0-bit into the
@@ -177,7 +177,7 @@ inverters in the cell.  Again, SRAM designers need a lot of expertise
 to correctly balance the sizes of MOSFETs to ensure fast and reliable
 write operations.</p>
 
-<p align="center"><img style="height:450px;" src="lecture_slides/caches/Slide8.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/caches/Slide8.png"/></p>
 
 <p>It&#700;s not hard to augment the SRAM to support multiple read/write
 ports, a handy addition for register file circuits.  We&#700;ll do this by
@@ -194,7 +194,7 @@ cell increase when adding ports, the overall area grows as the square
 of the number of read/write ports.  So one has to take care not to
 gratuitously add ports lest the cost of the SRAM get out of hand.</p>
 
-<p align="center"><img style="height:450px;" src="lecture_slides/caches/Slide9.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/caches/Slide9.png"/></p>
 
 <p>In summary, the circuitry for the SRAM is organized as an array of bit
 cells, with one row for each memory location and one column for each
@@ -206,7 +206,7 @@ analog operations performed via the bitlines and access FETs.</p>
 the minimum number of MOSFETs needed to store a single bit of
 information?</p>
 
-<p align="center"><img style="height:450px;" src="lecture_slides/caches/Slide10.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/caches/Slide10.png"/></p>
 
 <p>Well, we&#700;ll need at least one MOSFET to serve as the access FET so we
 can select which bits will be affected by read and write operations.
@@ -249,7 +249,7 @@ arrange to read then re-write each bit cell (called a <i>refresh</i> cycle)
 every 10ms or so, adding to the complexity of the DRAM interface
 circuitry.</p>
 
-<p align="center"><img style="height:450px;" src="lecture_slides/caches/Slide11.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/caches/Slide11.png"/></p>
 
 <p>DRAM write operations are straightforward: simply turn on the access
 FET with the wordline and charge or discharge the storage capacitor
@@ -281,7 +281,7 @@ again.  The first access to a row has a long latency, but subsequent
 accesses to the same row have very low latency.  As we&#700;ll see, we&#700;ll
 be able to use fast column accesses to our advantage.</p>
 
-<p align="center"><img style="height:450px;" src="lecture_slides/caches/Slide12.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/caches/Slide12.png"/></p>
 
 <p>In summary, DRAM bit cells consist of a single access FET connected to
 a storage capacitor that&#700;s cleverly constructed to take up as little
@@ -301,7 +301,7 @@ power.  But if the circuitry is powered down, the stored bits will be
 lost.  For long-term storage we will need to use non-volatile memory
 technologies, the topic of the next section.</p>
 
-<p align="center"><img style="height:450px;" src="lecture_slides/caches/Slide13.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/caches/Slide13.png"/></p>
 
 <p>Non-volatile memories are used to maintain system state even when the
 system is powered down.  In flash memories, long-term storage is
@@ -347,7 +347,7 @@ cells on each successive write.</p>
 higher-cost replacement for the hard-disk drive, the long-time
 technology of choice for non-volatile storage.</p>
 
-<p align="center"><img style="height:450px;" src="lecture_slides/caches/Slide14.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/caches/Slide14.png"/></p>
 
 <p>A hard-disk drive (HDD) contains one or more rotating platters coated
 with a magnetic material.  The platters rotate at speeds ranging from
@@ -372,7 +372,7 @@ reposition the head.</p>
 <p>Hard disk drives provide cost-effective non-volatile storage for
 terabytes of data, albeit at the cost of slow access times.</p>
 
-<p align="center"><img style="height:450px;" src="lecture_slides/caches/Slide15.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/caches/Slide15.png"/></p>
 
 <p>This completes our whirlwind tour of memory technologies.  If you&#700;d
 like to learn a bit more, Wikipedia has useful articles on each type
@@ -398,7 +398,7 @@ worlds?</p>
 
 ## The Memory Hierarchy
 
-<p align="center"><img style="height:450px;" src="lecture_slides/caches/Slide16.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/caches/Slide16.png"/></p>
 
 <p>We want our system to behave as if it had a large, fast, and cheap
 main memory.  Clearly we can&#700;t achieve this goal using any single
@@ -413,7 +413,7 @@ slower memory components, moving the between the levels when
 necessary?  Let&#700;s follow this train of thought and see where it leads
 us.</p>
 
-<p align="center"><img style="height:450px;" src="lecture_slides/caches/Slide17.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/caches/Slide17.png"/></p>
 
 <p>There are two approaches we might take.  The first is to expose the
 hierarchy, providing some amount of each type of storage and let the
@@ -461,7 +461,7 @@ hierarchical memory system that appears as one large, uniform memory.
 What&#700;s the insight that makes this possible?  That&#700;s the topic of the
 next section.</p>
 
-<p align="center"><img style="height:450px;" src="lecture_slides/caches/Slide18.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/caches/Slide18.png"/></p>
 
 <p>So, how can the memory system arrange for the right data to be in the
 right place at the right time?  Our goal is to have the
@@ -483,7 +483,7 @@ The guiding principle is <i>locality of reference</i> which tells us that
 if there&#700;s an access to address X at time t, it&#700;s very probable that
 the program will access a nearby location in the near future.</p>
 
-<p align="center"><img style="height:450px;" src="lecture_slides/caches/Slide19.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/caches/Slide19.png"/></p>
 
 <p>To understand why programs exhibit locality of reference, let&#700;s look
 at how a running program accesses memory.</p>
@@ -546,7 +546,7 @@ a slide or two, but you can see that thanks to locality of reference
 we&#700;re on track to build a memory out of a combination of SRAM and DRAM
 that performs like an SRAM but has the capacity of the DRAM.</p>
 
-<p align="center"><img style="height:450px;" src="lecture_slides/caches/Slide20.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/caches/Slide20.png"/></p>
 
 <p>The SRAM component of our hierarchical memory system is called a
 <i>cache</i>.  It provides low-latency access to recently-accessed blocks
@@ -571,7 +571,7 @@ of frequently-accessed web pages and uses its local copy of the web
 page if it determines the data is still valid, avoiding the delay of
 transferring the data over the Internet.</p>
 
-<p align="center"><img style="height:450px;" src="lecture_slides/caches/Slide21.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/caches/Slide21.png"/></p>
 
 <p>Here&#700;s an example memory hierarchy that might be found on a modern
 computer.  There are three levels on-chip SRAM caches, followed by
@@ -594,7 +594,7 @@ be quite different in the slower layers of the hierarchy.</p>
 
 ## Direct-mapped Caches
 
-<p align="center"><img style="height:450px;" src="lecture_slides/caches/Slide22.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/caches/Slide22.png"/></p>
 
 <p>Okay, let&#700;s review our plan.  The processor starts an access by
 sending an address to the cache.  If data for the requested address is
@@ -613,7 +613,7 @@ simply waiting for the access to complete, or, in modern
 hyper-threaded processors, it might execute an instruction or two from
 another programming thread.</p>
 
-<p align="center"><img style="height:450px;" src="lecture_slides/caches/Slide23.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/caches/Slide23.png"/></p>
 
 <p>The hit and miss ratios tell us the fraction of accesses which are
 cache hits and the fraction of accesses which are cache misses.  Of
@@ -637,7 +637,7 @@ recursively to calculate the AMAT at each level of the memory.  Each
 successive level of the cache is slower, <i>i.e.</i>, has a longer hit time,
 which is offset by lower miss ratio because of its increased size.</p>
 
-<p align="center"><img style="height:450px;" src="lecture_slides/caches/Slide24.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/caches/Slide24.png"/></p>
 
 <p>Let&#700;s try out some numbers.  Suppose the cache takes 4 processor
 cycles to respond, and main memory takes 100 cycles.  Without the
@@ -665,7 +665,7 @@ measured to be 97.5% over some ~10 trillion accesses.</p>
 <p>[See the &#8220;All benchmarks&#8221; arithmetic-mean table at
 http://research.cs.wisc.edu/multifacet/misc/spec2000cache-data/]</p>
 
-<p align="center"><img style="height:450px;" src="lecture_slides/caches/Slide25.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/caches/Slide25.png"/></p>
 
 <p>Here&#700;s a start at building a cache.  The cache will hold many
 different blocks of data; for now let&#700;s assume each block is an
@@ -701,7 +701,7 @@ close to the cache access time.  So far, so good!</p>
 we&#700;ll a need fast way to answer the question of whether a particular
 address tag can be found in some cache line.  That&#700;s our next topic.</p>
 
-<p align="center"><img style="height:450px;" src="lecture_slides/caches/Slide26.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/caches/Slide26.png"/></p>
 
 <p>The simplest cache hardware consists of an SRAM with a few additional
 pieces of logic.  The cache hardware is designed so that each memory
@@ -780,7 +780,7 @@ cache at the same time.  A more complicated search mechanism couldn&#700;t
 improve on that.  The bottom line: this extremely simple search is
 sufficient to get good cache hit ratios for the cases we care about.</p>
 
-<p align="center"><img style="height:450px;" src="lecture_slides/caches/Slide27.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/caches/Slide27.png"/></p>
 
 <p>Let&#700;s try a few more examples, in this case using a DM cache with 64
 lines.</p>
@@ -816,7 +816,7 @@ line.  We of course need to be able to recover the complete address
 from the information held in the cache so it can be correctly compared
 against address requests from the CPU.</p>
 
-<p align="center"><img style="height:450px;" src="lecture_slides/caches/Slide28.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/caches/Slide28.png"/></p>
 
 <p>We can tweak the design of the DM cache a little to take advantage of
 locality and save some of the overhead of tag fields and valid bits.</p>
@@ -854,7 +854,7 @@ blocks?  Probably not.  Locality tells us that we&#700;ll probably want
 those other words in the near future, so having them in the cache will
 likely improve the hit ratio.</p>
 
-<p align="center"><img style="height:450px;" src="lecture_slides/caches/Slide29.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/caches/Slide29.png"/></p>
 
 <p>What&#700;s the tradeoff between block size and performance?  We&#700;ve argued
 that increasing the block size from 1 was a good idea.  Is there a
@@ -885,7 +885,7 @@ counterproductive.</p>
 for AMAT to choose the block size the gives us the best possible AMAT.
 In modern processors, a common block size is 64 bytes (16 words).</p>
 
-<p align="center"><img style="height:450px;" src="lecture_slides/caches/Slide30.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/caches/Slide30.png"/></p>
 
 <p>DM caches do have an Achilles heel.  Consider running the
 3-instruction LOOPA code with the instructions located starting at
@@ -923,7 +923,7 @@ conflict misses.</p>
 
 ## Associative Caches
 
-<p align="center"><img style="height:450px;" src="lecture_slides/caches/Slide31.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/caches/Slide31.png"/></p>
 
 <p>A fully-associative (FA) cache has a tag comparator for each cache
 line.  So the tag field of *every* cache line in a FA cache is
@@ -955,7 +955,7 @@ you&#700;ll see it looks like four 1-line DM caches operating in parallel.
 What would happen if we designed a cache with four multi-line DM
 caches operating in parallel?</p>
 
-<p align="center"><img style="height:450px;" src="lecture_slides/caches/Slide32.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/caches/Slide32.png"/></p>
 
 <p>The result would be what we call an 4-way set-associative (SA) cache.
 An N-way SA cache is really just N DM caches (let&#700;s call them
@@ -984,7 +984,7 @@ require a large number of comparators.</p>
 <p>So N-way SA caches are a good compromise between a conflict-prone DM
 cache and the flexible but very expensive FA cache.</p>
 
-<p align="center"><img style="height:450px;" src="lecture_slides/caches/Slide33.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/caches/Slide33.png"/></p>
 
 <p>Here&#700;s a slightly more detailed diagram, in this case of a 3-way 8-set
 cache.  Note that there&#700;s no constraint that the number of ways be a
@@ -1005,7 +1005,7 @@ the data fetched from DRAM during a cache miss into a single sub-cache
 possibility that more than one sub-cache will ever match an incoming
 address.</p>
 
-<p align="center"><img style="height:450px;" src="lecture_slides/caches/Slide34.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/caches/Slide34.png"/></p>
 
 <p>How many ways to do we need?  We&#700;d like enough ways to avoid the cache
 line conflicts we experienced with the DM cache.  Looking at the graph
@@ -1025,7 +1025,7 @@ time interval and accesses late in the time interval.</p>
 <p>The point is that a small number of ways should be sufficient to avoid
 most cache line conflicts in the cache.</p>
 
-<p align="center"><img style="height:450px;" src="lecture_slides/caches/Slide35.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/caches/Slide35.png"/></p>
 
 <p>As with block size, it&#700;s possible to have too much of a good thing:
 there&#700;s an optimum number of ways that minimizes the AMAT.  Beyond
@@ -1039,7 +1039,7 @@ programs, an 8-way set-associative cache with a large number of sets
 will perform on a par with the much more-expensive FA cache of
 equivalent capacity.</p>
 
-<p align="center"><img style="height:450px;" src="lecture_slides/caches/Slide36.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/caches/Slide36.png"/></p>
 
 <p>There&#700;s one final issue to resolve with SA and FA caches.  When
 there&#700;s a cache miss, which cache line should be chosen to hold the
@@ -1053,7 +1053,7 @@ And in a FA cache, any of the cache lines can be chosen.</p>
 the cache line which will minimize the impact on the hit ratio in the
 future.</p>
 
-<p align="center"><img style="height:450px;" src="lecture_slides/caches/Slide37.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/caches/Slide37.png"/></p>
 
 <p>The optimal choice is to replace the block that is accessed furthest
 in the future (or perhaps is never accessed again).  But that requires
@@ -1093,7 +1093,7 @@ execute much more slowly than expected.</p>
 <p>When all is said and done, an LRU replacement strategy or a close
 approximation is a reasonable choice.</p>
 
-<p align="center"><img style="height:450px;" src="lecture_slides/caches/Slide38.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/caches/Slide38.png"/></p>
 
 <p>Okay, one more cache design decision to make, then we&#700;re done!</p>
 
@@ -1128,7 +1128,7 @@ minimizes the number of accesses to main memory, preserving the memory
 bandwidth for other operations.  This is the strategy used by most
 modern processors.</p>
 
-<p align="center"><img style="height:450px;" src="lecture_slides/caches/Slide39.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/caches/Slide39.png"/></p>
 
 <p>Write-back is easy to implement.  Returning to our original cache
 recipe, we simply eliminate the start of the write to main memory when
@@ -1143,7 +1143,7 @@ access.</p>
 <p>Hmm.  Seems like this does a write-back of all replaced cache lines
 whether or not they&#700;ve been written to.</p>
 
-<p align="center"><img style="height:450px;" src="lecture_slides/caches/Slide40.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/caches/Slide40.png"/></p>
 
 <p>We can avoid unnecessary write-backs by adding another state bit to
 each cache line: the <i>dirty</i> bit.  The dirty bit is set to 0 when a
@@ -1162,7 +1162,7 @@ memory.</p>
 
 ## Summary: Cache Tradeoffs
 
-<p align="center"><img style="height:450px;" src="lecture_slides/caches/Slide41.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/caches/Slide41.png"/></p>
 
 <p>That concludes our discussion of caches, which was motivated by our
 desire to minimize the average memory access time by building a
