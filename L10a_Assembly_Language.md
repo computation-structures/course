@@ -1,8 +1,8 @@
-<p align="center"><img style="height:450px;" src="lecture_slides/assembly/Slide1.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/assembly/Slide1.png"/></p>
 
 ## Review: Beta ISA
 
-<p align="center"><img style="height:450px;" src="lecture_slides/assembly/Slide2.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/assembly/Slide2.png"/></p>
 
 <p>In the previous lecture, we developed the instruction set
 architecture for the Beta, the computer system we&#700;ll be
@@ -44,7 +44,7 @@ value to main memory.</p>
 change the program counter and hence the address of the next
 instruction to be executed.</p>
 
-<p align="center"><img style="height:450px;" src="lecture_slides/assembly/Slide3.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/assembly/Slide3.png"/></p>
 
 <p>To program the Beta we&#700;ll need to load main memory with
 binary-encoded instructions.  Figuring out each encoding is
@@ -77,7 +77,7 @@ Beta can actually execute.</p>
 
 ## Assembly Language
 
-<p align="center"><img style="height:450px;" src="lecture_slides/assembly/Slide4.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/assembly/Slide4.png"/></p>
 
 <p>Okay, back to assembly language, which we&#700;ll use to
 shield ourselves from the bit-level representations of
@@ -100,7 +100,7 @@ shorthand notations for sequences of expressions that, when
 evaluated, will generate the binary representations for
 instructions and data.</p>
 
-<p align="center"><img style="height:450px;" src="lecture_slides/assembly/Slide5.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/assembly/Slide5.png"/></p>
 
 <p>Here&#700;s an example UASM source file.  Typically we write
 one UASM statement on each line and can use spaces, tabs and
@@ -173,7 +173,7 @@ definition.  Think of a macro as shorthand for a longer text
 string we could have typed in.  We&#700;ll see how all this
 works in the next video segment.</p>
 
-<p align="center"><img style="height:450px;" src="lecture_slides/assembly/Slide6.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/assembly/Slide6.png"/></p>
 
 <p>Let&#700;s follow along as the assembler processes our source
 file.  The assembler maintains a symbol table that maps symbols
@@ -217,7 +217,7 @@ that is defined later in the file, <i>e.g.</i>, a forward branch
 instruction could refer to the label for an instruction later in
 the program.</p>
 
-<p align="center"><img style="height:450px;" src="lecture_slides/assembly/Slide7.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/assembly/Slide7.png"/></p>
 
 <p>As we saw in the previous slide, there&#700;s nothing magic
 about the register symbols &#8212; they are just symbolic names
@@ -241,7 +241,7 @@ language programs, you have to keep your wits about you and
 recognize that the interpretation of an operand is determined by
 the opcode macro, not by the way you wrote the operand.</p>
 
-<p align="center"><img style="height:450px;" src="lecture_slides/assembly/Slide8.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/assembly/Slide8.png"/></p>
 
 <p>Recall from the previous lecture that branch instructions use
 the 16-bit constant field of the instruction to encode the
@@ -267,7 +267,7 @@ of the BNE instruction.</p>
 
 ## Macros
 
-<p align="center"><img style="height:450px;" src="lecture_slides/assembly/Slide9.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/assembly/Slide9.png"/></p>
 
 <p>Let&#700;s take a closer look at how macros work in UASM.
 Here we see the definition of the macro &#8220;consec&#8221;
@@ -320,7 +320,7 @@ Swift&#700;s &#8220;Gulliver&#700;s Travels&#8221; in which a
 civil war is fought over whether to open a soft-boiled egg at
 its big end or its little end.</p>
 
-<p align="center"><img style="height:450px;" src="lecture_slides/assembly/Slide10.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/assembly/Slide10.png"/></p>
 
 <p>Let&#700;s look at the macros used to assemble Beta
 instructions.  The BETAOP helper macro supports the 3-register
@@ -360,7 +360,7 @@ fields.  It&#700;s not a complicated process, but it requires a
 lot of shifting and masking, tasks that we&#700;re happy to let
 a computer handle.</p>
 
-<p align="center"><img style="height:450px;" src="lecture_slides/assembly/Slide11.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/assembly/Slide11.png"/></p>
 
 <p>Here&#700;s the entire sequence of macro expansions that
 assemble this ADDC instruction into an appropriate 32-bit binary
@@ -372,7 +372,7 @@ The UASM processing is actually quite general &#8212; with a
 different set of macro definitions it could process assembly
 language programs for almost any ISA!</p>
 
-<p align="center"><img style="height:450px;" src="lecture_slides/assembly/Slide12.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/assembly/Slide12.png"/></p>
 
 <p>All the macro definitions for the Beta ISA are provided in the
 beta.uasm file, which is included in each of the assembly
@@ -388,7 +388,7 @@ destination register.  Saves some typing, and, more importantly,
 it makes it easier to understand the assembly language
 program.</p>
 
-<p align="center"><img style="height:450px;" src="lecture_slides/assembly/Slide13.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/assembly/Slide13.png"/></p>
 
 <p>Here are a whole set of convenience macros intended to make
 programs more readable.  For example, unconditional branches can
@@ -408,7 +408,7 @@ instruction set, although underneath the covers we&#700;ve just
 using the same small instruction repertoire developed in the
 lecture on &#8220;Instruction Set Architectures&#8221;.</p>
 
-<p align="center"><img style="height:450px;" src="lecture_slides/assembly/Slide14.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/assembly/Slide14.png"/></p>
 
 <p>In this example we&#700;ve rewritten the original code we had
 for the factorial computation using pseudo instructions.  For
@@ -419,7 +419,7 @@ than an &#8220;add a value to 0&#8221; operation provided by the
 ADDC expansion of CMOVE.  Anything we can do to remove the
 cognitive clutter will be very beneficial in the long run.</p>
 
-<p align="center"><img style="height:450px;" src="lecture_slides/assembly/Slide15.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/assembly/Slide15.png"/></p>
 
 <p>So far we&#700;ve talked about assembling instructions.  What
 about data?  How do we allocate and initialize data storage and
@@ -447,7 +447,7 @@ to be placed in R1.</p>
 
 </vertical>
 <vertical display_name="UASM Expressions and Layout">
-<p align="center"><img style="height:450px;" src="lecture_slides/assembly/Slide16.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/assembly/Slide16.png"/></p>
 
 <p>The constants needed as values for data words and instruction
 fields can be written as expressions.  These expressions are
@@ -484,7 +484,7 @@ initialized array.</p>
 
 ## Summary: Assembly Language
 
-<p align="center"><img style="height:450px;" src="lecture_slides/assembly/Slide17.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/assembly/Slide17.png"/></p>
 
 <p>And that&#700;s assembly language!  We use assembly language
 as a convenient notation for generating the binary encoding for
