@@ -1,8 +1,8 @@
-<p align="center"><img style="height:450px;" src="https://github.com/computation-structures/course/blob/main/lecture_slides/tradeoffs/Slide1.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/tradeoffs/Slide1.png?raw=true"/></p>
 
 ## Optimizing Your Design
 
-<p align="center"><img style="height:450px;" src="https://github.com/computation-structures/course/blob/main/lecture_slides/tradeoffs/Slide2.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/tradeoffs/Slide2.png?raw=true"/></p>
 
 <p>In this lecture, we&#700;re going to look into
 optimizing digital systems to make them smaller, faster, higher
@@ -46,7 +46,7 @@ challenge on which good engineers thrive!  Nothing is more
 satisfying than delivering more than anyone thought possible
 within the specified constraints.</p>
 
-<p align="center"><img style="height:450px;" src="https://github.com/computation-structures/course/blob/main/lecture_slides/tradeoffs/Slide3.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/tradeoffs/Slide3.png?raw=true"/></p>
 
 <p>Our first optimization topic is power dissipation, where the
 usual goal is to either meet a certain power budget, or to
@@ -107,7 +107,7 @@ you&#700;re aware that newer technologies often bring
 additional costs that then become part of the trade-off
 process.</p>
 
-<p align="center"><img style="height:450px;" src="https://github.com/computation-structures/course/blob/main/lecture_slides/tradeoffs/Slide4.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/tradeoffs/Slide4.png?raw=true"/></p>
 
 <p>A designer does have some control over the dynamic power
 dissipation of the circuit, the amount of power spent causing
@@ -152,7 +152,7 @@ output node is charged and the other half stored as energy in
 the capacitor.  Then the capacitor&#700;s energy is dissipated
 as it discharges.</p>
 
-<p align="center"><img style="height:450px;" src="https://github.com/computation-structures/course/blob/main/lecture_slides/tradeoffs/Slide5.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/tradeoffs/Slide5.png?raw=true"/></p>
 
 <p>These results are summarized in the lower left.  We&#700;ve
 added the calculation for the energy dissipation of an entire
@@ -188,7 +188,7 @@ could afford to have them do so.  We have to be very clever in
 how we use more and faster MOSFETs in order not to run up
 against the power dissipation constraints we face.</p>
 
-<p align="center"><img style="height:450px;" src="https://github.com/computation-structures/course/blob/main/lecture_slides/tradeoffs/Slide6.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/tradeoffs/Slide6.png?raw=true"/></p>
 
 <p>To see what we can do to reduce power consumption, consider the
 following diagram of an arithmetic and logic unit (ALU) like the
@@ -210,7 +210,7 @@ thus ensuring that no internal nodes would change and hence
 reducing the dynamic power dissipation of the off
 module to zero.</p>
 
-<p align="center"><img style="height:450px;" src="https://github.com/computation-structures/course/blob/main/lecture_slides/tradeoffs/Slide7.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/tradeoffs/Slide7.png?raw=true"/></p>
 
 <p>One idea is to put latches on the inputs to each module, only
 opening a module&#700;s input latch if an answer was required
@@ -252,7 +252,7 @@ read more.</p>
 
 ## Improving Latency: Faster Adders
 
-<p align="center"><img style="height:450px;" src="https://github.com/computation-structures/course/blob/main/lecture_slides/tradeoffs/Slide8.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/tradeoffs/Slide8.png?raw=true"/></p>
 
 <p>The most straightforward way to improve performance is to
 reduce the propagation delay of a circuit.  Let&#700;s look at
@@ -287,7 +287,7 @@ that are relatively less important as N grows.</p>
 that the latency would be expected to essentially double if we
 made N twice as large.</p>
 
-<p align="center"><img style="height:450px;" src="https://github.com/computation-structures/course/blob/main/lecture_slides/tradeoffs/Slide9.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/tradeoffs/Slide9.png?raw=true"/></p>
 
 <p>The order-of notation, which theoreticians call asymptotic
 analysis, tells us the term that would dominate the result as N
@@ -311,7 +311,7 @@ above AND below by multiples of $f(n)$.  The $O()$ notation is
 used when $g(n)$ is only bounded above by a multiple of
 $f(n)$.</p>
 
-<p align="center"><img style="height:450px;" src="https://github.com/computation-structures/course/blob/main/lecture_slides/tradeoffs/Slide10.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/tradeoffs/Slide10.png?raw=true"/></p>
 
 <p>Here&#700;s a first attempt at improving the latency of our
 addition circuit.  The trouble with the ripple-carry adder is
@@ -352,7 +352,7 @@ order-of notation.</p>
 <p>The carry-select adder shows a clear performance-size tradeoff
 available to the designer.</p>
 
-<p align="center"><img style="height:450px;" src="https://github.com/computation-structures/course/blob/main/lecture_slides/tradeoffs/Slide11.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/tradeoffs/Slide11.png?raw=true"/></p>
 
 <p>Since adders play a big role in many digital systems,
 here&#700;s a more carefully engineered version of a 32-bit
@@ -370,7 +370,7 @@ than a 32-bit ripple-carry adder at the cost of about twice as
 much circuitry.  A great design to remember when you&#700;re
 looking to double the speed of your ALU!</p>
 
-<p align="center"><img style="height:450px;" src="https://github.com/computation-structures/course/blob/main/lecture_slides/tradeoffs/Slide12.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/tradeoffs/Slide12.png?raw=true"/></p>
 
 <p>Here&#700;s another approach to improving the latency of our
 adder, this time focusing just on the carry logic.  Early on in
@@ -401,7 +401,7 @@ is a bit more compact than the implementation for the three
 product terms we suggested in Lab 2.  Time to update your full
 adder circuit!</p>
 
-<p align="center"><img style="height:450px;" src="https://github.com/computation-structures/course/blob/main/lecture_slides/tradeoffs/Slide13.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/tradeoffs/Slide13.png?raw=true"/></p>
 
 <p>Now consider two adjacent adder modules in a larger adder
 circuit: we&#700;ll use the label H to refer to the high-order
@@ -426,7 +426,7 @@ and P outputs of the GP module tell us under what conditions
 we&#700;ll get a carry-out from the two individual modules
 treated as a single, larger block.</p>
 
-<p align="center"><img style="height:450px;" src="https://github.com/computation-structures/course/blob/main/lecture_slides/tradeoffs/Slide14.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/tradeoffs/Slide14.png?raw=true"/></p>
 
 <p>We can use additional layers of GP modules to build a tree of
 logic that computes the generate and propagate logic for adders
@@ -438,7 +438,7 @@ that&#700;s $\Theta(\log N)$.</p>
 propagate information to quickly compute the carry-in for each
 of the original full adder modules.</p>
 
-<p align="center"><img style="height:450px;" src="https://github.com/computation-structures/course/blob/main/lecture_slides/tradeoffs/Slide15.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/tradeoffs/Slide15.png?raw=true"/></p>
 
 <p>Once we&#700;re given the carry-in $C_0$ for the low-order
 bit, we can hierarchically compute the carry-in for each full
@@ -465,7 +465,7 @@ N)$.</p>
 are the same as two of the inputs to the GP module in the same
 position in the GP tree.</p>
 
-<p align="center"><img style="height:450px;" src="https://github.com/computation-structures/course/blob/main/lecture_slides/tradeoffs/Slide16.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/tradeoffs/Slide16.png?raw=true"/></p>
 
 <p>We can combine the GP module and C module to form a single
 carry-lookahead module that passes generate and propagate
@@ -492,7 +492,7 @@ Wikipedia.</p>
 
 ## Improving Throughput: Binary Multiplication
 
-<p align="center"><img style="height:450px;" src="https://github.com/computation-structures/course/blob/main/lecture_slides/tradeoffs/Slide17.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/tradeoffs/Slide17.png?raw=true"/></p>
 
 <p>One of the biggest and slowest circuits in an arithmetic and
 logic unit is the multiplier.  We&#700;ll start by developing a
@@ -529,7 +529,7 @@ products &#8212; it just requires some AND gates.  The more
 expensive operation is adding together the M N-bit partial
 products.</p>
 
-<p align="center"><img style="height:450px;" src="https://github.com/computation-structures/course/blob/main/lecture_slides/tradeoffs/Slide18.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/tradeoffs/Slide18.png?raw=true"/></p>
 
 <p>Here&#700;s the schematic for the combinational logic needed
 to implement the 4x4 multiplication, which would be easy to
@@ -562,7 +562,7 @@ throughput.</p>
 circuit would change if the operands were two&#700;s complement
 integers instead of unsigned integers.</p>
 
-<p align="center"><img style="height:450px;" src="https://github.com/computation-structures/course/blob/main/lecture_slides/tradeoffs/Slide19.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/tradeoffs/Slide19.png?raw=true"/></p>
 
 <p>With a two&#700;s complement multiplier and multiplicand, the
 high-order bit of each has negative weight.  So when adding
@@ -608,7 +608,7 @@ original table for the unsigned multiplication.  There are a few
 partial product bits that need to be complemented, and two
 1-bits that need to be added to particular columns.</p>
 
-<p align="center"><img style="height:450px;" src="https://github.com/computation-structures/course/blob/main/lecture_slides/tradeoffs/Slide20.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/tradeoffs/Slide20.png?raw=true"/></p>
 
 <p>The resulting circuitry is shown here.  We&#700;ve changed
 some of the AND gates to NAND gates to perform the necessary
@@ -621,7 +621,7 @@ multiplying two&#700;s complement operands has the same
 latency, throughput and hardware costs as the original
 circuitry.</p>
 
-<p align="center"><img style="height:450px;" src="https://github.com/computation-structures/course/blob/main/lecture_slides/tradeoffs/Slide21.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/tradeoffs/Slide21.png?raw=true"/></p>
 
 <p>Let&#700;s see if we can improve the throughput of the
 original combinational multiplier design.  We&#700;ll use our
@@ -647,7 +647,7 @@ inside a single pipeline stage, the latency of the stage will be
 $\Theta(N)$ since we have to leave time for the N-bit
 ripple-carry add to complete.</p>
 
-<p align="center"><img style="height:450px;" src="https://github.com/computation-structures/course/blob/main/lecture_slides/tradeoffs/Slide22.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/tradeoffs/Slide22.png?raw=true"/></p>
 
 <p>There are several ways to tackle this problem.  The technique
 illustrated here will be useful in our next task.  In this
@@ -683,7 +683,7 @@ another design tradeoff we can remember for future use.</p>
 optimization, which is to implement the multiplier using only
 $\Theta(N)$ hardware.</p>
 
-<p align="center"><img style="height:450px;" src="https://github.com/computation-structures/course/blob/main/lecture_slides/tradeoffs/Slide23.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/tradeoffs/Slide23.png?raw=true"/></p>
 
 <p>This sequential multiplier design computes a single partial
 product in each step and adds it to the accumulating sum.  It
@@ -735,7 +735,7 @@ throughput.</p>
 
 ## Summary
 
-<p align="center"><img style="height:450px;" src="https://github.com/computation-structures/course/blob/main/lecture_slides/tradeoffs/Slide24.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/tradeoffs/Slide24.png?raw=true"/></p>
 
 <p>This discussion of design tradeoffs completes Part 1 of the
 course.  We&#700;ve covered a lot of ground in the last eight

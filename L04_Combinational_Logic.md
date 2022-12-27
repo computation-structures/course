@@ -1,4 +1,4 @@
-<p align="center"><img style="height:450px;" src="https://github.com/computation-structures/course/blob/main/lecture_slides/combinational/Slide1.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/combinational/Slide1.png?raw=true"/></p>
 
 <p>In this lecture, you&#700;ll learn various techniques for
 creating combinational logic circuits that implement a
@@ -6,7 +6,7 @@ particular functional specification.</p>
 
 ## Sum of Products
 
-<p align="center"><img style="height:450px;" src="https://github.com/computation-structures/course/blob/main/lecture_slides/combinational/Slide2.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/combinational/Slide2.png?raw=true"/></p>
 
 <p>A functional specification is part of the static discipline we
 use to build the combinational logic abstraction of a circuit.
@@ -97,7 +97,7 @@ and then use Boolean algebra to compute the result.</p>
 table into a particular form of Boolean equation called a
 sum-of-products.  Let&#700;s see how...</p>
 
-<p align="center"><img style="height:450px;" src="https://github.com/computation-structures/course/blob/main/lecture_slides/combinational/Slide3.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/combinational/Slide3.png?raw=true"/></p>
 
 <p>Start by looking at the truth table and answering the question
 &#8220;When does Y have the value 1?&#8221; Or in the language
@@ -126,7 +126,7 @@ example, we have the sum of four product terms.</p>
 constructing a circuit implementation using combinational logic
 gates.</p>
 
-<p align="center"><img style="height:450px;" src="https://github.com/computation-structures/course/blob/main/lecture_slides/combinational/Slide4.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/combinational/Slide4.png?raw=true"/></p>
 
 <p>As circuit designers, we&#700;ll be working with a library of
 combinational logic gates, which either is given to us by the
@@ -157,7 +157,7 @@ find it easy to remember which schematic symbols are which.</p>
 <p>Now let&#700;s use these building blocks to build a circuit
 that implements a sum-of-products Boolean equation.</p>
 
-<p align="center"><img style="height:450px;" src="https://github.com/computation-structures/course/blob/main/lecture_slides/combinational/Slide5.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/combinational/Slide5.png?raw=true"/></p>
 
 <p>The structure of the circuit exactly follows the structure of
 the Boolean equation.  We use inverters to perform the necessary
@@ -192,7 +192,7 @@ for converting a truth table to its corresponding
 sum-of-products Boolean equation, and for building a circuit
 that implements that equation.</p>
 
-<p align="center"><img style="height:450px;" src="https://github.com/computation-structures/course/blob/main/lecture_slides/combinational/Slide6.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/combinational/Slide6.png?raw=true"/></p>
 
 <p>On our to-do list from the previous section is figuring out how
 to build AND and OR gates with many inputs.  These will be
@@ -270,7 +270,7 @@ for the input signals.</p>
 
 ## Inverting Logic
 
-<p align="center"><img style="height:450px;" src="https://github.com/computation-structures/course/blob/main/lecture_slides/combinational/Slide7.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/combinational/Slide7.png?raw=true"/></p>
 
 <p>In designing CMOS circuits, the individual gates are naturally
 inverting, so instead of using AND and OR gates, for the best
@@ -295,7 +295,7 @@ As you&#700;ll see in Lab 2, implementing a 2-input XOR gate
 will take many more NFETs and PFETs than required for a 2-input
 NAND or NOR.</p>
 
-<p align="center"><img style="height:450px;" src="https://github.com/computation-structures/course/blob/main/lecture_slides/combinational/Slide8.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/combinational/Slide8.png?raw=true"/></p>
 
 <p>We know we can come up with a sum-of-products expression for
 any truth table and hence build a circuit implementation using
@@ -316,7 +316,7 @@ schematics.</p>
 the key to designing low-cost high-performance circuits in
 CMOS.</p>
 
-<p align="center"><img style="height:450px;" src="https://github.com/computation-structures/course/blob/main/lecture_slides/combinational/Slide9.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/combinational/Slide9.png?raw=true"/></p>
 
 <p>Now would be a good time to take a moment to look at the
 documentation for the library of logic gates we&#700;ll use for
@@ -400,7 +400,7 @@ inputs of the second layer.</p>
 with practice you&#700;ll be comfortable using Demorgan&#700;s
 law when building trees or chains of inverting logic.</p>
 
-<p align="center"><img style="height:450px;" src="https://github.com/computation-structures/course/blob/main/lecture_slides/combinational/Slide10.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/combinational/Slide10.png?raw=true"/></p>
 
 <p>Using Demorgan&#700;s Law we can answer the question of how to
 build NANDs and NORs with large numbers of inputs.  Our gate
@@ -428,7 +428,7 @@ that the circuit is a tree of ANDs with an inverting output.</p>
 circuit as OR gates with inverting inputs and see that we really
 have a tree of OR gates with an inverting output.</p>
 
-<p align="center"><img style="height:450px;" src="https://github.com/computation-structures/course/blob/main/lecture_slides/combinational/Slide11.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/combinational/Slide11.png?raw=true"/></p>
 
 <p>Now let&#700;s see how to build sum-of-products circuits using
 inverting logic.  The two circuits shown here implement the same
@@ -469,7 +469,7 @@ be noticeably faster than using AND/OR.</p>
 
 ## Logic Simplification
 
-<p align="center"><img style="height:450px;" src="https://github.com/computation-structures/course/blob/main/lecture_slides/combinational/Slide12.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/combinational/Slide12.png?raw=true"/></p>
 
 <p>The previous sections showed us how to build a circuit that
 computes a given sum-of-products expression.  An interesting
@@ -486,7 +486,7 @@ operations into a single variable and no operations.
 Let&#700;s see how we might use that identity to simplify a
 sum-of-products expression.</p>
 
-<p align="center"><img style="height:450px;" src="https://github.com/computation-structures/course/blob/main/lecture_slides/combinational/Slide13.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/combinational/Slide13.png?raw=true"/></p>
 
 <p>Here&#700;s the equation from the start of this lecture,
 involving 4 product terms.  We&#700;ll use a variant of the
@@ -516,7 +516,7 @@ heuristics to choose which simplifications to apply.  The
 results are quite good, but not necessarily optimal.  But it
 sure beats doing the simplification by hand!</p>
 
-<p align="center"><img style="height:450px;" src="https://github.com/computation-structures/course/blob/main/lecture_slides/combinational/Slide14.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/combinational/Slide14.png?raw=true"/></p>
 
 <p>Another way to think about simplification is by searching the
 truth table for don&#700;t-care situations.  For example,
@@ -538,7 +538,7 @@ in the sense that the input combinations it matches (011 and
 the product terms we found by applying the reduction
 identity.</p>
 
-<p align="center"><img style="height:450px;" src="https://github.com/computation-structures/course/blob/main/lecture_slides/combinational/Slide15.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/combinational/Slide15.png?raw=true"/></p>
 
 <p>Do we always want to use the simplest possible equation as the
 template for our circuits?  Seems like that would minimize the
@@ -569,7 +569,7 @@ transition on the C input doesn&#700;t cause a glitch on the Y
 output.  If you recall the last section of the previous lecture,
 the phrase we used to describe such circuits is <i>lenient</i>.</p>
 
-<p align="center"><img style="height:450px;" src="https://github.com/computation-structures/course/blob/main/lecture_slides/combinational/Slide16.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/combinational/Slide16.png?raw=true"/></p>
 
 <p>When trying to minimize a sum-of-products expression using the
 reduction identity, our goal is to find two product terms that
@@ -612,7 +612,7 @@ the edges of the cube shows which 3-bit input values differ by
 only one bit.  As shown by the red arrows, if two entries are
 adjacent in the cube, they are also adjacent in the table.</p>
 
-<p align="center"><img style="height:450px;" src="https://github.com/computation-structures/course/blob/main/lecture_slides/combinational/Slide17.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/combinational/Slide17.png?raw=true"/></p>
 
 <p>It&#700;s easy to extend the K-map notation to truth tables
 for functions with 4 inputs, as shown here.  We&#700;ve used a
@@ -634,7 +634,7 @@ space!</p>
 and we&#700;ll stick with that.  But keep in mind that you can
 generalize the K-map technique to higher dimensions.</p>
 
-<p align="center"><img style="height:450px;" src="https://github.com/computation-structures/course/blob/main/lecture_slides/combinational/Slide18.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/combinational/Slide18.png?raw=true"/></p>
 
 <p>So why talk about K-maps?  Because patterns of adjacent K-map
 entries that contain 1&#700;s will reveal opportunities for
@@ -709,7 +709,7 @@ that remain constant across the entire implicant is smaller.
 Now we see why we want to find the largest possible prime
 implicants: they give us the smallest product terms!</p>
 
-<p align="center"><img style="height:450px;" src="https://github.com/computation-structures/course/blob/main/lecture_slides/combinational/Slide19.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/combinational/Slide19.png?raw=true"/></p>
 
 <p>Let&#700;s try another example.  Remember that we&#700;re
 looking for the largest possible prime implicants.  A good way
@@ -731,7 +731,7 @@ implicant, subject to constraint that each dimension has to be
 either 1, 2 or 4.  It&#700;s these largest implicants that will
 turn out to be prime implicants.</p>
 
-<p align="center"><img style="height:450px;" src="https://github.com/computation-structures/course/blob/main/lecture_slides/combinational/Slide20.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/combinational/Slide20.png?raw=true"/></p>
 
 <p>Now that we&#700;ve identified the prime implicants,
 we&#700;re ready to build the minimal sum-of-products
@@ -778,7 +778,7 @@ operations.</p>
 expression for functions of up to 4 variables, K-maps are the
 way to go!</p>
 
-<p align="center"><img style="height:450px;" src="https://github.com/computation-structures/course/blob/main/lecture_slides/combinational/Slide21.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/combinational/Slide21.png?raw=true"/></p>
 
 <p>We can also use K-maps to help us remove glitches from output
 signals.  Earlier in the lecture we saw this circuit and
@@ -808,7 +808,7 @@ glitches.</p>
 
 ## Multiplexers and Table Lookup
 
-<p align="center"><img style="height:450px;" src="https://github.com/computation-structures/course/blob/main/lecture_slides/combinational/Slide22.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/combinational/Slide22.png?raw=true"/></p>
 
 <p>The truth table we&#700;ve been using as an example describes
 a very useful combinational device called a 2-to-1 multiplexer.
@@ -826,7 +826,7 @@ multiplexer with 4 data inputs and 2 select inputs.</p>
 <p>Larger MUXes can be built from a tree of 2-to-1 MUXes, as shown
 here.</p>
 
-<p align="center"><img style="height:450px;" src="https://github.com/computation-structures/course/blob/main/lecture_slides/combinational/Slide23.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/combinational/Slide23.png?raw=true"/></p>
 
 <p>Why are MUXes interesting?  One answer is that they provide a
 very elegant and general way of implementing a logic function.
@@ -858,7 +858,7 @@ replace millions of logic gates.  Very handy for prototyping
 digital systems before committing to the expense of a custom
 integrated circuit implementation.</p>
 
-<p align="center"><img style="height:450px;" src="https://github.com/computation-structures/course/blob/main/lecture_slides/combinational/Slide24.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/combinational/Slide24.png?raw=true"/></p>
 
 <p>So MUXes with N select lines are effectively stand-ins for
 N-input logic circuits.  Such a MUX would have $2^N$ data
@@ -874,7 +874,7 @@ to know they can be used to implement any logic function.</p>
 
 <p>Even XOR is simple to implement with a single 2-to-1 MUX!</p>
 
-<p align="center"><img style="height:450px;" src="https://github.com/computation-structures/course/blob/main/lecture_slides/combinational/Slide25.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/combinational/Slide25.png?raw=true"/></p>
 
 <p>Here&#700;s a final logic implementation strategy using
 read-only memories.  This strategy is useful when you need to
@@ -892,7 +892,7 @@ one is determined by the value on the select inputs.  The Jth
 output will be 1 when the select lines are set to the binary
 representation of J.</p>
 
-<p align="center"><img style="height:450px;" src="https://github.com/computation-structures/course/blob/main/lecture_slides/combinational/Slide26.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/combinational/Slide26.png?raw=true"/></p>
 
 <p>Here&#700;s a read-only memory implementation for the 2-output
 truth table shown on the left.  This particular 2-output device
@@ -917,7 +917,7 @@ force its value to 0, its value will be a 1.  The value on each
 of the vertical columns is inverted to produce the final output
 values.</p>
 
-<p align="center"><img style="height:450px;" src="https://github.com/computation-structures/course/blob/main/lecture_slides/combinational/Slide27.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/combinational/Slide27.png?raw=true"/></p>
 
 <p>So how do we use all this circuitry to implement the function
 described by the truth table?  For any particular combination of
@@ -939,7 +939,7 @@ values.</p>
 read-only memory can be programmed to implement any 3-input,
 2-output function.</p>
 
-<p align="center"><img style="height:450px;" src="https://github.com/computation-structures/course/blob/main/lecture_slides/combinational/Slide28.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/combinational/Slide28.png?raw=true"/></p>
 
 <p>For read-only memories with many inputs, the decoders have many
 outputs and the vertical columns in the switch matrix can become
@@ -949,7 +949,7 @@ are used to select among multiple shorter and faster vertical
 columns.  This combination of smaller decoders and output MUXes
 is quite common in these sorts of memory circuits.</p>
 
-<p align="center"><img style="height:450px;" src="https://github.com/computation-structures/course/blob/main/lecture_slides/combinational/Slide29.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/combinational/Slide29.png?raw=true"/></p>
 
 <p>Read-only memories, ROMs for short, are an implementation
 strategy that ignores the structure of the particular Boolean
@@ -975,7 +975,7 @@ glitchy behavior discussed earlier.</p>
 
 ## Summary
 
-<p align="center"><img style="height:450px;" src="https://github.com/computation-structures/course/blob/main/lecture_slides/combinational/Slide30.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/combinational/Slide30.png?raw=true"/></p>
 
 <p>Whew!  This has been a whirlwind tour of various circuits we
 can use to implement logic functions.  The sum-of-products

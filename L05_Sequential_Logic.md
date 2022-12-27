@@ -1,8 +1,8 @@
-<p align="center"><img style="height:450px;" src="https://github.com/computation-structures/course/blob/main/lecture_slides/sequential/Slide1.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/sequential/Slide1.png?raw=true"/></p>
 
 ## Digital State
 
-<p align="center"><img style="height:450px;" src="https://github.com/computation-structures/course/blob/main/lecture_slides/sequential/Slide2.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/sequential/Slide2.png?raw=true"/></p>
 
 <p>In the last lecture we learned how to build combinational logic
 circuits given a functional specification that told us how
@@ -41,7 +41,7 @@ outputs depends only on the current values of the input.
 Let&#700;s see how we&#700;ll incorporate the notion of device
 state into our circuitry.</p>
 
-<p align="center"><img style="height:450px;" src="https://github.com/computation-structures/course/blob/main/lecture_slides/sequential/Slide3.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/sequential/Slide3.png?raw=true"/></p>
 
 <p>We&#700;ll introduce a new abstraction of a memory component
 that will store the current state of the digital system we want
@@ -83,7 +83,7 @@ a systematic way of designing sequential logic to achieve the
 desired sequence of actions.  That&#700;s the subject of the
 next lecture.</p>
 
-<p align="center"><img style="height:450px;" src="https://github.com/computation-structures/course/blob/main/lecture_slides/sequential/Slide4.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/sequential/Slide4.png?raw=true"/></p>
 
 <p>We&#700;ve been representing bits as voltages, so we might
 consider using a capacitor to store a particular voltage.  The
@@ -160,7 +160,7 @@ information.  In current technologies, this has to be done every
 storage by designing a circuit that uses feedback to provide a
 continual refresh of the stored information...</p>
 
-<p align="center"><img style="height:450px;" src="https://github.com/computation-structures/course/blob/main/lecture_slides/sequential/Slide5.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/sequential/Slide5.png?raw=true"/></p>
 
 <p>Here&#700;s a circuit using combinational inverters hooked in
 a positive feedback loop. If we set the input of one of the
@@ -204,7 +204,7 @@ bi-stable storage element.</p>
 
 ## D Latch
 
-<p align="center"><img style="height:450px;" src="https://github.com/computation-structures/course/blob/main/lecture_slides/sequential/Slide6.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/sequential/Slide6.png?raw=true"/></p>
 
 <p>We can use a 2-to-1 multiplexer to build a settable storage
 element.  Recall that a MUX selects as its output value the
@@ -238,7 +238,7 @@ component into memory mode, where the stable Q value is
 maintained indefinitely by the positive feedback loop as shown
 in the first two rows of the truth table.</p>
 
-<p align="center"><img style="height:450px;" src="https://github.com/computation-structures/course/blob/main/lecture_slides/sequential/Slide7.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/sequential/Slide7.png?raw=true"/></p>
 
 <p>Our memory device is a called a D latch, or just a latch for
 short, with the schematic symbol shown here.</p>
@@ -271,7 +271,7 @@ output we&#700;re trying to remember!  We&#700;re going to
 have ensure that a 1-to-0 transition on G doesn&#700;t affect
 the Q output.</p>
 
-<p align="center"><img style="height:450px;" src="https://github.com/computation-structures/course/blob/main/lecture_slides/sequential/Slide8.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/sequential/Slide8.png?raw=true"/></p>
 
 <p>That&#700;s why we specified a lenient MUX for our memory
 component.  The truth table for a lenient MUX is shown here.
@@ -298,7 +298,7 @@ we&#700;re careful about ensuring that signals are stable at
 the right times so we can leverage the lenient behavior of the
 MUX.</p>
 
-<p align="center"><img style="height:450px;" src="https://github.com/computation-structures/course/blob/main/lecture_slides/sequential/Slide9.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/sequential/Slide9.png?raw=true"/></p>
 
 <p>Here are the steps we need to follow in order to ensure the
 latch will work as we want.</p>
@@ -340,7 +340,7 @@ can guarantee that this memory component will reliably store the
 information on D when the gate makes a HIGH-to-LOW
 transition.</p>
 
-<p align="center"><img style="height:450px;" src="https://github.com/computation-structures/course/blob/main/lecture_slides/sequential/Slide10.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/sequential/Slide10.png?raw=true"/></p>
 
 <p>Let&#700;s try using the latch as the memory component in our
 sequential logic system.</p>
@@ -372,7 +372,7 @@ load signal that marks an instant in time, not an interval.</p>
 
 ## D Register
 
-<p align="center"><img style="height:450px;" src="https://github.com/computation-structures/course/blob/main/lecture_slides/sequential/Slide11.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/sequential/Slide11.png?raw=true"/></p>
 
 <p>Here&#700;s an analogy that will help us understand
 what&#700;s happening and what we can do about it.  Imagine a
@@ -392,7 +392,7 @@ component in our sequential logic.</p>
 <p>So how do we ensure only one car makes it through the open
 gate?</p>
 
-<p align="center"><img style="height:450px;" src="https://github.com/computation-structures/course/blob/main/lecture_slides/sequential/Slide12.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/sequential/Slide12.png?raw=true"/></p>
 
 <p>One solution is to use <i>two</i> gates!  Here&#700;s the plan:
 Initially Gate 1 is open allowing exactly one car to enter the
@@ -418,7 +418,7 @@ a rate set by the interval between Gate 2 openings.</p>
 <p>Let&#700;s apply this solution to design a memory component
 for our sequential logic.</p>
 
-<p align="center"><img style="height:450px;" src="https://github.com/computation-structures/course/blob/main/lecture_slides/sequential/Slide13.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/sequential/Slide13.png?raw=true"/></p>
 
 <p>Taking our cue from the 2-gate toll both, we&#700;ll design a
 new component, called a D register, using two back-to-back
@@ -459,7 +459,7 @@ feedback loops in the latches.</p>
 next section we&#700;ll take a step-by-step tour of the
 register in operation.</p>
 
-<p align="center"><img style="height:450px;" src="https://github.com/computation-structures/course/blob/main/lecture_slides/sequential/Slide14.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/sequential/Slide14.png?raw=true"/></p>
 
 <p>We&#700;ll get a good understanding of how the register
 operates as we follow the signals through the circuit.</p>
@@ -520,7 +520,7 @@ icon for an edge-triggered device is to use a little triangle.
 You can see that here in the schematic symbol for the D
 register.</p>
 
-<p align="center"><img style="height:450px;" src="https://github.com/computation-structures/course/blob/main/lecture_slides/sequential/Slide15.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/sequential/Slide15.png?raw=true"/></p>
 
 <p>There is one tricky problem we have to solve when designing the
 circuitry for the register.  On the falling clock edge, the
@@ -547,7 +547,7 @@ contamination delay on the output latch&#700;s input relative to the
 falling clock edge.  Note that we can only solve output latch
 hold time issues by changing the design of the circuit.</p>
 
-<p align="center"><img style="height:450px;" src="https://github.com/computation-structures/course/blob/main/lecture_slides/sequential/Slide16.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/sequential/Slide16.png?raw=true"/></p>
 
 <p>Here&#700;s a summary of the timing specifications for a D
 register.</p>
@@ -592,7 +592,7 @@ section.</p>
 
 ## Sequential Circuit Timing
 
-<p align="center"><img style="height:450px;" src="https://github.com/computation-structures/course/blob/main/lecture_slides/sequential/Slide17.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/sequential/Slide17.png?raw=true"/></p>
 
 <p>In this course, we have a specific plan on how we&#700;ll use
 registers in our designs, which we call the single-clock
@@ -636,7 +636,7 @@ update the stored state of each register.</p>
 <p>Our next task is to learn how to analyze the timing of a
 single-clock synchronous system.</p>
 
-<p align="center"><img style="height:450px;" src="https://github.com/computation-structures/course/blob/main/lecture_slides/sequential/Slide18.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/sequential/Slide18.png?raw=true"/></p>
 
 <p>Here&#700;s a model of a particular path in our synchronous
 system.  A large digital system will have many such paths and we
@@ -734,7 +734,7 @@ copies of the same chip, measures their tPDs and selects the
 fast ones to sell as higher-performance parts.  That&#700;s
 what it takes to make money in the chip biz!</p>
 
-<p align="center"><img style="height:450px;" src="https://github.com/computation-structures/course/blob/main/lecture_slides/sequential/Slide19.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/sequential/Slide19.png?raw=true"/></p>
 
 <p>Using a D register as the memory component in our sequential
 logic system works great!  At each rising edge of the clock, the
@@ -748,7 +748,7 @@ sequence of outputs.  In the next lecture we&#700;ll introduce
 a new abstraction, finite state machines, that will make it easy
 to design sequential logic systems.</p>
 
-<p align="center"><img style="height:450px;" src="https://github.com/computation-structures/course/blob/main/lecture_slides/sequential/Slide20.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/sequential/Slide20.png?raw=true"/></p>
 
 <p>Let&#700;s use the timing analysis techniques we&#700;ve
 learned on the sequential logic system shown here.  The timing
@@ -802,4 +802,4 @@ came from!</p>
 
 ## Summary
 
-<p align="center"><img style="height:450px;" src="https://github.com/computation-structures/course/blob/main/lecture_slides/sequential/Slide21.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/sequential/Slide21.png?raw=true"/></p>

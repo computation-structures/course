@@ -1,4 +1,4 @@
-<p align="center"><img src="https://github.com/computation-structures/course/blob/main/title.png?raw=true"/></p>
+<p align="center"><img src="title.png?raw=true"/></p>
 
 Computation Structures (6.004) is a sophomore-level subject offered by
 the MIT Department of Electrical Engineering and Computer Science.
@@ -40,25 +40,25 @@ Enjoy! -- *Chris Terman*
 
   * L01 Basics of Information: <a href="L01_Basics_of_Information.md">Lecture</a>, <a href="L01_worksheet.pdf">Worksheet</a>
 
-  * L02 The Digital Abstraction: <a href="https://github.com/computation-structures/course/blob/main/L02_The_Digital_Abstraction.md">Lecture</a>, <a href="https://github.com/computation-structures/course/blob/main/L02_worksheet.pdf">Worksheet</a>
+  * L02 The Digital Abstraction: <a href="L02_The_Digital_Abstraction.md">Lecture</a>, <a href="L02_worksheet.pdf">Worksheet</a>
 
-  * L03 CMOS Technology: <a href="https://github.com/computation-structures/course/blob/main/L03_CMOS_Technology.md">Lecture</a>, <a href="https://github.com/computation-structures/course/blob/main/L03_worksheet.pdf">Worksheet</a>
+  * L03 CMOS Technology: <a href="L03_CMOS_Technology.md">Lecture</a>, <a href="L03_worksheet.pdf">Worksheet</a>
 
-  * L04 Combinational Logic: <a href="https://github.com/computation-structures/course/blob/main/L04_Combinational_Logic.md">Lecture</a>, <a href="https://github.com/computation-structures/course/blob/main/L04_worksheet.pdf">Worksheet</a>
+  * L04 Combinational Logic: <a href="L04_Combinational_Logic.md">Lecture</a>, <a href="L04_worksheet.pdf">Worksheet</a>
 
-  * L05 Sequential Logic: <a href="https://github.com/computation-structures/course/blob/main/L05_Sequential_Logic.md">Lecture</a>, <a href="https://github.com/computation-structures/course/blob/main/L05_worksheet.pdf">Worksheet</a>
+  * L05 Sequential Logic: <a href="L05_Sequential_Logic.md">Lecture</a>, <a href="L05_worksheet.pdf">Worksheet</a>
 
-  * L06 Finite State Machines: <a href="https://github.com/computation-structures/course/blob/main/L06_Finite_State_Machines.md">Lecture</a>, <a href="https://github.com/computation-structures/course/blob/main/L06_worksheet.pdf">Worksheet</a>
+  * L06 Finite State Machines: <a href="L06_Finite_State_Machines.md">Lecture</a>, <a href="L06_worksheet.pdf">Worksheet</a>
 
-  * L07 Pipelined Circuits: <a href="https://github.com/computation-structures/course/blob/main/L07_Pipelined_Circuits.md">Lecture</a>, <a href="https://github.com/computation-structures/course/blob/main/L07_worksheet.pdf">Worksheet</a>
+  * L07 Pipelined Circuits: <a href="L07_Pipelined_Circuits.md">Lecture</a>, <a href="L07_worksheet.pdf">Worksheet</a>
 
-  * L08 Design Tradeoffs: <a href="https://github.com/computation-structures/course/blob/main/L08_Design_Tradeoffs.md">Lecture</a>, <a href="https://github.com/computation-structures/course/blob/main/L08_worksheet.pdf">Worksheet</a>
+  * L08 Design Tradeoffs: <a href="L08_Design_Tradeoffs.md">Lecture</a>, <a href="L08_worksheet.pdf">Worksheet</a>
 
 * Programmable Architectures
 
-  * L09 Designing an Instruction Set: <a href="https://github.com/computation-structures/course/blob/main/L09_Designing_an_Instruction_Set.md">Lecture</a>, <a href="https://github.com/computation-structures/course/blob/main/L09_worksheet.pdf">Worksheet</a>
+  * L09 Designing an Instruction Set: <a href="L09_Designing_an_Instruction_Set.md">Lecture</a>, <a href="L09_worksheet.pdf">Worksheet</a>
 
-  * L10a Assembly Language: <a href="https://github.com/computation-structures/course/blob/main/L10a_Assembly_Language.md">Lecture</a>
+  * L10a Assembly Language: <a href="L10a_Assembly_Language.md">Lecture</a>
 
-  * L10b Models of Computation: <a href="https://github.com/computation-structures/course/blob/main/L10b_Models_of_Computation.md">Lecture</a>
+  * L10b Models of Computation: <a href="L10b_Models_of_Computation.md">Lecture</a>
 
