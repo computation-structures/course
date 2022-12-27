@@ -38,7 +38,7 @@ Enjoy! -- *Chris Terman*
 
 * Digital Circuits
 
-  * L01 Basics of Information: <a href="L01_Basics_of_Information.md">Lecture</a>, <a href="https://github.com/computation-structures/course/blob/main/L01_worksheet.pdf">Worksheet</a>
+  * L01 Basics of Information: <a href="L01_Basics_of_Information.md">Lecture</a>, <a href="L01_worksheet.pdf">Worksheet</a>
 
   * L02 The Digital Abstraction: <a href="https://github.com/computation-structures/course/blob/main/L02_The_Digital_Abstraction.md">Lecture</a>, <a href="https://github.com/computation-structures/course/blob/main/L02_worksheet.pdf">Worksheet</a>
 
