@@ -1,8 +1,8 @@
-<p align="center"><img style="height:450px;" src="lecture_slides/cmos/Slide1.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/cmos/Slide1.png"/></p>
 
 ## The MOSFET
 
-<p align="center"><img style="height:450px;" src="lecture_slides/cmos/Slide2.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/cmos/Slide2.png"/></p>
 
 <p>Let&#700;s review our wish list for the characteristics of a combinational
 device.  In the previous lecture we worked hard to develop a
@@ -62,7 +62,7 @@ computations we want to perform.</p>
 <p>Quite remarkably, there is a circuit technology that will make our
 wishes come true!  That technology is the subject of this lecture.</p>
 
-<p align="center"><img style="height:450px;" src="lecture_slides/cmos/Slide3.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/cmos/Slide3.png"/></p>
 
 <p>The star of our show is the metal-oxide-semiconductor field-effect
 transistor, or MOSFET for short.</p>
@@ -147,7 +147,7 @@ desired value.  It&#700;s a solid-state switch &#8212; there are no
 moving parts and the switch operation is controlled by electrical
 fields determined by the relative voltages of the four terminals.</p>
 
-<p align="center"><img style="height:450px;" src="lecture_slides/cmos/Slide4.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/cmos/Slide4.png"/></p>
 
 <p>Now let&#700;s look at the electrical view of the MOSFET.  Its
 operation is determined by the voltages of its four terminals.</p>
@@ -230,7 +230,7 @@ inversion layer still present next to the source terminal.</p>
 drain to source?  To see, let&#700;s look at some plots of
 $I_{\textrm{DS}}$ on the next slide.</p>
 
-<p align="center"><img style="height:450px;" src="lecture_slides/cmos/Slide5.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/cmos/Slide5.png"/></p>
 
 <p>Okay, this plot has a lot of information, so let&#700;s see what we
 can learn.  Each curve is a plot of $I_{\textrm{DS}}$ as a function of
@@ -272,7 +272,7 @@ induced by the larger $V_{\textrm{DS}}$.</p>
 we&#700;ll be able to use the much simpler mental model of a switch
 if we obey some simple rules when designing our MOSFET circuits.</p>
 
-<p align="center"><img style="height:450px;" src="lecture_slides/cmos/Slide6.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/cmos/Slide6.png"/></p>
 
 <p>Up to now, we&#700;ve been talking about MOSFETs built as shown in
 the diagram on the left: with n-type source/drain diffusions in a
@@ -300,7 +300,7 @@ information encoded as voltages.</p>
 
 ## CMOS Logic Gates
 
-<p align="center"><img style="height:450px;" src="lecture_slides/cmos/Slide7.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/cmos/Slide7.png"/></p>
 
 <p>Now that we have some sense about how MOSFETs function, let&#700;s use
 them to build circuits to process our digitally encoded information.
@@ -351,7 +351,7 @@ short answer is that the signaling node will experience degraded
 signaling levels and we&#700;ll loose the noise margins we&#700;ve
 worked so hard to create!</p>
 
-<p align="center"><img style="height:450px;" src="lecture_slides/cmos/Slide8.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/cmos/Slide8.png"/></p>
 
 <p>Now consider the CMOS implementation of a combinational inverter.  If
 the inverter&#700;s input is a digital 0, its output is a digital 1,
@@ -396,7 +396,7 @@ reliably in many different operating environments.</p>
 we&#700;ll explore how to build other, more interesting logic
 functions.</p>
 
-<p align="center"><img style="height:450px;" src="lecture_slides/cmos/Slide9.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/cmos/Slide9.png"/></p>
 
 <p>Now we get to the fun part!  To build other logic gates, we&#700;ll
 design complementary pullup and pulldown circuits, hooked up as shown
@@ -428,7 +428,7 @@ memory and we&#700;ll come back to this in a couple of lectures.</p>
 <p>For now, we&#700;ll concentrate on the behavior of devices with
 complementary pullups and pulldowns.</p>
 
-<p align="center"><img style="height:450px;" src="lecture_slides/cmos/Slide10.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/cmos/Slide10.png"/></p>
 
 <p>Since the pullup and pulldown circuits are complementary, we&#700;ll
 see there&#700;s a nice symmetry in their design.  We&#700;ve
@@ -458,7 +458,7 @@ isn&#700;t.</p>
 <p>Let&#700;s put these observations to work when building our next CMOS
 combinational device.</p>
 
-<p align="center"><img style="height:450px;" src="lecture_slides/cmos/Slide11.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/cmos/Slide11.png"/></p>
 
 <p>In this device, we&#700;re using series NFETs in the pulldown and
 parallel PFETs in the pullup, circuits that we convinced ourselves
@@ -496,7 +496,7 @@ form the circuitry for all those NAND gates.  So the final cost is a
 bit more than 100 nano-dollars per NAND gate.  I think this qualifies
 as both cheap and small!</p>
 
-<p align="center"><img style="height:450px;" src="lecture_slides/cmos/Slide12.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/cmos/Slide12.png"/></p>
 
 <p>Using more complicated series/parallel networks of switches, we can
 build devices that implement more complex logic functions.</p>
@@ -526,7 +526,7 @@ design process.</p>
 <p>Mr. Blue is asking a good question: will this recipe work for any and
 all logic functions?  The answer is no, let&#700;s see why.</p>
 
-<p align="center"><img style="height:450px;" src="lecture_slides/cmos/Slide13.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/cmos/Slide13.png"/></p>
 
 <p>Using CMOS, a single gate (a circuit with one pullup network and one
 pulldown network) can only implement the so-called inverting functions
@@ -561,7 +561,7 @@ implementing functionality with inverting logic!</p>
 
 ## CMOS Timing
 
-<p align="center"><img style="height:450px;" src="lecture_slides/cmos/Slide14.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/cmos/Slide14.png"/></p>
 
 <p>Okay, now that we understand how to build combinational logic gates
 using CMOS, let&#700;s turn our attention to the timing
@@ -603,7 +603,7 @@ have some choices to make about how to measure the inverter&#700;s
 propagation delay.  Happily, we have just the guidance we need from
 our signaling thresholds!</p>
 
-<p align="center"><img style="height:450px;" src="lecture_slides/cmos/Slide15.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/cmos/Slide15.png"/></p>
 
 <p>The propagation delay of a combinational logic gate is defined to be
 an upper bound on the delay from valid inputs to valid outputs.  Valid
@@ -651,7 +651,7 @@ terminal, slowing down transitions on the input node that connects to
 the gate!  It&#700;s a fun optimization problem to figure out
 transistor sizing that minimizes the overall propagation delay.</p>
 
-<p align="center"><img style="height:450px;" src="lecture_slides/cmos/Slide16.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/cmos/Slide16.png"/></p>
 
 <p>Although not strictly required by the static discipline, it will be
 useful to define another timing specification, called the
@@ -683,7 +683,7 @@ delay to refer to a device&#700;s contamination delay.
 That terminology is a bit confusing, but now you know what it is
 they&#700;re trying to tell you.</p>
 
-<p align="center"><img style="height:450px;" src="lecture_slides/cmos/Slide17.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/cmos/Slide17.png"/></p>
 
 <p>So here&#700;s a quick summary of the timing specifications for
 combinational logic.
@@ -719,7 +719,7 @@ subclass of combinational devices.  But in general, a designer should
 make no assumptions about B&#700;s value in the interval between
 $t_{\textrm{CD}}$ and $t_{\textrm{PD}}$.</p>
 
-<p align="center"><img style="height:450px;" src="lecture_slides/cmos/Slide18.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/cmos/Slide18.png"/></p>
 
 <p>How do we calculate the propagation and contamination delays of a
 larger combinational circuit from the timing specifications of its
@@ -749,7 +749,7 @@ cumulative contamination delay of 2 ns.  In other words, the output Y
 will retain its previous value for at least 2 ns after one of the
 inputs goes invalid.</p>
 
-<p align="center"><img style="height:450px;" src="lecture_slides/cmos/Slide19.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/cmos/Slide19.png"/></p>
 
 <p>It turns out we can say a bit more about the timing of output
 transitions for CMOS logic gates.  Let&#700;s start by considering
@@ -779,7 +779,7 @@ legitimate combinational device.</p>
 <p>Many gate technologies &#8212; <i>e.g.</i>, CMOS &#8212; adhere
 to even tighter restrictions.</p>
 
-<p align="center"><img style="height:450px;" src="lecture_slides/cmos/Slide20.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/cmos/Slide20.png"/></p>
 
 <p>Let&#700;s look in detail at the switch configuration in a CMOS
 implementation of a NOR gate when both inputs are a digital 1.  A high
@@ -827,4 +827,4 @@ lectures.</p>
 
 ## Summary
 
-<p align="center"><img style="height:450px;" src="lecture_slides/cmos/Slide21.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/cmos/Slide21.png"/></p>
