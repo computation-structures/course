@@ -1,8 +1,8 @@
-<p align="center"><img style="height:450px;" src="lecture_slides/isa/Slide1.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/isa/Slide1.png"/></p>
 
 ## Data Paths and FSMs
 
-<p align="center"><img style="height:450px;" src="lecture_slides/isa/Slide2.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/isa/Slide2.png"/></p>
 
 <p>Welcome to Part 2 of Computation Structures!  In this part of the course, we
 turn our attention to the design and implementation of digital
@@ -33,7 +33,7 @@ factorial formula, updating the value of the accumulator
 &#8220;a&#8221; with the result, then decrementing
 &#8220;b&#8221; in preparation for the next loop iteration.</p>
 
-<p align="center"><img style="height:450px;" src="lecture_slides/isa/Slide3.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/isa/Slide3.png"/></p>
 
 <p>If we want to implement a digital system that performs this
 sequence of operations, it makes sense to use sequential logic!
@@ -65,7 +65,7 @@ multiply and decrement, and to select which value should be
 loaded into the &#8220;a&#8221; and &#8220;b&#8221; registers
 the end of each FSM cycle.</p>
 
-<p align="center"><img style="height:450px;" src="lecture_slides/isa/Slide4.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/isa/Slide4.png"/></p>
 
 <p>Let&#700;s start by designing the logic that implements the
 desired computations &#8212; we call this part of the logic the
@@ -90,7 +90,7 @@ into the register.  So by choosing the appropriate values for
 WASEL and WBSEL, we can make the datapath compute the desired
 values at each step in the FSM&#700;s operation.</p>
 
-<p align="center"><img style="height:450px;" src="lecture_slides/isa/Slide5.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/isa/Slide5.png"/></p>
 
 <p>Next we&#700;ll add the combinational logic needed to control
 the FSM&#700;s state transitions.  In this case, we need to
@@ -105,7 +105,7 @@ Here&#700;s the truth table for the FSM&#700;s combinational
 logic.  S is the current state, encoded as a 2-bit value, and
 S&#700; is the next state.</p>
 
-<p align="center"><img style="height:450px;" src="lecture_slides/isa/Slide6.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/isa/Slide6.png"/></p>
 
 <p>Using our skills from Part 1 of the course, we&#700;re ready
 to draw a schematic for the system!  We know how to design the
@@ -119,7 +119,7 @@ locations.  Each ROM location has the appropriate values for the
 The table on the right shows the ROM contents, which are easily
 determined from the table on the previous slide.</p>
 
-<p align="center"><img style="height:450px;" src="lecture_slides/isa/Slide7.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/isa/Slide7.png"/></p>
 
 <p>Okay, we&#700;ve figured out a way to design hardware to
 perform a particular computation: Draw the state transition
@@ -158,7 +158,7 @@ chosen set of operations into a general purpose datapath that
 could be reused to solve many different problems.  Let&#700;s
 see how that would work...</p>
 
-<p align="center"><img style="height:450px;" src="lecture_slides/isa/Slide8.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/isa/Slide8.png"/></p>
 
 <p>Here&#700;s a datapath with 4 data registers to hold results.
 The ASEL and BSEL multiplexers allow any of the data registers
@@ -178,7 +178,7 @@ input from the datapath allows the system to perform
 data-dependent operations, where the sequence of operations can
 be influenced by the actual values in the data registers.</p>
 
-<p align="center"><img style="height:450px;" src="lecture_slides/isa/Slide9.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/isa/Slide9.png"/></p>
 
 <p>Here&#700;s the state transition diagram for the control FSM
 we&#700;d use if we wanted to use this datapath to compute
@@ -193,7 +193,7 @@ for the test to see if we&#700;re done.</p>
 computer hardware will need more cycles and perhaps involve more
 hardware than an optimized single-purpose circuit.</p>
 
-<p align="center"><img style="height:450px;" src="lecture_slides/isa/Slide10.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/isa/Slide10.png"/></p>
 
 <p>You can solve many different problems with this system:
 exponentiation, division, square root, and so on, so long as you
@@ -204,13 +204,13 @@ data, intermediate results, or the final answer.</p>
 &#8220;programming&#8221; our digital system, specifying the
 sequence of operations it will perform.</p>
 
-<p align="center"><img style="height:450px;" src="lecture_slides/isa/Slide11.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/isa/Slide11.png"/></p>
 
 <p>This is exactly how the early digital computers worked!
 Here&#700;s a picture of the ENIAC computer built in 1943 at
 the University of Pennsylvania.</p>
 
-<p align="center"><img style="height:450px;" src="lecture_slides/isa/Slide12.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/isa/Slide12.png"/></p>
 
 <p>The Wikipedia article on the ENIAC tells us that &#8220;ENIAC
 could be programmed to perform complex sequences of operations,
@@ -227,7 +227,7 @@ our computer!</p>
 
 ## The von Neumann Model
 
-<p align="center"><img style="height:450px;" src="lecture_slides/isa/Slide13.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/isa/Slide13.png"/></p>
 
 <p>There are many approaches to building a general-purpose
 computer that can be easily re-programmed for new problems.
@@ -259,7 +259,7 @@ computer system to communicate with the outside world or to
 access data storage that, unlike main memory, will remember
 values even when turned off.</p>
 
-<p align="center"><img style="height:450px;" src="lecture_slides/isa/Slide14.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/isa/Slide14.png"/></p>
 
 <p>The key idea is to use main memory to hold the instructions for
 the CPU as well as data.  Both instructions and data are, of
@@ -293,7 +293,7 @@ data.  If a value is loaded into the datapath, it&#700;s being
 used as data.  If a value is loaded by the control logic,
 it&#700;s being used an instruction.</p>
 
-<p align="center"><img style="height:450px;" src="lecture_slides/isa/Slide15.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/isa/Slide15.png"/></p>
 
 <p>So this is the digital system we&#700;ll build to perform
 computations.  We&#700;ll start with a datapath that contains
@@ -335,7 +335,7 @@ control unit serves as the brain of our system, interpreting the
 program stored in main memory and generating the necessary
 sequence of control signals for the datapath.</p>
 
-<p align="center"><img style="height:450px;" src="lecture_slides/isa/Slide16.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/isa/Slide16.png"/></p>
 
 <p>Instructions are the fundamental unit of work. They&#700;re
 fetched by the control unit and executed one after another in
@@ -360,7 +360,7 @@ the next instruction.</p>
 machines can execute up more than a billion instructions per
 second!</p>
 
-<p align="center"><img style="height:450px;" src="lecture_slides/isa/Slide17.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/isa/Slide17.png"/></p>
 
 <p>The discussion so far has been a bit abstract.  Now it&#700;s
 time to roll up our sleeves and figure out what instructions we
@@ -399,7 +399,7 @@ ISA can live for decades and span many generations of
 technology.  If your ISA is successful, you&#700;ll have to
 live with any bad choices you made for a very long time.</p>
 
-<p align="center"><img style="height:450px;" src="lecture_slides/isa/Slide18.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/isa/Slide18.png"/></p>
 
 <p>Designing an ISA is hard!  What are the operations that should
 be supported?  How many internal registers?  How much main
@@ -445,7 +445,7 @@ and execution engine, a system we&#700;ll call the Beta.</p>
 
 ## Beta ISA: Storage
 
-<p align="center"><img style="height:450px;" src="lecture_slides/isa/Slide19.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/isa/Slide19.png"/></p>
 
 <p>The Beta is an example of a reduced-instruction-set computer
 (RISC) architecture.  &#8220;Reduced&#8221; refers to the fact
@@ -529,7 +529,7 @@ best performance is to have a small number of very fast
 registers used by most instructions and a large but slow main
 memory.  So that&#700;s what the BETA ISA does.</p>
 
-<p align="center"><img style="height:450px;" src="lecture_slides/isa/Slide20.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/isa/Slide20.png"/></p>
 
 <p>In general, all program data will reside in main memory.  Each
 variable used by the program &#8220;lives&#8221; in a specific
@@ -564,7 +564,7 @@ into the registers, followed by computation, followed by any
 necessary stores.  ISAs that use this template are usually
 referred to as <i>load-store architectures</i>.</p>
 
-<p align="center"><img style="height:450px;" src="lecture_slides/isa/Slide21.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/isa/Slide21.png"/></p>
 
 <p>Having talked about the storage resources provided by the Beta
 ISA, let&#700;s design the Beta instructions themselves.  This
@@ -613,7 +613,7 @@ hardware execution engine small and fast.</p>
 <sequential display_name="Beta ISA: Computations" url_name="alu">
 <vertical display_name="Beta ISA: Computations">
 
-<p align="center"><img style="height:450px;" src="lecture_slides/isa/Slide22.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/isa/Slide22.png"/></p>
 
 <p>The computation performed by the Beta datapath happens in the
 arithmetic-and-logic unit (ALU).  We&#700;ll be using the ALU
@@ -677,7 +677,7 @@ only in the value of the opcode field.  This first step was
 pretty straightforward &#8212; we simply provided instruction
 encodings for the basic operations provided by the ALU.</p>
 
-<p align="center"><img style="height:450px;" src="lecture_slides/isa/Slide23.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/isa/Slide23.png"/></p>
 
 <p>Now that we have our first group of instructions, we can create
 a more concrete implementation sketch.</p>
@@ -708,7 +708,7 @@ instruction to produce the signals needed to control the
 datapath.  In fact, many of the instruction fields are used
 as-is!</p>
 
-<p align="center"><img style="height:450px;" src="lecture_slides/isa/Slide24.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/isa/Slide24.png"/></p>
 
 <p>ISA designers receive many requests for what are affectionately
 known as &#8220;features&#8221; &#8212; additional instructions
@@ -758,7 +758,7 @@ constant operands to the ISA resulted in programs that were
 measurably smaller and faster.  So: feature request
 approved!</p>
 
-<p align="center"><img style="height:450px;" src="lecture_slides/isa/Slide25.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/isa/Slide25.png"/></p>
 
 <p>Here we see the second of the two Beta instruction formats.
 It&#700;s a modification of the first format where we&#700;ve
@@ -806,7 +806,7 @@ the constant as a 32-bit value in a main memory location and
 load it into a register for use just like we would any variable
 value.</p>
 
-<p align="center"><img style="height:450px;" src="lecture_slides/isa/Slide26.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/isa/Slide26.png"/></p>
 
 <p>To give some sense for the additional datapath hardware that
 will be needed, let&#700;s update our implementation sketch to
@@ -823,7 +823,7 @@ now and revisit them in a few lectures.</p>
 
 ## Beta ISA: Memory Access
 
-<p align="center"><img style="height:450px;" src="lecture_slides/isa/Slide27.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/isa/Slide27.png"/></p>
 
 <p>Now let&#700;s turn our attention to the second class of
 instructions: load (LD) and store (ST), which allow the CPU to
@@ -857,7 +857,7 @@ the destination address.  ST is the only instruction that does
 *not* write a result into the register file at end of the
 instruction.</p>
 
-<p align="center"><img style="height:450px;" src="lecture_slides/isa/Slide28.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/isa/Slide28.png"/></p>
 
 <p>Here&#700;s the example we saw earlier, where we needed to
 load the value of the variable x from memory, multiply it by 37
@@ -887,7 +887,7 @@ lecture on the Beta implementation.</p>
 
 ## Beta ISA: Control Flow
 
-<p align="center"><img style="height:450px;" src="lecture_slides/isa/Slide29.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/isa/Slide29.png"/></p>
 
 <p>Finally, let&#700;s discuss the third class of instructions
 that let us change the program counter.  Up until now, the
@@ -921,7 +921,7 @@ potential fork in the execution sequence.  We&#700;ll use
 branches to implement many different types of control
 structures: loops, conditionals, procedure calls, etc.</p>
 
-<p align="center"><img style="height:450px;" src="lecture_slides/isa/Slide30.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/isa/Slide30.png"/></p>
 
 <p>Branch instructions also use the instruction format with the
 16-bit signed constant.  The operation of the branch
@@ -984,7 +984,7 @@ true and a zero value if the comparison is false.  Then we can
 use BEQ and BNE to test the result of the comparison and branch
 appropriately.</p>
 
-<p align="center"><img style="height:450px;" src="lecture_slides/isa/Slide31.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/isa/Slide31.png"/></p>
 
 <p>At long last we&#700;re finally in a position to write Beta
 code to compute factorial using the iterative algorithm shown in
@@ -1013,7 +1013,7 @@ correspondence in general, but since our Beta datapath and the
 example datapath were very similar, the states and instructions
 match up pretty well.</p>
 
-<p align="center"><img style="height:450px;" src="lecture_slides/isa/Slide32.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/isa/Slide32.png"/></p>
 
 <p>Finally, our last instruction!  Branches conditionally transfer
 control to a specific target instruction.  But we&#700;ll also
@@ -1058,7 +1058,7 @@ lecture.</p>
 
 ## Beta ISA Summary
 
-<p align="center"><img style="height:450px;" src="lecture_slides/isa//Slide33.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/isa//Slide33.png"/></p>
 
 <p>That wraps up the design of the Beta instruction set
 architecture.  In summary, the Beta has 32 registers to hold
