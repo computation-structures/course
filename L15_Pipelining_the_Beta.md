@@ -46,7 +46,7 @@ clock cycle.</p>
 
 <p>As CPU designers it&#700;s the last two terms which are under
 our control: the cycles per instruction (CPI) and the clock
-period ($t_{\textrm{CLK}}$).  To affect the first term, we would
+period ( $t_{\textrm{CLK}}$ ).  To affect the first term, we would
 need to change the ISA or write a better compiler!</p>
 
 <p>Our design for the Beta was able to execute every instruction
