@@ -756,7 +756,7 @@ here.  You can check what happens when the transactions are in a
 different order or happen concurrently.</p>
 
 <p>First, Thread A changes X to 3.  Since this location is marked as
-SHARED [S] in the local cache, the cache for core 0 ( $\$>_0$ ) issues an
+SHARED [S] in the local cache, the cache for core 0 ( $\$_0$ ) issues an
 INVALIDATE transaction for location X to the other caches, giving it
 exclusive access to location X, which it changes to have the value 3.
 At the end of this step, the cache for core 1 ( $\$_1$ ) no longer has a
