@@ -80,3 +80,5 @@ Enjoy!
   * L19 Concurrency & Synchronization: <a href="L19_Concurrency_and_Synchronization.md">Lecture</a>, <a href="L19_worksheet.pdf">Worksheet</a>
 
   * L20 System-level Communication: <a href="L20_System_level_Communication.md">Lecture</a>
+
+  * L21 Parallel Processing: <a href="L21_Parallel_Processing.md">Lecture</a>
