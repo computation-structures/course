@@ -61,10 +61,10 @@ file, and ALU must all have time to do their thing.</p>
 
 <p>The worst-case execution time is for the LD instruction.  In
 one clock cycle we need to fetch the instruction from main
-memory ($t_{\textrm{IFETCH}}$), read the operands from the register file
-($t_{\textrm{RF}}$), perform the address addition in the ALU ($t_{\textrm{ALU}}$), read
-the requested location from main memory ($t_{\textrm{MEM}}$), and finally
-write the memory data to the destination register ($t_{\textrm{WB}}$).</p>
+memory ( $t_{\textrm{IFETCH}}$ ), read the operands from the register file
+( $t_{\textrm{RF}}$ ), perform the address addition in the ALU ( $t_{\textrm{ALU}}$ ), read
+the requested location from main memory ( $t_{\textrm{MEM}}$ ), and finally
+write the memory data to the destination register ( $t_{\textrm{WB}}$ ).</p>
 
 <p>The component delays add up and the result is a fairly long
 clock period and hence it will take a long time to run the
