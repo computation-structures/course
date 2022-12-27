@@ -272,7 +272,7 @@ operations.
 statements will be executed with the values of the supplied
 arguments assigned as the values for the formal parameters of
 the procedure.  Compiling procedures and procedure calls is a
-topic that we&#700;ll tackle next chapter since there are some
+topic that we&#700;ll tackle next lecture since there are some
 complications to understand and deal with.</p>
 
 <p>Happily, compiling the other types of expressions and

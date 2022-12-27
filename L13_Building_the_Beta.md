@@ -76,7 +76,7 @@ we learned in Part 1 of the course, this gives us the
 opportunity to use pipelining to increase our
 implementation&#700;s throughput.  We&#700;ll talk about the
 implementation of a pipelined processor in some upcoming
-chapters.</p>
+lectures.</p>
 
 <p align="center"><img style="height:450px;" src="lecture_slides/beta/Slide4.png?raw=true"/></p>
 
@@ -139,7 +139,7 @@ components to implement register storage in the datapath and
 also for main memory, where instructions and data are
 stored.</p>
 
-<p>You might find it useful to review the chapters on
+<p>You might find it useful to review the lectures on
 combinational and sequential logic in Part 1 of the course.</p>
 
 <p align="center"><img style="height:450px;" src="lecture_slides/beta/Slide6.png?raw=true"/></p>
@@ -355,7 +355,7 @@ before.</p>
 two&#700;s complement number, we just need to replicate the
 high-order, or sign, bit as many times as necessary.  You might
 find it useful to review the discussion of two&#700;s
-complement in the chapter on &#8220;Basics of Information&#8221;.  So to form a
+complement in the lecture on &#8220;Basics of Information&#8221;.  So to form a
 32-bit operand from a 16-bit constant, we just replicate
 it&#700;s high-order bit (ID[15]) sixteen times as we make the
 connection to the BSEL MUX.</p>
@@ -791,7 +791,7 @@ additional complexities to increase performance: pipelined
 execution, the ability to execute more than instruction per
 cycle, fancier memory systems to reduce average memory access
 time, etc.  We&#700;ll cover some of these enhancements in
-upcoming chapters.  The bottom line: the Beta hardware might
+upcoming lectures.  The bottom line: the Beta hardware might
 occupy 1 or 2 sq mm on a modern integrated circuit, while a
 modern Intel processor occupies 300 to 600 sq mm.  Clearly all
 that extra circuitry is there for a reason!  If you&#700;re

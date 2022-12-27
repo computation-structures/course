@@ -14,7 +14,7 @@ blocks with MUX steering logic to select input values as appropriate.</p>
 quickly determine that our 3-port main memory (shown here as the two
 yellow components) was the most costly component both in terms of
 space and percentage of the cycle time required by the memory
-accesses.  So in many ways, we really have a <i>memory machine</i> instead
+accesses.  So, in many ways, we really have a <i>memory machine</i> instead
 of a <i>computing machine</i>.</p>
 
 <p>The execution of every instruction starts by fetching the instruction
@@ -27,7 +27,7 @@ accommodated by the storage available as part of the CPU datapath.</p>
 <p>In fact, the performance of most modern computers is limited by the
 bandwidth, <i>i.e.</i>, bytes/second, of the connection between the CPU and
 main memory, the so-called <i>memory bottleneck</i>.  The goal of this
-chapter is to understand the nature of the bottleneck and to see if
+lecture is to understand the nature of the bottleneck and to see if
 there architectural improvements we might make to minimize the problem
 as much as possible.</p>
 
@@ -52,7 +52,7 @@ memory circuitry, which will in turn lead to longer signal lines and
 slower circuit performance due to increased capacitive loads.</p>
 
 <p>Dynamic random-access memories (DRAMs) are optimized for capacity and
-low cost, sacrificing access latency.  As we&#700;ll see in this chapter,
+low cost, sacrificing access latency.  As we&#700;ll see in this lecture,
 we&#700;ll use both SRAMs and DRAMs to build a hybrid memory hierarchy that
 provides low average latency and high capacity &#8212; an attempt to get the
 best of both worlds!</p>
@@ -585,7 +585,7 @@ of data between the lower levels of the hierarchy is turned over to
 software.</p>
 
 <p>Today we&#700;re discussing how the on-chip caches work.  In a later
-chapter, we&#700;ll discuss how the software manages main memory and
+lecture, we&#700;ll discuss how the software manages main memory and
 non-volatile storage devices.  Whether managed by hardware or
 software, each layer of the memory system is designed to provide
 lower-latency access to frequently-accessed locations in the next,

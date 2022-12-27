@@ -363,7 +363,7 @@ the stack pointer, deallocating that word from the stack.</p>
 
 <p>Note that the order of the instructions in the PUSH and POP
 macro is very important.  As we&#700;ll see in the next
-chapter, interrupts can cause the Beta hardware to stop
+lecture, interrupts can cause the Beta hardware to stop
 executing the current program between any two instructions, so
 we have to be careful about the order of operations.  So for
 PUSH, we first allocate the word on the stack, then initialize
@@ -621,7 +621,7 @@ exit sequence.</p>
 stack and removes it after the nested call returns.</p>
 
 <p>The remainder of the code is generated using the templates we
-saw in the previous chapter.  Aside from computing and pushing
+saw in the previous lecture.  Aside from computing and pushing
 the values of the arguments, there are approximately 10
 instructions needed to implement the linking approach to a
 procedure call.  That&#700;s not much for a procedure of any
@@ -735,7 +735,7 @@ with our various software conventions.  To summarize:</p>
 
 <p>We&#700;ll also dedicate R30 to a particular function in the
 ISA when we discuss the implementation of the Beta in the next
-chapter.  Meanwhile, don&#700;t use R30 in your code!</p>
+lecture.  Meanwhile, don&#700;t use R30 in your code!</p>
 
 <p>The remaining dedicated registers are connected with our
 software conventions:</p>
