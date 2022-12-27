@@ -373,7 +373,7 @@ happen if we have multiple producers and multiple consumers.</p>
 Automated teller machines allow bank customers to perform a
 variety of transactions: deposits, withdrawals, transfers, etc.
 Let&#700;s consider what happens when two customers try to
-withdraw \$50 from the same account at the same time.</p>
+withdraw $$50 from the same account at the same time.</p>
 
 <p>A portion of the bank&#700;s code for a withdrawal transaction
 is shown in the upper right.  This code is responsible for
