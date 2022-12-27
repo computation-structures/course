@@ -2,7 +2,7 @@
 
 ## Interpretation and Compilation
 
-<p align="center"><img style="height:450px;" src="lecture_slides/compilers/Slide02.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/compilers/Slide2.png?raw=true"/></p>
 
 <p>Today we&#700;re going to talk about how to translate
 high-level languages into code that computers can execute.</p>
@@ -37,7 +37,7 @@ statements in assembly language.</p>
 high-level language programs into code that will run on the
 Beta.</p>
 
-<p align="center"><img style="height:450px;" src="lecture_slides/compilers/Slide03.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/compilers/Slide3.png?raw=true"/></p>
 
 <p>Here we see Euclid&#700;s algorithm for determining the
 greatest common divisor of two numbers, in this case the
@@ -82,7 +82,7 @@ hand?  The answer depends on how we choose to run high-level
 language programs. The two basic execution strategies are
 <i>interpretation</i> and <i>compilation</i>.</p>
 
-<p align="center"><img style="height:450px;" src="lecture_slides/compilers/Slide04.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/compilers/Slide4.png?raw=true"/></p>
 
 <p>To interpret a high-level language program, we&#700;ll write a
 special program called an <i>interpreter</i> that runs on
@@ -117,7 +117,7 @@ computational approach is most effective before making a more
 substantial investment in creating a more efficient
 implementation.</p>
 
-<p align="center"><img style="height:450px;" src="lecture_slides/compilers/Slide05.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/compilers/Slide5.png?raw=true"/></p>
 
 <p>We&#700;ll use a compilation implementation strategy when we
 have computational tasks that we need to execute repeatedly and
@@ -156,7 +156,7 @@ away the details of the actual computer we&#700;ll use to run
 the program.  And both strategies are widely used in modern
 computer systems!</p>
 
-<p align="center"><img style="height:450px;" src="lecture_slides/compilers/Slide06.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/compilers/Slide6.png?raw=true"/></p>
 
 <p>Let&#700;s summarize the differences between interpretation
 and compilation.</p>
@@ -198,7 +198,7 @@ away that flexibility in exchange for fast execution.</p>
 
 ## Compiling Expressions
 
-<p align="center"><img style="height:450px;" src="lecture_slides/compilers/Slide07.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/compilers/Slide7.png?raw=true"/></p>
 
 <p>A compiler is a program that translates a high-level language
 program into a functionally equivalent sequence of machine
@@ -229,7 +229,7 @@ compiling C programs into assembly.  Then, in the next section,
 we&#700;ll dive more deeply into how a modern compiler
 works.</p>
 
-<p align="center"><img style="height:450px;" src="lecture_slides/compilers/Slide08.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/compilers/Slide8.png?raw=true"/></p>
 
 <p>There are two main routines in our simple compiler:
 compile_statement and compile_expr.  The job of
@@ -278,7 +278,7 @@ complications to understand and deal with.</p>
 <p>Happily, compiling the other types of expressions and
 statements is straightforward, so let&#700;s get started.</p>
 
-<p align="center"><img style="height:450px;" src="lecture_slides/compilers/Slide09.png?raw=true"/></p>
+<p align="center"><img style="height:450px;" src="lecture_slides/compilers/Slide9.png?raw=true"/></p>
 
 <p>What code do we need to put the value of a constant into a
 register?  If the constant will fit into the 16-bit constant
