@@ -105,8 +105,6 @@ Enjoy!
 
   * <a href="https://computationstructures.org/exercises/illop/lab.html">Emulating Instructions</a>
 
-  * <a href="https://computationstructures.org/exercises/illop/lab.html">Emulating Instructions</a>
-
   * <a href="https://computationstructures.org/exercises/tinyos/lab.html">Tiny Operating System</a>
 
   * <a href="https://computationstructures.org/exercises/dp/lab.html">Optimizing the Beta</a>
