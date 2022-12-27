@@ -1,6 +1,6 @@
 ## From Atoms to Amazon
 
-<img class="lecslide" src="/static/wrapup/Slide1.png"/>
+<p align="center"><img style="height:450px;" src="lecture_slides/wrapup/Slide1.png"/></p>
 
 <p>And now we&#700;ve reached the end of Computation Structures.
 Looking back, there are two ways of thinking about the material
@@ -22,7 +22,7 @@ the symbolic logic described by George Boole in 1847 is still
 used to reason about the operation of digital circuits you and I
 design today.</p>
 
-<img class="lecslide" src="/static/wrapup/Slide2.png"/>
+<p align="center"><img style="height:450px;" src="lecture_slides/wrapup/Slide2.png"/></p>
 
 <p>The power of engineering abstractions is that they allow us to reason
 about the behavior of a system based on the behavior of the components
@@ -44,7 +44,7 @@ to verify that the specifications have been met.  And once we&#700;ve
 created a useful repertoire of building blocks, we can use them again
 and again to assemble many different systems.</p>
 
-<img class="lecslide" src="/static/wrapup/Slide3.png"/>
+<p align="center"><img style="height:450px;" src="lecture_slides/wrapup/Slide3.png"/></p>
 
 <p>Our goal in Computation Structures is to demystify how computers work, starting with
 MOSFETs and working our way up to operating systems.  We hope you&#700;ve
@@ -59,7 +59,7 @@ engineers create them.</p>
 
 ## Thinking Outside the Box
 
-<img class="lecslide" src="/static/wrapup/Slide4.png"/>
+<p align="center"><img style="height:450px;" src="lecture_slides/wrapup/Slide4.png"/></p>
 
 <p>Computation Structures is an introductory course that only touches upon the basic
 principles used at each level of the design hierarchy.  If a
@@ -71,7 +71,7 @@ information society.  As you can imagine, there&#700;s no end of
 interesting engineering to explore and master &#8212; so roll up your
 sleeves and come join in the fun!</p>
 
-<img class="lecslide" src="/static/wrapup/Slide5.png"/>
+<p align="center"><img style="height:450px;" src="lecture_slides/wrapup/Slide5.png"/></p>
 
 <p>What will be the engineering challenges of tomorrow?  Here are a few
 thoughts about how the future of computing may be very different than
@@ -115,7 +115,7 @@ explicitly programmed.</p>
 feel the same way about having conversations with Alexa about
 tomorrow&#700;s weather.</p>
 
-<img class="lecslide" src="/static/wrapup/Slide6.png"/>
+<p align="center"><img style="height:450px;" src="lecture_slides/wrapup/Slide6.png"/></p>
 
 <p>Thanks for joining us here in Computation Structures.  We&#700;ve enjoyed presenting the
 material and challenging you with design tasks to exercise your new
