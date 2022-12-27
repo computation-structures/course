@@ -82,3 +82,5 @@ Enjoy!
   * L20 System-level Communication: <a href="L20_System_level_Communication.md">Lecture</a>
 
   * L21 Parallel Processing: <a href="L21_Parallel_Processing.md">Lecture</a>
+
+  * <a href="Wrap_up.md">Wrap-up</a>
