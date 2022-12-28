@@ -1,6 +1,6 @@
 <p align="center"><img style="height:450px;" src="lecture_slides/sequential/Slide1.png"/></p>
 
-## Digital State
+<h2>Digital State</h2>
 
 <p align="center"><img style="height:450px;" src="lecture_slides/sequential/Slide2.png"/></p>
 
@@ -202,7 +202,7 @@ lecture.</p>
 <p>Now let&#700;s figure out how to load new values into our
 bi-stable storage element.</p>
 
-## D Latch
+<h2>D Latch</h2>
 
 <p align="center"><img style="height:450px;" src="lecture_slides/sequential/Slide6.png"/></p>
 
@@ -370,7 +370,7 @@ lower bounds on the timing of signal transitions but no
 guarantees of exact intervals.  To make this work, we want to a
 load signal that marks an instant in time, not an interval.</p>
 
-## D Register
+<h2>D Register</h2>
 
 <p align="center"><img style="height:450px;" src="lecture_slides/sequential/Slide11.png"/></p>
 
@@ -590,7 +590,7 @@ sheet in order to analyze the timing of your overall circuit.
 We&#700;ll see how this analysis is done in the next
 section.</p>
 
-## Sequential Circuit Timing
+<h2>Sequential Circuit Timing</h2>
 
 <p align="center"><img style="height:450px;" src="lecture_slides/sequential/Slide17.png"/></p>
 
@@ -800,6 +800,6 @@ dynamic discipline.  So next time you see an ad for a 1.7 GHz
 processor chip, you&#700;ll know where the &#8220;1.7&#8221;
 came from!</p>
 
-## Summary
+<h2>Summary</h2>
 
 <p align="center"><img style="height:450px;" src="lecture_slides/sequential/Slide21.png"/></p>

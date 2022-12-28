@@ -4,7 +4,7 @@
 measuring the performance of a circuit and then investigate ways
 to improve that performance.</p>
 
-## Latency and Throughput
+<h2>Latency and Throughput</h2>
 
 <p align="center"><img style="height:450px;" src="lecture_slides/pipelined/Slide2.png"/></p>
 
@@ -141,7 +141,7 @@ pipelined processing, the latency usually increases since all
 pipeline stages must operate in lock-step and the rate of
 processing is thus determined by the slowest stage.</p>
 
-## Pipelined Circuits
+<h2>Pipelined Circuits</h2>
 
 <p align="center"><img style="height:450px;" src="lecture_slides/pipelined/Slide7.png"/></p>
 
@@ -568,7 +568,7 @@ period, thus setting an upper bound on the achievable
 throughput.  Sorry, no infinite speed-up is possible in the real
 world.</p>
 
-## Control Structure Alternatives
+<h2>Control Structure Alternatives</h2>
 
 <p align="center"><img style="height:450px;" src="lecture_slides/pipelined/Slide22.png"/></p>
 
@@ -729,7 +729,7 @@ say, a modern computer.  But there are special cases, such as
 the logic for integer division, where the data-dependent
 speed-ups make the extra work worthwhile.</p>
 
-## Summary
+<h2>Summary</h2>
 
 <p align="center"><img style="height:450px;" src="lecture_slides/pipelined/Slide26.png"/></p>
 

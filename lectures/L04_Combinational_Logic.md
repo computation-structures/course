@@ -4,7 +4,7 @@
 creating combinational logic circuits that implement a
 particular functional specification.</p>
 
-## Sum of Products
+<h2>Sum of Products</h2>
 
 <p align="center"><img style="height:450px;" src="lecture_slides/combinational/Slide2.png"/></p>
 
@@ -268,7 +268,7 @@ will yield the smallest overall $t_{\textrm{PD}}$ unless we know
 the $t_{\textrm{PD}}$ of the circuits that compute the values
 for the input signals.</p>
 
-## Inverting Logic
+<h2>Inverting Logic</h2>
 
 <p align="center"><img style="height:450px;" src="lecture_slides/combinational/Slide7.png"/></p>
 
@@ -467,7 +467,7 @@ implementation for the AND/OR circuitry for a sum-of-products
 expression, try using the NAND/NAND implementation.  It&#700;ll
 be noticeably faster than using AND/OR.</p>
 
-## Logic Simplification
+<h2>Logic Simplification</h2>
 
 <p align="center"><img style="height:450px;" src="lecture_slides/combinational/Slide12.png"/></p>
 
@@ -806,7 +806,7 @@ implicants in the sum-of-products expression.  That will bridge
 the gaps between product terms that lead to potential output
 glitches.</p>
 
-## Multiplexers and Table Lookup
+<h2>Multiplexers and Table Lookup</h2>
 
 <p align="center"><img style="height:450px;" src="lecture_slides/combinational/Slide22.png"/></p>
 
@@ -973,7 +973,7 @@ until the final configuration of the pulldown switches is
 stable.  So ROMs are not lenient and the outputs may show the
 glitchy behavior discussed earlier.</p>
 
-## Summary
+<h2>Summary</h2>
 
 <p align="center"><img style="height:450px;" src="lecture_slides/combinational/Slide30.png"/></p>
 

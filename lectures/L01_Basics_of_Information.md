@@ -1,3 +1,4 @@
+<style> h2 { margin-top: 24px; margin-bottom: 16px; font-weight: 600; line-height: 1.25; padding-bottom: 0.3em; font-size: 1.5em; border-bottom: hsla(210,18%,87%,1); } </style>
 <p align="center"><img style="height:450px;" src="lecture_slides/info/Slide1.png"/></p>
 
 In order to build circuits that manipulate, transmit or store
@@ -244,7 +245,7 @@ we&#700;d have the perfect encoding.  Alas, perfection is, as
 always, a tough goal, so most of the time we&#700;ll have to
 settle for getting close.</p>
 
-## Encodings
+<h2>Encodings</h2>
 
 <p align="center"><img style="height:450px;" src="lecture_slides/info/Slide9.png"/></p>
 
@@ -360,7 +361,7 @@ printing characters, so the associated entropy is $\log_2(94)$
 or 6.555 bits, so we would use 7 bits in our fixed-length
 encoding for each character.</p>
 
-## Encoding Numbers
+<h2>Encoding Numbers</h2>
 
 <p align="center"><img style="height:450px;" src="lecture_slides/info/Slide12.png"/></p>
 
@@ -511,7 +512,7 @@ hand at the following exercises.  All you need to remember is
 how to do binary addition and two&#700;s complement negation
 (which is <i>bitwise complement and add 1</i>).</p>
 
-## Variable-length Encodings
+<h2>Variable-length Encodings</h2>
 
 <p align="center"><img style="height:450px;" src="lecture_slides/info/Slide17.png"/></p>
 
@@ -657,7 +658,7 @@ reductions from the original file size.  If you&#700;d like to
 learn more, look up &#8220;LZW&#8221; on Wikipedia to read about
 the Lempel-Ziv-Welch data compression algorithm.</p>
 
-## Error Detection
+<h2>Error Detection</h2>
 
 <p align="center"><img style="height:450px;" src="lecture_slides/info/Slide21.png"/></p>
 
@@ -780,7 +781,7 @@ words far enough apart, as measured by Hamming distance, so that
 $E$ errors can&#700;t corrupt one valid code word so that it
 looks like another valid code word.</p>
 
-## Error Correction
+<h2>Error Correction</h2>
 
 <p align="center"><img style="height:450px;" src="lecture_slides/info/Slide27.png"/></p>
 
@@ -814,6 +815,6 @@ by Hamming distance) we can ensure that we can detect and even
 correct errors that have corrupted our encoded data.  Pretty
 neat!</p>
 
-## Summary
+<h2>Summary</h2>
 
 <p align="center"><img style="height:450px;" src="lecture_slides/info/Slide28.png"/></p>

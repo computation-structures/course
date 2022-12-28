@@ -5,7 +5,7 @@ sequences of bits.  In this lecture, we turn our attention to finding
 a useful physical representation for bits, our first step in building
 devices that can process information.</p>
 
-## Encoding Information
+<h2>Encoding Information</h2>
 
 <p align="center"><img style="height:450px;" src="lecture_slides/digital/Slide2.png"/></p>
 
@@ -232,7 +232,7 @@ notice that errors have been introduced by a processing step and
 restore the correct values before the errors have a chance to
 accumulate.  How to do that is our next topic.</p>
 
-## The Digital Abstraction
+<h2>The Digital Abstraction</h2>
 
 <p align="center"><img style="height:450px;" src="lecture_slides/digital/Slide9.png"/></p>
 
@@ -440,7 +440,7 @@ so it is indeed a combinational device.  Pretty neat &#8212; we can
 use our composition rules to build combinational devices of arbitrary
 complexity.</p>
 
-## Dealing With Noise
+<h2>Dealing With Noise</h2>
 
 <p align="center"><img style="height:450px;" src="lecture_slides/digital/Slide14.png"/></p>
 
@@ -663,6 +663,6 @@ signaling specification with $V_{\textrm{OL}}$ = 0.5V,
 $V_{\textrm{IL}}$ = 1V, $V_{\textrm{IH}}$ = 3V and $V_{\textrm{OH}}$ =
 3.5V.  We&#700;re good to go!</p>
 
-## Summary
+<h2>Summary</h2>
 
 <p align="center"><img style="height:450px;" src="lecture_slides/digital/Slide20.png"/></p>

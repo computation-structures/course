@@ -1,6 +1,6 @@
 <p align="center"><img style="height:450px;" src="lecture_slides/cmos/Slide1.png"/></p>
 
-## The MOSFET
+<h2>The MOSFET</h2>
 
 <p align="center"><img style="height:450px;" src="lecture_slides/cmos/Slide2.png"/></p>
 
@@ -298,7 +298,7 @@ have our two types of voltage-controlled switches, our next task is to
 figure out how to use them to build circuits useful for manipulating
 information encoded as voltages.</p>
 
-## CMOS Logic Gates
+<h2>CMOS Logic Gates</h2>
 
 <p align="center"><img style="height:450px;" src="lecture_slides/cmos/Slide7.png"/></p>
 
@@ -559,7 +559,7 @@ to 1, the output rises instead of falls.  Moral of the story: when
 you&#700;re a CMOS designer, you&#700;ll get very good at
 implementing functionality with inverting logic!</p>
 
-## CMOS Timing
+<h2>CMOS Timing</h2>
 
 <p align="center"><img style="height:450px;" src="lecture_slides/cmos/Slide14.png"/></p>
 
@@ -825,6 +825,6 @@ lectures.</p>
 
 <p>You&#700;re ready to try building some CMOS gates of your own!</p>
 
-## Summary
+<h2>Summary</h2>
 
 <p align="center"><img style="height:450px;" src="lecture_slides/cmos/Slide21.png"/></p>

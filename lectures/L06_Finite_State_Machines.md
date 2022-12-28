@@ -1,6 +1,6 @@
 <p align="center"><img style="height:450px;" src="lecture_slides/fsm/Slide1.png"/></p>
 
-## Finite State Machines
+<h2>Finite State Machines</h2>
 
 <p align="center"><img style="height:450px;" src="lecture_slides/fsm/Slide2.png"/></p>
 
@@ -206,7 +206,7 @@ to itself.</p>
 <p>With these rules there will be exactly one transition selected
 for every combination of current state and input value.</p>
 
-## FSM Implementation
+<h2>FSM Implementation</h2>
 
 <p align="center"><img style="height:450px;" src="lecture_slides/fsm/Slide7.png"/></p>
 
@@ -407,7 +407,7 @@ the simplest (and hence the least expensive) equivalent FSM.
 We&#700;ll talk about how to find smaller equivalent FSMs in
 the context of our next example.</p>
 
-## FSM Example: Roboant
+<h2>FSM Example: Roboant</h2>
 
 <p align="center"><img style="height:450px;" src="lecture_slides/fsm/Slide14.png"/></p>
 
@@ -637,7 +637,7 @@ model for evolution!</p>
 <p>FSMs are everywhere!  You&#700;ll see FSMs for the rest of
 your life...</p>
 
-## Synchronization and Metastability
+<h2>Synchronization and Metastability</h2>
 
 <p align="center"><img style="height:450px;" src="lecture_slides/fsm/Slide26.png"/></p>
 

@@ -1,6 +1,6 @@
 <p align="center"><img style="height:450px;" src="lecture_slides/tradeoffs/Slide1.png"/></p>
 
-## Optimizing Your Design
+<h2>Optimizing Your Design</h2>
 
 <p align="center"><img style="height:450px;" src="lecture_slides/tradeoffs/Slide2.png"/></p>
 
@@ -250,7 +250,7 @@ There have been some interesting theoretical speculations about
 this question &#8212; see section 6.5 of the course notes to
 read more.</p>
 
-## Improving Latency: Faster Adders
+<h2>Improving Latency: Faster Adders</h2>
 
 <p align="center"><img style="height:450px;" src="lecture_slides/tradeoffs/Slide8.png"/></p>
 
@@ -490,7 +490,7 @@ for the fastest-known adder circuits. If you&#700;d like to
 learn more, look up "Kogge-Stone adders" on
 Wikipedia.</p>
 
-## Improving Throughput: Binary Multiplication
+<h2>Improving Throughput: Binary Multiplication</h2>
 
 <p align="center"><img style="height:450px;" src="lecture_slides/tradeoffs/Slide17.png"/></p>
 
@@ -733,7 +733,7 @@ useful in many situations and its use can improve throughput at
 constant hardware cost, or save hardware at a constant
 throughput.</p>
 
-## Summary
+<h2>Summary</h2>
 
 <p align="center"><img style="height:450px;" src="lecture_slides/tradeoffs/Slide24.png"/></p>
 
