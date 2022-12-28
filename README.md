@@ -85,7 +85,7 @@ Enjoy!
 
   * L21. Parallel Processing: <a href="lectures/L21_Parallel_Processing.md">Lecture</a>
 
-  * <a href="Wrap_up.md">Wrap-up</a>
+  * <a href="lectures/Wrap_up.md">Wrap-up</a>
 
 * **Online labs**
 
