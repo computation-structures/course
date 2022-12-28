@@ -10,7 +10,7 @@ We&#700;ll also look into what we can do if our representation gets
 corrupted by errors. It would be nice to detect that something bad
 has happened and possibly even correct the problem.
 
-## Quantifying Information
+<h2>Quantifying Information</h2>
 
 <p align="center"><img style="height:450px;" src="lecture_slides/info/Slide2.png"/></p>
 
