@@ -1,4 +1,3 @@
-<style> h2 { margin-top: 24px; margin-bottom: 16px; font-weight: 600; line-height: 1.25; padding-bottom: 0.3em; font-size: 1.5em; border-bottom: hsla(210,18%,87%,1); } </style>
 <p align="center"><img style="height:450px;" src="lecture_slides/info/Slide1.png"/></p>
 
 In order to build circuits that manipulate, transmit or store
