@@ -1,6 +1,6 @@
 <p align="center"><img style="height:450px;" src="lecture_slides/compilers/Slide1.png"/></p>
 
-## Interpretation and Compilation
+<h2>Interpretation and Compilation</h2>
 
 <p align="center"><img style="height:450px;" src="lecture_slides/compilers/Slide2.png"/></p>
 
@@ -196,7 +196,7 @@ the variable X, offering considerable flexibility in handling
 different types of data with the same algorithm.  Compilers take
 away that flexibility in exchange for fast execution.</p>
 
-## Compiling Expressions
+<h2>Compiling Expressions</h2>
 
 <p align="center"><img style="height:450px;" src="lecture_slides/compilers/Slide7.png"/></p>
 
@@ -382,7 +382,7 @@ second operand.  These local transformations are called
 <i>peephole optimizations</i> since we&#700;re only
 considering just one or two instructions at a time.</p>
 
-## Compling Statements
+<h2>Compling Statements</h2>
 
 <p align="center"><img style="height:450px;" src="lecture_slides/compilers/Slide11.png"/></p>
 
@@ -475,7 +475,7 @@ code.  Still though, the first time I learned about recursive
 descent, I ran home to write a simple implementation and
 marveled at having authored my own compiler in an afternoon!</p>
 
-## Compiler Frontend
+<h2>Compiler Frontend</h2>
 
 <p align="center"><img style="height:450px;" src="lecture_slides/compilers/Slide16.png"/></p>
 
@@ -567,7 +567,7 @@ semantics, and we&#700;ve finished converting the source
 program into an equivalent, language-independent sequence of
 operations.</p>
 
-## Optimizations
+<h2>Optimizations</h2>
 
 <p align="center"><img style="height:450px;" src="lecture_slides/compilers/Slide20.png"/></p>
 
@@ -724,7 +724,7 @@ instructions.  Optimizing compilers have a sophisticated set of
 optimizations they employ to make smaller and more efficient
 code.</p>
 
-## Code Generation
+<h2>Code Generation</h2>
 
 <p align="center"><img style="height:450px;" src="lecture_slides/compilers/Slide30.png"/></p>
 
@@ -778,7 +778,7 @@ unconditional branches wherever possible.</p>
 that a human programmer might make to make the code faster or
 smaller.  Good job, compiler!</p>
 
-## Summary
+<h2>Summary</h2>
 
 <p align="center"><img style="height:450px;" src="lecture_slides/compilers/Slide33.png"/></p>
 

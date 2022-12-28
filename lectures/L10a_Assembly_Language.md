@@ -1,6 +1,6 @@
 <p align="center"><img style="height:450px;" src="lecture_slides/assembly/Slide1.png"/></p>
 
-## Review: Beta ISA
+<h2>Review: Beta ISA</h2>
 
 <p align="center"><img style="height:450px;" src="lecture_slides/assembly/Slide2.png"/></p>
 
@@ -75,7 +75,7 @@ expressing their computations, then, after perhaps many layers
 of translation, come up with a sequence of instructions that the
 Beta can actually execute.</p>
 
-## Assembly Language
+<h2>Assembly Language</h2>
 
 <p align="center"><img style="height:450px;" src="lecture_slides/assembly/Slide4.png"/></p>
 
@@ -265,7 +265,7 @@ the offset is -3.  The 16-bit two&#700;s complement
 representation of -3 is the value placed in the constant field
 of the BNE instruction.</p>
 
-## Macros
+<h2>Macros</h2>
 
 <p align="center"><img style="height:450px;" src="lecture_slides/assembly/Slide9.png"/></p>
 
@@ -482,7 +482,7 @@ UASM statement &#8220;k = .&#8221;</p>
 locations, <i>e.g.</i>, if we wanted to leave space for an un
 initialized array.</p>
 
-## Summary: Assembly Language
+<h2>Summary: Assembly Language</h2>
 
 <p align="center"><img style="height:450px;" src="lecture_slides/assembly/Slide17.png"/></p>
 

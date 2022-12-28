@@ -1,4 +1,4 @@
-## From Atoms to Amazon
+<h2>From Atoms to Amazon</h2>
 
 <p align="center"><img style="height:450px;" src="lecture_slides/wrapup/Slide1.png"/></p>
 
@@ -57,7 +57,7 @@ the confidence to create new abstractions when tackling new
 engineering tasks.  Good engineers use abstractions, but great
 engineers create them.</p>
 
-## Thinking Outside the Box
+<h2>Thinking Outside the Box</h2>
 
 <p align="center"><img style="height:450px;" src="lecture_slides/wrapup/Slide4.png"/></p>
 

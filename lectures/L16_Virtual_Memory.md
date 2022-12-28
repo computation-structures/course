@@ -1,6 +1,6 @@
 <p align="center"><img style="height:450px;" src="lecture_slides/vm/Slide1.png"/></p>
 
-## Extending the Memory Hierachy
+<h2>Extending the Memory Hierachy</h2>
 
 <p align="center"><img style="height:450px;" src="lecture_slides/vm/Slide2.png"/></p>
 
@@ -372,7 +372,7 @@ location 0x4C8.  Note that the offset is unchanged by the
 translation process &#8212; the offset into the physical page is
 always the same as the offset into the virtual page.</p>
 
-## Building the MMU
+<h2>Building the MMU</h2>
 
 <p align="center"><img style="height:450px;" src="lecture_slides/vm/Slide12.png"/></p>
 
@@ -700,7 +700,7 @@ page not resident, we don&#700;t bother to clear out the other fields
 in the entry since they won&#700;t be used when R=0.  So there&#700;s only
 one <i>valid</i> mapping to PPN 5.</p>
 
-## Contexts
+<h2>Contexts</h2>
 
 <p align="center"><img style="height:450px;" src="lecture_slides/vm/Slide22.png"/></p>
 
@@ -863,7 +863,7 @@ If the TLB has sufficient capacity to cache the VPN-to-PPN
 mappings for several contexts, context switches would no longer
 have a substantial impact on average memory access time.</p>
 
-## Summary
+<h2>Summary</h2>
 
 <p align="center"><img style="height:450px;" src="lecture_slides/vm/Slide27.png"/></p>
 

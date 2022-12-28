@@ -1,6 +1,6 @@
 <p align="center"><img style="height:450px;" src="lecture_slides/beta/Slide1.png"/></p>
 
-## Building Blocks
+<h2>Building Blocks</h2>
 
 <p align="center"><img style="height:450px;" src="lecture_slides/beta/Slide2.png"/></p>
 
@@ -221,7 +221,7 @@ available in the next clock cycle.</p>
 we&#700;ll be using.  Let&#700;s get started on the
 design!</p>
 
-## ALU Instructions
+<h2>ALU Instructions</h2>
 
 <p align="center"><img style="height:450px;" src="lecture_slides/beta/Slide8.png"/></p>
 
@@ -376,7 +376,7 @@ instructions in the Beta ISA!  We just have the memory and
 branch instruction left to implement.  That&#700;s our next
 task.</p>
 
-## Load and Store
+<h2>Load and Store</h2>
 
 <p align="center"><img style="height:450px;" src="lecture_slides/beta/Slide14.png"/></p>
 
@@ -639,7 +639,7 @@ written into the RC register at the end of the cycle.</p>
 <p>The remaining control signals are given their usual default
 values.</p>
 
-## Exceptions
+<h2>Exceptions</h2>
 
 <p align="center"><img style="height:450px;" src="lecture_slides/beta/Slide25.png"/></p>
 
@@ -769,7 +769,7 @@ instruction, it will have to subtract 4 from the value in the XP
 register before performing a JMP(XP) to resume execution of the
 interrupted program.</p>
 
-## Beta: Our &#8220;Final Answer&#8221;
+<h2>Beta: Our &#8220;Final Answer&#8221;</h2>
 
 <p align="center"><img style="height:450px;" src="lecture_slides/beta/Slide30.png"/></p>
 

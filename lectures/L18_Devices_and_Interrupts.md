@@ -1,6 +1,6 @@
 <p align="center"><img style="height:450px;" src="lecture_slides/interrupts/Slide1.png"/></p>
 
-## Dealing with I/O Devices
+<h2>Dealing with I/O Devices</h2>
 
 <p align="center"><img style="height:450px;" src="lecture_slides/interrupts/Slide2.png"/></p>
 
@@ -128,7 +128,7 @@ complicated!</p>
 <p>Next, we&#700;ll figure out how to code the associated
 supervisor call that lets user programs read characters.</p>
 
-## Interrupt Handlers
+<h2>Interrupt Handlers</h2>
 
 <p align="center"><img style="height:450px;" src="lecture_slides/interrupts/Slide5.png"/></p>
 
@@ -297,7 +297,7 @@ are wasted on useless activity.  I can remember how impressed I
 was when I first saw this many years ago in a (very) early
 version of the UNIX code :)</p>
 
-## Exmaple: Match Handler to OS
+<h2>Exmaple: Match Handler to OS</h2>
 
 <p align="center"><img style="height:450px;" src="lecture_slides/interrupts/Slide10.png"/></p>
 
@@ -542,7 +542,7 @@ even in kernel mode.</p>
 mechanisms are required to make guarantees about hard real-time
 constraints.</p>
 
-## Interrupt Priotities and Preemption
+<h2>Interrupt Priotities and Preemption</h2>
 
 <p align="center"><img style="height:450px;" src="lecture_slides/interrupts/Slide17.png"/></p>
 
@@ -822,7 +822,7 @@ requests, 3 printer requests, and, of course, 1 keyboard
 request, for a total service time of 2*500 + 3*400 + 800 = 3000
 us.  Whew! Just made it!</p>
 
-## Example: Priority Interrupts
+<h2>Example: Priority Interrupts</h2>
 
 <p align="center"><img style="height:450px;" src="lecture_slides/interrupts/Slide24.png"/></p>
 
@@ -923,7 +923,7 @@ service time for the CP task so that it will complete just at
 its deadline of 100 ms, taking into account the service time for
 multiple higher-priority requests.</p>
 
-## Summary
+<h2>Summary</h2>
 
 <p align="center"><img style="height:450px;" src="lecture_slides/interrupts/Slide26.png"/></p>
 

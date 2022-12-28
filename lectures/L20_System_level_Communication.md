@@ -1,6 +1,6 @@
 <p align="center"><img style="height:450px;" src="lecture_slides/communications/Slide1.png"/></p>
 
-## The Importance of Interfaces
+<h2>The Importance of Interfaces</h2>
 
 <p align="center"><img style="height:450px;" src="lecture_slides/communications/Slide2.png"/></p>
 
@@ -145,7 +145,7 @@ so next we&#700;ll look into some the engineering issues
 we&#700;ve had to deal with as communication speeds have
 increased from kHz to GHz.</p>
 
-## Wires
+<h2>Wires</h2>
 
 <p align="center"><img style="height:450px;" src="lecture_slides/communications/Slide5.png"/></p>
 
@@ -337,7 +337,7 @@ system level.  So next we&#700;ll turn our attention to
 possible designs for system-level interconnect and the issues
 that might arise.</p>
 
-## Buses
+<h2>Buses</h2>
 
 <p align="center"><img style="height:450px;" src="lecture_slides/communications/Slide10.png"/></p>
 
@@ -446,7 +446,7 @@ allocated between words for the echoes to die away.</p>
 communication tasks and a different approach had to be developed
 for high-speed communication.</p>
 
-## Point-to-point Communication
+<h2>Point-to-point Communication</h2>
 
 <p align="center"><img style="height:450px;" src="lecture_slides/communications/Slide13.png"/></p>
 
@@ -771,7 +771,7 @@ last generation of Connection Machines used a tree network, with
 the clever innovation that the links towards the root of the
 tree had a higher message capacity.</p>
 
-## Summary
+<h2>Summary</h2>
 
 <p align="center"><img style="height:450px;" src="lecture_slides/communications/Slide24.png"/></p>
 

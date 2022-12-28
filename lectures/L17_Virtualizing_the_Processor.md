@@ -1,6 +1,6 @@
 <p align="center"><img style="height:450px;" src="lecture_slides/virtual/Slide1.png"/></p>
 
-## Review: Virtual Memory
+<h2>Review: Virtual Memory</h2>
 
 <p align="center"><img style="height:450px;" src="lecture_slides/virtual/Slide2.png"/></p>
 
@@ -93,7 +93,7 @@ switch</i> to move to the appropriate MMU context.</p>
 great idea!  Let&#700;s figure out the details of how that might
 work...</p>
 
-## Building a Virtual Machine
+<h2>Building a Virtual Machine</h2>
 
 <p align="center"><img style="height:450px;" src="lecture_slides/virtual/Slide5.png"/></p>
 
@@ -277,7 +277,7 @@ here.</p>
 and we&#700;ll examine the implementation in more detail in the
 following segment.</p>
 
-## Timesharing
+<h2>Timesharing</h2>
 
 <p align="center"><img style="height:450px;" src="lecture_slides/virtual/Slide8.png"/></p>
 
@@ -484,7 +484,7 @@ is guaranteed to suspend execution of the current process,
 sometimes arranging to make copy of the process state for later
 debugging.  Very handy!</p>
 
-## Handling Exceptions
+<h2>Handling Exceptions</h2>
 
 <p align="center"><img style="height:450px;" src="lecture_slides/virtual/Slide15.png"/></p>
 
@@ -643,7 +643,7 @@ upon returning from the illegal instruction interrupt handler.</p>
 process state and resumes execution.  We&#700;ll see this code in
 the next segment.</p>
 
-## Communicating with the OS
+<h2>Communicating with the OS</h2>
 
 <p align="center"><img style="height:450px;" src="lecture_slides/virtual/Slide22.png"/></p>
 

@@ -1,6 +1,6 @@
 <p align="center"><img style="height:450px;" src="lecture_slides/stacks/Slide1.png"/></p>
 
-## Procedures
+<h2>Procedures</h2>
 
 <p align="center"><img style="height:450px;" src="lecture_slides/stacks/Slide2.png"/></p>
 
@@ -408,7 +408,7 @@ first-out discipline imposed by the stack operations.</p>
 to solve our problems with allocating and deallocating
 activation records during procedure calls.</p>
 
-## Stack Frames
+<h2>Stack Frames</h2>
 
 <p align="center"><img style="height:450px;" src="lecture_slides/stacks/Slide12.png"/></p>
 
@@ -540,7 +540,7 @@ offsets that can be determined at compile time.  The stack above
 the local variables is available for other uses, <i>e.g.</i>,
 building the activation record for a nested procedure call!</p>
 
-## Compiling a Procedure
+<h2>Compiling a Procedure</h2>
 
 <p align="center"><img style="height:450px;" src="lecture_slides/stacks/Slide16.png"/></p>
 
@@ -749,7 +749,7 @@ software conventions:</p>
 <p>As you practice reading and writing code, you&#700;ll grow
 familiar with these dedicated registers.</p>
 
-## Summary
+<h2>Summary</h2>
 
 <p align="center"><img style="height:450px;" src="lecture_slides/stacks/Slide22.png"/></p>
 

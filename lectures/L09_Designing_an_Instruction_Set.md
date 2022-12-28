@@ -1,6 +1,6 @@
 <p align="center"><img style="height:450px;" src="lecture_slides/isa/Slide1.png"/></p>
 
-## Data Paths and FSMs
+<h2>Data Paths and FSMs</h2>
 
 <p align="center"><img style="height:450px;" src="lecture_slides/isa/Slide2.png"/></p>
 
@@ -225,7 +225,7 @@ execute the program step by step.&#8221;</p>
 <p>It&#700;s clear that we need a less cumbersome way to program
 our computer!</p>
 
-## The von Neumann Model
+<h2>The von Neumann Model</h2>
 
 <p align="center"><img style="height:450px;" src="lecture_slides/isa/Slide13.png"/></p>
 
@@ -443,7 +443,7 @@ possible.</p>
 <p>Now, let&#700;s get to work designing our own instruction set
 and execution engine, a system we&#700;ll call the Beta.</p>
 
-## Beta ISA: Storage
+<h2>Beta ISA: Storage</h2>
 
 <p align="center"><img style="height:450px;" src="lecture_slides/isa/Slide19.png"/></p>
 
@@ -821,7 +821,7 @@ instructions.</p>
 <p>We&#700;ll put the hardware implementation details aside for
 now and revisit them in a few lectures.</p>
 
-## Beta ISA: Memory Access
+<h2>Beta ISA: Memory Access</h2>
 
 <p align="center"><img style="height:450px;" src="lecture_slides/isa/Slide27.png"/></p>
 
@@ -885,7 +885,7 @@ To solve this problem, the Beta includes a &#8220;load
 relative&#8221; (LDR) instruction, which we&#700;ll see in the
 lecture on the Beta implementation.</p>
 
-## Beta ISA: Control Flow
+<h2>Beta ISA: Control Flow</h2>
 
 <p align="center"><img style="height:450px;" src="lecture_slides/isa/Slide29.png"/></p>
 
@@ -1056,7 +1056,7 @@ procedure call and return.  We&#700;ll discuss the
 implementation of procedures in detail in an upcoming
 lecture.</p>
 
-## Beta ISA Summary
+<h2>Beta ISA Summary</h2>
 
 <p align="center"><img style="height:450px;" src="lecture_slides/isa//Slide33.png"/></p>
 

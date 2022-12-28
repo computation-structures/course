@@ -1,6 +1,6 @@
 <p align="center"><img style="height:450px;" src="lecture_slides/synchronization/Slide1.png"/></p>
 
-## Interprocess Communication
+<h2>Interprocess Communication</h2>
 
 <p align="center"><img style="height:450px;" src="lecture_slides/synchronization/Slide2.png"/></p>
 
@@ -189,7 +189,7 @@ and for that we&#700;ll introduce a new programming construct
 that we&#700;ll use to provide the appropriate inter-process
 synchronization.</p>
 
-## Semaphores
+<h2>Semaphores</h2>
 
 <p align="center"><img style="height:450px;" src="lecture_slides/synchronization/Slide6.png"/></p>
 
@@ -365,7 +365,7 @@ consumer.</p>
 single consumer process.  Next we&#700;ll think about what will
 happen if we have multiple producers and multiple consumers.</p>
 
-## Atomic Transactions
+<h2>Atomic Transactions</h2>
 
 <p align="center"><img style="height:450px;" src="lecture_slides/synchronization/Slide12.png"/></p>
 
@@ -546,7 +546,7 @@ of reads and writes needed to increment a shared index would not
 be interrupted by another process between the initial read of
 the index and the final write.</p>
 
-## Semaphore Implementation
+<h2>Semaphore Implementation</h2>
 
 <p align="center"><img style="height:450px;" src="lecture_slides/synchronization/Slide18.png"/></p>
 
@@ -640,7 +640,7 @@ entering the critical section.</p>
 instruction is used to set the semaphore to a non-zero
 value.</p>
 
-## Dealing with Deadlock
+<h2>Dealing with Deadlock</h2>
 
 <p align="center"><img style="height:450px;" src="lecture_slides/synchronization/Slide21.png"/></p>
 
@@ -782,7 +782,7 @@ the shared data when it is sure that the transaction will not be
 aborted, at which point the changes are committed to the
 database.</p>
 
-## Summary
+<h2>Summary</h2>
 
 <p align="center"><img style="height:450px;" src="lecture_slides/synchronization/Slide26.png"/></p>
 

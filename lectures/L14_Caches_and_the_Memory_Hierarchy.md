@@ -1,6 +1,6 @@
 <p align="center"><img style="height:450px;" src="lecture_slides/caches/Slide1.png"/></p>
  
-## Memory Technologies
+<h2>Memory Technologies</h2>
 
 <p align="center"><img style="height:450px;" src="lecture_slides/caches/Slide2.png"/></p>
 
@@ -396,7 +396,7 @@ choice: we can pick smaller-and-faster or larger-and-slower.  This is
 a bit awkward actually &#8212; can we figure how to get the best of both
 worlds?</p>
 
-## The Memory Hierarchy
+<h2>The Memory Hierarchy</h2>
 
 <p align="center"><img style="height:450px;" src="lecture_slides/caches/Slide16.png"/></p>
 
@@ -592,7 +592,7 @@ lower-latency access to frequently-accessed locations in the next,
 slower layer.  But, as we&#700;ll see, the implementation strategies will
 be quite different in the slower layers of the hierarchy.</p>
 
-## Direct-mapped Caches
+<h2>Direct-mapped Caches</h2>
 
 <p align="center"><img style="height:450px;" src="lecture_slides/caches/Slide22.png"/></p>
 
@@ -921,7 +921,7 @@ programmer will certainly notice her program running 10 times slower!</p>
 architectural changes to avoid the performance problems caused by
 conflict misses.</p>
 
-## Associative Caches
+<h2>Associative Caches</h2>
 
 <p align="center"><img style="height:450px;" src="lecture_slides/caches/Slide31.png"/></p>
 
@@ -1160,7 +1160,7 @@ that minimizes the number of writes to main memory and only delays the
 CPU on a cache miss if a dirty cache line needs to be written back to
 memory.</p>
 
-## Summary: Cache Tradeoffs
+<h2>Summary: Cache Tradeoffs</h2>
 
 <p align="center"><img style="height:450px;" src="lecture_slides/caches/Slide41.png"/></p>
 

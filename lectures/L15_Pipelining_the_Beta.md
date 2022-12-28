@@ -1,6 +1,6 @@
 <p align="center"><img style="height:450px;" src="lecture_slides/pbeta/Slide1.png"/></p>
 
-## Improving Beta Performance
+<h2>Improving Beta Performance</h2>
 
 <p align="center"><img style="height:450px;" src="lecture_slides/pbeta/Slide2.png"/></p>
 
@@ -216,7 +216,7 @@ hazards.</p>
 
 <p>And finally, we&#700;ll address control hazards.</p>
 
-## Basic 5-stage Pipeline
+<h2>Basic 5-stage Pipeline</h2>
 
 <p align="center"><img style="height:450px;" src="lecture_slides/pbeta/Slide7.png"/></p>
 
@@ -381,7 +381,7 @@ instruction sequence didn&#700;t trigger this data hazard.</p>
 
 <p>Tackling data hazards is our next task.</p>
 
-## Data Hazards
+<h2>Data Hazards</h2>
 
 <p align="center"><img style="height:450px;" src="lecture_slides/pbeta/Slide16.png"/></p>
 
@@ -694,7 +694,7 @@ lifetimes and so shouldn&#700;t include tradeoffs driven by
 short-term implementation considerations.  Best not to go
 there.</p>
 
-## Control Hazards
+<h2>Control Hazards</h2>
 
 <p align="center"><img style="height:450px;" src="lecture_slides/pbeta/Slide28.png"/></p>
 
@@ -819,7 +819,7 @@ flushing the pipeline has a big impact on the effective CPI, we
 do it when it&#700;s the only way to ensure the correct
 behavior of the execution pipeline.</p>
 
-## Speculative Execution
+<h2>Speculative Execution</h2>
 
 <p align="center"><img style="height:450px;" src="lecture_slides/pbeta/Slide34.png"/></p>
 
@@ -1073,7 +1073,7 @@ interrupts, since we&#700;re treating them as IF-stage
 exceptions.  We simply have to adjust the logic for IRSrc_IF to
 also make it 1 when an interrupt is requested.</p>
 
-## 5-stage Beta: Final Version
+<h2>5-stage Beta: Final Version</h2>
 
 <p align="center"><img style="height:450px;" src="lecture_slides/pbeta/Slide48.png"/></p>
 

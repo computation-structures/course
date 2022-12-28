@@ -1,6 +1,6 @@
 <p align="center"><img style="height:450px;" src="lecture_slides/models/Slide1.png"/></p>
 
-## Computability
+<h2>Computability</h2>
 
 <p align="center"><img style="height:450px;" src="lecture_slides/models/Slide2.png"/></p>
 
@@ -155,7 +155,7 @@ general <i>computable</i> is taken to mean
 functions, please see the optional section at the end of this
 lecture.</p>
 
-## Universality
+<h2>Universality</h2>
 
 <p align="center"><img style="height:450px;" src="lecture_slides/models/Slide8.png"/></p>
 
@@ -238,7 +238,7 @@ machine.  And the development of the universal Turing Machine
 model paved the way for modern stored-program computers.  The
 bottom line: we&#700;re good to go with the Beta ISA!</p>
 
-## Uncomputability
+<h2>Uncomputability</h2>
 
 <p align="center"><img style="height:450px;" src="lecture_slides/models/Slide13.png"/></p>
 

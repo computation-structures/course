@@ -1,6 +1,6 @@
 <p align="center"><img style="height:450px;" src="lecture_slides/parallel/Slide1.png"/></p>
 
-## Improving Processor Performance
+<h2>Improving Processor Performance</h2>
 
 <p align="center"><img style="height:450px;" src="lecture_slides/parallel/Slide2.png"/></p>
 
@@ -126,7 +126,7 @@ depends on finding instructions that can be executed in parallel or in
 different orders.  Collectively these properties are called
 <i>instruction-level parallelism</i> (ILP).</p>
 
-## Instruction-level Parallelism
+<h2>Instruction-level Parallelism</h2>
 
 <p align="center"><img style="height:450px;" src="lecture_slides/parallel/Slide7.png"/></p>
 
@@ -281,7 +281,7 @@ superscalar pipelined processors.</p>
 data-level parallelism (DLP) and thread-level parallelism (TLP).
 These are our next two topics.</p>
 
-## Data-Level Parallelism
+<h2>Data-Level Parallelism</h2>
 
 <p align="center"><img style="height:450px;" src="lecture_slides/parallel/Slide11.png"/></p>
 
@@ -402,7 +402,7 @@ and engineering calculations and not just as graphics engines.</p>
 in a variety of useful situations.  So current and future ISAs will
 almost certainly include support for vector operations.</p>
 
-## Thread-level Parallelism
+<h2>Thread-level Parallelism</h2>
 
 <p align="center"><img style="height:450px;" src="lecture_slides/parallel/Slide15.png"/></p>
 
@@ -503,7 +503,7 @@ easy to build high-performance computing clusters.</p>
 <p>In the next couple of sections we&#700;ll look more closely at some of the
 issues involved in building shared-memory multicore processors.</p>
 
-## Shared Memory and Caches
+<h2>Shared Memory and Caches</h2>
 
 <p align="center"><img style="height:450px;" src="lecture_slides/parallel/Slide19.png"/></p>
 
@@ -619,7 +619,7 @@ to read the ISA manual carefully to ensure that her program will do
 what she wants.  See the referenced PDF file for a very readable
 discussion about memory semantics in multicore systems.</p>
 
-## Cache Coherence
+<h2>Cache Coherence</h2>
 
 <p align="center"><img style="height:450px;" src="lecture_slides/parallel/Slide24.png"/></p>
 
@@ -786,7 +786,7 @@ variables X and Y.</p>
 consistency and shared memory semantics are maintained in each case.
 The cache coherency protocol has done it&#700;s job!</p>
 
-## Summary
+<h2>Summary</h2>
 
 <p align="center"><img style="height:450px;" src="lecture_slides/parallel/Slide29.png"/></p>
 
