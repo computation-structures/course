@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head lang="en">
+<title>Jade</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+<meta name="viewport" content="width=870">
+
+<!-- Global Site Tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-43707566-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-43707566-1');
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({ tex2jax: {inlineMath: [['$','$'],
+  ['\\(','\\)']], processEscapes: true}, TeX: {equationNumbers: { autoNumber: "AMS" }}
+  });
+</script>
+<script type="text/javascript" async src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML'></script>
+
+<script src="../../tools/jquery-3.2.1.min.js"></script>
+<link rel="stylesheet" href="../../tools/font-awesome.css">
+<link href="../../tools/workbook.css" rel="stylesheet" type="text/css">
+<script src="../../tools/workbook.js"></script>
+<script src="../../tools/answers.js"></script>
+
+</head>
+
+<body>
+  <div class="navigation">
+    <center><img src="../../title.gif" width="200" onclick="window.location='../../index.html';"></center>
+    <style>
+</style>
+<table width="100%">
+  <tr>
+    <td align="center">
+      <a href="../../lectures/index.html"><span class="navtab">lectures</span></a>
+    </td>
+    <td align="center">
+      <a href="../../videos/index.html"><span class="navtab">videos</span></a>
+    </td>
+    <td align="center">
+      <a href="../../worksheets/index.html"><span class="navtab">worksheets</span></a>
+    </td>
+  </tr>
+  <tr>
+    <td align="center">
+      <a href="../../notes/index.html"><span class="navtab">notes</span></a>
+    </td>
+    <td align="center">
+      <a class="selected" href="../../exercises/index.html"><span class="navtab">labs</span></a>
+    </td>
+  </tr>
+</table>
+
+<p><b>Labs</b><br>
+  <a class="" href="../../exercises/cmos/lab.html">
+    1. CMOS Technology
+  </a><br>
+  <a class="" href="../../exercises/adder/lab.html">
+    2. CMOS Adder
+  </a><br>
+  <a class="" href="../../exercises/fsm/lab.html">
+    3. FSMs
+  </a><br>
+  <a class="" href="../../exercises/alu/lab.html">
+    4. 32-bit ALU
+  </a><br>
+  <a class="" href="../../exercises/assembly/lab.html">
+    5. Assembly Language
+  </a><br>
+  <a class="" href="../../exercises/procedures/lab.html">
+    6. Procedures &amp; Stacks
+  </a><br>
+  <a class="" href="../../exercises/beta/lab.html">
+    7. Building the Beta
+  </a><br>
+  <a class="" href="../../exercises/caches/lab.html">
+    8. Caches
+  </a><br>
+  <a class="" href="../../exercises/illop/lab.html">
+    9. Emulating Instructions
+  </a><br>
+  <a class="" href="../../exercises/tinyos/lab.html">
+    10. Tiny Operating System
+  </a><br>
+  <a class="" href="../../exercises/dp/lab.html">
+    11. Optimizing the Beta
+  </a><br>
+</p>
+
+<p><b>Tool Sandboxes</b><br>
+  <a class="selected" href="../../exercises/sandboxes/jade.html">
+    Jade: circuit simulator
+  </a><br>
+  <a class="" href="../../exercises/sandboxes/bsim.html">
+    BSim: Beta simulator
+  </a><br>
+  <a class="" href="../../exercises/sandboxes/tmsim.html">
+    TMSim: Turing Machine simulator
+  </a><br>
+</p>
+
+  
+<p/>
+<hr style="border-style:solid; border-color:black;"/>
+<p>
+  Your exercise answers are saved by the browser in local storage
+  associated with this webpage.  You can use the buttons below
+  to load/save the answers on your system.
+</p>
+
+  
+<p>
+  Save all answers:
+  <a download="saved_state.json" href="#" onclick="workbook.save_answers(this);"><button>Save</button></a>
+</p>
+
+<p>
+  Load all answers (<i>this will overwrite any answers currently saved by the browser</i>): <br/>
+  <input style="margin-left:1em;" type="file" onchange="workbook.load_answers(this);"/>
+</p>
+
+<p><center><i>Authored by Chris Terman</i></center></p>
+
+
+  </div>
+  <div class="content">
+    <h2>Jade Sandbox</h2>
+
+Use the button below to open Jade in a separate window.  Your designs
+will be saved as part of the state for this page.
+
+<answer id="jade" state_only="true" type="window" tool_name="Jade" height="500" src="../../tools/jade_workbook.html"><![CDATA[
+{ "hierarchical": "true"
+}
+]]></answer>
+
+    <div class="footer" style="font-size: small;">
+    <p/><hr/><p/>
+    Last revised 2015-06-26 13:42:41 cjt
+
+    <br>
+    Copyright &copy; 2015-2017 M.I.T. Department of Electrical Engineering and Computer Science
+
+    <br>
+    Your use of this site and materials is subject to our
+    <a href="../../terms.html">terms of use</a>.
+</div>
+
+  </div>
+</body>
+</html>

@@ -1,0 +1,696 @@
+.protect
+
+////////////////////////////////////////////////////////////////////////////////
+// Basic Beta setup for 6.004 lab checkoff code
+////////////////////////////////////////////////////////////////////////////////
+
+.include "beta.uasm"            // Define Beta instructions, etc.
+
+.options tty annotate kalways
+.tcheckoff "jsinput" "Lab #4" 1352299311
+
+// Interrupt vectors:
+
+. = VEC_RESET
+        BR(I_Reset)     // on Reset (start-up)
+. = VEC_II
+        BR(I_IllOp)     // on Illegal Instruction (eg SVC)
+. = VEC_CLK
+        BR(I_Clk)       // On clock interrupt
+. = VEC_KBD
+        BR(I_Kbd)       // on Keyboard interrupt
+. = VEC_MOUSE
+        BR(I_BadInt)    // on mouse interrupt
+
+// Dummy interrupt vectors:
+I_Reset:        BR(_start)
+I_IllOp:        HALT()
+I_Clk:          HALT()
+I_Kbd:          HALT()
+I_BadInt:       HALT()
+
+//////////////////////////////////////////////////////////////////////////////
+// Kernel-callable Utility Routines
+// Note 1: These routines use PRIVILEDGED instructions; hence they can be
+//  called directly only from kernel code (ie, with the high-PC-bit
+//  set).
+//
+// Note 2: These calls use non-standard calling conventions
+//
+// Code stolen from ancient lab 8...
+//////////////////////////////////////////////////////////////////////////////
+
+// Hex print procedure: prints longword in R0
+
+HexDig: LONG('0') LONG('1') LONG('2') LONG('3') LONG('4') LONG('5')
+        LONG('6') LONG('7') LONG('8') LONG('9') LONG('A') LONG('B')
+        LONG('C') LONG('D') LONG('E') LONG('F')
+
+KHexPrt:
+        PUSH(r0)                // Saves all regs, incl r0
+        PUSH(r1)
+        PUSH(r2)
+        PUSH(lp)
+
+        CMOVE(8, r2)
+KHexxx: MOVE(r0,r1)
+KHexPr1:
+        SRAC(r1,28,r0)                  // Extract digit into r0.
+        MULC(r1, 16, r1)                // Next loop, next nybble...
+        ANDC(r0, 0xF, r0)
+        MULC(r0, 4, r0)
+        LD(r0, HexDig, r0)
+        WRCHAR ()
+        SUBC(r2,1,r2)
+        BNE(r2,KHexPr1)
+
+        POP(lp)
+        POP(r2)
+        POP(r1)
+        POP(r0)
+        RTN()
+
+// Versions for fewer hex digits:
+KHexPrt4:
+        PUSH(r0)
+        PUSH(r1)
+        PUSH(r2)
+        PUSH(lp)
+        SHLC(r0, 16, r0)
+        CMOVE(4, r2)
+        BR(KHexxx)
+
+KHexPrt2:
+        PUSH(r0)
+        PUSH(r1)
+        PUSH(r2)
+        PUSH(lp)
+        SHLC(r0, 24, r0)
+        CMOVE(2, r2)
+        BR(KHexxx)
+
+KHexPrt1:
+        PUSH(r0)
+        PUSH(r1)
+        PUSH(r2)
+        PUSH(lp)
+        SHLC(r0, 28, r0)
+        CMOVE(1, r2)
+        BR(KHexxx)
+
+////////////////////////////////////////////////////////////////////////
+// Decimal integer print
+// ... a bit painful, since there's no divide/remaindering!
+////////////////////////////////////////////////////////////////////////
+
+// Table of powers of 10, to
+_powers10:
+        LONG(1000000000)        LONG(100000000)         LONG(10000000)          LONG(1000000)
+        LONG(100000)            LONG(10000)             LONG(1000)              LONG(100)
+        LONG(10)                LONG(1)                 LONG(0)
+
+// Print decimal integer in R0:
+_DecPrt:
+        PUSH(R0) PUSH(R1) PUSH(R2) PUSH(R3) PUSH(R4) PUSH(R5)
+
+        MOVE(R0, R1)                    // free up R0 for other stuff
+
+        // First, check for negative:
+        CMPLTC(R1, 0, R0)
+        BF(R0, _Dec1)
+        CMOVE('-', R0)
+        WRCHAR()                // Print '-',
+        SUB(R31, R1, R1)        // and negate number.
+
+_Dec1:  CMOVE(_powers10, R4)    // prepare to deplete successive digits...
+        CMOVE(0, R3)            // ignore leading zeros ... nothing yet.
+
+_Dec2:  CMOVE(0, R2)            // Compute next digit, by depletion
+        LD(R4, 0, R5)           // R5 = 10**k
+        CMPEQC(R5, 1, R0)       // Are we down to 1?
+        BT(R0, _Dec8)           // yup, go print last digit.
+
+_Dec3:  CMPLT(R1, R5, R0)       // Can we subtract this digit again?
+        BT(R0, _Dec4)           // nope
+
+        ADDC(R2, 1, R2)         // increment the digit,
+        SUB(R1, R5, R1)         // x -= 10**k
+        BR(_Dec3)               // and back for more.
+
+// Here when we've computed next digit, in R2
+_Dec4:  // Leading zero elimination:
+        BNE(R2, _Dec5)          // Branch if its not a zero...
+        BNE(R3, _Dec5)          // Branch if its not a LEADING zero...
+
+        // Its a leading zero... fall thru to 
+
+// Move to next digit:
+_Dec6:  ADDC(R4, 4, R4)
+        BR(_Dec2)
+
+        // Print a digit:
+_Dec5:  CMOVE('0', R0)
+        ADD(R0, R2, R0)
+        MOVE(R0, R3)            // No more leading zeros
+        WRCHAR()
+        BR(_Dec6)
+
+// Here to print last digit:
+_Dec8:  CMOVE('0', R0)
+        ADD(R1, R0, R0)
+        WRCHAR()
+
+        POP(R5) POP(R4) POP(R3) POP(R2) POP(R1) POP(R0)
+        JMP(LP)
+
+
+////////////////////////////////////////////////////////////////////////
+// Procedure to print out a zero-terminated message, packed one       //
+//    char/byte. Char data follows branch; returns to next 4-byte     //
+//    aligned location. Saves all regs.                               //
+////////////////////////////////////////////////////////////////////////
+
+_KWrMsg:
+        PUSH (R0)
+        MOVE(LP, R0)
+        CALL(_KMsgAux)
+        MOVE(R0, LP)
+        POP (R0)
+        RTN()
+
+// Auxiliary routine for sending a message to the console.
+// On entry, R0 should point to data; on return, R0 holds next
+// longword aligned location after data.
+// Note: Must be called while in supervisor mode.
+
+_KMsgAux:
+        PUSH(r1)
+        PUSH(r2)
+        PUSH(r3)
+        PUSH(r4)
+
+        MOVE (R0, R1)
+
+_WrWord:
+        LD (R1, 0, R2)          // Fetch a 4-byte word into R2
+        ADDC (R1, 4, R1)        // Increment word pointer
+        CMOVE(4,r3)             // Byte/word counter
+
+_WrByte:
+        ANDC(r2, 0x7F, r0)      // Grab next byte -- LOW end first!
+        BEQ(r0, _WrEnd)         // Zero byte means end of text.
+        WRCHAR()                // Print it.
+        SRAC(r2,8,r2)           // Shift out this byte
+        SUBC(r3,1,r3)           // Count down... done with this word?
+        BNE(r3,_WrByte)         // Nope, continue.
+        BR(_WrWord)             // Yup, on to next.
+
+_WrEnd:
+        MOVE (R1, R0)
+        POP(r4)
+        POP(r3)
+        POP(r2)
+        POP(r1)
+        RTN()
+
+.unprotect
+
+////////////////////////////////////////////////////////////////////////////////
+// Checkoff program for quicksort lab
+////////////////////////////////////////////////////////////////////////////////
+
+// Data regions:
+ASIZE=20
+
+array:  STORAGE(ASIZE)          // The array we're using for tests
+varray: STORAGE(ASIZE)          // Copy of this array, for verification
+
+.protect
+
+
+// Some simple test cases: element 0 is count, rest are values to be sorted.
+tc1:    LONG(1)     LONG(1)
+tc2a:   LONG(2)     LONG(1)     LONG(2)
+tc2b:   LONG(2)     LONG(2)     LONG(1)
+tc2c:   LONG(2)     LONG(2)     LONG(2)
+tc3a:   LONG(2)     LONG(1)     LONG(2) LONG(3)
+tc3b:   LONG(3)     LONG(1)     LONG(3) LONG(2)
+tc3c:   LONG(3)     LONG(2)     LONG(3) LONG(1)
+tc3d:   LONG(3)     LONG(2)     LONG(1) LONG(3)
+tc3e:   LONG(3)     LONG(3)     LONG(3) LONG(3)
+tc4a:   LONG(4)     LONG(4)     LONG(3) LONG(2) LONG(1)
+tc4b:   LONG(4)     LONG(3)     LONG(2) LONG(1) LONG(4)
+tc4c:   LONG(4)     LONG(2)     LONG(1) LONG(4) LONG(3)
+
+// Example for Lab part 2: look for "right" arg = 0:
+//[56, 27, 69, 73, 99, 44, 36, 10, 72, 71]
+// quicksort([56, 27, 69, 73, 99, 44, 36, 10, 72, 71], 0, 9)...
+//    partition([56, 27, 69, 73, 99, 44, 36, 10, 72, 71], 0, 9) ... pivotIndex=4, pivotValue=99
+//    partition([56, 27, 69, 73, 99, 44, 36, 10, 72, 71], 0, 9) returns 9 [56, 27, 69, 73, 71, 44, 36, 10, 72, 99]
+//    quicksort([56, 27, 69, 73, 71, 44, 36, 10, 72, 99], 0, 8)...
+//       partition([56, 27, 69, 73, 71, 44, 36, 10, 72, 99], 0, 8) ... pivotIndex=4, pivotValue=71
+//       partition([56, 27, 69, 73, 71, 44, 36, 10, 72, 99], 0, 8) returns 6 [56, 27, 69, 44, 36, 10, 71, 73, 72, 99]
+//       quicksort([56, 27, 69, 44, 36, 10, 71, 73, 72, 99], 0, 5)...
+//          partition([56, 27, 69, 44, 36, 10, 71, 73, 72, 99], 0, 5) ... pivotIndex=2, pivotValue=69
+//          partition([56, 27, 69, 44, 36, 10, 71, 73, 72, 99], 0, 5) returns 5 [56, 27, 10, 44, 36, 69, 71, 73, 72, 99]
+//          quicksort([56, 27, 10, 44, 36, 69, 71, 73, 72, 99], 0, 4)...
+//             partition([56, 27, 10, 44, 36, 69, 71, 73, 72, 99], 0, 4) ... pivotIndex=2, pivotValue=10
+//             partition([56, 27, 10, 44, 36, 69, 71, 73, 72, 99], 0, 4) returns 0 [10, 27, 36, 44, 56, 69, 71, 73, 72, 99]
+//             quicksort([10, 27, 36, 44, 56, 69, 71, 73, 72, 99], 0, -1)...
+//             BINGO!
+
+tc10:   LONG(10)
+        LONG(56) LONG(27) LONG(69) LONG(73) LONG(99)
+        LONG(44) LONG(36) LONG(10) LONG(72) LONG(71)
+
+_testcases:
+        LONG(tc1)       LONG(tc2a)      LONG(tc2b)      LONG(tc2c)
+        LONG(tc3a)      LONG(tc3b)      LONG(tc3c)      LONG(tc3d)      LONG(tc3e)
+        LONG(tc4a)      LONG(tc4b)      LONG(tc4c)
+        LONG(tc10)
+
+_ntests = (.-_testcases)>>2
+.protect
+
+        LONG(0)         // marks end of tests.
+
+////////////////////////////////////////////////////////////////////////////////
+// Checking for saved/restored registers
+////////////////////////////////////////////////////////////////////////////////
+
+.unprotect
+_savedregs:
+        STORAGE(31)
+_savedLP:       LONG(0)
+.protect
+
+// Save all regs in _savedregs:
+.macro _saver(R) ST(R, _savedregs+(4*R))
+_saveregs:
+        _saver(1) _saver(2) _saver(3) _saver(4) _saver(5) _saver(6) _saver(7) 
+        _saver(8) _saver(9) _saver(10) _saver(11) _saver(12) _saver(13) _saver(14) _saver(15) 
+        _saver(16) _saver(17) _saver(18) _saver(19) _saver(20) _saver(21) _saver(22) _saver(23) 
+        _saver(24) _saver(25) _saver(26) _saver(27) _saver(30)
+        JMP(LP)
+.macro SaveRegs() BR(_saveregs, LP)
+
+.macro _restorer(R) LD(_savedregs+(4*R), R)
+_restoreregs:
+        _restorer(1) _restorer(2) _restorer(3) _restorer(4) _restorer(5) _restorer(6) _restorer(7) 
+        _restorer(8) _restorer(9) _restorer(10) _restorer(11) _restorer(12) _restorer(13) _restorer(14) _restorer(15) 
+        _restorer(16) _restorer(17) _restorer(18) _restorer(19) _restorer(20) _restorer(21) _restorer(22) _restorer(23) 
+        _restorer(24) _restorer(25) _restorer(26) _restorer(27) _restorer(30)
+        JMP(LP)
+.macro RestoreRegs() BR(_restoreregs, LP)
+
+
+// Put different values into each reg:
+.macro _initr(R) CMOVE(R, R)
+
+_initregs:
+        // NB: We omit R0, LP=R28, and SP=R29 which aren't required to be preserved.
+        // init BP value to 0...
+                  _initr(1) _initr(2) _initr(3) _initr(4) _initr(5) _initr(6) _initr(7) 
+        _initr(8) _initr(9) _initr(10) _initr(11) _initr(12) _initr(13) _initr(14) _initr(15) 
+        _initr(16) _initr(17) _initr(18) _initr(19) _initr(20) _initr(21) _initr(22) _initr(23) 
+        _initr(24) _initr(25) _initr(26) _initr(30)
+        JMP(LP)
+.macro InitRegs() BR(_initregs, LP)
+
+// Compare registers against saved copies:
+// NB: This clobbers LP!
+.macro _checkr(R) {
+       CMPEQC(R, R, R0)
+       BF(R0, _badreg, LP)              // Set LP, so we can figure out which reg
+}
+_checkregs:
+        // NB: We omit R0, LP=R28, and SP=R29 which aren't required to be preserved.
+        ST(LP, _savedLP)
+                  _checkr(1) _checkr(2) _checkr(3) _checkr(4) _checkr(5) _checkr(6) _checkr(7) 
+        _checkr(8) _checkr(9) _checkr(10) _checkr(11) _checkr(12) _checkr(13) _checkr(14) _checkr(15) 
+        _checkr(16) _checkr(17) _checkr(18) _checkr(19) _checkr(20) _checkr(21) _checkr(22) _checkr(23) 
+        _checkr(24) _checkr(25) _checkr(26) _checkr(30)
+        LD(_savedLP, LP)
+        JMP(LP)
+
+// Here on register check failure:
+_badreg:
+        LD(LP, -8, R0)          // Grab the CMPEQC instr from the failed test
+        ANDC(R0, 0x1F, R1)      // extract the constant (register number)
+
+        BR(_KWrMsg, LP)
+        .text "\n  ERROR: Register R"
+        MOVE(R1, R0)
+        BR(_DecPrt, LP)
+        BR(_KWrMsg, LP)
+        .text " not preserved.\n"
+        BR(oops)
+
+.macro CheckRegs() {
+       BR(_checkregs, LP)
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// Testing infrastructure
+////////////////////////////////////////////////////////////////////////////////
+
+// Run a test case:
+// _runtc(num)
+//   where num is the number of a test case in above array, numbered 1, 2, ...
+//     tc[0] = number of data, N
+//     tc[1]-tc[N] - array to be sorted
+// prints test case.
+
+_runtc:
+        PUSH(LP)
+        PUSH(BP)
+        MOVE(SP, BP)
+        PUSH(R1)
+        PUSH(R2)
+        PUSH(R3)
+        PUSH(R4)
+        PUSH(R5)
+        PUSH(R6)
+        PUSH(R7)
+        PUSH(R8)
+        PUSH(R9)
+
+        LD(BP, -12, R9)         // R9 = num
+        SUBC(R9, 1, R0)         // for 0-indexing
+        SHLC(R0, 2, R0)         // (num-1)*4
+        LD(R0, _testcases, R1)  // R1 = adr of the test case array
+
+        // Synthesize a value for left, from num ...
+        // we use max(0, 3-num) so its nonzero for first few cases.
+        CMOVE(3, R0)
+        SUB(R0, R9, R3)         // R3 = left ...
+        CMPLTC(R3, 0, R0)       // keep it non-negative!
+        BF(R0, .+8)
+        CMOVE(0, R3)
+
+        LD(R1, 0, R2)           // R2 = count
+        ADDC(R1, 4, R1)         // tc++; now points to data.
+
+        ADD(R3, R2, R4)
+        SUBC(R4, 1, R4)         // R4 = right = left+count-1
+
+        // Initialize each array[i] to -(i+1)
+        CMOVE(ASIZE, R5)                // loop count
+        CMOVE(0, R6)            // array offset
+        CMOVE(-1, R7)           // value in array[0]
+_runt1: ST(R7, array, R6)       // array[i] = -(i+1)
+        ST(R7, varray, R6)      // varray[i] = -(i+1)
+        ADDC(R6, 4, R6)         // move to a[i+1]
+        SUBC(R7, 1, R7)         // move to next -(i+1) value
+        SUBC(R5, 1, R5)         // decrement loop count
+        BNE(R5, _runt1)         // and loop.
+
+        // Now copy count data from tc to varray[left]..., array[left]...
+        MOVE(R2, R5)            // loop count
+        SHLC(R3, 2, R6)         // offset=left*4
+        
+_runt2: LD(R1, 0, R0)           // *tc
+        ADDC(R1, 4, R1)         // tc++
+        ST(R0, array, R6)       // array[i] = data
+        ST(R0, varray, R6)      // varray[i] = data
+        ADDC(R6, 4, R6)         // i++
+        SUBC(R5, 1, R5)
+        BNE(R5, _runt2)
+
+// Now array[...] and varray[..] have identical contents:
+//   a[i] = data[i]    for left <= i <= right
+//   a[i] = -(i+1)     otherwise.
+
+// _Run bubblesort on varray, to establish correct result:
+        PUSH(R4)                // ARG3 = right
+        PUSH(R3)                // ARG2 = left
+        CMOVE(varray, R0)
+        PUSH(R0)                // ARG1 = varray
+        CALL(bubblesort, 3)
+
+// Print out a message:
+        BR(_KWrMsg, LP)
+        .text "Test "
+        MOVE(R9, R0)            // num
+        BR(_DecPrt, LP)
+        BR(_KWrMsg, LP)
+        .text ": quicksort("
+        ADD(R3, R2, R0)         // print size = left+count+left
+        ADD(R0, R3, R0)
+        PUSH(R0)
+        CMOVE(array, R0)
+        PUSH(R0)        
+        CALL(_parray, 2)
+        BR(_KWrMsg, LP)
+        .text ", "
+        MOVE(R3, R0)            // left
+        BR(_DecPrt, LP)
+        BR(_KWrMsg, LP)
+        .text ", "
+        MOVE(R4, R0)            // right
+        BR(_DecPrt, LP)
+        BR(_KWrMsg, LP)
+        .text ") ... "
+
+// Now, run the student program:
+
+        PUSH(R4)                // ARG3 = right
+        PUSH(R3)                // ARG2 = left
+        CMOVE(array, R0)
+        PUSH(R0)                // ARG1 = array
+
+        SaveRegs()              // Save register values
+        InitRegs()              // Preset regs to different values ...
+        BR(quicksort, LP)
+        DEALLOCATE(3)
+        CheckRegs()             // Check for preserved reg values
+        RestoreRegs()   // Restore saved register values.
+
+// Look for disparities:
+        CMOVE(0, R5)            // i = 0
+_run5:  SHLC(R5, 2, R6)         // i*4
+        LD(R6, array, R7)       // array[i]
+        LD(R6, varray, R8)      // varray[i]
+        CMPEQ(R7, R8, R0)       // array[i] == varray[i]?
+        BF(R0, badval)          // nope, complain!
+        ADDC(R5, 1, R5)         // i=i+1
+        CMPLTC(R5, ASIZE, R0)   // i < ASIZE?
+        BT(R0, _run5)           // yup, keep looping.
+
+// Its OK!
+        BR(_KWrMsg, LP)
+        .text "OK!\n"
+
+        BR(_runx)
+
+// ERROR: bad value in array[i]
+//   R5 = i
+//   R7 = actual a[i]
+//   R8 = a[i] we wanted to see
+
+badval:
+        BR(_KWrMsg, LP)
+        .text "\n  ERROR in array["
+        MOVE(R5, R0)
+        BR(_DecPrt, LP)
+        BR(_KWrMsg, LP)
+        .text "]: expected "
+        MOVE(R8, R0)
+        BR(_DecPrt, LP)
+        BR(_KWrMsg, LP)
+        .text ", found "
+        MOVE(R7, R0)
+        BR(_DecPrt, LP)
+        BR(_KWrMsg, LP)
+        .text "!\n  Result: "
+
+        ADD(R3, R2, R0)         // print size = left+count+left
+        PUSH(R0)
+        CMOVE(array, R0)
+        PUSH(R0)        
+        BR(_parray, LP)
+        BR(_KWrMsg, LP)
+        .text "\n"
+
+oops:   .breakpoint
+        BR(oops)
+
+_runx:
+        POP(R9)
+        POP(R8)
+        POP(R7)
+        POP(R6)
+        POP(R5)
+        POP(R4)
+        POP(R3)
+        POP(R2)
+        POP(R1)
+        MOVE(BP, SP)
+        POP(BP)
+        POP(LP)
+        JMP(LP)
+
+////////////////////////////////////////////////////////////////////////////////
+// Run our full test suite:
+////////////////////////////////////////////////////////////////////////////////
+
+_runalltests:
+        PUSH(LP)
+        PUSH(BP)
+        MOVE(SP, BP)
+        PUSH(R1) PUSH(R2) PUSH(R3) PUSH(R4)
+
+        CMOVE(1, R1)                    // test number.
+_runa1:
+        CMPLEC(R1, _ntests, R0)         // Done all tests?
+        BF(R0, _runax)
+
+        PUSH(R1)                        // number
+        CALL(_runtc, 1)
+
+        ADDC(R1, 1, R1)                 // increment test number
+        BR(_runa1)
+
+_runax:
+        BR(_KWrMsg, LP)
+        .text "All tests OK!\n"
+
+        POP(R4) POP(R3) POP(R2) POP(R1)
+        MOVE(BP, SP)
+        POP(BP) POP(LP) JMP(LP)
+
+////////////////////////////////////////////////////////////////////////////////
+// Bubble sort, to check results
+////////////////////////////////////////////////////////////////////////////////
+
+// bubblesort(array, left, right)
+bubblesort:
+        PUSH(LP)
+        PUSH(BP)
+        MOVE(SP, BP)
+        PUSH(R1)
+        PUSH(R2)
+        PUSH(R3)
+        PUSH(R4)
+        PUSH(R5)
+        PUSH(R6)
+        PUSH(R7)
+        
+        LD(BP, -12, R4)         // array
+        LD(BP, -16, R1)         // i = left
+        LD(BP, -20, R3)         // right
+        CMPLE(R3, R1, R0)       // right <= left?
+        BT(R0, bubx)            // yup, do nothing.
+
+_loopi: ADDC(R1, 1, R2)         // j = i+1
+
+_loopj: SHLC(R1, 2, R0)
+        ADD(R0, R4, R6)         // adr of array[i]
+        LD(R6, 0, R5)           // temp = array[i]
+
+        SHLC(R2, 2, R0)
+        ADD(R0, R4, R7)         // adr of array[j]
+        LD(R7, 0, R0)           // array[j]
+        CMPLT(R0, R5, R0)       // temp > array[j]?
+        BF(R0, bub1)                    // nope, don't swap.
+        
+        // Swap array[i], array[j]
+        LD(R7, 0, R0)           // array[j]
+        ST(R0, 0, R6)           // array[i] = array[j]
+        ST(R5, 0, R7)           // array[j] = temp
+        
+bub1:   ADDC(R2, 1, R2)         // j = j+1
+        CMPLE(R2, R3, R0)       // j <= right?
+        BT(R0, _loopj)          // yup, stay in the inner _loop.
+
+        ADDC(R1, 1, R1)         // i = i+1
+        CMPLT(R1, R3, R0)       // i < right?
+        BT(R0, _loopi)
+
+bubx:   POP(R7)
+        POP(R6)
+        POP(R5)
+        POP(R4)
+        POP(R3)
+        POP(R2)
+        POP(R1)
+        MOVE(BP, SP)
+        POP(BP)
+        POP(LP)
+        JMP(LP)
+
+////////////////////////////////////////////////////////////////////////////////
+// Print an array of ints:
+// _parray(array, size)
+////////////////////////////////////////////////////////////////////////////////
+
+_parray:
+
+        PUSH(LP)
+        PUSH(BP)
+        MOVE(SP, BP)
+        PUSH(R1) PUSH(R2) PUSH(R3)
+
+        LD(BP, -12, R1)         // array
+        LD(BP, -16, R2)         // size
+
+        CMOVE(0, R3)            // flag, for initial comma suppresion
+        BR(_KWrMsg, LP)
+        .text "["
+
+_pa1:
+        BEQ(R2, _pax)           // size = 0? => done.
+        BEQ(R3, _pa2)           // print comma?
+        BR(_KWrMsg, LP)
+        .text ", "
+
+_pa2:   LD(R1, 0, R0)           // fetch next array element...
+        ADDC(R1, 4, R1)         // ... and incr pointer.
+        BR(_DecPrt, LP) // print it out,
+        CMOVE(1, R3)            // set comma flag,
+        SUBC(R2, 1, R2)         // decr size,
+        BR(_pa1)                // and loop.
+
+_pax:   
+        BR(_KWrMsg, LP)
+        .text "]"
+
+        POP(R3) POP(R2) POP(r1)
+        MOVE(BP, SP)
+        POP(BP)
+        POP(LP)
+        JMP(LP)
+
+.unprotect
+
+a:      LONG(3) LONG(2) LONG(1) LONG(7) LONG(6)
+a_adr:  LONG(a)
+
+b:      LONG(5) LONG(3) LONG(2) LONG(1) LONG(7) LONG(6)
+b_adr:  LONG(b)
+
+.protect
+
+_start: LD(StackBasePtr, SP)
+
+        LD(TestCase, R5)                // Are we running all tests?
+        BNE(R5, _single)                // nope, just run a single test.
+
+        CALL(_runalltests, 0)
+
+        .breakpoint
+DONE:   BR(DONE)
+
+// Run an individual test case:
+_single:
+        CMPLEC(R5, 0, R1)               // sanity check...
+        BT(R1, _wtf)                    // Bad TestCase value!
+        CMPLEC(R5, _ntests, R1)
+        BF(R1, _wtf)
+
+        PUSH(R5)                        // num
+        CALL(_runtc, 1)
+        BR(DONE)
+
+_wtf:   .breakpoint
+        BR(_wtf)                // Bad value in TestCase!

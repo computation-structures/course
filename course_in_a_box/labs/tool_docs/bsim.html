@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+    <title>BSim Documentation</title>
+    <style>
+      body {
+      width: 650px;
+      font: 14px/1.5 Georgia,serif;
+      }
+      table {
+      border-collapse: collapse;
+      }
+      table.indent {
+      margin-left: 3em;
+      }
+      table tr {
+      vertical-align: top;
+      }
+    </style>
+  </head>
+  <body>
+    <h3>Introduction to BSim</h3>
+
+    <p>BSim is a simulator for the 6.004 Beta architecture.  BSim provides
+      a simple editor for typing in your program and some tools for
+      assembling the program into binary, loading the program into the
+      simulated Beta's memory, executing the program and examining the
+      results.
+      
+    <p>BSim incorporates CodeMirror for editing your .uasm files.
+      CodeMirror supports many common edit operations &mdash; please
+      see the table at the end of this document for the mapping from
+      keystrokes to edit operations.  As you edit and whenever you
+      click <button>Assemble</button> or run a simulation, the
+      contents of your edit buffers will be saved on the server.  Use
+      the tabs in the editor window to select a particular buffer to
+      edit.  Tabs marked with <span class="fa fa-ban"></span> are
+      read-only -- you can view their contents but not make any
+      modifications.
+
+    <p>To test your code, click on <button>Assemble</button> in the
+      editor's toolbar.  This will assemble the current buffer, i.e.,
+      convert it into binary and load it into the simulated Beta's
+      memory.  Any errors detected will be flagged in the editor
+      window and described in the message area at the bottom of the
+      window.  If the assembly completes successfully, a pane showing
+      the Beta datapath is displayed from which you can start
+      execution of the program.
+
+    <p>The Simulation pane has some additional toolbar buttons that are
+      used to control the simulation.  The values shown in the window
+      reflect the values on Beta signals after the current instruction has
+      been fetched and executed but just before the register file and memory
+      are updated at the end of the cycle.
+
+      <table cellpadding=3 class="indent">
+        <tr>
+          <td><img src="tools_pause.png"</td>
+                   <td>
+                     Pause execution.
+                   </td>
+        </tr>
+        <tr>
+          <td><img src="tools_reset.png"</td>
+                   <td>
+                     Reset the contents of the PC and registers to 0, and memory
+                     locations to the values they had just after assembly was complete.
+                   </td>
+        </tr>
+        <tr>
+          <td><img src="tools_start.png"</td>
+                   <td>
+                     Start simulation and run until a HALT() instruction is executed or
+                     a breakpoint is reached.  You can stop a running simulation using
+                     the pause control described above.  The display will be updated
+                     every cycle.
+                   </td>
+        </tr>
+        <tr>
+          <td><img src="tools_fast.png"</td>
+                   <td>
+                     The same as the play button described above, but only updates the
+                     display once every 25,000 cycles for maximum simulation speed.
+                   </td>
+        </tr>
+        <tr>
+          <td><img src="tools_forward.png"</td>
+                   <td>
+                     Execute the program for a single cycle and then update the
+                     display.  Very useful for following your program's operation
+                     instruction-by-instruction.
+                   </td>
+        </tr>
+        <tr>
+          <td><img src="tools_back.png"</td>
+                   <td>
+                     Undo the last cycle and update the display. Very useful after
+                     clicking the single cycle button more times than intended. This
+                     button can only go back a limited number of steps.
+                   </td>
+        </tr>
+        <tr>
+          <td><img src="tools_sview.png"</td>
+                   <td>
+                     Display the animated datapath in place of the programmer's panel
+                   </td>
+        </tr>
+        <tr>
+          <td><img src="tools_pview.png"</td>
+                   <td>
+                     Display the programmer's panel in place of the animated datapath
+                   </td>
+        </tr>
+      </table>
+
+    <p>To switch between the editor and simulation panes, use the "Editor"
+      and "Simulation" buttons at the top left of the window. "Split" will
+      divide the screen evenly between the two. It is also possible to drag
+      the dividers between panes to resize them individually. When both the
+      editor and simulation panes are visible, clicking "Assemble" will not
+      alter the layout of the window.
+
+    <p>If <tt>.options tty</tt> is specified by the program, the small
+      typeout window at the bottom of the simulation pane may be
+      accessed by the running program.  You can output characters to
+      this window by executing a <tt>WRCHAR()</tt> instruction after
+      placing the character value in <tt>R0</tt>.  The tty option also
+      allows for type-in: any character typed by the user causes an
+      interrupt to location 12; <tt>RDCHAR()</tt> can be used to fetch
+      the character value into <tt>R0</tt>.  Clicking the mouse will
+      cause an interrupts to location 16; <tt>CLICK()</tt> can be used
+      to fetch the coordinates of the last click into R0.  The
+      coordinates are encoded as (x&lt;&lt;16)+y, or &ndash;1 if there
+      has been no mouse click since the last call to <tt>CLICK()</tt>.
+
+    <p>If <tt>.options clock</tt> is specified by the program, an interrupt to
+      location 8 is generated every 10,000 cycles.  (Remember though that
+      interrupts are disabled until the program enters user mode &mdash; see
+      section 6.3 of the Beta documentation.)
+
+    <h3>BSim Cache Simulation</h3>
+
+    <p/>Clicking on <button>Cache</button> in the BSim simulation pane shows
+    the cache control panel:
+
+    <p/><center><img border="0" width="100%" src="cache_ctl.png" /></center>
+
+    <p/>The control panel is organized as three sections: left-to-right
+    they are cache configuration, cache details, and cache statistics.
+
+    <p/>There are six cache controls, all of which can be used while
+    the simulator is running, so you can change the cache parameters
+    on-the-fly.  Changes to the controls will reset the statistics.
+
+    <ul>
+      <li/><i>Cache</i>: turns the cache simulation on and off.
+        
+      <p/><li/><i>Total words</i>: The total number of 32-bit data words
+      in the cache.  To test different cache architectures, typically this
+      control remains fixed, while changing the other parameters to
+      determine how these data words are organized into sets of cache lines.
+
+      <p/><li/><i>Words/line</i>: The number of data words in each
+      cache line, aka the block size of the cache.  The total number of
+      cache lines in the cache is Total words divided by Words/line.
+
+      <p/><li/><i>Associativity</i>: The number of "ways" in a set-associative
+      cache.  "Direct mapped" refers to a 1-way cache.  The cache lines are
+      apportioned equally between the ways.  In a fully-associative cache,
+      the number of ways is chosen so that each way has exactly one cache
+      line.
+
+      <p/><li/><i>Replacement</i>: Determines the strategy used to
+      choose which way is updated when a collision causes a cache miss.
+      Not applicable for direct-mapped caches.  <i>LRU</i> = least-recently used,
+      <i>FIFO</i> = first-in, first-out (sometimes referred to as
+      least-recently replaced), <i>Random</i> = choice is made
+      randomly, <i>Cycle</i> = choose the first way for first
+      replacement, the second way for second replacement, and so on in a
+      round-robin fashion.
+
+      <p/><li/><i>Write strategy</i>: Determines how to compute the cycle cost
+      of rewriting dirty cache lines to memory.  <i>Write-back</i> = cost is
+      incurred once when the cache line is replaced.  <i>Write-through</i> =
+      cost is incurred on each write to the cache line.
+
+    </ul>
+
+    <p/>The following cache details are provided:
+
+    <ul>
+
+      <p/><li/><i>Address bits</i>: shows how the 32 address bits from the
+      Beta are used when accessing the cache.  The number of offset bits (minimum
+      of two) is determined by the words/line.  The number of index bits is
+      determined by the number of cache lines per way.  The remaining address
+      bits become part of the tag to be compared with the tag field of the
+      selected cache line.
+
+      <p/><li/><i>Mem size</i>: <i>nways</i>*(<i>nlines</i>*<i>bits/line</i>).
+      <i>nways</i> is determined by the associativity.  <i>nlines</i> is determined
+      by the number of cache lines per way.  The <i>bits/line</i> includes the
+      valid bit, dirty bit, tag field, and data bits (words/line * 32).
+
+      <p/><li/><i>Comparator bits</i>: the number of bitwise comparisons needed
+      to match the tag field, determined by the number of ways times the number
+      of bits in the tag field.
+
+      <p/><li/><i>2-to-1 MUX bits</i>: the number of 2-to-1 multiplexors needed
+      to select the appropriate data word to return to the CPU if the number
+      of words/line is greater than 1.  This requires a tree of 32-bit 2-to-1 muxes:
+      the tree has depth 1 when words/line = 2, depth 2 when words/line = 4, and
+      so on.  The total number of 2-to-1 muxes needed is 32*(words/line - 1).
+      
+      <p/><li/><i>Total cost</i>: an estimate (good for relative comparisons)
+      of the total hardware cost including memory address logic, the memory data
+      array, the memory sense amps, the tag comparators, and the MUX logic.
+      All quantities are weighted by a rough estimate of their size in square
+      microns.
+
+    </ul>
+
+    <p/>The following cache statistics are computed; the table is updated
+    while the simulation is running.  <i>Ifetch</i> = instruction fetches,
+    <i>Dread</i> = read data loads generated by LD/LDR instructions, <i>Dwrite</i> =
+    write data stores generated by the ST instruction.
+
+    <ul>
+
+      <p/><li/><i>hits</i>: Count of memory accesses that resulted in a
+      cache hit.
+
+      <p/><li/><i>misses</i>: Count of memory accesses that result in a
+      cache miss.
+
+      <p/><li/><i>totals</i>: Count of all memory accesses = hits + misses.
+
+      <p/><li/><i>hit ratio</i>: hits/totals.
+
+      <p/><li/><i>cycles</i>: Total number of cycles needed to satisfy
+      the memory requests to date.  Each access costs one cycle to access
+      the cache.  Memory reads generated by cache line refills and memory
+      writes generated by write-back or write-though of dirty cache
+      lines cost 10 cycles for the first word and 1 additional cycle
+      for each additional word on the cache line.
+    </ul>
+
+
+
+      <h3>Introduction to assembly language</h3>
+
+    <p>BSim incorporates an assembler: a program that converts text files
+      into binary memory data.  The simplest assembly language program is a
+      sequence of numerical values which are converted to binary and placed
+      in successive byte locations in memory:
+      <pre>
+        // Comments begin with a double slash and end at a newline
+        /* Multi-line comments are also available, and continue until
+        reaching the termination sequence, */
+        
+        37  3   255     // decimal (the default radix)
+        0b100101        // binary (note the 0b prefix)
+        0x25            // hexadecimal (note the 0x prefix)
+        'a'             // character constants
+      </pre>
+    <p>Values can also be expressions; e.g., the source file
+      <pre>
+        37+0b10&ndash;0x10    24 &ndash; 0x1  4*0b110&ndash;1   0xF7 % 0x20
+      </pre>
+      generates 4 bytes of binary output, each with the value 23.  Note the
+      operators have no precedence – you have to use parentheses to avoid
+      simple left-to-right evaluation.  The available operators are
+
+    <p><table border=1 cellpadding=3  class="indent">
+        <tr><th>Operator</th><th>Operation</th></tr>
+        <tr><td>&ndash;</td><td>unary minus</td></tr>
+        <tr><td>~</td><td>bit-wise complement</td></tr>
+        <tr><td>&</td><td>bit-wise AND</td></tr>
+        <tr><td>|</td><td>bit-wise OR</td></tr>
+        <tr><td>+</td><td>addition</td></tr>
+        <tr><td>&ndash;</td><td>subtraction</td></tr>
+        <tr><td>*</td><td>multiplication</td></tr>
+        <tr><td>/</td><td>division</td></tr>
+        <tr><td>%</td><td>modulo (result is always positive!)</td></tr>
+        <tr><td>&gt;&gt;</td><td>right shift</td></tr>
+        <tr><td>&lt;&lt;</td><td>left shift</td></tr>
+      </table>
+
+    <p>We can also define symbols for use in expressions:
+      <pre>
+        x = 0x1000       // address in memory of variable X
+        y = 0x10004      // another address
+
+        // Symbolic names for registers
+        R0 = 0
+	R1 = 1
+	&hellip;
+	R31 = 31
+      </pre>
+    <p>Note that symbols are case-sensitive: <tt>Foo</tt> and <tt>foo</tt> are different
+      symbols.  A special symbol named "." (period) means the address of the
+      next byte to be filled by the assembler:
+      <pre>
+        . = 0x100        // assemble into location 0x100
+        1  2  3  4
+        five = .         // symbol five has the value 0x104
+        5  6  7  8
+        . = . + 16       // skip 16 bytes
+        9 10 11 12
+      </pre>
+    <p>Labels are symbols that represent memory address.  They can be set
+      with the following special syntax:
+      <pre>
+        X:               // this is an abbreviation for X = .
+      </pre>
+      For example the table on the left shows what main memory will contain
+      after assembling the program on the right.
+      <pre>
+        ---- MAIN MEMORY ----         
+        byte:  3  2  1  0
+        . = 0x1000
+        1000: 09 04 01 00            sqrs:  0 1 4 9
+        1004: 31 24 19 10                   16 25 36 49
+        1008: 79 64 51 40                   64 81 100 121
+        100C: E1 C4 A9 90                   144 169 196 225
+        1010: 00 00 00 10            slen:  LONG(. &ndash; sqrs)
+      </pre>
+    <p>Macros are parameterized abbreviations:
+      <pre>
+        // macro to generate 4 consecutive bytes
+        .macro consec(n) n n+1 n+2 n+3
+
+        // invocation of above macro
+        consec(37)
+      </pre>
+      The macro invocation above has the same effect as
+      <pre>
+        37 38 39 40
+      </pre>
+      Note that macros evaluate their arguments and substitute the resulting
+      value for occurrences of the corresponding formal parameter in the
+      body of the macro.  Here are some macros for breaking multi-byte data
+      into byte-size chunks
+      <pre>
+        // assemble into bytes, little-endian format
+        .macro WORD(x) x%256 (x/256)%256
+        .macro LONG(x) WORD(x) WORD(x>>16)
+            LONG(0xdeadbeef)
+</pre>
+which has the same effect as
+<pre>
+  0xef 0xbe 0xad 0xde
+</pre>
+The body of the macro includes the remainder of the line on which the
+.macro directive appears.  Multi-line macros can be defined by
+enclosing the body in "{" and "}".
+
+<p>beta.uasm contains symbol definitions for all the registers (R0, &hellip;,
+  R31, BP, LP, SP, XP, r0, &hellip;, r31, bp, lp, sp, xp) and macro definitions
+  for all the Beta instructions:
+
+<p><table border=1 cellpadding=3 class="indent">
+    <tr>
+      <td>OP(Ra,Rb,Rc)<br>Opcodes:</td>
+      <td>Reg[Rc] &larr; Reg[Ra] op Reg[Rb]<br>
+        ADD, SUB, MUL, DIV, AND, OR, XOR<br>
+        CMPEQ, CMPLT, CMPLE, SHL, SHR, SRA<br>
+      </td>
+    </tr>
+    <tr>
+      <td>OPC(Ra,literal,Rc)<br>Opcodes:</td>
+      <td>Reg[Rc] &larr; Reg[Ra] op SEXT(literal15:0)<br>
+        ADDC, SUBC, MULC, DIVC, ANDC, ORC, XORC<br>
+        CMPEQC, CMPLTC, CMPLEC, SHLC, SHRC, SRAC
+      </td>
+    </tr>
+    <tr><td>LD(Ra,literal,Rc)</td><td>Reg[Rc] &larr; Mem[Reg[Ra] + SEXT(literal)]</td></tr>
+    <tr><td>ST(Rc,literal,Ra)</td><td>Mem[Reg[Ra] + SEXT(literal)] &larr; Reg[Rc]</td></tr>
+    <tr><td>JMP(Ra,Rc)</td><td>Reg[Rc] &larr; PC + 4; PC &larr; Reg[Ra]</td></tr>
+    <tr><td>BEQ/BF(Ra,label,Rc)</td><td>Reg[Rc] &larr; PC + 4;<br>if Reg[Ra] == 0 then PC &larr; PC + 4 + 4*SEXT(literal)</td></tr>
+    <tr><td>BNE/BT(Ra,label,Rc)</td><td>Reg[Rc] &larr; PC + 4;<br>if Reg[Ra] != 0 then PC &larr; PC + 4 + 4*SEXT(literal)</td></tr>
+    <tr><td>LDR(Ra,label,Rc)</td><td>Reg[Rc] &larr; Mem[PC + 4 + 4*SEXT(literal)]</td></tr>
+  </table>
+
+<p>Also included are some convenience macros:
+  <pre>
+    LD(label,Rc) expands to LD(R31,label,Rc)
+    ST(Ra,label) expands to ST(Ra,label,R31)
+    BR(label) expands to BEQ(R31,label,R31)
+    CALL(label) expands to BEQ(R31,label,LP)
+    RTN() expands to JMP(LP)
+    DEALLOCATE(n) expands to SUBC(SP,n*4,SP)
+    MOVE(Ra,Rc) expands to ADD(Ra,R31,Rc)
+    CMOVE(literal,Rc) expands to ADDC(R31,literal,Rc)
+    PUSH(Ra) expands to ADDC(SP,4,SP) ST(Ra,-4,SP)
+    POP(Rc) expands to LD(SP,-4,Rc)  ADDC(SP,-4,SP)
+
+    HALT() cause the simulator to stop execution
+  </pre>
+  
+<p>The following is a complete example assembly language program:
+  <pre>
+    .include "/shared/bsim/beta.uasm"
+
+    . = 0         // start assembling at location 0
+    LD(input,r0)  // put argument in r0
+    CALL(bitrev)  // call the procedure (= BR(bitrev,r28))
+    HALT()
+
+    // reverse the bits in r0, leave result in r1
+    bitrev:
+    CMOVE(32,r2)  // loop counter
+    CMOVE(0,r1)   // clear output register
+    loop:
+    ANDC(r0,1,r3) // get low-order bit
+    SHLC(r1,1,r1) // shift output word by 1
+    OR(r3,r1,r1)  // OR in new low-order bit
+    SHRC(r0,1,r0) // done with this input bit
+    SUBC(r2,1,r2) // decrement loop counter
+    BNE(r2,loop)  // repeat until done
+    RTN()         // return to caller  (= JMP(r28))
+
+    input:
+    LONG(0x12345) // 32-bit input (in HEX)
+  </pre>
+
+<p>The BSim assembly language processor includes a few helpful directives:
+
+<p><tt>.include "buffer_name"</tt>
+  <ul>
+    Process the text found in the specified buffer at this point in the
+    assembly. The buffer name must be given as a string.
+  </ul>
+
+<p><tt>.align<br>.align expression</tt>
+  <ul>
+    Increment the value of "." until it is 0 modulo the specified value,
+    e.g., <tt>.align 4</tt> moves to the next word boundary in memory.  A value
+    of 4 is used if no expression is given.
+  </ul>
+
+<p><tt>.ascii "chars&hellip;"</tt>
+  <ul>
+    Assemble the characters enclosed in quotes into successive bytes of
+    memory.  C-like escapes can be used for non-printing characters.
+  </ul>
+
+<p><tt>.text "chars&hellip;"</tt>
+  <ul>
+    Like <tt>.ascii</tt> except an additional 0 byte is added to the end of the
+    string in memory and the next byte assembled will be word-aligned.
+  </ul
+
+     <p><tt>.breakpoint</tt>
+       <ul>
+         Stop the Beta simulator if it fetches an instruction from the current
+         location (i.e., the value of "." at the point the <tt>.breakpoint</tt>
+         directive occurred).  You can define as many breakpoints as you want.
+       </ul>
+
+     <p><tt>.protect</tt>
+       <ul>
+         This directive indicates that subsequent bytes output by the assembler
+         are protected, causing the simulator to halt if a ST instruction
+         tries to overwrite their value.  This directive is useful for
+         protecting code (e.g., the checkoff program) from being overwritten by
+         errant programs.
+       </ul>
+
+     <p><tt>.unprotect</tt>
+       <ul>
+         The opposite of <tt>.protect</tt> &mdash; subsequent bytes output by
+         the assembler are not protected and can be overwritten by the program.
+       </ul>
+
+     <p><tt>.options &hellip;</tt>
+       <ul>
+         Used to configure the simulator.  Available options:
+
+         <p><table border=1 cellpadding=3>
+             <tr><td>clk</td><td>enable periodic clock interrupts to location 8</td></tr>
+             <tr><td>noclk</td><td>disable clock interrupts (default)</td></tr>
+             <tr><td>div</td><td>simulate the <tt>DIV</tt> instruction (default)</td></tr>
+             <tr><td>nodiv</td><td>make the <tt>DIV</tt> opcode an illegal instruction</td></tr>
+             <tr><td>mul</td><td>simulate the <tt>MUL</tt> instruction (default)</td></tr>
+             <tr><td>nomul</td><td>make the <tt>MUL</tt> opcode an illegal instruction</td></tr>
+             <tr><td>kalways</td><td>don't let program enter user mode (ie, supervisor bit is always 1)</td></tr>
+             <tr><td>nokalways</td><td>allow program to enter user mode (default)</td></tr>
+             <tr><td>tty</td><td>enable <tt>RDCHAR()</tt>, <tt>WRCHAR()</tt>, <tt>CLICK()</tt> (see end of first section)</td></tr>
+             <tr><td>notty</td><td><tt>RDCHAR()</tt>, <tt>WRCHAR()</tt>, <tt>CLICK()</tt> are disabled (default)</td></tr>
+             <tr><td>annotate</td><td>if <tt>BP</tt> is non-zero, label stack frames in the programmer's panel</td></tr>
+             <tr><td>noannotate</td><td>don't annotate stack frames (default)</td></tr>
+           </table>
+       </ul>
+
+     <p><tt>.pcheckoff &hellip;<br>.tcheckoff &hellip;<br>.verify &hellip;</tt>
+       <ul>
+         Supply checkoff information to the simulator.
+       </ul>
+       
+       <A name="codemirror"><h3>CodeMirror Editor Key Bindings</h3></A>
+
+       <table border=1 cellpadding=3 class="indent">
+         <tr><th>Move</th><th>PC keystroke</th><th>Mac keystroke</th></tr>
+         <tr><td>Left one character</td><td>Left</td><td>Left
+             <tr><td>Right one character</td><td>Right</td><td>Right</td></tr>
+             <tr><td>Up one line</td><td>Up</td><td>Up</td></tr>
+             <tr><td>Down one line</td><td>Down</td><td>Down</td></tr>
+             <tr><td>Beginning of line</td><td>Home, Alt-Left</td><td>Home, Cmd-Left</td></tr>
+             <tr><td>End of line</td><td>End, Alt-Right</td><td>End, Cmd-Right</td></tr>
+             <tr><td>Up one page</td><td>Page up</td><td>Page up</td></tr>
+             <tr><td>Down one page</td><td>Page down</td><td>Page down</td></tr>
+             <tr><td>Beginning of document</td><td>Ctrl-Home, Alt-Up</td><td>Cmd-Up</td></tr>
+             <tr><td>End of document</td><td>Ctrl-End, Ctrl-Down</td><td>Cmd-End, Cmd-Down</td></tr>
+             <tr><td>Left one group</td><td>Ctrl-Left</td><td>Alt-Left</td></tr>
+             <tr><td>Right one group</td><td>Ctrl-Right</td><td>Alt-Right</td></tr>
+
+             <tr><th colspan="3">Selection and delete</th></tr>
+             <tr><td>Select all</td><td>Ctrl-A</td><td>Cmd-A</td></tr>
+             <tr><td>Delete character before cursor</td><td>Backspace</td><td>Backspace</td></tr>
+             <tr><td>Delete character after cursor</td><td>Delete</td><td>Delete</td></tr>
+             <tr><td>Delete group before cursor</td><td>Ctrl-Backspace</td><td>Alt-Backspace</td></tr>
+             <tr><td>Delete group after cursor</td><td>Ctrl-Delete</td><td>Alt-Delete, Ctrl-Alt-Backspace</td></tr>
+             <tr><td>Delete line</td><td>Ctrl-D</td><td>Cmd-D</td></tr>
+
+             <tr><th colspan="3">Search and replace</th></tr>
+             <tr><td>Find</td><td>Ctrl-F</td><td>Cmd-F</td></tr>
+             <tr><td>Find next</td><td>Ctrl-G</td><td>Cmd-G</td></tr>
+             <tr><td>Find previous</td><td>Shift-Ctrl-G</td><td>Shift-Cmd-G</td></tr>
+             <tr><td>Replace</td><td>Shift-Ctrl-F</td><td>Cmd-Alt-F</td></tr>
+             <tr><td>Replace all</td><td>Shift-Ctrl-R</td><td>Shift-Cmd-Alt-F</td></tr>
+
+             <tr><th colspan="3">Miscellaneous</th></tr>
+             <tr><td>Undo</td><td>Ctrl-Z</td><td>Cmd-Z</td></tr>
+             <tr><td>Redo</td><td>Ctrl-Y, Shift-Ctrl-Z</td><td>Cmd-Y, Shift-Cmd-Z</td></tr>
+             <tr><td>Indent more</td><td>Ctrl-]</td><td>Cmd-]</td></tr>
+             <tr><td>Indent less</td><td>Ctrl-[</td><td>Cmd-[</td></tr>
+             <tr><td>Toggle overwrite</td><td>Insert</td><td>Insert</td></tr>
+       </table>
+
+</body>
+</html>

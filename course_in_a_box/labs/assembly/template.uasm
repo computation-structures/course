@@ -1,0 +1,28 @@
+.include "beta.uasm"
+
+        BR(STEP1)   // start execution with Step 1
+
+        // the array to be sorted
+        A:      LONG(10) LONG(56) LONG(27) LONG(69) LONG(73) LONG(99)
+                LONG(44) LONG(36) LONG(10) LONG(72) LONG(71) LONG(1)
+
+ALEN = (. - A)/4    // determine number of elements in A
+
+// Please enter your code for each of the steps below...
+
+STEP1:
+        ...
+STEP2:
+        ...
+STEP3:
+        ...
+STEP4:
+        ...
+STEP5:
+        ...
+
+// When step 5 is complete, execution continues with the
+// checkoff code.  You must include this code in order to
+// receive credit for completing the problem.
+.include "checkoff.uasm"
+

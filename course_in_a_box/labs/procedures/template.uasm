@@ -1,0 +1,78 @@
+////////////////////////////////////////////////////////////////////////////////
+// Lab 4
+////////////////////////////////////////////////////////////////////////////////
+
+// Include the checkoff program:
+.include "checkoff.uasm"
+
+// Leave the following as zero to run ALL the test cases, and get your solution
+//   validated if all pass.  If you have trouble with test case N, set it to N
+//   to run JUST that test case (for easier debugging):
+TestCase:       LONG(0)
+
+// Quicksort-in-place code.  We include the C/Python version here as a comment;
+// you can use this as a model for your Beta assembly version:
+
+//def partition(array,left,right):
+//    # choose middle element of array as pivot
+//    pivotIndex = (left+right) >> 1;
+//    pivotValue = array[pivotIndex]
+//
+//    # swap array[right] and array[pivotIndex]
+//    # note that we already store array[pivotIndex] in pivotValue
+//    array[pivotIndex] = array[right]
+//
+//    # elements <= the pivot are moved to the left (smaller indices)
+//    storeIndex = left
+//    for i in xrange(left,right):  # don't include array[right]
+//        temp = array[i]
+//        if temp <= pivotValue:
+//            array[i] = array[storeIndex]
+//            array[storeIndex] = temp
+//            storeIndex += 1
+//
+//    # move pivot to its final place
+//    array[right] = array[storeIndex]
+//    array[storeIndex] = pivotValue;
+//    return storeIndex;
+
+partition:
+        PUSH(LP)
+        PUSH(BP)
+        MOVE(SP, BP)
+
+// Fill in your code here...
+
+        MOVE(BP, SP)
+        POP(BP)
+        POP(LP)
+        JMP(LP)
+
+
+//def quicksort(array, left, right):
+//    if left < right:
+//        pivotIndex = partition(array,left,right)
+//        quicksort(array,left,pivotIndex-1)
+//        quicksort(array,pivotIndex+1,right)
+
+// quicksort(ArrayBase, left, right)
+quicksort:
+        PUSH(LP)
+        PUSH(BP)
+        MOVE(SP, BP)
+
+// Fill in your code here...
+
+        MOVE(BP, SP)
+        POP(BP)
+        POP(LP)
+        JMP(LP)
+
+// Allocate a stack: SP is initialized by checkoff code.
+StackBasePtr:
+        LONG(StackArea)
+
+.unprotect
+
+StackArea:
+        STORAGE(1000)

@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head lang="en">
+<title>Beta Assembly Language</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+<meta name="viewport" content="width=870">
+
+<!-- Global Site Tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-43707566-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-43707566-1');
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({ tex2jax: {inlineMath: [['$','$'],
+  ['\\(','\\)']], processEscapes: true}, TeX: {equationNumbers: { autoNumber: "AMS" }}
+  });
+</script>
+<script type="text/javascript" async src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML'></script>
+
+<script src="../../tools/jquery-3.2.1.min.js"></script>
+<link rel="stylesheet" href="../../tools/font-awesome.css">
+<link href="../../tools/workbook.css" rel="stylesheet" type="text/css">
+<script src="../../tools/workbook.js"></script>
+<script src="../../tools/answers.js"></script>
+
+</head>
+
+<body>
+  <div class="navigation">
+    <center><img src="../../title.gif" width="200" onclick="window.location='../../index.html';"></center>
+    <style>
+</style>
+<table width="100%">
+  <tr>
+    <td align="center">
+      <a href="../../lectures/index.html"><span class="navtab">lectures</span></a>
+    </td>
+    <td align="center">
+      <a href="../../videos/index.html"><span class="navtab">videos</span></a>
+    </td>
+    <td align="center">
+      <a href="../../worksheets/index.html"><span class="navtab">worksheets</span></a>
+    </td>
+  </tr>
+  <tr>
+    <td align="center">
+      <a href="../../notes/index.html"><span class="navtab">notes</span></a>
+    </td>
+    <td align="center">
+      <a class="selected" href="../../exercises/index.html"><span class="navtab">labs</span></a>
+    </td>
+  </tr>
+</table>
+
+<p><b>Labs</b><br>
+  <a class="" href="../../exercises/cmos/lab.html">
+    1. CMOS Technology
+  </a><br>
+  <a class="" href="../../exercises/adder/lab.html">
+    2. CMOS Adder
+  </a><br>
+  <a class="" href="../../exercises/fsm/lab.html">
+    3. FSMs
+  </a><br>
+  <a class="" href="../../exercises/alu/lab.html">
+    4. 32-bit ALU
+  </a><br>
+  <a class="selected" href="../../exercises/assembly/lab.html">
+    5. Assembly Language
+  </a><br>
+  <a class="" href="../../exercises/procedures/lab.html">
+    6. Procedures &amp; Stacks
+  </a><br>
+  <a class="" href="../../exercises/beta/lab.html">
+    7. Building the Beta
+  </a><br>
+  <a class="" href="../../exercises/caches/lab.html">
+    8. Caches
+  </a><br>
+  <a class="" href="../../exercises/illop/lab.html">
+    9. Emulating Instructions
+  </a><br>
+  <a class="" href="../../exercises/tinyos/lab.html">
+    10. Tiny Operating System
+  </a><br>
+  <a class="" href="../../exercises/dp/lab.html">
+    11. Optimizing the Beta
+  </a><br>
+</p>
+
+<p><b>Tool Sandboxes</b><br>
+  <a class="" href="../../exercises/sandboxes/jade.html">
+    Jade: circuit simulator
+  </a><br>
+  <a class="" href="../../exercises/sandboxes/bsim.html">
+    BSim: Beta simulator
+  </a><br>
+  <a class="" href="../../exercises/sandboxes/tmsim.html">
+    TMSim: Turing Machine simulator
+  </a><br>
+</p>
+
+  
+<p/>
+<hr style="border-style:solid; border-color:black;"/>
+<p>
+  Your exercise answers are saved by the browser in local storage
+  associated with this webpage.  You can use the buttons below
+  to load/save the answers on your system.
+</p>
+
+  
+<p>
+  Save all answers:
+  <a download="saved_state.json" href="#" onclick="workbook.save_answers(this);"><button>Save</button></a>
+</p>
+
+<p>
+  Load all answers (<i>this will overwrite any answers currently saved by the browser</i>): <br/>
+  <input style="margin-left:1em;" type="file" onchange="workbook.load_answers(this);"/>
+</p>
+
+<p><center><i>Authored by Chris Terman</i></center></p>
+
+
+  </div>
+  <div class="content">
+    <h1>Beta Assembly Language</h1>
+
+<p/>When entering numeric values in the answer fields, you can use
+integers (1000, 0x3E8, 0b1111101000), floating-point numbers
+(1000.0), scientific notation (1e3), engineering scale factors
+(1K), or numeric expressions (3*300 + 100).
+
+<p/>Useful links:
+<ul>
+  <li><a href="../tool_docs/BSim.html" target="_blank">Introduction to BSim</a></li>
+  <li><a href="../../notes/pdfs/betainst.pdf" target="_blank">Summary of Instruction Formats (PDF)</a></li>
+  <li><a href="../../notes/pdfs/beta.pdf" target="_blank">Beta Documentation (PDF)</a></li>
+</ul>
+
+<p><b>Problem 1.  Design Problem: Bubble sort</b>
+
+<p/>Please see the instructions below.
+
+<p/>Use the Bsim instance below to enter your code. To complete this
+design problem, you should assemble your program, then run the
+simulation to completion.  The built-in test will either report any
+discrepencies between the expected and actual outputs, or, if your
+code is correct, it will record the test passed.
+
+<answer id="bsim" type="window" tool_name="BSim" height="500" src="../../tools/bsim_workbook.html"><![CDATA[
+{
+  "required_tests": ["-1941773813"],
+  "initial_state" : {
+"beta.uasm": "url:../exercises/beta.uasm",
+"checkoff.uasm": "url:../exercises/assembly/checkoff.uasm",
+"template.uasm": "url:../exercises/assembly/template.uasm"
+  },
+"state":{"Bubble_sort":"url:../exercises/assembly/template.uasm"}
+}]]></answer>
+
+<p><b>Instructions</b>
+
+<p/>Suppose you have an array of integers and wish to sort them into
+ascending order.  There are a variety of approaches you might use --
+one of the simplest (but slowest) is the bubble sort algorithm.
+Bubble sort makes multiple passes through the array swapping the
+previous element with the current element is if the previous element
+is larger.  If no swaps occur on a pass, then bubble sort terminates
+and the array is sorted in ascending order.  If a swap does
+occur, another pass is made.
+
+<p/>Here are the steps in the bubble sort algorithm.  <tt>A</tt> is
+the array to be sorted; actually the value of the symbol <tt>A</tt> is the
+address of the first element of the array, <tt>A[0]</tt>.
+The value of the symbol <tt>ALEN</tt> is the number of elements
+in <tt>A</tt>, called the length of the array.  The elements
+of <tt>A</tt> are <tt>A[0]</tt>,  <tt>A[1]</tt>, ..., and <tt>A[ALEN-1]</tt>.
+The algorithm makes use of several variables: <tt>i</tt>
+and <tt>swapped</tt>.
+
+<ol type="1">
+
+  <li/> Set <tt>swapped</tt> to 0.
+
+  <p/><li/> Set <tt>i</tt> to 0.
+
+  <p/><li/> Increment <tt>i</tt>.  If <tt>i</tt> is now greater than
+  or equal to <tt>ALEN</tt>, this pass through the array is complete
+  so go to step 5.  Otherwise continue with the next step.
+
+  <p/><li/> If <tt>A[i-1]</tt> is less than or equal to <tt>A[i]</tt>,
+  go to step 3.  Otherwise swap <tt>A[i-1]</tt> and <tt>A[i]</tt>,
+  set <tt>swapped</tt> to 1, then go to step 3.
+
+  <p/><li/> if <tt>swapped</tt> is 1, go to step 1 and start another
+  pass.  Otherwise a pass was completed with no swaps, so the bubble
+  sort is complete.
+
+</ol>
+
+<p/>There are a number of simple optimizations that can be made to this algorithm
+in order to reduce the total number of steps needed to complete the bubble sort.
+See the Implementation section of the <A href="https://en.wikipedia.org/wiki/Bubble_sort">Wikipedia article</A>
+on bubble sort for more details.
+
+<p/>Your task is to write an implementation of bubble sort in Beta assembly
+language.  You'll enter your code in the BSim window on the lab page.  See
+the BSim documentation on how to assemble and run your code for testing.
+
+<p/>Here's the template you'll see in the "Bubble_sort" tab of the BSim window.
+It includes <tt>beta.uasm</tt>, which describes the Beta instructions to the
+built-in assembler.  The initial <tt>BR(STEP1)</tt> causes the Beta simulator
+to start executing your code at the instruction labeled "STEP1:".  Then
+the array <tt>A</tt> is defined, occupying 12 words in memory and the value
+of the symbol <tt>ALEN</tt> is set to the length of <tt>A</tt>.
+
+<pre class="jsim">.include "beta.uasm"
+
+       BR(STEP1)   // start execution with Step 1
+
+// the array to be sorted
+A:     LONG(10) LONG(56) LONG(27) LONG(69) LONG(73) LONG(99)
+       LONG(44) LONG(36) LONG(10) LONG(72) LONG(71) LONG(1)
+
+ALEN = (. - A)/4    // determine number of elements in A
+
+// Please enter your code for each of the steps below...
+
+STEP1:
+       ...
+STEP2:
+       ...
+STEP3:
+       ...
+STEP4:
+       ...
+STEP5:
+       ...
+
+// When step 5 is complete, execution continues with the
+// checkoff code.  You must include this code in order to
+// receive credit for completing the problem.
+.include "checkoff.uasm"</pre>
+
+<p/>Figure out the appropriate Beta instructions to use to complete each
+of the five steps described above.  There are some notes below, which you
+may find helpful.  To test your code, click the <button>Assemble</button>
+and correct any syntax errors reported by the assembler.  If assembly
+succeeds, you'll be switched from the Editor window to the Simulation window.
+
+<p/>You can use the simulation controls to step through your program one
+instruction at a time (<span class="fa fa-step-forward"></span>), execute
+instructions at a steady pace (<span class="fa fa-play"></span>), or execute
+instructions very rapidly (<span class="fa fa-fast-forward"></span>).  You
+can see the values in each register and memory location, so it's pretty easy
+to figure out if your code is doing what you expect!
+
+<p/>Executing one instruction at a time might be a good way to debug
+your code for the first pass or so.  Once your code completes, execution
+continues with the checkoff code, which uses the console pane in the simulator
+to report success or provide an error diagnostic.  The checkoff code must
+complete execution to receive credit for the lab.
+
+<p/>Good luck!
+
+<p/><b>Notes</b>
+
+<ol type="1">
+
+  <li/>It's convenient to use registers hold the value for often-used variables,
+  e.g., <tt>i</tt> and <tt>swapped</tt>.  You can make your code easier to read
+  by assigning appropriate names to the registers you've chosen to use to hold
+  various values.  Simply add the following assembly language statements to
+  your program:
+  <pre class="jsim">i = R0        // use R0 to hold the value of i
+swapped = R1  // use R1 to hold the value of swapped</pre>
+
+  <p/><li/> To load the 16-bit two's complement constant 1234 into, say, R3, you can use
+  the instruction <tt>ADDC(R31,1234,R3)</tt>.  This is a common operation so
+  there's an abbreviation we can use: <tt>CMOVE(1234,R3)</tt>.
+
+  <p/>For example, to load 0 into the register with the name <tt>swapped</tt>:
+  <pre class="jsim">CMOVE(0,swapped)   // assumes we used Note 1</pre>
+
+  <p/><li/> Most of the time we want to discard the PC+4 written by the branch
+  instructions into the destination register, so we'll specify R31 as the destination.
+  This is pretty common, so there's abbreviation we can use: instead of writing
+  <tt>BEQ(r2,STEP5,r31)</tt>, we can write <tt>BEQ(r2,STEP5)</tt> and the assembler
+  will supply R31 as the destination register.
+
+  <p/><li/> If you want a branch instruction that always branches, you can write
+  <tt>BEQ(R31,STEP3)</tt> and since R31 always reads as 0, the test succeeds and
+  the branch is taken.  There's an abbreviation we can use: <tt>BR(STEP3)</tt>,
+  which assembler expands into <tt>BEQ(R31,STEP3)</tt>.
+
+  <p/><li/> To load the i<sup>th</sup> element of array <tt>A</tt> into
+  a register, first compute the byte address of the array element and then
+  use the <tt>LD</tt> instruction to fetch the desired value.  The byte address
+  of the first (i.e., zeroth) element of array <tt>A</tt> is the value
+  of the symbol <tt>A</tt>.  Each 32-bit value in the array occupies a
+  32-bit word, or 4 bytes.  So we multiply <tt>i</tt> by 4 to
+  convert from the array index to the appropriate byte offset from the
+  beginning of the array.  We can then use the address arithmetic built into
+  the <tt>LD</tt> instruction to combine the value of the symbol <tt>A</tt>
+  with the byte offset of the element we want:
+
+  <pre class="jsim">MULC(R0,4,R2) // i in R0, convert index into byte offset
+// load address is Reg[Ra] + sxt(16-bit) literal
+LD(R2,A,R3)   // loads A[i]
+LD(R2,A-4,R4) // loads A[i-1]</pre>
+
+</ol>
+
+<div class="xyzzy">
+27685337134bfe03595ff672
+</div>
+
+    <div class="footer" style="font-size: small;">
+    <p/><hr/><p/>
+    
+
+    <br>
+    Copyright &copy; 2015-2017 M.I.T. Department of Electrical Engineering and Computer Science
+
+    <br>
+    Your use of this site and materials is subject to our
+    <a href="../../terms.html">terms of use</a>.
+</div>
+
+  </div>
+</body>
+</html>

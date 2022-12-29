@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="en">
+<head lang="en">
+<title>Tiny Operating System</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+<meta name="viewport" content="width=870">
+
+<!-- Global Site Tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-43707566-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-43707566-1');
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({ tex2jax: {inlineMath: [['$','$'],
+  ['\\(','\\)']], processEscapes: true}, TeX: {equationNumbers: { autoNumber: "AMS" }}
+  });
+</script>
+<script type="text/javascript" async src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML'></script>
+
+<script src="../../tools/jquery-3.2.1.min.js"></script>
+<link rel="stylesheet" href="../../tools/font-awesome.css">
+<link href="../../tools/workbook.css" rel="stylesheet" type="text/css">
+<script src="../../tools/workbook.js"></script>
+<script src="../../tools/answers.js"></script>
+
+</head>
+
+<body>
+  <div class="navigation">
+    <center><img src="../../title.gif" width="200" onclick="window.location='../../index.html';"></center>
+    <style>
+</style>
+<table width="100%">
+  <tr>
+    <td align="center">
+      <a href="../../lectures/index.html"><span class="navtab">lectures</span></a>
+    </td>
+    <td align="center">
+      <a href="../../videos/index.html"><span class="navtab">videos</span></a>
+    </td>
+    <td align="center">
+      <a href="../../worksheets/index.html"><span class="navtab">worksheets</span></a>
+    </td>
+  </tr>
+  <tr>
+    <td align="center">
+      <a href="../../notes/index.html"><span class="navtab">notes</span></a>
+    </td>
+    <td align="center">
+      <a class="selected" href="../../exercises/index.html"><span class="navtab">labs</span></a>
+    </td>
+  </tr>
+</table>
+
+<p><b>Labs</b><br>
+  <a class="" href="../../exercises/cmos/lab.html">
+    1. CMOS Technology
+  </a><br>
+  <a class="" href="../../exercises/adder/lab.html">
+    2. CMOS Adder
+  </a><br>
+  <a class="" href="../../exercises/fsm/lab.html">
+    3. FSMs
+  </a><br>
+  <a class="" href="../../exercises/alu/lab.html">
+    4. 32-bit ALU
+  </a><br>
+  <a class="" href="../../exercises/assembly/lab.html">
+    5. Assembly Language
+  </a><br>
+  <a class="" href="../../exercises/procedures/lab.html">
+    6. Procedures &amp; Stacks
+  </a><br>
+  <a class="" href="../../exercises/beta/lab.html">
+    7. Building the Beta
+  </a><br>
+  <a class="" href="../../exercises/caches/lab.html">
+    8. Caches
+  </a><br>
+  <a class="" href="../../exercises/illop/lab.html">
+    9. Emulating Instructions
+  </a><br>
+  <a class="selected" href="../../exercises/tinyos/lab.html">
+    10. Tiny Operating System
+  </a><br>
+  <a class="" href="../../exercises/dp/lab.html">
+    11. Optimizing the Beta
+  </a><br>
+</p>
+
+<p><b>Tool Sandboxes</b><br>
+  <a class="" href="../../exercises/sandboxes/jade.html">
+    Jade: circuit simulator
+  </a><br>
+  <a class="" href="../../exercises/sandboxes/bsim.html">
+    BSim: Beta simulator
+  </a><br>
+  <a class="" href="../../exercises/sandboxes/tmsim.html">
+    TMSim: Turing Machine simulator
+  </a><br>
+</p>
+
+  
+<p/>
+<hr style="border-style:solid; border-color:black;"/>
+<p>
+  Your exercise answers are saved by the browser in local storage
+  associated with this webpage.  You can use the buttons below
+  to load/save the answers on your system.
+</p>
+
+  
+<p>
+  Save all answers:
+  <a download="saved_state.json" href="#" onclick="workbook.save_answers(this);"><button>Save</button></a>
+</p>
+
+<p>
+  Load all answers (<i>this will overwrite any answers currently saved by the browser</i>): <br/>
+  <input style="margin-left:1em;" type="file" onchange="workbook.load_answers(this);"/>
+</p>
+
+<p><center><i>Authored by Chris Terman</i></center></p>
+
+
+  </div>
+  <div class="content">
+    <h1>Tiny Operating System</h1>
+
+    <p/>Useful links:
+    <ul>
+      <li><a href="../tool_docs/bsim.html" target="_blank">Introduction to BSim</A></li>
+      <li><a href="../../notes/pdfs/betainst.pdf" target="_blank">Summary of Instruction Formats (PDF)</A></li>
+      <li><a href="../../notes/pdfs/beta.pdf" target="_blank">Beta Documentation (PDF)</a></li>
+    </ul>
+
+<p><b>Problem 1.  Design Problem: Tiny OS</b>
+
+    <p>See below for instructions.
+
+    <p>Use the Bsim instance below to enter your code.  Your buffer is
+      autosaved to the server every few characters, when you click
+      <button>Assemble</button>, or when a running simulation halts.
+      If you received a message about unsaved changes when attempting
+      to close the BSim window, just click <button>Assemble</button>
+      and your changes will be saved.
+
+    <p>To complete this design problem, please follow the instructions
+    below, which will ask you to modify the TinyOS code to add some
+    new functionality.  There is no automated test for the lab, so
+    you'll need to run the tests described in the instructions to see
+    if you've meet the design criteria.
+
+<answer id="bsim" type="window" tool_name="BSim" width="900" height="600" src="../../tools/bsim_workbook.html">{
+  "required_tests": ["36036"],
+  "initial_state" : {
+"beta.uasm": "url:../exercises/beta.uasm",
+"TinyOS.uasm": "url:../exercises/tinyos/tinyos.uasm"
+  },
+"state":{"Tiny OS":"url:../exercises/tinyos/tinyos.uasm"}
+}</answer>
+
+<p/><b>Instructions</b>
+
+<ol>
+
+<li>Copy the code from TinyOS.uasm into the Tiny OS in the BSim window</li>
+<li>Look through the code to figure out how it works.
+<li>Modify your copy of the code as described below and test your changes</li>
+<li>There is no automated check-in for the lab.  When you are ready
+for checkoff, complete a check-off meeting during staffed lab
+hours (preferably during the less hectic times early in the week).</li>
+
+</ol>
+
+    <p/>TinyOS.uasm implements a simple timesharing system (or will after you
+    complete Problem 1!).  There is kernel code to deal with supervisor calls,
+    illops, and keyboard interrupts, along utility functions for printing out
+    console messages, etc.  And initially there are two user-mode processes:
+
+    <ul>
+
+      <li/><i>Process 0</i>: reads characters from the keyboard,
+        echoing them to the console.  When the return key is entered,
+        the sentence is translated into pig latin and the result also
+        printed to the console.  Then the process repeats.
+
+      <p/><li/><i>Process 1</i>: Each time this process runs, it
+      increments a counter and then uses the <tt>Yield()</tt> supervisor call
+      to give up the rest of its timesharing slot.  Every 4096
+      iterations, the process prints the count to the console.
+
+    </ul>
+
+    <p/>There are three design problems that ask you to modify TinyOS.
+    You must complete the first problem, but the last two are
+    optional, providing additional points should they be completed
+    successfully.
+
+    <p/><b>Memory Management Unit</b>
+
+    <p/>BSim implements a very simple memory-management mechanism
+    called <i>base and bounds</i> when "<tt>.options
+    segmentation</tt>" is included in the program.  The MMU contains
+    two control registers, SEG_BASE and SEG_BOUNDS, which the Beta can
+    access using LD and ST instructions. Here's how it works:
+
+    <ul>
+      <li/> When running in kernel mode (PC[31]=1), there is no
+      address translation, i.e., the kernel virtual address is used
+      directly the physical address for main memory.  On startup, the
+      Beta is running in kernel mode.
+
+      <p/><li/> When running in user mode (PC[31]=0), address
+      translation is enabled, which allows each user-mode process to
+      run in its own virtual address space.  Each user-mode address is
+      translated to a physical address as follows:
+
+      <ul>
+
+        <p/><li/> the user-mode address is compared against the value
+        in the MMU SEG_BOUNDS control register.  If the address is greater
+        than or equal to the SEG_BOUNDS value, a segmentation fault
+        occurs: PC+4 is saved in the XP register and the PC is set to
+        0x80000008.  Note that the value saved in XP is a user-mode
+        virtual address.  If the bounds check succeeds, proceed to the next step.
+
+        <p/><li/> the user-mode address is added to the value in the
+        built-in MMU SEG_BASE control register to form the physical
+        address used to access main memory.
+
+      </ul>
+    </ul>
+
+    <p/>The net effect is that the user-mode virtual address space
+    is mapped to a contiguous region of physical memory that starts
+    at the location specified by the SEG_BASE control register.  The size of the
+    region (and hence the size of the virtual address space) is
+    determined by the SEG_BOUNDS control register.
+
+    <p/> The appropriate base and bounds values for each process are
+    kept in the process table, along with the saved register values.
+    When getting ready to run a user-mode process, the kernel
+    initializes the MMU SEG_BASE and SEG_BOUNDS control registers
+    using ST instructions to two reserved memory addresses, which the
+    Beta interprets as accesses to the MMU control registers.
+
+    <p/><pre class="jsim">LD(CurProc, r0)     // pointer to current process table entry
+LD(r0, 31*4, r2)    // load base value from proc table
+ST(r2, SEG_BASE)    // store into MMU SEG_BASE control register
+LD(r0, 32*4, r2)    // load bounds value from proc table
+ST(r2, SEG_BOUNDS)  // store into MMU SEG_BOUNDS control register</pre>
+
+    <p/>Where do the appropriate base and bound values come from?  They are
+    determined at assembly time.  To enter code and data for a user-mode process, use
+    the <tt>.segment XXX</tt> directive to tell the assembler to start
+    a new user-mode segment called <tt>XXX</tt>.  Each user-mode segment has
+    its own symbol table and is assumed to start at virtual address 0.  Here's
+    a very simple user-mode process that initializes a stack, then enters
+    an infinite loop incrementing a counter in main memory:
+
+    <p/><pre class="jsim">      .segment Example
+      . = 0                // just a reminder that we start at 0
+      CMOVE(stack, SP)     // initialize the stack pointer
+loop: LD(counter, r0)      // load counter value
+      ADDC(r0, 1, r0)      // increment...
+      ST(r0, counter)      // store back into main memory
+      BR(loop)             // repeat
+
+counter:
+      LONG(0)              // storage for counter, initialized to 0
+      
+stack:
+      STORAGE(100)         // reserve 100 words for the stack</pre>
+
+    <p/>When assembled, two new symbols are defined the kernel's symbol table:
+    <tt>Example_base</tt> with the address of the physical memory
+    location occupied by the first word of the segment (in this case
+    the physical address of the <tt>CMOVE</tt> instruction),
+    and <tt>Example_bounds</tt> with a value equal to the size of the
+    segment in bytes, including both instructions and data.
+
+    <p/>Note that since execution of this user-mode process will begin at location
+    0, that location should contain an instruction!
+
+    <p/>The initial process table entry for this user-mode process would
+    look like
+
+    <p/><pre class="jsim">STORAGE(30)          // storage for registers 0-29
+LONG(0)              // storage for XP (initial PC is 0)
+LONG(Example_base)   // process table copy of SEG_BASE
+LONG(Example_bounds) // process table copy of SEG_BOUNDS</pre>
+
+    <p/><hr/><p/>
+
+    <p/><b>Design Problem 1: MapUserAddress</b>
+
+    <p/>There are times when given a user-mode address, the kernel needs to
+    read the contents of that location.  For example, when processing an ILLOP
+    exception, the kernel reads the offending instruction from memory and checks
+    the opcode field to see if it's a SVC.  The kernel code to do this looks like
+
+    <p/><pre class="jsim">SUBC(XP, 4, r0)         // u-mode address of illegal instruction
+CALL(MapUserAddress)    // convert to k-mode address
+LD(r0, 0, r0)           // Fetch the illegal instruction
+SHRC(r0, 26, r0)        // Extract the 6-bit OPCODE</pre>
+
+    <p/>Your task is to write the code for the <tt>MapUserAddress</tt> procedure
+    (search for "[Design Problem 1]" in the TinyOS code.  This procedure emulates
+    in software what the MMU does in hardware: converting a user-mode virtual
+    address to the corresponding physical address.
+
+    <p/>Once <tt>MapUserAddress</tt> is functioning correctly, the pre-defined
+    process 0 and process 1 code should run correctly.  So if you
+    start the simulation of the assembled code, select the console at
+    the bottom of the simulation pane with a <i>single</i> click, then
+    type "hello there" followed by RETURN, process 0 should type
+    "ELLOHAY ERETHAY".  Meanwhile Process 1 will print out the value
+    of its counter every now and then.
+    
+    <p/><hr/><p/>
+
+    <p/><b>Design Problem 2: Add support for Mouse clicks</b>
+
+    <p/><b>Step 1: Add mouse interrupt handler</b>
+
+    <p/>When you click the mouse over the console pane, BSim generates an
+    interrupt, forcing the PC to <tt>0x80000014</tt> and saving PC+4 of the
+    interrupted instruction in the XP register.  Note that BSim implements
+    a "vectored interrupt" scheme where different types of interrupts
+    force the PC to different addresses (rather than having all interrupts
+    for the PC to one location).  The following table shows how different
+    exceptions are mapped to PC values:
+    <ul>
+      <tt>0x80000000</tt> reset<br/>
+      <tt>0x80000004</tt> illegal opcode<br/>
+      <tt>0x80000008</tt> segmentation fault<br/>
+      <tt>0x8000000C</tt> clock interrupt*<br/>
+      <tt>0x80000010</tt> keyboard interrupt**<br/>
+      <tt>0x80000014</tt> mouse interrupt**<br/>
+      <p/>
+      * must specify <tt>.options clk</tt> to enable<br/>
+      ** must specify <tt>.options tty</tt> to enable<br/>
+    </ul>
+
+    <p/>Recall that only user-mode programs can be interrupted.
+    Interrupts signaled while in the Beta is running in kernel-mode (<i>e.g.</i>,
+    handling another interrupt or servicing a supervisor call) have no
+    effect until the processor returns to user-mode.
+
+    <p/>The original TinyOS code prints out "Unexpected interrupt..." and then
+    halts if a mouse interrupt is received.  Change this behavior in your
+    copy of the code by adding an interrupt handler that stores the click
+    information in a new kernel memory location and then returns to the
+    interrupted process.  You might find the keyboard interrupt handler a
+    good model to follow.
+
+    <p/>We've added a new Beta instruction your interrupt handler can use
+    to retrieve information about the last mouse click:
+    <pre>     CLICK()</pre>
+
+    <p/>This instruction can only be executed when in kernel mode (<i>e.g.</i>,
+    from inside an interrupt handler).  It returns a value in <tt>R0</tt>: -1 if
+    there hasn't been a mouse click since the last time <tt>CLICK()</tt> was
+    executed, or a 32-bit integer with the X coordinate of the click in
+    the high-order 16 bits of the word, and the Y coordinate of the click
+    in the low-order 16 bits.  The coordinates are non-negative and
+    relative to the upper left hand corner of the console pane.  In our
+    scenario, <tt>CLICK()</tt> is only called after a mouse click, so we should
+    never see -1 as a return value.
+
+    <p/>Testing your implementation: insert a <tt>.breakpoint</tt> before the
+    <tt>JMP(XP)</tt> at the end of your interrupt handler, run the program and
+    click the mouse over the console pane.  If things are working
+    correctly the simulation should stop at the breakpoint and you can
+    examine the kernel memory location where the mouse info was stored to
+    verify that it's correct.  Continuing execution (click the "Run"
+    button in the toolbar at the top of the window) should return to the
+    interrupted program.  When you're done remember to remove the
+    breakpoint.
+
+    <p/><b>Step 2: Add Mouse() supervisor call</b>
+
+    <p/>Implement a <tt>Mouse()</tt> supervisor call that returns the coordinate
+    information from the most recent mouse click (i.e., the information
+    stored by the mouse interrupt handler).  Like the <tt>GetKey()</tt> supervisor
+    call, a user-mode call to <tt>Mouse()</tt> should consume the available click
+    information.  If no mouse click has occurred since the previous call
+    to <tt>Mouse()</tt>, the supervisor call should "hang" until new click
+    information is available.  "Hang" means that the supervisor call
+    should back up the saved PC so that the next user-mode instruction to
+    be executed is the <tt>Mouse()</tt> call and then branch to the scheduler to
+    run some other user-mode program.  Thus when the calling program is
+    rescheduled for execution at some later point, the <tt>Mouse()</tt> call is
+    re-executed and the whole process repeated.  From the user's point of
+    view, the <tt>Mouse()</tt> call completes execution only when there is new
+    click information to be returned.  The <tt>GetKey()</tt> supervisor call is a
+    good model to follow.
+
+    <p/>Notes: Supervisor calls are actually unimplemented instructions
+    that cause the expected trap when executed.  The illegal instruction
+    trap handler looks for illegal instructions it knows to be supervisor
+    calls and calls the appropriate handler -- look at <tt>SVC_UUO</tt> for details.
+    To define a new supervisor call, add the following definition just
+    after the definition for <tt>Yield()</tt>:
+    <pre>     .macro Mouse()   SVC(8)</pre>
+
+    <p/>This is the ninth supervisor call and the current code at <tt>SVC_UUO</tt>
+    was tailored for processing exactly eight supervisor calls, so <b>you'll
+    need to make the appropriate modifications</b>.
+
+    <p/><b>Step 3: Add third user-mode process that reports mouse clicks</b>
+
+    <p/>Modify the process table in the kernel to add the appropriate entry
+    for a third user-mode process P2.
+
+    <p/>You should then define a new segment called P2 and add user-mode code for the
+    new process that calls <tt>Mouse()</tt> and then prints out a
+    message of the form:
+
+    <pre>     Click at x=000000EE, y=00000041</pre>
+
+    <p/>Each click message should appear on its own line (<i>i.e.</i>, it should
+    be preceded and followed by a newline character).  You can use <tt>WrMsg()</tt>
+    and <tt>HexPrt()</tt> to send the message; see the code for Process 0 for an
+    example of how this is done.
+
+    <p/><i>Testing your implementation:</i> If all three steps are working
+    correctly the appropriate message should be printed out whenever you
+    click the mouse over the console pane.  You may find it necessary to
+    use <tt>.breakpoint</tt> commands to debug your user-mode code.
+
+    <p/><hr/><p/>
+      
+    <p/><b>Design Problem 3: Add Signal() and Wait() SVCs</b>
+
+    <p/>After Problem 2, there are now three user-mode processes that want to
+    print messages to the console.  Depending on timing of user input and the
+    scheduling of processes, the printouts may interleave in a way that's very
+    hard to read.
+
+    <p/>We'll use a semaphore to ensure that each process' printout is completed
+    without interference from the other processes.  In other words, think of the
+    console as a shared resource, which should only be accessed by one process
+    at a time.
+
+    <p/>Your first task is to implement the handlers for the <tt>Signal()</tt> and
+    <tt>Wait()</tt> SVCs.  TinyOS supports a fixed number N of integer semaphores numbered 0
+    through N-1 (N = 4 in the current code).  The semaphore number for the SVCs
+    is passed in the user's R0.  If the value in the user's R0 is not between
+    0 and N-1 inclusive, the SVCs should simply resume user-mode execution after
+    the SVC.
+
+    <p/>The <tt>Signal()</tt> SVC increments the value of the specified semaphore,
+    then resumes user-mode execution after the SVC.  For example,
+
+    <p/><pre class="jsim">CMOVE(1, r0)     // signal semaphore #1
+Signal()</pre>
+
+    <p/>The <tt>Wait()</tt> SVC tests the value of the specified
+    semaphore.  If the value is greater than 0, it's decremented, then
+    user-mode execution resumes after the SVC.  If the value equals 0,
+    the WAIT operation cannot be completed as this time, so the kernel
+    handler should arrange to re-execute the SVC when execution resumes,
+    then run the next process.  The next time the WAITing process runs,
+    it will once again test the value of the specified semaphore.  For
+    example,
+
+    <p/><pre class="jsim">CMOVE(1, r0)     // wait on semaphore #1
+Wait()
+// execution resumes here only after the WAIT succeeds</pre>
+
+    <p/>Add the appropriate <tt>Signal()</tt> and <tt>Wait()</tt> SVC
+    calls to processes 0, 1, and 2 so that once a process starts to
+    print on the console, all the other processes must wait until the
+    printout is complete.
+
+  </body>
+</html>
+
+<div class="xyzzy">
+45a29fc7bd1108b61c1efae1
+</div>
+
+    <div class="footer" style="font-size: small;">
+    <p/><hr/><p/>
+    
+
+    <br>
+    Copyright &copy; 2015-2017 M.I.T. Department of Electrical Engineering and Computer Science
+
+    <br>
+    Your use of this site and materials is subject to our
+    <a href="../../terms.html">terms of use</a>.
+</div>
+
+  </div>
+</body>
+</html>

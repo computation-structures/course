@@ -1,0 +1,832 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>JSim Documentation</title>
+<style>
+body {
+  width: 650px;
+  font: 14px/1.5 Georgia,serif;
+}
+table {
+  border-collapse: collapse;
+}
+table.indent {
+  margin-left: 3em;
+}
+table tr {
+  vertical-align: top;
+}
+</style>
+</head>
+<body>
+<h3>Introduction to JSim</h3>
+
+<ul>
+<A href="#netlist">Netlist format</A><br>
+<A href="#devices">Device statements</A><br>
+<A href="#subckt">User-defined components (subcircuits)</A><br>
+<A href="#iterators">Using iterators to create multiple gates</A><br>
+<A href="#control">Control statements</A><br>
+<A href="#waveform">Waveform browsing</A><br>
+<A href="#codemirror">CodeMirror Editor Key Bindings</A><br>
+</ul>
+
+<p>JSim is a simulator for analog and digital circuits.  JSim provides
+a simple editor for typing in your circuit desciption and some tools for
+simulating your circuit and plotting the voltage waveforms for the
+circuit's nodes.  The labs provide test jigs that verify correct
+operation of your circuit and let you submit your design online when
+it passes the checkoff tests.
+ 
+<p>To run JSim, using a browser with your MIT certificate click the
+appropriate link on the 6.004 course website.
+
+<p>JSim incorporates CodeMirror for editing your .jsim files.
+CodeMirror supports many common edit operations &mdash; please see the table
+at the end of this document for the mapping from keystrokes to edit
+operations.
+
+<p>There are various handy buttons on the JSim toolbar:
+
+<table cellpadding=3 class="indent">
+<tr>
+  <td><button>Save</button></td>
+  <td>
+    Save file.  If any changes have been made, write the current buffer back to its source file.
+  </td>
+</tr>
+<tr>
+  <td><button>Save All</button></td>
+  <td>
+    Save all files.  Like "save file" but applied to all edit buffers.
+  </td>
+</tr>
+<tr>
+  <td><button>Revert</button></td>
+  <td>
+    Replace buffer with contents of backup file created during the last
+    save operation.  To make this change permanent, you have to re-save the
+    buffer.
+  </td>
+</tr>
+<tr>
+  <td><button><nobr>Restore Autosave</nobr></button></td>
+  <td>
+    Replace buffer with contents of the autosave file created as you
+    edit the buffer. To make this change permanent, you have to re-save the
+    buffer.  Autosave files are deleted each time you do a save.
+  </td>
+</tr>
+<tr>
+  <td><button><img src="simulate.png"></button></td>
+  <td>
+    Perform a device-level simulation of the circuit described by the
+    currently selected editor buffer.  Device-level simulation expects
+    the circuit components to be resistors, capacitors, mosfets, etc.
+    The type of simulation (<tt>.dc</tt>, <tt>.ac</tt>, <tt>.tran</tt>)
+    is specified in the circuit description.  <tt>.plot</tt> statements
+    specify the nodes whose voltage waveforms will plotted after the
+    simulation completes.
+  </td>
+</tr>
+<tr>
+  <td><button><img src="gatesim.png"></button></td>
+  <td>
+    Perform a gate-level simulation of the circuit described by the
+    currently selected editor buffer.  Gate-level simulation expects
+    the circuit components to be logic gates, usually selected from
+    our standard cell library (see /shared/jsim/stdcell.jsim).
+    A <tt>.tran</tt> statement specifies the duration of the
+    simulation. <tt>.plot</tt> statements specify the nodes whose
+    voltage waveforms will plotted after the simulation completes.
+  </td>
+</tr>
+<tr>
+  <td><button><img src="timing_analysis.png"></button></td>
+  <td>
+    Perform a timing analysis of the gate-level circuit described by the
+    currently selected editor buffer.  This tools enumerates the 
+    longest propagation delays found in the circuit.
+  </td>
+</tr>
+<tr>
+  <td><button><nobr>Checkoff</nobr></button></td>
+  <td>
+    Using information supplied in the checkoff file, check for
+    specified waveform values at specific times.  If all the checks are
+    successful, submit the design to the on-line assignment system.
+  </td>
+</tr>
+</table>
+
+<p>Files can be opened by clicking on them in the file tree to the
+left of the editor. Other file-manipulation functions are also
+available by hovering over files and folders:
+
+<table cellpadding=3 class="indent">
+<tr>
+  <td><img src="tools_create.png"</td>
+  <td>
+    Create a new file in the folder associated with the button.
+  </td>
+</tr>
+<tr>
+  <td><img src="tools_folder.png"</td>
+  <td>
+    Create a new folder in the folder associated with the button.
+  </td>
+</tr>
+<tr>
+  <td><img src="tools_rename.png"</td>
+  <td>
+    Rename the file or folder associated with the button.
+  </td>
+</tr>
+<tr>
+  <td><img src="tools_delete.png"</td>
+  <td>
+    Delete the file or folder associated with the button.
+  </td>
+</tr>
+</table>
+
+<p>To switch between the editor and simulation panes, use the "Editor"
+and "Simulation" buttons at the top left of the window. "Split" will
+divide the screen evenly between the two. It is also possible to drag
+the dividers between panes to resize them individually. When both the
+editor and simulation panes are visible, clicking "Assemble" will not
+alter the layout of the window.
+
+<A name="netlist"><h3>Netlist format</h3></A>
+
+<p>Input to JSim is processed line-by-line. Fields within a line are
+separated by whitespace (blanks or tabs), a comma, an "=" (equal
+sign), or a left or right parenthesis; extra spaces are ignored.
+Blank lines are ignored during processing.
+ 
+<p>The circuit to be simulated is described to JSim by a set of
+component statements, which define the circuit topology and component
+values, and a set of control lines, which control the simulation.  The
+order of the statements is arbitrary (except, of course, that
+continuation lines must immediately follow the line being continued).
+ 
+<p><i>Continuation lines</i>
+<ul>
+A line may be continued by entering a "+" (plus) as the first
+character of the following line.  JSim will continue reading
+continuation lines starting with the character after the "+". There's
+no limit to the number of continuation lines allowed. Example:
+<pre>     // A 3-port memory
+     Gmem memory
+     + vdd gnd gnd ia[11:2] id[31:0] 
+     + moe gnd gnd ma[11:2] mrd[31:0] 
+     + gnd clk wr ma[11:2] mwd[31:0] 
+     + width=32 nlocations=1024
+</pre>
+</ul>
+
+<p><i>Comments</i>
+<ul>
+You can add comments at the end of a line by preceding the comment
+with the characters "//" (C++- or Java-style comments). All characters
+starting with "//" to the end of the line are ignored. Any portion of
+a line or lines can be turned into a comment by enclosing the text in
+"/*" and "*/" (C-style comments). Examples:
+<pre>     R1 A B 3k // 3K-ohm resistor between nodes A and B 
+ 
+     /* use when Vdd is 3V
+     .options vil=0.3 vih=2.7
+     */ 
+</pre> 
+</ul>
+
+<p><i>Names</i>
+<ul> Each device and node in the circuit has a unique name. A name is
+is a sequence of characters consisting of letters, digits, "_",
+"$", "[", "]", and ".".  Names cannot begin with a digit and names
+begining with "$" are reserved for naming built-in devices. "."
+(period) is reserved for use as a separator in hierarchical
+names. The signal name "gnd" is reserved for indicating connections
+to the ground node, which serves as the reference node for all the
+voltages.  Examples:
+<pre>     R1 
+     This_is_a_very_long_name 
+     cpu.alu.adder.bit31.carry_in 
+</pre>
+When naming a collection of nodes that serve as a bus it is
+convenient to use iterators to save on having to enter many names
+sequentially. Iterators have the form
+<pre>     <i>prefix</i>[<i>start</i>:<i>end</i>]<i>suffix</i>
+</pre>
+where <i>start</i> and <i>end</i> are integers specifying the first
+and last indicies of the sequence respectively. JSim expands the
+iterator into <nobr>|start-end| + 1</nobr> names substituting a
+different value for the bracketed expression in each
+iteration. Examples:
+<pre>     data[7:0] &rarr; data[7] data[6] data[5] data[4] data[3] data[2] data[1] data[0] 
+     xxx[1:4]yyy &rarr; xxx[1]yyy xxx[2]yyy xxx[3]yyy xxx[4]yyy 
+</pre>
+One can also specify an increment between successive indicies
+using the form:
+<pre>     <i>prefix</i>[<i>start</i>:<i>end</i>:<i>inc</i>]<i>suffix</i>
+</pre>
+Example: 
+<pre>     data[7:0:2] &rarr; data[7] data[5] data[3] data[1] 
+</pre>
+
+More than one iterator can be used in a name; they are expanded
+from left to right:
+<pre>     a[3:0][1:0] &rarr; a[3][1:0] a[2][1:0] a[1][1:0] a[0][1:0] 
+     &rarr; a[3][1] a[3][0] a[2][1] a[2][0] a[1][1] a[1][0] a[0][1] a[0][0]
+</pre>
+Note that using an iterator is exactly equivalent to specifying
+the expanded sequence:
+<pre>     // The following two element statements are equivalent 
+     X1 and8 in[7:0] out
+     X1 and8 in[7] in[6] in[5] in[4] in[3] in[2] in[1] in[0] out
+</pre>
+Finally, there's a shortcut for specifying multiple copies of the same
+node:
+<pre>    foo#4 &rarr; foo foo foo foo 
+    x[1:0]#2 &rarr; x[1:0] x[1:0] &rarr; x[1] x[0] x[1] x[0] 
+</pre>
+</ul>
+
+<p><i>Numbers</i>
+<ul>
+A number may be an integer (12, &ndash;44), a floating point number
+(3.14159), an integer or floating point number followed by an integer
+exponent (1E&ndash;14, 2.65E3), or an integer or a floating point number
+followed by one of the following scale factors:
+
+<p><table border=1 cellpadding=3 class="indent">
+<tr><th>Scale Factor</th><th>Pronounced</th><th>Multiplier</th></tr>
+<tr><td>T</td><td> tera</td><td> 1E12</td></tr>
+<tr><td>G</td><td> giga</td><td> 1E9 </td></tr>
+<tr><td>M</td><td> mega</td><td> 1E6</td></tr>
+<tr><td>K, k</td><td> kilo</td><td> 1E3</td></tr>
+<tr><td>m</td><td> milli</td><td> 1E-3</td></tr>
+<tr><td>u</td><td> micro</td><td> 1E-6</td></tr>
+<tr><td>n</td><td> nano</td><td> 1E-9</td></tr>
+<tr><td>p</td><td> pico</td><td> 1E-12</td></tr>
+<tr><td>f</td><td> femto</td><td> 1E-15</td></tr>
+</table>
+ 
+<p>Letters immediately following a number that are not scale factors
+are ignored and letters immediately following a scale factor are
+ignored. Integers can be entered in binary, octal or hexadecimal
+notation by using the appropriate prefix:
+<pre>     0b1011101110100 // 6004 in binary ("0b" prefix) 
+     013564 // 6004 in octal ("0" prefix) 
+     0x1774 // 6004 in hex ("0x" prefix) 
+</pre>
+Example: 
+<pre>     // The following all represent the same numeric value 
+     1000 1000.0 1000Hz 1E3 1.0E3 1kHz 1K 0x3E8 01750 0b1111101000 
+</pre>
+</ul>
+
+<A name="devices"><h3>Device statements</h3></A>
+
+<p>Each device in the circuit is specified by a device statement that
+specifies the device name, the circuit nodes to which the device is
+connected, and the values of the parameters that determine the
+electrical characteristics of the element. The first letter of the
+device name specifies the element type, the remainder of the name can
+be any legal name (see above). For example, a resistor name must begin
+with the letter "R" or "r". Hence "R1", "rse", and "R3ac_2xy" are
+valid resistor names. Device names must be unique at the level of
+circuit in which they appear.
+ 
+<p>In the following description, data fields enclosed in braces ("{"
+and "}") are optional. All indicated punctuation (parenthesis, equal
+signs, etc.) are required.
+ 
+<p>With respect to branch voltages and currents, JSim uniformly uses
+the associated reference convention: current flows in the direction of
+voltage drop. The circuit cannot contain a loop of voltage sources
+and/or inductors and cannot contain a cutset of current sources and/or
+capacitors.  Each node in the circuit must have a dc path to ground.
+ 
+<p><pre>R<i>id n+ n- value</i> // resistor, units in ohms, value &gt; 0
+C<i>id n+ n- value</i> // capacitor, units in farads, value &ge; 0
+L<i>id n+ n- value</i> // inductor, units in henries, value &ge; 0 </pre>
+<ul>
+Linear devices. <i>n+</i> and <i>n-</i> are the two terminal nodes
+and <i>value</i> is the specified resistance, capacitance, or
+inductance. Examples:
+<pre>     R1 A B 1k // 1k ohm resistor between nodes A and B
+     Rbias base gnd 33ohms // 33 ohm resistor between nodes base and ground 
+     CMILLER gate drain 1fF // 1 femtofarad capacitor 
+     Lshunt a b 10u // 10 microhenry inductor
+</pre>
+</ul>
+ 
+<p><pre>N<i>id ndrain ngate nsource</i> {L=number} {W=number} // n-channel mosfet
+P<i>id ndrain ngate nsource</i> {L=number} {W=number} // p-channel mosfet</pre>
+<ul>
+N-channel and P-channel mosfets.  Note that the drain and source nodes of a mosfet are
+interchangeable, so, e.g., the device statements "N1 A gate B" and "N2 B gate A" describe
+nfets that will operate identically.  The channel length (L) and channel width (W)
+parameters are in scaled units, where the value 1 represents the smallest legal channel
+length.  If not specified, L defaults to 1 and W defaults to 8.
+</ul>
+
+<p><tt>O<i>id n+ n- output gnd gain</i> // opamp</tt>
+<ul>
+Ideal opamp. <tt>n+</tt> and <tt>n-</tt> are the differential input nodes; their
+voltage difference times the gain appears on the <tt>output</tt> node.  The <tt>gnd</tt>
+serves as the reference node for the output voltage.  <tt>gain</tt> should be
+a number, typically 100K or larger.
+</ul>
+
+ 
+<p><pre>G<i>id</i> <i>gate_type nodes...</i> {params} // instance of built-in logic gate</pre>
+<ul>
+A built-in logic element.  Except for <A href="stdcell.html#memory">memory elements</A>, one
+should instantiate a logic gate by using an "X" statement specifying one of the
+components defined in the <A href="stdcell.html">standard cell library</a>.
+</ul>
+
+
+<p><pre>X<i>id</i> <i>subckt_name nodes...</i> {params} // instance of user-defined subcircuit</pre>
+<ul>
+Subcircuit instance.  See section on User-defined devices below.
+</ul>
+ 
+<p><pre>V<i>id n+ n-</i> {tran} // voltage source, units in volts 
+I<i>id n+ n-</i> {tran} // current source, units in amperes </pre>
+<ul>
+Independent sources. <tt>n+</tt> and <tt>n-</tt> are the positive and
+negative nodes respectively. Note that voltage sources need not be
+grounded. Positive current is assumed to flow from the positive node,
+through the source, to the negative node. A current source of positive
+value will force current to flow out of the <tt>n+</tt> node, through
+the source, and into the n- node.
+
+<p>Voltage sources, in addition to be used for circuit excitation, are
+the "ammeters" for JSim, that is, zero-value voltage sources may be
+inserted into the circuit for the purpose of measuring current. They
+will, of course, have no effect on circuit operation since they
+represent short-circuits.  Specify <tt>I(V<i>id</i>)</tt> in a 
+<tt>.plot</tt> statement to plot the current through the specified
+voltage source.
+ 
+<p>Any source can be assigned a time-dependent value for transient
+analysis. The t = 0 value is used during DC analysis.  The possible
+specifications for <i>tran</i> are shown below with their default
+values for parameters that aren't specified.
+
+<p><tt>dc(<i>value=0</i>)</tt>
+<ul>
+The source value is constant at <i>value</i>.
+</ul>
+
+<p><tt>impulse(<i>height=1</i>,<i>duration=1n</i>)</tt>
+<ul>
+The source value is an impulse starting at time t=0 with the
+specified <i>height</i> and <i>duration</i> (in seconds).
+</ul>
+
+<p><tt>step(<i>v0=0</i>,<i>v1=1</i>,<i>tdelay=0</i>,<i>ttransition=.1n</i>)</tt>
+<ul>
+The source value is a step from <i>v0</i> to <i>v1</i> starting at time
+<i>tdelay</i> with a transition time of <i>ttransition</i>.
+</ul>
+
+<p><tt>square(<i>v0=0</i>,<i>v1=1</i>,<i>freq=1</i>,<i>duty_cycle=50</i>,<i>ttransition=.1n</i>)</tt>
+<ul>
+The source value is a square wave alternating between <i>v0</i> and <i>v1</i> with the
+specified frequency (in Hz) and duty cycle (in percent).  The duration of the transistions
+is given by <i>ttransition</i>.
+</ul>
+
+<p><tt>clock(<i>v0=0</i>,<i>v1=1</i>,<i>tperiod=100n</i>,<i>duty_cycle=50</i>,<i>ttransition=.1n</i>)</tt>
+<ul>
+Like <tt>square</tt> except one specifies period instead of frequncy.
+</ul>
+
+<p><tt>triangle(<i>v0=0</i>,<i>v1=1></i>,<i>freq=1</i>)</tt>
+<ul>
+The source value is a periodic waveform that ramps from <i>v0</i> to <i>v1</i> then back
+to <i>v0</i> at the specified frequency.
+</ul>
+
+<p><tt>pwl(<i>t0</i>, <i>v0</i>, ...)</tt>
+<ul>
+The source value is a piece-wise linear waveform between the specified (time,value)
+points.  The value remains as the last specified voltage after the last time point.
+</ul>
+
+<p><tt>sin(<i>freq=1</i>,<i>voffset=0</i>,<i>vamplitude=1</i>,<i>tdelay=0</i>,<i>phase=0</i>...)</tt>
+<ul>
+The source value is a sine wave starting a t=<i>tdelay</i> with the specified frequency,
+offset and amplitude and phase offset.  The phase offset is specified in degrees.
+</ul>
+
+</ul>
+
+<p><tt>Wid <i>nodes&hellip;</i> nrz(<i>vlow,vhigh,tperiod,tdelay,trise,tfall</i>) <i>data&hellip;</i> </tt>
+<ul>
+The "W" voltage source generates digital waveforms for many nodes
+(e.g., a bus) at once. If N nodes are specified, think of them as an
+N-bit value where the node names are listed most-significant bit
+first. The "W" source will set those nodes to a sequence of data
+values using the data specified at the end of the "W" statement. At
+each step of the sequence, the N low-order bits of each data value
+will be used to generate the appropriate voltage for each of the N
+nodes. The voltage and timing of the signals is given by the nrz
+parameters:
+<ul>
+<i>vlow</i> voltage used for a logic low value (usually 0) <br>
+<i>vhigh</i> voltage used for a logic high value (usually 3.3V) <br> 
+<i>tperiod</i> interval (in seconds) at which values will be changed <br> 
+<i>tdelay</i> initial delay (in seconds) before periodic value changes start  <br>
+<i>trise</i> rise time (in seconds) for low-to-high transitions  <br>
+<i>tfall</i> fall time (in seconds) for high-to-low transitions  <br>
+</ul>
+Note that the times are specified in seconds, so don't forget to
+specify the appropriate scale factor when entering times!  Note that
+you can specify data values in decimal, hex ("0x" prefix), octal ("0"
+prefix) or binary ("0b" prefix). The last data value is repeated if
+necessary.
+</ul>
+
+<A name="subckt"><h3>User-defined components (subcircuits)</h3></A>
+
+<p>The <tt>.subckt</tt> statement defines a new component.  All
+lines following the <tt>.subckt</tt> up to the matching <tt>.ends</tt> statement
+will be treated as a self-contained subcircuit. This includes internal
+electrical nodes and circuit elements. The only parts of the subcircuit visible to the
+outside world are its terminal nodes which are listed following the
+name of the subcircuit in the <tt>.subckt</tt> statement:
+<pre>    .subckt <i>name terminals&hellip;</i>
+    // internal circuit elements are listed here 
+    .ends 
+</pre>
+
+<p>Once the definitions are complete, you can create an instance of a
+subcircuit using the "X" circuit component:
+<pre>     X<i>id name nodes&hellip;</i>
+</pre>
+ 
+where <i>name</i> is the name of the circuit definition to be used, <i>id</i> is a
+unique name for this instance of the subcircuit and <i>nodes&hellip;</i> are the
+names of electrical nodes that will be hooked up to the terminals of
+the subcircuit instance. There should be the same number of nodes
+listed in the "X" statement as there were terminals in the <tt>.subckt</tt>
+statement that defined <i>name</i>. For example, here's a short netlist that
+instantiates 3 NAND gates (called "g0", "g1" and "g2"):
+<pre>     // Vdd is the power supply node
+     // .global makes it able to be referenced anywhere in the netlist
+     .global vdd 
+     Vdd vdd gnd 3.3V 
+ 
+     // 2-input NAND: inputs are A and B, output is Z 
+     .subckt nand2 a b z 
+     // a local node n1 is created for each instance of nand2
+     N1 z a n1
+     N2 n1 b gnd
+     P1 z a vdd
+     P2 z b vdd
+     .ends 
+ 
+     // instantiate 3 instances of the nand2 prototype subcircuit
+     Xg0 nand2 d0 ctl z0   // z0 = NAND2(d0,ctl)
+     Xg1 nand2 d1 ctl z1   // z1 = NAND2(d1,ctl)
+     Xg2 nand2 d2 ctl z2   // z2 = NAND2(d2,ctl)
+</pre>
+ 
+<p>The node <tt>ctl</tt> connects to all three gates; all the other terminals
+are connected to different nodes.  Note that any nodes that are
+private to the subcircuit definition (i.e., nodes used in the
+subcircuit that don't appear on the terminal list) will be unique for
+each instantiation of the subcircuit. For example, there is a private
+node named "n1" used inside the nand2 definition. When JSim processes
+the three "X" statements above, it will make three independent nodes
+called "Xg0.n1", "Xg1.n1" and "Xg2.n1", one for each of the three
+instances of nand2. There is no sharing of internal elements or nodes
+between multiple instances of the same subcircuit.
+ 
+<p>It is sometimes convenient to define nodes that are shared by the
+entire circuit, including subcircuits; for example, power supply
+nodes. The ground node "gnd" is such a node; all references to "gnd"
+anywhere in the netlist refer to the same electrical node. The example
+netlist defines another shared node called "vdd" which is used
+whenever a connection to the power supply is required.
+ 
+<A name="iterators"><h3>Using iterators to create multiple gates</h3></A>
+
+<p>JSim makes it easy to specify multiple gates with a single "X"
+statement. You can create multiple instances of a device by supplying
+some multiple of the number of nodes it expects, e.g., if a device has
+3 terminals, supplying 9 nodes will create 3 instances of the
+device. To understand how nodes are matched up with terminals
+specified in the .subckt definition, consider a device with P
+terminals. The sequence of nodes supplied as part of the "X" statement
+that instantiates the device are divided into P equal-size contiguous
+subsequences. The first node of each subsequence is used to wire up
+the first device, the second node of each subsequence is used for the
+second device, and so on until all the nodes have been used.
+ 
+<p>For example: 
+<pre>     Xtest xor2 a[2:0] b[2:0] z[2:0]
+</pre>
+is equivalent to 
+<pre>     Xtest_0 xor2 a[2] b[2] z[2]
+     Xtest_1 xor2 a[1] b[1] z[1]
+     Xtest_2 xor2 a[0] b[0] z[0]
+</pre>
+ 
+since xor2 has 3 terminals. There is also a handy way of duplicating a
+signal: specifying <tt>foo#3</tt> is equivalent to specifying <tt>foo foo
+foo</tt>. For example, xor'ing a 4-bit bus with a control signal could be
+written as
+
+<pre>     Xbusctl xor2 in[3:0] ctl#4 out[3:0]
+</pre>
+
+which is equivalent to 
+
+<pre>     Xbusctl_0 xor2 in[3] ctl out[3]
+     Xbusctl_1 xor2 in[2] ctl out[2]
+     Xbusctl_2 xor2 in[1] ctl out[1]
+     Xbusctl_3 xor2 in[0] ctl out[0]
+</pre>
+
+Using iterators and the <tt>constant0</tt> device from the standard cell
+library, here's a good way of connecting cmp[31:1] to ground:
+
+<pre>     Xgnd constant0 cmp[31:1]
+</pre>
+
+Since <tt>constant0</tt> has one terminal and we supply 31 nodes, 31
+copies of the device will be made.
+
+<A name="control"><h3>Control statements</h3></A>
+
+<p><tt>.ac <i>src_name fstart fstop</i></tt>
+<ul>
+Compute the small-signal (AC) response relative to the named voltage
+or current source, sweeping the frequency of the small signal from 
+<i>fstart</i> to <i>fstop</i>.  You can plot the magnitude and
+phase of the response at a particular node using a <tt>.plot</tt>
+statement specifying the nodes you want plotted.
+</ul>
+
+<p><tt>.checkoff "<i>server_url</i>" "<i>assignment</i>" <i>checksum</i></tt>
+<ul>
+When you click <button>Checkoff</button> JSim uses this information to submit
+the design online after performing the verification of your simulation results
+as specified in the <tt>.verify</tt> and <tt>.mverify</tt> statements.
+A checksum is computed from the verification values and compared against
+the specified <i>checksum</i> to ensure the verifications have not been
+modified.  If the <i>checksum</i> is 0, the verifications are performed but
+not online submission is made.
+</ul>
+
+<p><tt>.connect <i>node</i>&hellip;</tt>
+<ul>
+The <tt>.connect</tt> statement is useful for connecting two terminals
+of a subcircuit or for connecting nodes directly to ground. For
+example, the following statement ties nodes cmp1, cmp2, ..., cmp31
+directly to the ground node:
+<pre>     .connect gnd cmp[31:1] 
+</pre>
+Note that the <tt>.connect</tt> control statement in JSim works differently
+than many people expect.  For example,
+<pre>     .connect A[5:0] B[5:0] 
+</pre>
+will connect all twelve nodes (A[5], A[4], ..., A[0], B[5], B[4], ..., B[0])
+together &mdash; usually not what was intended. To connect two busses
+together, one could have entered
+<pre>     .connect A[5] B[5]
+     .connect A[4] B[4]
+     &hellip;
+</pre>
+which is tedious to type. Or one can define a two-terminal device that
+uses <tt>.connect</tt> internally, and then use the usual iteration rules (see
+secton User-defined components) to make many instances of the component with one "X"
+statement:
+<pre>     .subckt knex a b 
+     .connect a b 
+     .ends 
+     X1 knex A[5:0] B[5:0]
+</pre>
+</ul>
+
+<p><tt>.dc <i>source1 start1 stop1 step1</i> {<i>source2 start2 stop2 step2</i>}</tt>
+<ul>
+Compute the operating point point of the circuit as the value of the voltage/current
+source named <i>source1</i> is swept from a value of <i>start1</i> to <i>stop1</i>,
+incrementing by <i>step1</i>.  If a second sweep is specified, the first sweep
+is performed for each specified values of the second voltage/current source.  The
+sequence of operating points for any node can be plotted as a waveform using a
+<tt>.plot</tt> statement.
+</ul>
+
+<p><tt>.ends</tt>
+<ul>
+This control statement marks the end of user-defined subcircuit definition that
+started with the preceeding <tt>.subckt</tt> statement.
+</ul>
+
+<p><tt>.include "<i>filename</i>"</tt>
+<ul>
+Insert the contents of the named file at this point in the circuit description.
+The filename is relative to the root of your file tree.  The insertion is
+performed before any other processing of the JSim source and behaves as if
+you had entered a single large file, so file boundaries have no semantic
+meaning.
+</ul>
+
+<p><tt>.global <i>node</i>&hellip;</tt>
+<ul>
+All the user to reference the named nodes anywhere in the circuit description.
+References to non-global nodes in a subcircuit definition would be treated as
+references to a local node that is newly created for each instance of the
+subcircuit.
+</ul>
+
+<p><tt>.mverify &hellip;</tt>
+<ul>
+Used by a test jig to specify the expected contents of a memory component
+at the end of simulation.
+</ul>
+
+<p><tt>.options <i>oname</i>=<i>value</i>&hellip;</tt>
+<ul>
+Give option <i>oname</i> the specified value &mdash; used to control
+the operation of JSim.
+</ul>
+
+<p><tt>.plot <i>node</i>&hellip;</tt>
+<ul>
+When simulation completes, create a plot of the specified nodes.  See the
+section on Waveform browsing for details.
+</ul>
+
+<p><tt>.plotdef</tt>
+<ul>
+Define a symbolic name for numerical values on a waveform plot.  See the
+section on Waveform browsing for details.
+</ul>
+
+<p><tt>.subckt <i>name nodes&hellip;</i></tt>
+<ul>
+Start the definition of a user-defined component called <i>name</i>.  See the
+section on User-defined components for details.
+</ul>
+
+<p><tt>.tran <i>tstop</i></tt>
+<ul>
+Perform a transient analysis of the circuit (i.e., simulate the circuit
+operation) until t=<i>tstop</i>.  Note that the units are seconds, so
+normally <i>tstop</i> has a value like "1u" to specify a simulation of
+one microsecond of simulated time.
+</ul>
+
+<p><tt>.verify &hellip;</tt>
+<ul>
+Used by a test jig to specify the expected value of a node at different
+times during a simulation.
+</ul>
+
+<A name="waveform"><h3>Waveform browsing</h3></A>
+
+<p>The Simulation pane shows various waveforms in one or more plots.  When
+displaying the results of a transient analysis, there's a separate waveform
+If you want to add a plot simply type in the appropriate node name in the
+<tt>Add plot:</tt> input field followed by <tt>ENTER</tt>.  You can
+also add the name of the node you would like displayed to the
+appropriate <tt>.plot</tt> statement in your netlist and rerun the
+simulation.
+
+<p>If you simply name a node in your circuit, its voltage is
+plotted. You can also ask for the current through a voltage source by
+entering <tt>I(V<i>id</i>)</tt>.
+
+<p>Interpreting analog signal levels as logic values can be tedious.
+JSim will do it for you automatically if you ask to plot <tt>L(a)</tt>
+instead of just <tt>a</tt>.  The logic-high and logic-low thresholds are
+determined by the "vih" and "vil" options:
+<pre>     .options vih=0.8 vil=0.2
+</pre>
+Voltages between <tt>vil</tt> and <tt>vih</tt> are displayed as a
+filled-in rectangle to indicate that the logic value cannot be
+determined.  For example:
+
+<p><center><img src="tools_waveform.png" width="300"></center>
+ 
+<p>You can also ask for the values of a set of signals to be displayed
+as a bus, e.g., "L(a3,a2,a1,a0)".  The signals should be listed
+most-significant bit first.  A bus waveform is displayed as a
+filled-rectangle if any of the component signals has an invalid logic
+level or as a hexadecimal value otherwise.  In the following plot the
+four signals a3, a2, a1 and a0 are interpreted as a 4-bit integer
+where the high-order bit (a3) is making a 1&rarr;0 transition.  The
+filled-in rectangle represents the period of time during which a3
+transitions from VIH to VIL.
+
+<p><center><img src="tools_bus_waveform.png" width="300"></center>
+
+<p>It's also possible to define your own "symbolic" display
+using <tt>.plotdef</tt>, for example:
+<pre>     .plotdef numbers zero one two three four five six seven eight nine ten
+     + eleven twelve thirteen fourteen fifteen
+</pre>
+When you plot a bus using <tt>numbers(&hellip;)</tt>, the value of the
+bus is used as an index into the table of strings and the resulting
+string is displayed in the plot:
+
+<p><center><img src="tools_plotdef.png" width="400"></center>
+
+<p><i>Making Measurements</i>
+
+<p>Each waveform plot has an oscilloscope-like grid in the background
+where the values at each grid line appear on the edge of the plot.
+
+<p>The scrollbar at the bottom of the Simluation pane can be used to
+pan along the horizontal dimension of the plot.  The mouse wheel can
+also be used to pan along the x-axis.
+
+<p>As you move the mouse over a particular waveform plot, a vertical
+cursor show the current x-axis value and, for analog plots, a circular fiducial
+follows the waveforms and displays their values in the plot legend.
+
+<p>To measure an interval on the plot, position the cursor
+at one end of the interval, click and drag the mouse to the other end
+of the interval.  The width of the selected region will be displayed just
+to the upper right of the selected region.
+
+<p>The waveform window has several other buttons on its toolbar:
+
+<table cellpadding=8 class="indent">
+
+<tr><td><img src="zoom.gif" width="32"></td>
+<td>
+surround.  Sets the magnification so that the entire waveform will be
+visible in the plot window.
+</td></tr>
+
+<tr><td><img src="zoomin.gif" width="32"></td>
+<td>
+zoom in. Increases the magnification of the waveform display.  You can
+zoom in around a particular point in a waveform by placing the cursor
+at the point on the waveform where you want to zoom in and double clicking.
+</td></tr>
+
+<tr><td><img src="zoomout.gif" width="32"></td>
+<td>
+zoom out.  Decreases the magnification of the waveform display.
+</td></tr>
+
+<tr><td><img src="zoomsel.gif" width="32"></td>
+<td>
+Set the magnification and pan so that the selected region of the waveform
+fills the plot.
+</td></tr>
+</table>
+
+<A name="codemirror"><h3>CodeMirror Editor Key Bindings</h3></A>
+
+<table border=1 cellpadding=3 class="indent">
+<tr><th>Move</th><th>PC keystroke</th><th>Mac keystroke</th></tr>
+<tr><td>Left one character</td><td>Left</td><td>Left
+<tr><td>Right one character</td><td>Right</td><td>Right</td></tr>
+<tr><td>Up one line</td><td>Up</td><td>Up</td></tr>
+<tr><td>Down one line</td><td>Down</td><td>Down</td></tr>
+<tr><td>Beginning of line</td><td>Home, Alt-Left</td><td>Home, Cmd-Left</td></tr>
+<tr><td>End of line</td><td>End, Alt-Right</td><td>End, Cmd-Right</td></tr>
+<tr><td>Up one page</td><td>Page up</td><td>Page up</td></tr>
+<tr><td>Down one page</td><td>Page down</td><td>Page down</td></tr>
+<tr><td>Beginning of document</td><td>Ctrl-Home, Alt-Up</td><td>Cmd-Up</td></tr>
+<tr><td>End of document</td><td>Ctrl-End, Ctrl-Down</td><td>Cmd-End, Cmd-Down</td></tr>
+<tr><td>Left one group</td><td>Ctrl-Left</td><td>Alt-Left</td></tr>
+<tr><td>Right one group</td><td>Ctrl-Right</td><td>Alt-Right</td></tr>
+
+<tr><th colspan="3">Selection and delete</th></tr>
+<tr><td>Select all</td><td>Ctrl-A</td><td>Cmd-A</td></tr>
+<tr><td>Delete character before cursor</td><td>Backspace</td><td>Backspace</td></tr>
+<tr><td>Delete character after cursor</td><td>Delete</td><td>Delete</td></tr>
+<tr><td>Delete group before cursor</td><td>Ctrl-Backspace</td><td>Alt-Backspace</td></tr>
+<tr><td>Delete group after cursor</td><td>Ctrl-Delete</td><td>Alt-Delete, Ctrl-Alt-Backspace</td></tr>
+<tr><td>Delete line</td><td>Ctrl-D</td><td>Cmd-D</td></tr>
+
+<tr><th colspan="3">Search and replace</th></tr>
+<tr><td>Find</td><td>Ctrl-F</td><td>Cmd-F</td></tr>
+<tr><td>Find next</td><td>Ctrl-G</td><td>Cmd-G</td></tr>
+<tr><td>Find previous</td><td>Shift-Ctrl-G</td><td>Shift-Cmd-G</td></tr>
+<tr><td>Replace</td><td>Shift-Ctrl-F</td><td>Cmd-Alt-F</td></tr>
+<tr><td>Replace all</td><td>Shift-Ctrl-R</td><td>Shift-Cmd-Alt-F</td></tr>
+
+<tr><th colspan="3">Miscellaneous</th></tr>
+<tr><td>Undo</td><td>Ctrl-Z</td><td>Cmd-Z</td></tr>
+<tr><td>Redo</td><td>Ctrl-Y, Shift-Ctrl-Z</td><td>Cmd-Y, Shift-Cmd-Z</td></tr>
+<tr><td>Indent more</td><td>Ctrl-]</td><td>Cmd-]</td></tr>
+<tr><td>Indent less</td><td>Ctrl-[</td><td>Cmd-[</td></tr>
+<tr><td>Toggle overwrite</td><td>Insert</td><td>Insert</td></tr>
+</table>
+
+</body>
+</html>

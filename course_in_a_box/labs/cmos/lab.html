@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head lang="en">
+    <title>Lab 1: CMOS Technology</title>
+    <meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+    <meta name="viewport" content="width=870">
+
+    <script> MathJax = { tex: { inlineMath: [['$','$'],['\\(','\\)']], processEscapes: true}}; </script>
+    <script src="/tools/MathJax/tex-chtml.js" id="MathJax-script" async></script>
+    <script src="/tools/jquery-3.2.1.min.js"></script>
+    <link rel="stylesheet" href="/tools/github.css">
+    <link rel="stylesheet" href="/tools/labs.css">
+    <link rel="stylesheet" href="/tools/font-awesome.css">
+    <script src="/tools/answers.js"></script>
+  </head>
+
+  <body>
+    <article class="markdown-body">
+      <h2>Lab 1: CMOS Technology</h2>
+
+      <p>When entering numeric values in the answer fields, you can use
+      integers (1000, 0x3E8, 0b1111101000), floating-point numbers
+      (1000.0), scientific notation (1e3), engineering scale factors
+      (1K), or numeric expressions (3*300 + 100).</p>
+
+      <p>Useful links:</p>
+      <ul>
+        <li><a href="/labs/tool_docs/jade.html" target="_blank">Introduction to Jade</a></li>
+      </ul>
+
+
+      <h3>Problem 1.  CMOS VTC</h3>
+
+      <p>Recall from lecture that the voltage transfer characteristic (VTC)
+      is computed by setting a gate's input voltage to a sequence of values
+      and measuring the gate's output for each input voltage, waiting until
+      the circuit has reached a steady state.  We'll use the DC sweep
+      capability of Jade to do the measurements and plot the results.</p>
+
+      <p>The schematic below includes a CMOS inverter with its gate
+      controlled by a voltage source (\(V_{GS}\)) whose value will be set
+      to a sequence of values between 0V and 3V by the sweep tool.</p>
+
+      <answer type="iframe" tool_name="Jade" width="100%" height="500" src="/tools/jade_workbook.html"><![CDATA[
+{ "parts": ["/cmos/VTC"],
+  "readonly": "true",
+  "tools": ["sweep"],
+  "editors": ["schematic"],
+  "edit": "/cmos/VTC",
+  "initial_state": {
+"/cmos/VTC":{"properties":{"name":{"edit":"yes","type":"name","value":"","label":"Name"},"Sweep 1_vstart":{"edit":"yes","type":"string","value":"0","label":"Sweep 1_vstart"},"Sweep 1_vstop":{"edit":"yes","type":"string","value":3,"label":"Sweep 1_vstop"},"Sweep 1_vstep":{"edit":"yes","type":"string","value":0.001,"label":"Sweep 1_vstep"},"Sweep 1_source":{"edit":"yes","type":"string","value":"Vgs","label":"Sweep 1_source"},"Sweep 2_vstart":{"edit":"yes","type":"string","value":"","label":"Sweep 2_vstart"},"Sweep 2_vstop":{"edit":"yes","type":"string","value":"","label":"Sweep 2_vstop"},"Sweep 2_vstep":{"edit":"yes","type":"string","value":"","label":"Sweep 2_vstep"},"Sweep 2_source":{"edit":"yes","type":"string","value":"","label":"Sweep 2_source"}},"schematic":[["/analog/pfet",[8,-24,0],{"name":"pfet","W":"8"}],["/analog/nfet",[8,8,0],{"name":"nfet","W":"8"}],["wire",[8,8,0,32,0],{"signal":"out"}],["/analog/v_probe",[40,8,0],{"name":"$/analog/v_probe_1"}],["/analog/v_source",[-112,-16,0],{"name":"Vdd","value":"dc(3)"}],["/analog/v_source",[-48,8,0],{"name":"Vgs","value":"dc(3)"}],["wire",[8,-40,0,-120,0],{"signal":"Vdd"}],["wire",[8,40,0,0,16]],["wire",[-112,56,0,64,0]],["wire",[8,56,0,-56,0]],["ground",[-48,56,0]],["wire",[-48,8,0,32,0],{"signal":"in"}],["wire",[-16,24,0,0,-16]],["wire",[-16,-8,0,0,16]],["wire",[8,-24,0,0,-16]],["wire",[-112,32,0,0,24]],["wire",[-112,-16,0,0,-24]]],"test":[["test",""]]}
+  }
+}
+]]></answer>
+
+      <p>
+      <img src="1.png" width="200" style="margin-left:10px;float:right;"/>
+      In the toolbar above the schematic, click on
+
+      <svg width="16" height="16" viewBox="0 0 16 16">
+        <path d="M 0 14 h 16" stroke="black" stroke-width=".75"/>
+        <path d="M 0 14 L 6 10 16 9" stroke="black" stroke-width=".75" fill="none"/>
+        <path d="M 0 14 L 5 8 8 6 16 4" stroke="black" stroke-width=".75" fill="none"/>
+        <path d="M 0 14 L 4 6 6 4 8 2 16 0" stroke="black" stroke-width=".75" fill="none"/>
+      </svg>
+
+      to run a DC sweep and then click <button>OK</button> to accept the preset sweep
+      parameters.  You should see a plot like the one shown on the right.
+      You can make the plot window bigger by dragging the thumb in the lower
+      right. Moving the mouse over the plot will produce a measurement for
+      each curve at the indicated point.</p>
+
+      <p>We've chosen \(V_{OL}=0.3V\) and \(V_{OH}=2.7V\).
+      Using the VTC (the red curve on the plot, labeled "out"),
+      determine appropriate values for \(V_{IL}\) and \(V_{IH}\).</p>
+
+      <div class="hint">
+        Hint: for a CMOS inverter, choose \(V_{IL}\) so that whenever \(V_{IN} \le V_{IL}\), \(V_{OUT} \ge V_{OH}\).
+        Similarly, choose \(V_{IH}\) so that whenever \(V_{IN} \ge V_{IH}\), \(V_{OUT} \le V_{OL}\).
+      </div>
+
+      <answer type="number" id="1A">
+        <placeholder>&pm;10%</placeholder>
+        <label>maximum value for \(V_{IL}\) (volts)</label>
+      </answer>
+      <answer type="number" id="1B">
+        <placeholder>&pm;10%</placeholder>
+        <label>minimum value for \(V_{IH}\) (volts)</label>
+      </answer>
+
+      <p>With all four voltage specifications in hand, please compute the
+        low and high noise margins:</p>
+
+        <div class="hint">
+          Hint: Recall that the low noise margin is \(V_{IL}-V_{OL}\) and the high noise margin
+          is \(V_{OH}-V_{IH}\).
+        </div>
+
+        <answer type="number" id="1C">
+          <placeholder>&pm;10%</placeholder>
+          <label>low noise margin (volts)</label>
+        </answer>
+        <answer type="number" id="1D">
+          <placeholder>&pm;10%</placeholder>
+          <label>high noise margin (volts)</label>
+        </answer>
+
+      <p>Notice that the low noise margin is much smaller than the high noise
+        margin, compromising the noise immunity of the gate (the noise immunity
+        is smaller of the two noise margins).</p>
+
+      <p>The problem is that the VTC isn't centered because in the
+      manufacturing process we're modeling, n-channel MOSFETs have much
+      better conductance than p-channel MOSFETs.  To compensate, increase
+      the width of the PFET beyond its initial value of 8 by double clicking
+      the PFET in the schematic and changing the value for its scaled width.
+      Experiment with the PFET width to find a value that approximately
+      centers the VTC, i.e., so that the vin and vout curves
+      intersect at \(V_{DD}/2 = 1.5V\).</p>
+
+      <div class="hint">
+        Hint: increasing the width of the PFET will move the VTC to the right.
+      </div>
+
+      <answer type="number" id="1E">
+        <placeholder>&pm;10%</placeholder>
+        <label>PFET width to center VTC</label>
+      </answer>
+
+      <p>Determine new values for \(V_{IL}\) and \(V_{IH}\), then
+        recompute revised low and high noise margins:</p>
+
+        <answer type="number" id="1F">
+          <placeholder>&pm;10%</placeholder>
+          <label>revised low noise margin (volts)</label>
+        </answer>
+        <answer type="number" id="1G">
+          <placeholder>&pm;10%</placeholder>
+          <label>revised high noise margin (volts)</label>
+        </answer>
+
+      <p>Moral of the story: by sizing the MOSFETs so that the VTC is
+        centered, we maximize the noise immunity of the inverter.</p>
+
+      <h3>Problem 2. Contamination and propagation times</h3>
+
+      <p>Let's measure the propagation and contamination times of a
+      CMOS inverter.  To provide realistic input waveforms and output
+      loading, we'll use a chain of 3 CMOS inverters and make our
+      measurements on the output of the middle inverter:</p>
+
+      <answer type="iframe" tool_name="Jade" width="100%" height="500" src="/tools/jade_workbook.html" style="border:none;"><![CDATA[
+{ "parts": ["/cmos/Timing"],
+  "readonly": "true",
+  "tools": ["tran"],
+  "editors": ["schematic"],
+  "edit": "/cmos/Timing",
+  "initial_state": {
+"/cmos/Timing":{"properties":{"readonly":"true","name":{"edit":"yes","type":"name","value":"","label":"Name"},"tran_tstop":{"edit":"yes","type":"string","value":"25n","label":"tran_tstop"}},"schematic":[["/analog/pfet",[-16,-40,0],{"name":"/analog/pfet_1","W":"8"}],["/analog/nfet",[-16,-8,0],{"name":"/analog/nfet_1","W":"8"}],["/analog/pfet",[48,-40,0],{"W":"8","name":"/analog/pfet_2"}],["/analog/nfet",[48,-8,0],{"W":"8","name":"/analog/nfet_2"}],["/analog/pfet",[112,-40,0],{"W":"8","name":"/analog/pfet_3"}],["/analog/nfet",[112,-8,0],{"W":"8","name":"/analog/nfet_3"}],["wire",[112,-8,0,24,0],{"signal":"out3"}],["wire",[88,-24,0,0,16]],["wire",[88,8,0,0,-16]],["/analog/v_source",[-96,-8,0],{"name":"Vin","value":"clock(0,3,20n)"}],["/analog/v_source",[-136,-24,0],{"name":"Vdd","value":"dc(3)"}],["wire",[-136,-24,0,0,-32]],["wire",[-16,-40,0,0,-16]],["wire",[48,-40,0,0,-16]],["wire",[112,-40,0,0,-16]],["wire",[112,24,0,0,16]],["wire",[48,24,0,0,16]],["wire",[-16,24,0,0,16]],["wire",[-40,-24,0,0,16]],["wire",[-40,8,0,0,-16]],["wire",[-136,24,0,0,16]],["wire",[-16,40,0,-80,0]],["wire",[-96,40,0,-40,0]],["wire",[-16,-56,0,-120,0]],["wire",[-40,-8,0,-56,0],{"signal":"in"}],["/analog/v_probe",[-8,-8,0],{"name":"/analog/v_probe_1","color":"cyan"}],["wire",[24,-24,0,0,16]],["wire",[24,8,0,0,-16]],["wire",[-16,-8,0,8,0]],["wire",[-8,-8,0,32,0],{"signal":"out1"}],["/analog/v_probe",[56,-8,0],{"name":"/analog/v_probe_2","color":"magenta"}],["wire",[48,-8,0,8,0]],["wire",[88,-8,0,-32,0],{"signal":"out2"}],["wire",[112,40,0,-64,0]],["wire",[112,-56,0,-64,0]],["wire",[48,-56,0,-64,0]],["ground",[0,40,0]],["wire",[48,40,0,-48,0]],["wire",[-16,40,0,16,0]]],"test":[["test",""]]}
+  }
+}
+]]></answer>
+
+      <p>
+      <img src="2.png" width="200" style="margin-right:10px;float:right;"/>
+      Click on
+
+      <svg width="16" height="16" viewBox="0 0 16 16">
+        <path d="M 12 0 v 4 h -4 v 8 h 4 v 4" stroke="black" fill="none"/>
+        <path d="M 5 4 v 8 M 5 8 h -4" stroke="black" fill="none"/>
+      </svg>
+
+      to run a device-level transient simulation, then click
+      <button>OK</button> to accept the preset 25ns simulation time.  On the
+      resulting plot, zoom in on the first input transition, which should
+      give you a plot like the one shown to the right.  To zoom in: double-click
+      on one of the plots (it doesn't matter which) at the time where you
+      want to zoom in &mdash; each double-click will increase the horizontal
+      magnification, but keep the plot stable at the time the mouse is
+      pointing to.</p>
+
+      <p>For these measurements, use the following voltage specifications:</p>
+
+      $$V_{OL}=0.3V,V_{IL}=1.1V, V_{IH}=1.8V, V_{OH}=2.7V$$
+
+      <p>We'll start by measuring the contamination and propagation times for
+      the falling input transition at t=10ns.  The contamination time is the delay
+      from when the input becomes <i>invalid</i> as it crosses
+      \(V_{IH}\) and when the output becomes <i>invalid</i> as it
+      crosses \(V_{OL}\).  The propagation time is the delay from when
+      the input becomes <i>valid</i> as it crosses \(V_{IL}\) and when
+      the output becomes <i>valid</i> as it crosses \(V_{OH}\).</p>
+
+      <div class="hint">Hint: For easier and more accurate measurements, use
+        the thumb in the lower right-hand corner of the plot to make the plot
+        wider.
+
+        <p/>To make the \(t_{C}\) measurement, mouse over the plots
+        until the vertical plot cursor is at approximately \(V_{IH}=1.8V\)
+        on the input waveform (out1).  Click and drag right until the vertical
+        cursor is at approximately \(V_{OL}=0.3V\) on the output waveform
+        (out2).  The delay is the width of the shaded region, as reported at the
+        upper right of the region. The other measurements can be made in the
+        same way.</div>
+
+      <answer type="number" id="2A">
+        <placeholder>&pm;20%</placeholder>
+        <label>\(t_{C,1}\) falling input (picoseconds)</label>
+      </answer>
+      <answer type="number" id="2B">
+        <placeholder>&pm;20%</placeholder>
+        <label>\(t_{P,1}\) falling input (picoseconds)</label>
+      </answer>
+
+      <p>Now measure the contamination and propagation times for the
+        rising input transition at t=20ns.  This time the contamination time is the delay
+        from when the input becomes <i>invalid</i> as it crosses
+        \(V_{IL}\) and when the output becomes <i>invalid</i> as it
+        crosses \(V_{OH}\).  The propagation time is the delay from when
+        the input becomes <i>valid</i> as it crosses \(V_{IH}\) and when
+        the output becomes <i>valid</i> as it crosses \(V_{OL}\).</p>
+
+        <answer type="number" id="2C">
+          <placeholder>&pm;30%</placeholder>
+          <label>\(t_{C,2}\) rising input (picoseconds)</label>
+        </answer>
+        <answer type="number" id="2D">
+          <placeholder>&pm;20%</placeholder>
+          <label>\(t_{P,2}\) rising input (picoseconds)</label>
+        </answer>
+
+      <p>We now have two measurements each for the contamination and
+        propagation times.  To arrive at the \(t_{CD}\) and \(t_{PD}\)
+        specifications for this inverter, choose the appropriate measurement
+        remembering that \(t_{CD}\) is a <i>lower bound</i> on the measured
+        contamination times and \(t_{PD}\) is an <i>upper bound</i> on the
+        measured propagation times.  In real life, one would need measurements
+        across the range of environment conditions (e.g., power supply voltage),
+        input rise/fall times and possible output loadings.  But, using just
+        the two measurements we have:</p>
+
+        <answer type="number" id="2E">
+          <placeholder>&pm;30%</placeholder>
+          <label>\(t_{CD}\) (picoseconds)</label>
+        </answer>
+        <answer type="number" id="2F">
+          <placeholder>&pm;20%</placeholder>
+          <label>\(t_{PD}\) (picoseconds)</label>
+        </answer>
+
+      <h3>Problem 3.  CMOS buffers?</h3>
+
+      <p>In building CMOS gates, we follow the rule of using only NFETs
+      in the pulldown circuits and only PFETs in the pullup circuits.  But
+      why do we have that rule?  Suppose we tried to build a CMOS buffer
+      using an NFET pullup and PFET pulldown &mdash; what bad thing would happen?</p>
+
+      <p>To find out, let's run an experiment!  In the schematic below,
+      the chain of three inverters from Question 2 have been changed to
+      a chain of three CMOS buffers by interchanging the NFETs and PFETs.</p>
+
+      <answer type="iframe" tool_name="Jade" width="100%" height="500" src="/tools/jade_workbook.html" style="border:none;"><![CDATA[
+{ "parts": ["/cmos/Buffers"],
+  "readonly": "true",
+  "tools": ["tran"],
+  "editors": ["schematic"],
+  "edit": "/cmos/Buffers",
+  "initial_state": {
+"/cmos/Buffers":{"properties":{"readonly":"true","name":{"edit":"yes","type":"name","value":"","label":"Name"},"tran_tstop":{"edit":"yes","type":"string","value":"40n","label":"tran_tstop"}},"schematic":[["/analog/pfet",[-16,-8,0],{"name":"pfet_1","W":"8"}],["/analog/nfet",[-16,-40,0],{"name":"nfet_1","W":"8"}],["/analog/pfet",[48,-8,0],{"W":"8","name":"pfet_2"}],["/analog/nfet",[48,-40,0],{"W":"8","name":"nfet_2"}],["/analog/pfet",[112,-8,0],{"W":"8","name":"pfet_3"}],["/analog/nfet",[112,-40,0],{"W":"8","name":"nfet_3"}],["wire",[88,-24,0,0,16]],["wire",[88,8,0,0,-16]],["/analog/v_source",[-96,-8,0],{"name":"Vin","value":"clock(0,3,20n)"}],["/analog/v_source",[-136,-24,0],{"name":"Vdd","value":"dc(3)"}],["wire",[-136,-24,0,0,-32]],["wire",[-16,-40,0,0,-16]],["wire",[48,-40,0,0,-16]],["wire",[112,-40,0,0,-16]],["wire",[112,24,0,0,16]],["wire",[48,24,0,0,16]],["wire",[-16,24,0,0,16]],["wire",[-40,-24,0,0,16]],["wire",[-40,8,0,0,-16]],["wire",[-136,24,0,0,16]],["wire",[-16,40,0,-80,0]],["wire",[-96,40,0,-40,0]],["wire",[-16,-56,0,-120,0]],["wire",[-40,-8,0,-56,0],{"signal":"in"}],["/analog/v_probe",[-8,-8,0],{"name":"v_probe_1","color":"cyan"}],["wire",[24,-24,0,0,16]],["wire",[24,8,0,0,-16]],["wire",[-16,-8,0,8,0]],["wire",[-8,-8,0,32,0],{"signal":"out1"}],["/analog/v_probe",[56,-8,0],{"name":"v_probe_2","color":"magenta"}],["wire",[48,-8,0,8,0]],["wire",[88,-8,0,-32,0],{"signal":"out2"}],["wire",[112,40,0,-64,0]],["wire",[112,-56,0,-64,0]],["wire",[48,-56,0,-64,0]],["ground",[0,40,0]],["wire",[48,40,0,-48,0]],["wire",[-16,40,0,16,0]],["/analog/v_probe",[120,-8,0],{"name":"v_probe_3","color":"blue"}],["wire",[112,-8,0,8,0]],["wire",[136,-8,0,-16,0],{"signal":"out3"}],["text",[-65,-73,0],{"text":"CMOS buffers?","font":"12pt sans-serif"}]],"test":[["test",""]]}
+  }
+}
+]]></answer>
+
+      <p>Running a 40ns device-level transient simulation, you should see a plot like:</p>
+
+      <p style="text-align: center;"><img src="3.png"/></p>
+
+      <p>Hmm.  Measure (approximately) the lowest and highest voltages
+      observed for out1, out2 and out3:</p>
+
+      <answer type="number" id="3A">
+        <placeholder>&pm;10%</placeholder>
+        <label>lowest observed voltage for out1 (volts)</label>
+      </answer>
+      <answer type="number" id="3B">
+        <placeholder>&pm;10%</placeholder>
+        <label>highest observed voltage for out1 (volts)</label>
+      </answer>
+      <answer type="number" id="3C">
+        <placeholder>&pm;10%</placeholder>
+        <label>lowest observed voltage for out2 (volts)</label>
+      </answer>
+      <answer type="number" id="3D">
+        <placeholder>&pm;10%</placeholder>
+        <label>highest observed voltage for out2 (volts)</label>
+      </answer>
+      <answer type="number" id="3E">
+        <placeholder>&pm;10%</placeholder>
+        <label>lowest observed voltage for out3 (volts)</label>
+      </answer>
+      <answer type="number" id="3F">
+        <placeholder>&pm;10%</placeholder>
+        <label>highest observed voltage for out3 (volts)</label>
+      </answer>
+
+      <p>What's going on?  First note that the power supply (\(V_{DD}\))
+        voltage is 3V and that an NFET is "off" when its \(V_{GS} =
+        V_{G} - V_{S}\) is less than or equal to \(V_{TH}\),
+        which is 0.5V in the manufacturing process we're modeling.</p>
+
+      <p>Think about the NFET pullup in the first buffer in the chain: its
+      gate is the node <tt>in</tt>, its drain is <tt>vdd</tt> and its source
+      is <tt>out1</tt>.  The NFET pullup is "on" until its \(V_{GS}\)
+      falls below 0.5V.  When <tt>in</tt> is at 3V and the NFET's source
+      node <tt>out1</tt> reaches 2.5V, the NFET turns off and the source
+      node voltage can raise no higher.  So \(V_{OH}\) for the first
+      buffer is only 2.5V, a "threshold drop" below the power supply
+      voltage.</p>
+
+      <p><tt>out1</tt> is the input node for the second buffer in the chain,
+      hooked to gate node of the second NFET pullup.  The second pullup
+      turns off when its \(V_{GS}\) falls below 0.5, but now
+      \(V_{G}\) is only 2.5V, so \(V_{OH}\) for <tt>out2</tt>, the output
+      of the second buffer, is only 2.0V, <i>two</i> threshold drops below
+      the power supply voltage.  We're slowly losing ground here &mdash; the
+      threshold drops are accumulating!</p>
+
+      <p>By the time we get to the third buffer in the chain, its output
+      is <i>three</i> threshold drops below the power supply voltage
+      of 3V, so its output is unchanging at 1.5V.</p>
+
+      <p>A similar argument applies to the "threshold raises" induced by the
+      PFET pulldowns and the \(V_{OL}\) for each buffer increases by a threshold
+      as we go down the chain.</p>
+
+      <p>This is why we don't use PFETs in pulldown circuits or NFETs in
+      pullup circuits &mdash; in that configuration we observe threshold drops
+      in the max and min output voltages, which accumulate and cause the
+      buffers to produce meaningless outputs.</p>
+
+      <h3>Problem 4.  Design Problem: CMOS gate design</h3>
+
+        <div class="hint">Before using Jade, our schematic entry and
+          circuit simulation tool, you may find it
+          useful to watch the short demonstration video and read the
+          "Quick Start" section of the
+          <A href="../tool_docs/jade.html" target="_blank">Jade documentation</A>.
+        </div>
+
+      <p>Your mission this week is to design and test a circuit that
+      implements the function \(F(A,B,C) = C + A\cdot B\)
+      using one or more CMOS gates built from NFETs and PFETs.  The truth
+      table for F is shown below:</p>
+
+      <style>
+        .truth-table {
+            border-collapse:collapse;
+        }
+        .truth-table td,
+        .truth-table th {
+            text-align: center;
+            padding: 2px;
+            width: 2em;
+        }
+        .truth-table th {
+            text-align: center;
+            border-bottom: 1px solid black;
+        }
+        .truth-table .br {
+            border-right: 1px solid black;
+        }
+      </style>
+      <p><center><table class="truth-table">
+          <tr><th>A</th><th>B</th><th class="br">C</th><th>F(A,B,C)</th></tr>
+          <tr><td>0</td><td>0</td><td class="br">0</td><td>0</td></tr>
+          <tr><td>0</td><td>0</td><td class="br">1</td><td>1</td></tr>
+          <tr><td>0</td><td>1</td><td class="br">0</td><td>0</td></tr>
+          <tr><td>0</td><td>1</td><td class="br">1</td><td>1</td></tr>
+          <tr><td>1</td><td>0</td><td class="br">0</td><td>0</td></tr>
+          <tr><td>1</td><td>0</td><td class="br">1</td><td>1</td></tr>
+          <tr><td>1</td><td>1</td><td class="br">0</td><td>1</td></tr>
+          <tr><td>1</td><td>1</td><td class="br">1</td><td>1</td></tr>
+      </table></center></p>
+
+      <p>Your circuit must contain <b>no more than 8 MOSFETs</b>.  Remember
+      that <b>NFETs should only be used in pulldown circuits</b> and
+      <b>PFETs should only be used in pullup circuits</b>.</p>
+
+      <div class="hint"> Hint: using six MOSFETs, implement the complement of
+        F as one large CMOS gate and then use the remaining two MOSFETs to
+        invert the output of your large gate.
+      </div>
+
+      <p>Please implement \(F = C + A\cdot B\).</p>
+
+        <answer type="window" tool_name="Jade" id="4" height="500" src="/tools/jade_workbook.html"><![CDATA[
+{ "parts": ["/analog/[np]fet","/cmos/F"],
+  "tools": ["check"],
+  "editors": ["schematic","test"],
+  "edit": "/cmos/F",
+  "required-tests": ["eac1e121c506fa7fb41935b78d6b472a"],
+  "initial_state": {
+"/cmos/F":{"properties":{"test-readonly": "true","name":{"edit":"yes","type":"name","value":"","label":"Name"}},"schematic":[["port",[-96,-16,0],{"signal":"A"}],["port",[-96,16,0],{"signal":"C"}],["port",[-96,0,0],{"signal":"B"}],["port",[88,0,4],{"signal":"F","direction":"out"}],["vdd",[0,-40,0]],["ground",[0,48,0]]],"icon":[["terminal",[-32,-24,0]],["terminal",[-32,-8,0]],["terminal",[-32,8,0]],["terminal",[8,-8,4]],["text",[-12,-8,0],{"text":"F","font":"12pt bold serif","align":"center"}],["line",[-24,16,0,0,-48]],["line",[-24,-32,0,24,0]],["line",[0,-32,0,0,48]],["line",[0,16,0,-24,0]]],"test":[["test",".power Vdd=1\n.thresholds Vol=0 Vil=0.1 Vih=0.9 Voh=1\n\n.group inputs A B C\n.group outputs F\n\n.cycle assert inputs tran 9n sample outputs tran 1n\n000 L\n001 H\n010 L\n011 H\n100 L\n101 H\n000 L\n110 H\n000 L\n111 H\n\n.plot A\n.plot B\n.plot C\n.plot F\n.plot I(Vdd)\n"]]}
+  }
+}
+]]></answer>
+
+        <div class="hint"> Hint: When debugging it can be very helpful to see
+          the waveform for some node internal to your circuit.  You can add plots by
+          entering the name of a node in the "Add plot:" input field in the plot window
+          followed by ENTER.  Note that node names are not case sensitive.
+        </div>
+
+      <p>Note that it is possible to design a gate where the pulldown and
+      pullup circuitry is not complementary and still pass the tests! This
+      happens because an NFET is much "stronger" (i.e. has a larger \(I_{DS}\))
+      than a PFET with the same width. So if a bug in the design leads to
+      both the pulldown and pullup conducting, the pulldown path can
+      overwhelm the pullup path and the gate will appear to work correctly.</p>
+
+      <p>Of course, in the buggy circuit, when both the pulldown and pullup
+      are conducting, there's basically short between power and ground, and
+      a lot of power is dissipated! The test includes a plot of I(Vdd), the
+      current supplied by the power supply. If your gate design is fully
+      complementary, the plot of I(Vdd) will look something like</p>
+
+      <p style="text-align: center;"><img src="16.png" width="500"/></p>
+
+      <p>We can see on the plot that the current flowing out of the power
+      supply returns to 0 after all the internal nodes have finished their
+      transitions.</p>
+
+      <p>But if the gate is not complementary, current flows continuously
+      &mdash; look at the plot below between 10ns and 20ns.  In this buggy
+      circuit, the pulldown and pullup are both conducting, providing a
+      continuous path between \(V_{DD}\) and GND.  This isn't what we want!  So if
+      you see this behavior in your circuit, please change your gate design
+      so that the pulldown and pullup paths are complementary.</p>
+
+      <p style="text-align: center;"><img src="17.png" width="500"/></p>
+
+      <p>To complete this design problem, click
+      <i class="fa fa-check" style="color:green;"> </i>
+      in the Jade toolbar and the
+      built-in tester will either report any discrepencies between the
+      expected and actual outputs, or, if your design is correct, it will
+      record the test passed.</p>
+
+      <div class="xyzzy">
+        69bba90c3245925c277b9fc8a336f70f84d7cfe2d5c7c13f1853f2ba086ca248a351136c34e4687d34ce501f778446a6393350e266e556ba1cabda85bfc02e3198e2ee5fdafd5239f06ac1456bb8af77d1da7e6f89855906d219d7bb128f61a79747484e40fb6332fb3fa518723190ed11d04c30177d1edd7dfdbf846055e1e7252b289ac2e1156e2536a4d264ed3acab28b9087a9b13b2c46242adab612840b859923b1e29fb3820b2bd01eb612840b859923b12cc5b819f920d69b1f743c1490a12fbc15087351de68e5d73e104e9ddd469474c43d75efed6142605bfb007dcba950ee0b0e03c628e61a01b3c0a6dc197e870e1f743c1490a12fbc51df2137f765a3c375cbfc4b0e49ec606e44f37d05cacdfce47b693de11397aab9d9bda44b8d851f7583b441c5447aea
+      </div>
+    </article>
+  </body>
+</html>

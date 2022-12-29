@@ -7,8 +7,8 @@ md_prologue = b"""<!DOCTYPE html>
   <head>
     <title>Computation Structures</title>
     <script> MathJax = { tex: { inlineMath: [['$','$']]}}; </script>
-    <script src="/MathJax/tex-chtml.js" id="MathJax-script" async></script>
-    <link rel="stylesheet" href="/github.css"/>
+    <script src="/tools/MathJax/tex-chtml.js" id="MathJax-script" async></script>
+    <link rel="stylesheet" href="/tools/github.css"/>
   </head>
   <body>
     <article class="markdown-body">

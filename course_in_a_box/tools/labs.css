@@ -1,0 +1,146 @@
+.xyzzy {
+    display: none;
+}
+.answer {
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
+    padding: 5px;
+    background-color: #FFD9A1;
+}
+.answer-right {
+    background-color: transparent;
+}
+.answer-row {
+    display: table;
+    width: 100%;
+}
+.answer-label {
+    display: table-cell;
+    width: 1px;
+    padding-right: 0.25em;
+    vertical-align: middle;
+    white-space: nowrap;
+}
+.answer-text-input {
+    display: table-cell;
+    width: 100%;
+    background-color: white;
+    vertical-align: middle;
+    font-size: 16px;
+}
+.answer-choice-input {
+    display: table-cell;
+    width: 100%;
+    vertical-align: top;
+    font-size: 16px;
+    border-left: 1px solid black;
+    padding-left: 0.5em;
+    margin-left: 0.5em;
+}
+.answer-check {
+    display: table-cell;
+    width: 16px;
+    padding-left: 0.5em;
+    font-size: 20px;
+    vertical-align: middle;
+}
+.answer-right .answer-check::before {
+    content: "\2714";
+    color: green;
+}
+.answer-wrong .answer-check::before {
+    content: "\2718";
+    color: red;
+}
+.answer-window {
+    margin: 1em;
+    text-align: center
+}
+.answer-window a {
+    text-decoration: none;
+    padding: 5px;
+    background-color: black;
+    color: white;
+    font-face: bold;
+    font-size: large;
+    border: 1px solid black;
+    border-radius: 4px;
+}
+.answer-window a.open {
+    background-color: white;
+    color: black;
+}
+pre.jsim {
+    margin: 10px;
+    padding: 10px;
+    background-color: rgb(255,253,227);
+}
+div.hint {
+    margin: 10px;
+    padding: 10px;
+    background-color: rgb(240,255,240);
+    border: 1px solid rgb(176,192,176);
+}
+.answer-message {
+    color: blue;
+}
+.plot-container {
+    background-color: #EEEEEE;
+    line-height: 1;
+}
+.plot-container:active, .plot-container:focus {
+    cursor: default;
+}
+.plot-canvas {
+    display: block;
+}
+.plot-toolbar {
+    line-height: 25px;
+    cursor: default;
+    margin-bottom: 5px;
+}
+.plot-tool {
+    padding: 2px;
+    border: 1px solid #EEEEEE;
+    vertical-align: middle;
+    font: small-caps small sans-serif;
+    opacity: 0.2;
+}
+.plot-tool-spacer {
+    display: inline;
+    padding-left: 1em;
+}
+.plot-tool-enabled {
+    opacity: 1.0;
+}
+.plot-tool-enabled:hover {
+    border-color: #000;
+}
+.plot-tool-enabled:active {
+    background-color: #CCCCCC;
+}
+.plot-scrollbar-wrapper {
+    height: 20px;
+}
+.plot-scrollbar {
+    height: 10px;
+    border: 1px solid #CCCCCC;
+    margin-top: 4px;
+    margin-bottom: 4px;
+}
+.plot-scrollbar-thumb {
+    background-color: #888888;
+    border-radius: 4px;
+    height: 8px;
+    margin-top: 1px;
+    margin-bottom: 1px;
+    display: none;
+    cursor: pointer;
+}
+iframe.tool {
+    width: 700px;
+    height: 400px;
+    border: 1px solid black;
+    resize:both;
+    overflow: auto;
+}

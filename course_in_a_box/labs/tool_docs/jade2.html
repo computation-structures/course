@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Jade Documentation</title>
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css"/>
+<style>
+body {
+  width: 650px;
+  font: 16px/1.5 Georgia,serif;
+}
+table {
+  border-collapse: collapse;
+}
+table.indent {
+  margin-left: 3em;
+}
+table tr {
+  vertical-align: top;
+}
+</style>
+</head>
+<body>
+<h3>Introduction to Jade</h3>
+
+<p>Jade (JAvascript Design Environment) supports schematic entry and
+circuit simulation at both the device- and gate-level.  The basic
+element of a Jade design is a named <i>module</i>, which can include
+various <i>aspects</i>:
+
+<ul>
+<span style="font-variant: small-caps">schematic</span>: a graphical
+representation of the module's circuit containing instances of other
+other modules connected by wires.  Jade includes two libraries of
+primitive modules: /analog, a set of device-level components supported
+by device-level simulation, and /gates, a set of gate-level components
+supported by gate-level simulation.  There are also some basic
+built-in components: connections to ground and power, input/output
+ports, jumpers, multi-port memories, and descriptive text.
+
+<p><span style="font-variant: small-caps">icon</span>: a graphical
+representation for instances of this module appearing in the
+schematics of other modules.  The icon can include lines, arcs, circles,
+descriptive text, terminals, and a text rendering of the instance's
+properties.  There should a terminal instance for each input/output connection;
+the rest of the icon elements are purely decorative.
+
+<p><span style="font-variant: small-caps">properties</span>: a list
+of key/value pairs providing useful information about the module.  Property
+values can be set separately for each instance of the module and have a
+default value if they have not been specified for a particular instance.
+All modules have a "name" property, used to uniquely identify each
+instance.  Other properties are used during simulation, e.g., the
+Resistance property of the /analog/resistor module specifies the resistance
+of this particular instance of the module.
+
+<p><span style="font-variant: small-caps">test</span>: an optional unit test for
+the module, which uses the simulator to verify the functionality of the module's
+circuit.  The test can specify a timed sequence of input values and,
+for each set of inputs, specify the expected output values.
+
+</ul>
+
+<p><b>Jade window</b>
+
+<p>If enabled for this Jade instance, use the module selection box to choose which module to edit (or
+double click the corresponding component in the parts bin).  The
+module tools let you create a new module (<i class="fa fa-edit"></i>),
+make a copy of the current module under a new name
+(<i class="fa fa-copy"></i>), delete the current module
+(<i class="fa fa-trash"></i>), save all the modules in the
+browser's local storage (<i class="fa fa-download"></i>), or select previously
+saved modules to load into the current workspace (<i class="fa fa-upload"></i>).
+
+<p>The editor tabs select which aspect to edit --
+the instructor chooses which tabs will be shown for each Jade instance.  The different
+editors are described below.
+
+<p>A status window for tool tips and error messages appears below the editor tabs.
+
+<p><b>Schematics</b>
+
+<p>Schematics are circuit diagrams containing components whose terminals are
+connected by wires to the terminals of other components.  The schematic editor
+has a toolbar at the top, with a schematic canvas below, and, on the right, a
+parts bin of components available to be added the schematic.  The
+instructor chooses which parts will appear in the parts bin for each Jade instance.
+
+<p><i>Components:</i>
+
+<ul>
+<li> to <b>add</b> a component to the diagram, click on the component in the parts
+bin and drag it into the schematic.
+
+<p><li> click to <b>select</b> a component, shift-click to add or remove a component
+from the current selection.  You can also click or shift-click on the schematic
+background, then drag out a selection rectangle which will select any component
+that intersects the rectangle.  You can use the editing tools on the left of
+toolbar above the schemetic to manipulate the currently selected components:
+<ul>
+<p><li> <b>cut</b> (<i class="fa fa-cut"></i>) moves the selection from the schematic to the clipboard (or
+type ctrl/cmd X).  Typing DEL will delete the current selection.
+<p><li> <b>copy</b> (<i class="fa fa-copy"></i>) copies the selection to the clipboard, leaving the selected
+components unchanged (or type ctrl/cmd C)
+<p><li> <b>flip</b> the component horizontally (<i class="fa fa-arrows-h"></i>)
+or vertically (<i class="fa fa-arrows-v"></i>),
+or <b>rotate</b> (<i class="fa fa-rotate-left"></i>, <i class="fa fa-rotate-right"></i>)
+in either direction by 90 degrees.
+</ul>
+<p>You can <b>paste</b> (<i class="fa fa-paste"></i>) the current contents of the clipboard into the schematic
+(or type ctrl/cmd V).
+<p>You can click-and-drag the current selection to <b>move</b> it.
+
+<p><li> double-click a component to <b>edit its properties</b>.
+
+<p><li>You can <b>undo</b> (<i class="fa fa-reply"></i>) or <b>redo</b>
+(<i class="fa fa-share"></i>) an editing action.
+
+</ul>
+
+<p><i>Wires:</i>
+
+<ul>
+
+</ul>
+
+</body>
+</html>

@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Standard Cell Library</title>
+<style>
+body {
+  width: 650px;
+  font: 14px/1.5 Georgia,serif;
+}
+table {
+  border-collapse: collapse;
+}
+table.indent {
+  margin-left: 3em;
+}
+table tr {
+  vertical-align: top;
+}
+table#cells td {
+  font-family: monospace;
+  white-space: nowrap;
+}
+</style>
+</head>
+<body>
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+<h3>Standard Cell Library</h3>
+
+<p>The Standard Cell Library defines a set of logic gates, latches
+and registers to be used when doing gate-level simulation.  These gates are simulated using Jade's
+built-in logic primitives, rather than as pullup and pulldown networks of FETs.  The resulting
+increase in simulation speed makes it possible to simulate very large digital designs.
+
+<p>Each library element includes information about its timing specifications and size, used
+by the gate-level simulator to determine the performance and total size of your design.  This
+information is based on a 180nm CMOS process, which is now out of date!  Current state-of-the-art
+processes have sub-20nm features.
+
+<p><table id="cells" border=1 cellpadding=3>
+<tr>
+  <th>Module</th>
+  <th>Function</th>
+  <th>t<sub>CD</sub> (ns)</th>
+  <th>t<sub>PD</sub> (ns)</th>
+  <th>t<sub>R</sub> (ns/pf)</th>
+  <th>t<sub>F</sub> (ns/pf)</th>
+  <th>load (pf)</th>
+  <th>size (&mu;<sup>2</sup>)</th>
+</tr>
+<tr>
+  <td><tt>/gates/inverter</tt></td>
+  <td>\(z = \overline{a}\)</td>
+  <td align="center">0.005</td>
+  <td align="center">0.02</td>
+  <td align="center">2.30</td>
+  <td align="center">1.20</td>
+  <td align="center">0.007</td>
+  <td align="center">10</td>
+</tr>
+<tr>
+  <td><tt>/gates/buffer</tt></td>
+  <td rowspan="2">\(z = a\)</td>
+  <td align="center">0.020</td>
+  <td align="center">0.08</td>
+  <td align="center">2.20</td>
+  <td align="center">1.20</td>
+  <td align="center">0.003</td>
+  <td align="center">13</td>
+</tr>
+<tr>
+  <td><tt>/gates/buffer_h</tt></td>
+  <td align="center">0.020</td>
+  <td align="center">0.07</td>
+  <td align="center">1.10</td>
+  <td align="center">0.60</td>
+  <td align="center">0.005</td>
+  <td align="center">17</td>
+</tr>
+<tr>
+  <td><tt>/gates/tristate</tt></td>
+  <td>\(z = \left\{
+      \begin{array}{ll}
+         a & e=1\\
+         \textrm{not driven} & e = 0
+      \end{array}
+      \right.\)</td>
+  <td align="center">0.030</td>
+  <td align="center">0.15</td>
+  <td align="center">2.30</td>
+  <td align="center">1.30</td>
+  <td align="center">0.004</td>
+  <td align="center">23</td>
+</tr>
+<tr>
+  <td><tt>/gates/and2</tt></td>
+  <td>\(z = a \cdot b\)</td>
+  <td align="center">0.030</td>
+  <td align="center">0.12</td>
+  <td align="center">4.50</td>
+  <td align="center">2.30</td>
+  <td align="center">0.002</td>
+  <td align="center">13</td>
+</tr>
+<tr>
+  <td><tt>/gates/and3</tt></td>
+  <td>\(z = a \cdot b \cdot c\)</td>
+  <td align="center">0.030</td>
+  <td align="center">0.15</td>
+  <td align="center">4.50</td>
+  <td align="center">2.60</td>
+  <td align="center">0.002</td>
+  <td align="center">17</td>
+</tr>
+<tr>
+  <td><tt>/gates/and4</tt></td>
+  <td>\(z = a \cdot b \cdot c \cdot d\)</td>
+  <td align="center">0.030</td>
+  <td align="center">0.16</td>
+  <td align="center">4.50</td>
+  <td align="center">2.50</td>
+  <td align="center">0.002</td>
+  <td align="center">20</td>
+</tr>
+<tr>
+  <td><tt>/gates/nand2</tt></td>
+  <td>\(z = \overline{a \cdot b}\)</td>
+  <td align="center">0.010</td>
+  <td align="center">0.03</td>
+  <td align="center">4.50</td>
+  <td align="center">2.80</td>
+  <td align="center">0.004</td>
+  <td align="center">10</td>
+</tr>
+<tr>
+  <td><tt>/gates/nand3</tt></td>
+  <td>\(z = \overline{a \cdot b \cdot c}\)</td>
+  <td align="center">0.010</td>
+  <td align="center">0.05</td>
+  <td align="center">4.20</td>
+  <td align="center">3.00</td>
+  <td align="center">0.005</td>
+  <td align="center">13</td>
+</tr>
+<tr>
+  <td><tt>/gates/nand4</tt></td>
+  <td>\(z = \overline{a \cdot b \cdot c \cdot d}\)</td>
+  <td align="center">0.010</td>
+  <td align="center">0.07</td>
+  <td align="center">4.40</td>
+  <td align="center">3.50</td>
+  <td align="center">0.005</td>
+  <td align="center">17</td>
+</tr>
+<tr>
+  <td><tt>/gates/or2</tt></td>
+  <td>\(z = a + b\)</td>
+  <td align="center">0.030</td>
+  <td align="center">0.15</td>
+  <td align="center">4.50</td>
+  <td align="center">2.50</td>
+  <td align="center">0.002</td>
+  <td align="center">13</td>
+</tr>
+<tr>
+  <td><tt>/gates/or3</tt></td>
+  <td>\(z = a + b + c\)</td>
+  <td align="center">0.040</td>
+  <td align="center">0.21</td>
+  <td align="center">4.50</td>
+  <td align="center">2.50</td>
+  <td align="center">0.003</td>
+  <td align="center">17</td>
+</tr>
+<tr>
+  <td><tt>/gates/or4</tt></td>
+  <td>\(z = a + b + c + d\)</td>
+  <td align="center">0.060</td>
+  <td align="center">0.29</td>
+  <td align="center">4.50</td>
+  <td align="center">2.60</td>
+  <td align="center">0.003</td>
+  <td align="center">20</td>
+</tr>
+<tr>
+  <td><tt>/gates/nor2</tt></td>
+  <td>\(z = \overline{a + b}\)</td>
+  <td align="center">0.010</td>
+  <td align="center">0.05</td>
+  <td align="center">6.70</td>
+  <td align="center">2.40</td>
+  <td align="center">0.004</td>
+  <td align="center">10</td>
+</tr>
+<tr>
+  <td><tt>/gates/nor3</tt></td>
+  <td>\(z = \overline{a + b + c}\)</td>
+  <td align="center">0.020</td>
+  <td align="center">0.08</td>
+  <td align="center">8.50</td>
+  <td align="center">2.40</td>
+  <td align="center">0.005</td>
+  <td align="center">13</td>
+</tr>
+<tr>
+  <td><tt>/gates/nor4</tt></td>
+  <td>\(z = \overline{a+b+c+d}\)</td>
+  <td align="center">0.020</td>
+  <td align="center">0.12</td>
+  <td align="center">9.50</td>
+  <td align="center">2.40</td>
+  <td align="center">0.005</td>
+  <td align="center">20</td>
+</tr>
+<tr>
+  <td><tt>/gates/xor2</tt></td>
+  <td>\(z = a \oplus b\)</td>
+  <td align="center">0.030</td>
+  <td align="center">0.14</td>
+  <td align="center">4.50</td>
+  <td align="center">2.50</td>
+  <td align="center">0.006</td>
+  <td align="center">27</td>
+</tr>
+<tr>
+  <td><tt>/gates/xnor2</tt></td>
+  <td>\(z = \overline{a \oplus b}\)</td>
+  <td align="center">0.030</td>
+  <td align="center">0.14</td>
+  <td align="center">4.50</td>
+  <td align="center">2.50</td>
+  <td align="center">0.006</td>
+  <td align="center">27</td>
+</tr>
+<tr>
+  <td><tt>/gates/mux2</tt></td>
+  <td>\(z = \left\{
+      \begin{array}{ll}
+         d_0 & s=0\\
+         d_1 & s=1
+      \end{array}
+      \right.\)</td>
+  <td align="center">0.020</td>
+  <td align="center">0.12</td>
+  <td align="center">4.50</td>
+  <td align="center">2.50</td>
+  <td align="center">0.005</td>
+  <td align="center">27</td>
+</tr>
+<tr>
+  <td><tt>/gates/mux4</tt></td>
+  <td>\(z = \left\{
+      \begin{array}{ll}
+         d_0 & s_1s_0=\textrm{0b00}\\
+         d_1 & s_1s_0=\textrm{0b01}\\
+         d_2 & s_1s_0=\textrm{0b10}\\
+         d_3 & s_1s_0=\textrm{0b11}
+      \end{array}
+      \right.\)</td>
+  <td align="center">0.040</td>
+  <td align="center">0.19</td>
+  <td align="center">4.50</td>
+  <td align="center">2.50</td>
+  <td align="center">0.006</td>
+  <td align="center">66</td>
+</tr>
+<tr>
+  <td><tt>/gates/dreg</tt><br>t<sub>setup</sub>=.15, t<sub>hold</sub>=0</td>
+  <td>\(d \rightarrow q \textrm{ on } clk\uparrow\)</td>
+  <td align="center">0.030</td>
+  <td align="center">0.19</td>
+  <td align="center">4.30</td>
+  <td align="center">2.50</td>
+  <td align="center">0.002</td>
+  <td align="center">56</td>
+</tr>
+</table>
+
+<A name="memory"><h3>The Jade Memory component</h3></A>
+
+<p>Jade has a built-in memory device that can be used to model
+memories with a specified width and number of locations, and with one
+to three independent ports.  Each port has 3 control signals and the specified
+number of address and data wires.  You can instantiate a memory device
+in your circuit by clicking on MEM in the toolbar and dragging it onto
+the schematic.  Then double-click the component to specify the width of the
+address (naddr, between 1 and 20), the width of the data (ndata, between 1 and 128),
+the number of ports, and (optionally) the initial contents.
+All the ports of a memory access the same internal
+storage, but each port operates independently.
+
+<p>Each port has the following connections:
+
+<p><ul>
+<i>OE</i> is the output enable input for a read port.  When 1, data is driven
+onto the data pins; when 0, the output pins are not driven by this
+memory port.  If this port is only a write port, connect this terminal
+to ground (e.g., connect to the signal <tt>0'1</tt>).  If the port is only a read port and should
+always be enabled, connect this terminal to the power supply node
+(e.g., connect to the signal <tt>1'1</tt>).
+
+<p><i>CLK</i> is the clock input for write ports.  When <i>wen</i>=1, data
+from the data terminals is written into the memory on the rising edge
+of clk.  If this port is only a read port, connect this terminal to
+ground.
+
+<p><i>WE</i> is the write enable input for write ports.  See the
+description of CLK for details about the write operation. If this
+port is only a read port, connect this terminal to ground.
+
+<p><i>A[naddr-1:0]</sub></i> are the address
+inputs, listed most significant bit first.  The values of these
+terminals are used to compute the address of the memory location to be
+read or written.  The number of locations in the memory is determined by
+width of the address: nlocations = 2<sup>naddr</sup>.
+
+<p><i>D[ndata-1:0]</sub></i> are the data
+inputs/tristate outputs, listed most significant bit first.
+</ul>
+
+<p>The contents property can be used to specify the initial contents of
+a memory (if not specified, the memory is initialized to all X's).
+The memory is initialized, location-by-location, from the data values
+given in the list.  The least significant bit (bit 0) of a value is
+used to initialize bit 0 of a memory location, bit 1 of a value is
+used to initialize bit 1 of a memory location, etc.
+
+<p>The contents property should be a list of numeric values separated
+by whitespace (spaces, tabs, newlines).  You can use "0b" and "0x" notation
+to specify binary and hex values.  The characters "+" and "_" are ignored
+and can be used to improve readability.  The character "?" can be used
+in binary and hex values to represent "don't care" -- Jade will replace
+"?" with "0".  Comments can be included in the contents using the standard
+"//" and "/* ... */" comment syntax.
+
+<p>Initialized memories are useful for modeling ROMs (e.g., for
+control logic) or simply for loading programs into the main memory of
+a processor.  One caveat: if the memory has a write port and sees a
+rising clock edge with its write enable not equal to 0 and with one or
+more of the address bits undefined (i.e., with a value of "X"), the
+entire contents of the memory will also become undefined.  So you
+should <b>make sure that the write enable for a write port is set to 0 by
+your reset logic</b> before the first clock edge, or else your
+initialization will be for naught.
+
+<p>The following options are the default values for the electrical and
+timing parameters for the memory.
+
+<p><tt>tcd=<i>seconds</i></tt>
+<ul>
+the contamination delay in seconds.  Default value = 20ps.
+</ul>
+
+<p><tt>tpd=<i>seconds</i></tt>
+<ul>
+the propagation delay in seconds.  This is how long it takes for
+changes in the address or output enable terminals to be reflected in
+the values driven by the data terminals.  Default value is determined
+from the number of locations:
+
+<p><center><table border=1 cellpadding=3>
+<tr><th>Number of locations</th><th>t<sub>PD</sub></th><th>Inferred type</th></tr>
+<tr><td>nlocations &le; 128</td><td>2ns</td><td>Register file</td></tr>
+<tr><td>128 &lt; nlocations &le; 1024</td><td>4ns</td><td>Static ram</td></tr>
+<tr><td>nlocations &gt; 1024</td><td>40ns</td><td>Dynamic ram</td></tr>
+</table></center>
+</ul>
+
+<p><tt>tr=<i>seconds_per_farad</i></tt>
+<ul>
+the output rise time in seconds per farad of output load.  Default
+value is 1000, i.e., 1 ns/pf.
+</ul>
+
+<p><tt>tf=<i>seconds_per_farad</i></tt>
+<ul>
+the output fall time in seconds per farad of output load.  Default
+value is 500, i.e., 0.5 ns/pf.
+</ul>
+
+<p><tt>cin=<i>farads</i></tt>
+<ul>
+input terminal capacitance in farads.  Default value = 0.05pf.
+</ul>
+
+<p><tt>cout=<i>farads</i></tt>
+<ul>
+output terminal capacitance in farads.  Default value = 0pf
+(additional t<sub>PD</sub> due to output terminal loading is already
+included in default t<sub>PD</sub>).
+</ul>
+
+<p>The size of a memory is determined by the sum of the sizes of the
+various memory building blocks shown in the following table:
+
+<p><center><table border="1" cellpadding="3">
+<tr><th>Component</th><th>Size (&mu;<sup>2</sup>)</th><th>Notes</th></tr>
+<tr>
+  <td>Storage cells</td>
+  <td>nbits * cellsize * 1&mu;<sup>2</sup></td>
+  <td>
+    nbits = nlocs * width<br>
+    cellsize = nports (for ROMs and DRAMs)<br>
+    cellsize = nprots + 5 (for SRAMs)
+  </td>
+</tr>
+<tr>
+  <td>Address buffers</td>
+  <td>nports * naddr * 20&mu;<sup>2</sup></td>
+  <td>nports = total number of memory ports</td>
+</tr>
+<tr>
+  <td>Address decoders</td>
+  <td>nports * (naddr+3)/4 * 4&mu;<sup>2</sup></td>
+  <td>Assuming 4-input ANDs</td>
+</tr>
+<tr>
+  <td>Tristate drivers</td>
+  <td>nreads * width * 30&mu;<sup>2</sup></td>
+  <td>nreads = number of read ports</td>
+</tr>
+<tr>
+  <td>Write-data drivers</td>
+  <td>nwrites * width * 20&mu;<sup>2</sup></td>
+  <td>nwrites = number of write ports</td>
+</tr>
+</table></center>
+
+</body></html>

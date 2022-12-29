@@ -1,0 +1,387 @@
+<html>
+<head>
+  <meta charset="utf-8">
+  <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  <style>
+    body {
+      font: 16px/1.5 Georgia,serif;
+      width: 600px;
+    }
+    tt {
+      font-size: 14px;
+    }
+    pre {
+      font-size: 14px;
+    }
+    pre.jsim {
+       margin: 10px;
+      padding: 10px;
+      background-color: rgb(255,253,227);
+    }
+    div.hint {
+      margin: 10px;
+      padding: 10px;
+      background-color: rgb(240,255,240);
+      border: 1px solid rgb(176,192,176);
+    }
+    p.question {
+      background-color: rgb(255,217,161);
+      margin: 5px;
+      padding: 3px;
+    }
+  </style>
+</head>
+<body>
+<b>Lab 4.2 Design Problem: Quicksort</b>
+
+<p/>Suppose you have an array of N integers, and wish to sort them
+into ascending order.  There are a variety of approaches you might
+use, ranging from the
+<a href="//www.youtube.com/watch?v=k4RRi_ntQc8">maligned</a>
+<em>bubble sort</em> which takes O(N<sup>2</sup>) time, to faster approaches
+such as <em>quicksort</em> that averages O(N log N) time.  Quicksort
+uses an elegantly simple <em>divide and conquer</em>
+approach to sorting an array:
+<ol>
+  <li>Pick a <em>pivot</em> value from among the array elements,
+  and remove that element from the array.</li>
+  <li>Partition the array into two smaller arrays, containing
+  elements whose values are smaller or larger than the pivot value,
+  respectively.</li>
+  <li>Call quicksort recursively to sort each of the two smaller
+  arrays.</li>
+  <li>Finally, combine the sorted smaller-value array, the pivot
+  element, and the sorted larger-value array into a single sorted
+  result.</li>
+</ol>
+This description glosses over several details which may vary by
+implementation; for example, which of the two smaller arrays should
+contain elements that are <em>equal</em> to the pivot value.
+
+<p/>
+A high-level Python approach to quicksort of a list is:
+<pre class="jsim">def qsort1(list):
+  if list == []: return []
+  else:
+      pivot = list[0]       # arbitrarily choose first element
+      lesser = qsort1([x for x in list[1:] if x &lt; pivot])
+      greater = qsort1([x for x in list[1:] if x &gt;= pivot])
+      return lesser + [pivot] + greater
+</pre>
+
+<p/>
+Often it is preferable to sort an array <em>in place</em>, rather
+than allocating space for the resulting new array.  A version of
+quicksort for in-place sorting is given in
+<a href="//en.wikipedia.org/wiki/Quicksort#In-place_version">
+Wikipedia</a> as
+
+<pre class="jsim"># in-place partition of subarray
+#   left is the index of the leftmost element of the subarray
+#   right is the index of the rightmost element of the
+#     subarray (inclusive)
+def partition(array,left,right):
+    # choose middle element of array as pivot
+    pivotIndex = (left+right) >> 1
+    pivotValue = array[pivotIndex]
+
+    # swap array[right] and array[pivotIndex]
+    # note that we already store array[pivotIndex] in pivotValue
+    array[pivotIndex] = array[right]
+
+    # elements &lt;= the pivot are moved to the left (smaller indices)
+    storeIndex = left
+    for i in xrange(left,right):  # don't include array[right]
+        temp = array[i]
+        if temp &lt;= pivotValue:
+            array[i] = array[storeIndex]
+            array[storeIndex] = temp
+            storeIndex += 1
+
+    # move pivot to its final place
+    array[right] = array[storeIndex]
+    array[storeIndex] = pivotValue
+    return storeIndex
+
+def quicksort(array, left, right):
+    if left &lt; right:
+        pivotIndex = partition(array,left,right)
+        quicksort(array,left,pivotIndex-1)
+        quicksort(array,pivotIndex+1,right)
+</pre>
+Although this code is nominally in Python, it is substantially
+identical to C code.
+<p/>
+Note that the code for both <code>quicksort</code> and <code>partition</code>
+identifies a range of consecutive elements in the <code>array</code> by
+two integers, <code>left</code> and <code>right</code>, that identify the
+array indices of the leftmost and rightmost elements within the range
+respectively.  In contrast to usual C and Python practice, the indicated
+range includes both the left and right elements: thus, the only way
+to designate an empty (zero-length) subrange is by having
+<code>right</code>&lt;<code>left</code>.
+
+<p/>
+Your job is to translate this in-place version of quicksort to
+Beta assembly language.  You can begin by copying the file
+<code>/shared/bsim/lab4-template.uasm</code>, which contains the
+appropriate checkoff setup and dummy (empty) definitions for the
+procedures <code>quicksort</code> and <code>partition</code>.  It also
+includes the above Python/C versions of the code as comments.
+
+<p/>Arrays are stored in consecutive locations of memory.  In this
+lab, we're dealing with arrays of integers, so each array element
+occupies a 32-bit word.  Since the memory is byte addressed,
+consecutive elements of an integer array have addresses that differ by 4.
+Integer arrays are always <i>word aligned</i>, <i>i.e.</i>, the byte
+addresses of array elements have <tt>00</tt> as the low-order two address
+bits.  When a program refers to an entire array, the value that gets
+passed around is the address of the first array element, <i>i.e.</i>,
+the address of <tt>array[0]</tt>.  For example,
+here's a simple procedure that adds two consecutive array elements:
+<pre class="jsim">
+def add_pair(array,i): return array[i] + array[i+1]
+</pre>
+The corresponding assembly language code would be
+<pre class="jsim">
+add_pair:
+     PUSH(LP)       // standard entry sequence
+     PUSH(BP)
+     MOVE(SP,BP)
+     PUSH(R1)       // save registers we use below
+
+     LD(BP,-12,R1)  // R1 = address of array[0]
+     LD(BP,-16,R0)  // R0 = i
+
+     // now we have to convert index i into the appropriate
+     // address offset from the start of the array.  Since
+     // each array element occupies 4 bytes, we multiply the
+     // index by 4 to convert it to a byte offset.
+     SHLC(R0,2,R0)  // shift left by 2 = multiply by 4
+     ADD(R0,R1,R1)  // R1 = address of array[i]
+
+     LD(R1,0,R0)    // R0 = array[i]
+     LD(R1,4,R1)    // R1 = array[i+1]
+     ADD(R1,R0,R0)  // R0 = array[i] + array[i+1]
+
+     POP(R1)        // restore saved registers
+     MOVE(BP,SP)    // standard exit sequence
+     POP(BP)
+     POP(LP)
+     JMP(LP)
+</pre>
+
+<p/>
+    <b><em>Setup:</em></b>
+    The <code>Lab 4</code> tab in the BSim window has been initialized with the code from
+    the <code>template.uasm</code> tab.  Look it over briefly;
+    notice that the dummy procedures included are valid (<em>e.g.</em>, they
+    obey stack discipline and our linkage conventions) but devoid of any
+    function.
+    <p/>
+    Select the <code>Lab 4</code> tab in the BSim window, click <em>Assemble</em>
+    to translate it to binary.  If successful, you'll now see a
+    window onto an operating (simulated) Beta running the binary
+    translation of your program.  The upper-left displays the contents
+    of the Beta's registers, the lower-left a region of memory containing
+    the translated code, and to the right two regions of memory (one
+    near the top of the stack.  Explore this view a bit: scroll the
+    lower-left region and observe labels, hex values, and (where
+    sensible) values decoded as Beta instructions.
+    Most of these are from the checkoff program and associated infrastructure;
+    but at the end of the non-zero contents, you'll see your empty
+    partition and quicksort procedures.
+    <p/>
+    Run the code, by hitting the <em>play</em> button; you'll see the
+    Beta stepping through instructions, updating the display.
+
+    <div class="hint">
+    <b>Hint:</b> You can click on the "Split" button to configure the BSim window to show
+    both your editor windows and the Beta simulation display.  The simulator
+    will highlight the line in your source code that generated the current
+    Beta instruction, assuming that source line came from the currently
+    selected editor window.  You can watch the Beta scroll through your
+    program making it easy to watch your code being executed.
+    </div>
+
+    When you get tired of watching this show, hit <em>pause</em> and
+    then <em>fast forward</em> to execute without the tedious display
+    updates.  You should see some output from the checkoff program in
+    the <em>console</em> window at the bottom of your screen.
+    <p/>
+    <em>Good news</em> - you've passed the first two test cases!  Looking
+    at the console output, notice that Test 1 involves a sequence of 1
+    element, and Test 2 involves a sequence of length 2 thats already in
+    order.  These trivial test cases are already sorted, so your do-nothing
+    quicksort (which, in its defense, at least does no damage) passes these
+    tests.  The third test, which actually needs some sorting, should fail.
+
+<p/>
+    <b><em>TestCase:</em></b>
+    Lets focus on the failed test: change the <code>LONG(0)</code> in the location
+    labeled <em>TestCase</em> near the beginning of your <em>lab4.uasm</em> file
+    to read <code>LONG(3)</code>.  This tells the checkoff program to run only the
+    third test, making debugging that test a bit less tedious.
+    <p/>
+    Our principal debugging tool is the <em>breakpoint</em>, a marker that
+    can be inserted into our program at interesting points to cause it to pause and let us poke
+    around.
+    <p/>
+    Insert the line
+    <pre>     .breakpoint</pre>
+    in your empty <code>quicksort</code> procedure, immediately following the line
+    reading
+    <pre>     // Fill in your code here...</pre>
+    and run it again.  The simulation should stop when you hit the inserted
+    breakpoint, allowing you to examine the state of the Beta and its memory
+    at that point.
+
+<p class="question">Question (A). Looking at the state of the Beta, determine the value in <code>R20</code>
+and enter your answer in the appropriate answer box in the Lab 4 write-up.</p>
+
+<p/>    In fact, you'll notice systematic values in registers; these are used by
+    the checkoff program to check that you're properly saving/restoring registers.
+
+<p/>
+    Your next project, and the main task of this lab, is to fill in the code for
+    the two procedures and get them working correctly.  Although you may code these
+    procedures however you like, we recommend paying careful attention to details
+    in the Python/C versions supplied; seemingly minor variations (&lt; rather
+    than &lt;=, including/excluding the rightmost element in a loop) can cause
+    errors taking hours to debug.
+    <p/>
+    While you may vary the order in which you approach the coding of these
+    procedures, we suggest the following sequence of steps:
+
+<p/>
+    <b><em>quicksort stub:</em></b>
+    Implement the first part of <code>quicksort</code>: the call to <code>partition</code>.
+    Using a breakpoint in <code>partition</code>, ensure that its called with the proper
+    arguments (identical to those of <code>quicksort</code>).  Try it on the first few
+    test cases by varying the value in <code>TestCase</code>.
+  </subquestion>
+
+<p/>
+    <b><em>partition:</em></b>
+    Implement the code in <code>partition</code>, and debug it (again, using various
+    test cases).  Although this code is more complex than <code>quicksort</code>, it
+    avoids the complication of recursive calls, making debugging easier.
+    Once you're convinced <code>partition</code> works properly, move on to the next step.
+  </subquestion>
+
+<div class="hint">
+<b>Hint:</b> The <code>partition</code> code involves a number of local variables.
+Although you can allocate these variables in the stack frame (as we have
+done in examples given in lecture), your code may be both smaller and
+more readable if you allocate registers to hold local variables.  One
+convenient way to do this is to define symbolic names, <i>e.g.</i>,
+<pre class="jsim">
+  p_array=R2          // base address of array (arg 0)
+  p_left=R3
+  p_right=R4
+  p_pivotIndex=R5     // Corresponds to PivotIndex in C program
+  p_pivotValue=R6
+  p_storeIndex=R7
+  ...
+</pre>
+Note that the <code>p_</code> prefixes are prepended to avoid name conflicts
+with other such assignments.  Of course, you must remember to save and
+restore the values of any register you use in this (or any other) fashion!
+<p/>
+Even if you choose to store these variables in the local stack frame,
+you will likely find symbolic names (defined as the variable offsets)
+easier to use than generic <code>Rx</code> register names.
+<p/>
+<b>Remember:</b> A procedure can use <tt>R0</tt> with impunity, since the caller is expecting
+that to change to contain the return value.  But if you use any other register
+(<tt>R1</tt>, <tt>R2</tt>, ...) it must have the same value after the procedure as it did when the
+procedure is called.  For each register <tt>Rx</tt> that the procedure uses, there should be
+a <tt>PUSH(Rx)</tt> in the entry sequence and a <tt>POP(Rx)</tt> at the corresponding
+part of the exit sequence.
+</div>
+
+<p/>
+    <b><em>quicksort:</em></b>
+    Complete the <code>quicksort</code> procedure, and get it to run correctly
+    on all the test cases by setting the value in <code>TestCase</code> to zero.
+    Once all tests have passed, you can validate your solution by clicking
+    the <button>Check &amp; Save</button> button.
+
+<p/>
+    <b><em>Stack crawling:</em></b>
+    The <code>left</code> and <code>right</code> values passed to <code>quicksort</code>
+    are described as indices of <code>array</code> elements, implying that they
+    range from zero through one less than the length of <code>array</code>.
+    This constraint turns out to be not strictly true in all cases in our implementation.
+    As our last exercise, we'll explore an exception that arises during
+    execution of our <code>quicksort</code> implementation.
+    <p/>
+    Insert a breakpoint in your <code>quicksort</code> procedure, after the stack
+    frame has been set up and interesting values (<em>e.g.</em>, arguments)
+    have been loaded into registers.  Set <code>TestCase</code> to contain 13 (running
+    only the last test case), and run your code.
+    <p/>
+    When it stops at your breakpoint, check the value that was passed as the
+    <code>right</code> argument.  If its non-negative, click <em>fast forward</em> to continue
+    until you hit the breakpoint again; click again, and keep clicking until you get
+    to the breakpoint with a
+    <b><em>negative</em></b>
+    value for <code>right</code>.
+    <p/>
+    At this point, you are several calls deep in the recursion of quicksort.  By
+    inspecting values in registers and on the stack, you can determine both the
+    current state of the computation and the call history that led us here.
+
+    <p class="question">
+    Question (B): Find the tow arguments to the current call and enter the values in the appropriate
+    answer boxes in the Lab 4 write-up.</p>
+
+    <p class="question">
+    Question (C): What's the current value in element zero of the array?</p>
+
+    <p/>
+    Note the relation between the element zero value and the other
+    values in the array.  If you look a bit at the code and
+    think about the behavior of
+    your two procedures, you can see how the negative value arises
+    and convince yourself that it does no harm to the computation.
+    It is, however, a bit sloppy for the author of this code not to
+    have documented this anomaly in an explanatory comment!
+
+<p/>
+    <b><em>BP Chain:</em></b>
+    Observe where BP points into your stack frame, and the location
+    of the saved LP value relative to this point.  Scroll the disassembly
+    window of BSim and find the two recursive calls within <code>quicksort</code>;
+    note the hex locations of the instructions <em>following</em> each call.
+    Write down these values;
+    they will be saved LP values in stack frames associated with
+    recursive calls, and can be used to distinguish recursive calls from
+    the original call by the checkoff code.
+
+
+<p class="question">
+      Question (D): 
+      By inspecting the saved LP value, determine whether the current
+      recursive call to <code>quicksort</code> is from the first recursive
+      call (sorting the array of smaller elements) or the second within
+      <code>quicksort</code>.</p>
+
+    <p class="question">
+    Question (E): Find the saved BP, which points to the stack frame for
+    the prior call to <code>quicksort</code>; find the arguments to that call.</p>
+
+    <p class="question">
+    Question (F): Follow the BP chain back to the original call, and report
+    the recursion depth (number of active calls) when the
+    negative argument is encountered.  Note that a couple of
+    frames at the bottom of the stack belong to procedures
+    in the testing code -- we only want you to count frames
+    belonging to quicksort.  Think about how you can distinguish
+    quicksort frames from test code frames.</p>
+
+<p/>You're done!
+
+</body>
+</html>

@@ -1,9 +1,9 @@
 ## Course-in-a-box
 
 You can view this course material using just your computer, i.e., no
-internet access will be required after the initial setup.
+internet access required after the initial setup.
 
-* clone this repository on your local computer.  Also install <a href="https://www.python.org/downloads/">python3</a> on your computer.
+* clone this repository onto your local computer.  Also install <a href="https://www.python.org/downloads/">python3</a> on your computer.
 
 * change directory to the course_in_a_box folder.
 
