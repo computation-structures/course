@@ -1,0 +1,422 @@
+import http.server
+import socketserver, os
+
+# try to duplicate GITHUB's markdown css...
+md_prologue = b"""<!DOCTYPE html>
+<html>
+  <head>
+    <script> MathJax = { tex: { inlineMath: [['$','$']]}}; </script>
+    <script src="/MathJax/tex-chtml.js" id="MathJax-script" async></script>
+    <style>
+      .MathJax { font-size: 13pt !important; }
+      * { box-sizing: border-box; }
+      .markdown-body {
+        margin: 0 auto;
+        max-width: 800px;
+        font-family: -apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans",Helvetica,Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji";
+        font-size: 16px;
+        line-height: 1.5;
+        word-wrap: break-word;
+        color: rgb(36, 41, 47);
+      }
+      .markdown-body p, .markdown-body blockquote, .markdown-body ul, .markdown-body ol, .markdown-body dl, .markdown-body table, .markdown-body pre, .markdown-body details {
+        margin-top: 0;
+        margin-bottom: 16px;
+      }
+      .markdown-body a {
+        color: #0969da;
+        text-decoration: none;
+      }
+      .markdown-body h2 {
+        margin-top: 24px;
+        margin-bottom: 16px;
+        font-weight: 600;
+        line-height: 1.25;
+      }
+      .markdown-body h2 {
+        padding-bottom: 0.3em;
+        font-size: 1.5em;
+        border-bottom: 1px solid hsla(210,18%,87%,1);
+      }
+    </style>
+    <style id="MJX-CHTML-styles">
+      {
+        font-size: 249%;
+      }
+
+      mjx-container [width="full"] {
+        width: 100%;
+      }
+
+      mjx-box {
+        display: inline-block;
+      }
+
+      mjx-block {
+        display: block;
+      }
+
+      mjx-itable {
+        display: inline-table;
+      }
+
+      mjx-row {
+        display: table-row;
+      }
+
+      mjx-row > * {
+        display: table-cell;
+      }
+
+      mjx-mtext {
+        display: inline-block;
+      }
+
+      mjx-mstyle {
+        display: inline-block;
+      }
+
+      mjx-merror {
+        display: inline-block;
+        color: red;
+        background-color: yellow;
+      }
+
+      mjx-mphantom {
+        visibility: hidden;
+      }
+
+      _::-webkit-full-page-media, _:future, :root mjx-container {
+        will-change: opacity;
+      }
+
+      mjx-assistive-mml {
+        position: absolute !important;
+        top: 0px;
+        left: 0px;
+        clip: rect(1px, 1px, 1px, 1px);
+        padding: 1px 0px 0px 0px !important;
+        border: 0px !important;
+        display: block !important;
+        width: auto !important;
+        overflow: hidden !important;
+        -webkit-touch-callout: none;
+        -webkit-user-select: none;
+        -khtml-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+      }
+
+      mjx-assistive-mml[display="block"] {
+        width: 100% !important;
+      }
+
+      mjx-math {
+        display: inline-block;
+        text-align: left;
+        line-height: 0;
+        text-indent: 0;
+        font-style: normal;
+        font-weight: normal;
+        font-size: 100%
+        font-size-adjust: none;
+        letter-spacing: normal;
+        word-wrap: normal;
+        word-spacing: normal;
+        white-space: nowrap;
+        direction: ltr;
+        padding: 1px 0;
+      }
+
+      mjx-container[jax="CHTML"][display="true"] {
+        display: block;
+        text-align: center;
+        margin: 1em 0;
+      }
+
+      mjx-container[jax="CHTML"][display="true"][width="full"] {
+        display: flex;
+      }
+
+      mjx-container[jax="CHTML"][display="true"] mjx-math {
+        padding: 0;
+      }
+
+      mjx-container[jax="CHTML"][justify="left"] {
+        text-align: left;
+      }
+
+      mjx-container[jax="CHTML"][justify="right"] {
+        text-align: right;
+      }
+
+      mjx-mi {
+        display: inline-block;
+        text-align: left;
+      }
+
+      mjx-c {
+        display: inline-block;
+      }
+
+      mjx-utext {
+        display: inline-block;
+        padding: .75em 0 .2em 0;
+      }
+
+      mjx-c::before {
+        display: block;
+        width: 0;
+      }
+
+      .MJX-TEX {
+        font-family: MJXZERO, MJXTEX;
+      }
+
+      .TEX-B {
+        font-family: MJXZERO, MJXTEX-B;
+      }
+
+      .TEX-I {
+        font-family: MJXZERO, MJXTEX-I;
+      }
+
+      .TEX-MI {
+        font-family: MJXZERO, MJXTEX-MI;
+      }
+
+      .TEX-BI {
+        font-family: MJXZERO, MJXTEX-BI;
+      }
+
+      .TEX-S1 {
+        font-family: MJXZERO, MJXTEX-S1;
+      }
+
+      .TEX-S2 {
+        font-family: MJXZERO, MJXTEX-S2;
+      }
+
+      .TEX-S3 {
+        font-family: MJXZERO, MJXTEX-S3;
+      }
+
+      .TEX-S4 {
+        font-family: MJXZERO, MJXTEX-S4;
+      }
+
+      .TEX-A {
+        font-family: MJXZERO, MJXTEX-A;
+      }
+
+      .TEX-C {
+        font-family: MJXZERO, MJXTEX-C;
+      }
+
+      .TEX-CB {
+        font-family: MJXZERO, MJXTEX-CB;
+      }
+
+      .TEX-FR {
+        font-family: MJXZERO, MJXTEX-FR;
+      }
+
+      .TEX-FRB {
+        font-family: MJXZERO, MJXTEX-FRB;
+      }
+
+      .TEX-SS {
+        font-family: MJXZERO, MJXTEX-SS;
+      }
+
+      .TEX-SSB {
+        font-family: MJXZERO, MJXTEX-SSB;
+      }
+
+      .TEX-SSI {
+        font-family: MJXZERO, MJXTEX-SSI;
+      }
+
+      .TEX-SC {
+        font-family: MJXZERO, MJXTEX-SC;
+      }
+
+      .TEX-T {
+        font-family: MJXZERO, MJXTEX-T;
+      }
+
+      .TEX-V {
+        font-family: MJXZERO, MJXTEX-V;
+      }
+
+      .TEX-VB {
+        font-family: MJXZERO, MJXTEX-VB;
+      }
+
+      mjx-stretchy-v mjx-c, mjx-stretchy-h mjx-c {
+        font-family: MJXZERO, MJXTEX-S1, MJXTEX-S4, MJXTEX, MJXTEX-A ! important;
+      }
+
+      @font-face /* 0 */ {
+        font-family: MJXZERO;
+        src: url("/MathJax/output/chtml/fonts/woff-v2/MathJax_Zero.woff") format("woff");
+      }
+
+      @font-face /* 1 */ {
+        font-family: MJXTEX;
+        src: url("/MathJax/output/chtml/fonts/woff-v2/MathJax_Main-Regular.woff") format("woff");
+      }
+
+      @font-face /* 2 */ {
+        font-family: MJXTEX-B;
+        src: url("/MathJax/output/chtml/fonts/woff-v2/MathJax_Main-Bold.woff") format("woff");
+      }
+
+      @font-face /* 3 */ {
+        font-family: MJXTEX-I;
+        src: url("/MathJax/output/chtml/fonts/woff-v2/MathJax_Math-Italic.woff") format("woff");
+      }
+
+      @font-face /* 4 */ {
+        font-family: MJXTEX-MI;
+        src: url("/MathJax/output/chtml/fonts/woff-v2/MathJax_Main-Italic.woff") format("woff");
+      }
+
+      @font-face /* 5 */ {
+        font-family: MJXTEX-BI;
+        src: url("/MathJax/output/chtml/fonts/woff-v2/MathJax_Math-BoldItalic.woff") format("woff");
+      }
+
+      @font-face /* 6 */ {
+        font-family: MJXTEX-S1;
+        src: url("/MathJax/output/chtml/fonts/woff-v2/MathJax_Size1-Regular.woff") format("woff");
+      }
+
+      @font-face /* 7 */ {
+        font-family: MJXTEX-S2;
+        src: url("/MathJax/output/chtml/fonts/woff-v2/MathJax_Size2-Regular.woff") format("woff");
+      }
+
+      @font-face /* 8 */ {
+        font-family: MJXTEX-S3;
+        src: url("/MathJax/output/chtml/fonts/woff-v2/MathJax_Size3-Regular.woff") format("woff");
+      }
+
+      @font-face /* 9 */ {
+        font-family: MJXTEX-S4;
+        src: url("/MathJax/output/chtml/fonts/woff-v2/MathJax_Size4-Regular.woff") format("woff");
+      }
+
+      @font-face /* 10 */ {
+        font-family: MJXTEX-A;
+        src: url("/MathJax/output/chtml/fonts/woff-v2/MathJax_AMS-Regular.woff") format("woff");
+      }
+
+      @font-face /* 11 */ {
+        font-family: MJXTEX-C;
+        src: url("/MathJax/output/chtml/fonts/woff-v2/MathJax_Calligraphic-Regular.woff") format("woff");
+      }
+
+      @font-face /* 12 */ {
+        font-family: MJXTEX-CB;
+        src: url("/MathJax/output/chtml/fonts/woff-v2/MathJax_Calligraphic-Bold.woff") format("woff");
+      }
+
+      @font-face /* 13 */ {
+        font-family: MJXTEX-FR;
+        src: url("/MathJax/output/chtml/fonts/woff-v2/MathJax_Fraktur-Regular.woff") format("woff");
+      }
+
+      @font-face /* 14 */ {
+        font-family: MJXTEX-FRB;
+        src: url("/MathJax/output/chtml/fonts/woff-v2/MathJax_Fraktur-Bold.woff") format("woff");
+      }
+
+      @font-face /* 15 */ {
+        font-family: MJXTEX-SS;
+        src: url("/MathJax/output/chtml/fonts/woff-v2/MathJax_SansSerif-Regular.woff") format("woff");
+      }
+
+      @font-face /* 16 */ {
+        font-family: MJXTEX-SSB;
+        src: url("/MathJax/output/chtml/fonts/woff-v2/MathJax_SansSerif-Bold.woff") format("woff");
+      }
+
+      @font-face /* 17 */ {
+        font-family: MJXTEX-SSI;
+        src: url("/MathJax/output/chtml/fonts/woff-v2/MathJax_SansSerif-Italic.woff") format("woff");
+      }
+
+      @font-face /* 18 */ {
+        font-family: MJXTEX-SC;
+        src: url("/MathJax/output/chtml/fonts/woff-v2/MathJax_Script-Regular.woff") format("woff");
+      }
+
+      @font-face /* 19 */ {
+        font-family: MJXTEX-T;
+        src: url("/MathJax/output/chtml/fonts/woff-v2/MathJax_Typewriter-Regular.woff") format("woff");
+      }
+
+      @font-face /* 20 */ {
+        font-family: MJXTEX-V;
+        src: url("/MathJax/output/chtml/fonts/woff-v2/MathJax_Vector-Regular.woff") format("woff");
+      }
+
+      @font-face /* 21 */ {
+        font-family: MJXTEX-VB;
+        src: url("/MathJax/output/chtml/fonts/woff-v2/MathJax_Vector-Bold.woff") format("woff");
+      }
+
+      mjx-c.mjx-c1D44B.TEX-I::before {
+        padding: 0.683em 0.852em 0 0;
+        content: "X";
+      }
+    </style>
+  </head>
+  <body>
+    <article class="markdown-body">
+"""
+
+md_epilogue = b"""
+    </article>
+  </body>
+</html>
+"""
+
+# add some extra processing when serving .MD files
+class MyHandler(http.server.SimpleHTTPRequestHandler):
+    def __init__(self, request, client_address, server, directory=None):
+        # serve .md files as html
+        self.extensions_map['.md'] = 'text/html'
+        super().__init__(request, client_address, server, directory=directory)
+
+    def do_GET(self):
+        path = self.translate_path(self.path)
+        if path.endswith('.md'):
+            # read in contents of MD file
+            # NB: our MD files use HTML instead markdown markup
+            try:
+                f = open(path, 'rb')
+                md_contents = f.read()
+                f.close()
+            except:
+                self.send_error(http.server.HTTPStatus.NOT_FOUND, 'File not found')
+                return
+
+            # add prologue and epilog
+            md_contents = md_prologue + md_contents + md_epilogue
+
+            # send whole shebang as an HTML response
+            self.send_response(http.server.HTTPStatus.OK)
+            self.send_header("Content-type", 'text/html')
+            self.send_header("Content-Length", str(len(md_contents)))
+            self.end_headers()
+            self.wfile.write(md_contents)
+        else:
+            super().do_GET()
+
+PORT = 8000
+with socketserver.TCPServer(("", PORT), MyHandler) as httpd:
+    print("serving at port", PORT)
+    httpd.serve_forever()

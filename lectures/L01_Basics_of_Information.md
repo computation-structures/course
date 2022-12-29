@@ -57,7 +57,7 @@ probability, the more uncertain it is that $X$ will take on that
 particular value.</p>
 
 <p>Claude Shannon, in his seminal work on the
-<a href="https://www.tnt.uni-hannover.de/edu/vorlesungen/InfoTheor/download/shannon1948.pdf" target="_blank">theory of comunication</a>,
+<a href="https://www.tnt.uni-hannover.de/edu/vorlesungen/InfoTheor/download/shannon1948.pdf" target="_blank">theory of communication</a>,
 defined the information received when learning that
 $X$ had taken on the value $x_i$ as</p>
 

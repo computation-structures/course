@@ -1,4 +1,4 @@
-<p align="center"><img src="title.png?raw=true"/></p>
+<p align="center"><img src="course_in_a_box/title.png?raw=true"/></p>
 
 Computation Structures (6.004) is a sophomore-level subject offered by
 the MIT Department of Electrical Engineering and Computer Science.
