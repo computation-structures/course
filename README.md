@@ -51,7 +51,7 @@ Enjoy!
 
   * L07. Pipelined Circuits: <a href="lectures/L07_Pipelined_Circuits.md">Lecture</a>, <a href="worksheets/pdfs/L07_worksheet.pdf">Worksheet</a>
 
-  * L08. Design Tradeoffs: <a href="lectures/L08_Design_Tradeoffs.md">Lecture</a>, <a href="worksheets/pdfs/L08_worksheet.pdf">Worksheet</a>
+  * L08. Design Tradeoffs: <a href="lectures/L08_Design_Tradeoffs.md">Lecture</a>
 
 * **Programmable Architectures**
 
