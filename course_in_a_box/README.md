@@ -9,5 +9,5 @@ internet access will be required after the initial setup.
 
 * execute `python3 server.py` to start a local HTTP server listening on port 8000.
 
-* browse to <a href="http://localhost:8000">http://locahost:8000</a> to see the
+* browse to <a href="http://localhost:8000/">http://localhost:8000/</a> to see the
 top-level webpage for the course.
