@@ -23,6 +23,7 @@ md_prologue = b"""<!DOCTYPE html>
         margin-top: 0;
         margin-bottom: 16px;
       }
+      .markdown-body li { margin-top: 16px; }
       .markdown-body a {
         color: #0969da;
         text-decoration: none;
@@ -416,7 +417,7 @@ class MyHandler(http.server.SimpleHTTPRequestHandler):
         else:
             super().do_GET()
 
-PORT = 8000
+PORT = 6004
 with socketserver.TCPServer(("", PORT), MyHandler) as httpd:
     print("serving at port", PORT)
     httpd.serve_forever()
