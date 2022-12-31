@@ -1,449 +1,336 @@
 <!DOCTYPE html>
 <html lang="en">
-<head lang="en">
-<title>Finite State Machines</title>
-<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
-<meta name="viewport" content="width=870">
+  <head lang="en">
+    <title>Lab 3: Finite State Machines</title>
+    <meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+    <meta name="viewport" content="width=870">
 
-<!-- Global Site Tag (gtag.js) - Google Analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=UA-43707566-1"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
+    <script> MathJax = { tex: { inlineMath: [['$','$'],['\\(','\\)']], processEscapes: true}}; </script>
+    <script src="/tools/MathJax/tex-chtml.js" id="MathJax-script" async></script>
+    <script src="/tools/jquery-3.2.1.min.js"></script>
+    <link rel="stylesheet" href="/tools/github.css">
+    <link rel="stylesheet" href="/tools/labs.css">
+    <link rel="stylesheet" href="/tools/font-awesome.css">
+    <script src="/tools/answers.js"></script>
+  </head>
 
-  gtag('config', 'UA-43707566-1');
-</script>
+  <body>
+    <article class="markdown-body">
+      <h2>Lab 3: Finite State Machines</h2>
 
-<script type="text/x-mathjax-config">
-  MathJax.Hub.Config({ tex2jax: {inlineMath: [['$','$'],
-  ['\\(','\\)']], processEscapes: true}, TeX: {equationNumbers: { autoNumber: "AMS" }}
-  });
-</script>
-<script type="text/javascript" async src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML'></script>
+      <p>When entering numeric values in the answer fields, you can use
+        integers (1000, 0x3E8, 0b1111101000), floating-point numbers
+        (1000.0), scientific notation (1e3), engineering scale factors
+        (1K), or numeric expressions (3*300 + 100).</p>
 
-<script src="../../tools/jquery-3.2.1.min.js"></script>
-<link rel="stylesheet" href="../../tools/font-awesome.css">
-<link href="../../tools/workbook.css" rel="stylesheet" type="text/css">
-<script src="../../tools/workbook.js"></script>
-<script src="../../tools/answers.js"></script>
+      <h3>Problem 1.  FSMs</h3>
 
-</head>
+      <p>A possible implementation of a finite state machine with two inputs and
+        one output is shown below.</p>
 
-<body>
-  <div class="navigation">
-    <center><img src="../../title.gif" width="200" onclick="window.location='../../index.html';"></center>
-    <style>
-</style>
-<table width="100%">
-  <tr>
-    <td align="center">
-      <a href="../../lectures/index.html"><span class="navtab">lectures</span></a>
-    </td>
-    <td align="center">
-      <a href="../../videos/index.html"><span class="navtab">videos</span></a>
-    </td>
-    <td align="center">
-      <a href="../../worksheets/index.html"><span class="navtab">worksheets</span></a>
-    </td>
-  </tr>
-  <tr>
-    <td align="center">
-      <a href="../../notes/index.html"><span class="navtab">notes</span></a>
-    </td>
-    <td align="center">
-      <a class="selected" href="../../exercises/index.html"><span class="navtab">labs</span></a>
-    </td>
-  </tr>
-</table>
+      <p><center><img src="1.gif" /></center></p>
 
-<p><b>Labs</b><br>
-  <a class="" href="../../exercises/cmos/lab.html">
-    1. CMOS Technology
-  </a><br>
-  <a class="" href="../../exercises/adder/lab.html">
-    2. CMOS Adder
-  </a><br>
-  <a class="selected" href="../../exercises/fsm/lab.html">
-    3. FSMs
-  </a><br>
-  <a class="" href="../../exercises/alu/lab.html">
-    4. 32-bit ALU
-  </a><br>
-  <a class="" href="../../exercises/assembly/lab.html">
-    5. Assembly Language
-  </a><br>
-  <a class="" href="../../exercises/procedures/lab.html">
-    6. Procedures &amp; Stacks
-  </a><br>
-  <a class="" href="../../exercises/beta/lab.html">
-    7. Building the Beta
-  </a><br>
-  <a class="" href="../../exercises/caches/lab.html">
-    8. Caches
-  </a><br>
-  <a class="" href="../../exercises/illop/lab.html">
-    9. Emulating Instructions
-  </a><br>
-  <a class="" href="../../exercises/tinyos/lab.html">
-    10. Tiny Operating System
-  </a><br>
-  <a class="" href="../../exercises/dp/lab.html">
-    11. Optimizing the Beta
-  </a><br>
-</p>
+      <ol type="A">
 
-<p><b>Tool Sandboxes</b><br>
-  <a class="" href="../../exercises/sandboxes/jade.html">
-    Jade: circuit simulator
-  </a><br>
-  <a class="" href="../../exercises/sandboxes/bsim.html">
-    BSim: Beta simulator
-  </a><br>
-  <a class="" href="../../exercises/sandboxes/tmsim.html">
-    TMSim: Turing Machine simulator
-  </a><br>
-</p>
+        <li>
+          If the register is 5 bits wide (i.e., k = 5) what is the appropriate size
+          of the ROM? Give the number of locations and the number of bits in each location.</li>
 
-  
-<p/>
-<hr style="border-style:solid; border-color:black;"/>
-<p>
-  Your exercise answers are saved by the browser in local storage
-  associated with this webpage.  You can use the buttons below
-  to load/save the answers on your system.
-</p>
+        <answer type="number" id="1A1">
+          <label>Number of locations</label>
+        </answer>
+        <answer type="number" id="1A2">
+          <label>Number of bits in each location</label>
+        </answer>
 
-  
-<p>
-  Save all answers:
-  <a download="saved_state.json" href="#" onclick="workbook.save_answers(this);"><button>Save</button></a>
-</p>
+        <li>
+          If the register is 5 bits wide what is the maximum number of states
+          in an FSM implemented using this circuit?</li>
 
-<p>
-  Load all answers (<i>this will overwrite any answers currently saved by the browser</i>): <br/>
-  <input style="margin-left:1em;" type="file" onchange="workbook.load_answers(this);"/>
-</p>
+        <answer type="number" id="1B">
+          <label>Maximum number of states</label>
+        </answer>
 
-<p><center><i>Authored by Chris Terman</i></center></p>
+        <li>
+          What is the smallest possible value for the ROM's contamination delay that still
+          ensures the necessary timing specifications are met?</li>
 
+        <answer type="number" id="1C">
+          <label>smallest possible value for \(t_{\textrm{CD,ROM}}\) (in seconds)</label>
+          <placeholder>&pm;5%</placeholder>
+        </answer>
 
-  </div>
-  <div class="content">
-    <h1>Finite State Machines</h1>
+        <li>
+          Assume that the ROM's \(t_{\textrm{CD}} = 3\textrm{ns}\).  What is the shortest possible
+          clock period that still ensures that the necessary timing specifications are met?</li>
 
-<p/>When entering numeric values in the answer fields, you can use
-integers (1000, 0x3E8, 0b1111101000), floating-point numbers
-(1000.0), scientific notation (1e3), engineering scale factors
-(1K), or numeric expressions (3*300 + 100).
+        <answer type="number" id="1D">
+          <label>smallest clock period (in seconds)</label>
+          <placeholder>&pm;5%</placeholder>
+        </answer>
 
-<p><b>Problem 1.  FSMs</b>
+      </ol>
 
-<p/>A possible implementation of a finite state machine with two inputs and
-one output is shown below.
-<p /><center><img src="1.gif" /></center>
+      <h3>Problem 2.  State Transition Diagram</h3>
 
-<ol type="A">
+      <p>Shown below is a state transition diagram for an FSM, F, with a
+        single binary input B.  The FSM has a single output, a light which
+        is on for the three states marked by a gray dot.  The starting
+        state is marked by the heavy circle.</p>
 
-  <p/><li/>
-  If the register is 5 bits wide (i.e., k = 5) what is the appropriate size
-  of the ROM? Give the number of locations and the number of bits in each location.
+      <p><center><img src="2.gif" /></center></p>
 
-  <answer type="number" id="1A1">
-    <label>Number of locations</label>
-  </answer>
-  <answer type="number" id="1A2">
-    <label>Number of bits in each location</label>
-  </answer>
+      <ol type="A">
 
-  <p/><li/>
-  If the register is 5 bits wide what is the maximum number of states
-  in an FSM implemented using this circuit?
+        <li>
+          Is there a <i>synchronizing sequence</i> of inputs which will
+          return this FSM from an unknown state to its starting state?</li>
 
-  <answer type="number" id="1B">
-    <label>Maximum number of states</label>
-  </answer>
+        <answer type="choice" id="2A">
+          <label>Synchronizing sequence</label>
+          <choice>00010 is such a sequence</choice>
+          <choice>01010 is such a sequence</choice>
+          <choice>00000 is such a sequence</choice>
+          <choice>11101 is such a sequence</choice>
+          <choice>No such sequence exists</choice>
+        </answer>
 
-  <p/><li/>
-  What is the smallest possible value for the ROM's contamination delay that still
-  ensures the necessary timing specifications are met?
+        <li>
+          Does this FSM have a pair of equivalent states that may be merged to yield a 3-state FSM?</li>
 
-  <answer type="number" id="1C">
-    <label>smallest possible value for \(t_{\textrm{CD,ROM}}\) (in seconds)</label>
-    <placeholder>&pm;5%</placeholder>
-  </answer>
+        <answer type="choice" id="2B">
+          <label>Equivalent states</label>
+          <choice>Yes; the two middle states (upper and lower) are equivalent.</choice>
+          <choice>Yes; the lower and rightmost states are equivalent.</choice>
+          <choice>Yes; the leftmost and rightmost states are equivalent.</choice>
+          <choice>No two states are equivalent; this FSM cannot be reduced.</choice>
+        </answer>
 
-  <p/><li/>
-  Assume that the ROM's \(t_{\textrm{CD}} = 3\textrm{ns}\).  What is the shortest possible
-  clock period that still ensures that the necessary timing specifications are met?
+        <li>
+          The following circuit is used to implement the above 4-state FSM:
 
-  <answer type="number" id="1D">
-    <label>smallest clock period (in seconds)</label>
-    <placeholder>&pm;5%</placeholder>
-  </answer>
+          <p><center><img src="3.gif" /></center></p>
 
-</ol>
+          <p>It is known that the starting state of the 4-state FSM
+            corresponds to 00 on the state variable input, and
+            the <b>light</b> output is 1 when the light is to be on.  What
+            is the value of the <b>light</b> output when all three inputs to
+            the ROM are zero?</p></li>
 
-<p/><b>Problem 2.  State Transition Diagram</b>
+        <answer type="choice" id="2C">
+          <label>Value of <b>light</b> output</label>
+          <choice>0 (light off)</choice>
+          <choice>1 (light on)</choice>
+          <choice>Cannot tell from information given</choice>
+        </answer>
 
-<p/>Shown below is a state transition diagram for an FSM, F, with a
-single binary input B.  The FSM has a single output, a light which
-is on for the three states marked by a gray dot.  The starting
-state is marked by the heavy circle.
-<p/><center><img src="2.gif" /></center>
+        <li>
+          Fill in the unspecified rows of the following truth table so that
+          it implements the state transition diagram. You will need to enter
+          some combination of three zeros or ones in each field.  Other characters
+          in the fields (e.g., spaces) will be ignored. Remember the starting state
+          is 00.</li>
 
-<ol type="A">
+        <script>
+          function check_binary(type,expected,answer,samples) {
+              var binary = answer.value.match(/[01]/g).join('');
+              answer.check = (binary == expected) ? 'right' : 'wrong';
+              answer.message = undefined;
+          }
+        </script>
 
-  <p/><li/>
-  Is there a <i>synchronizing sequence</i> of inputs which will
-  return this FSM from an unknown state to its starting state?
-
-  <answer type="choice" id="2A">
-    <label>Synchronizing sequence</label>
-    <choice>00010 is such a sequence</choice>
-    <choice>01010 is such a sequence</choice>
-    <choice>00000 is such a sequence</choice>
-    <choice>11101 is such a sequence</choice>
-    <choice>No such sequence exists</choice>
-  </answer>
-  
-  <p/><li/>
-  Does this FSM have a pair of equivalent states that may be merged to yield a 3-state FSM?
-
-  <answer type="choice" id="2B">
-    <label>Equivalent states</label>
-    <choice>Yes; the two middle states (upper and lower) are equivalent.</choice>
-    <choice>Yes; the lower and rightmost states are equivalent.</choice>
-    <choice>Yes; the leftmost and rightmost states are equivalent.</choice>
-    <choice>No two states are equivalent; this FSM cannot be reduced.</choice>
-  </answer>
-
-  <p/><li/>
-  The following circuit is used to implement the above 4-state FSM:
-
-  <p/><center><img src="3.gif" /></center>
-
-  <p/>It is known that the starting state of the 4-state FSM
-  corresponds to 00 on the state variable input, and
-  the <b>light</b> output is 1 when the light is to be on.  What
-  is the value of the <b>light</b> output when all three inputs to
-  the ROM are zero?
-
-  <answer type="choice" id="2C">
-    <label>Value of <b>light</b> output</label>
-    <choice>0 (light off)</choice>
-    <choice>1 (light on)</choice>
-    <choice>Cannot tell from information given</choice>
-  </answer>
-
-  <p/><li/>
-  Fill in the unspecified rows of the following truth table so that
-  it implements the state transition diagram. You will need to enter
-  some combination of three zeros or ones in each field.  Other characters
-  in the fields (e.g., spaces) will be ignored. Remember the starting state
-  is 00.
-
-  <script>
-    function check_binary(type,expected,answer,samples) {
-    var binary = answer.value.match(/[01]/g).join('');
-    answer.check = (binary == expected) ? 'right' : 'wrong';
-    answer.message = undefined;
-    }
-  </script>
-
-  <p/>
-  <table cellspacing="10">
-    <tr>
-      <td><img src="2.gif" /></td>
-      <td>
-	<table border="1" cellpadding="2" style="border-collapse:collapse;">
-	  <tr>
-	    <td><pre>S1 S0  B</pre></td>
-	    <td><pre>S1' S0' light</pre></td>
-	  </tr>
-	  <tr valign="baseline">
-	    <td><pre> 0  0  0</pre></td>
-	    <td>
-	      <answer type="number" id="2D1" checker="check_binary"></answer>
-	    </td>
-	  </tr>
-	  <tr valign="baseline">
-	    <td><pre> 0  0  1</pre></td>
-	    <td>
-	      <answer type="number" id="2D2" checker="check_binary"></answer>
-	    </td>
-	  </tr>
-	  <tr valign="baseline">
-	    <td><pre> 0  1  0</pre></td>
-	    <td><pre> 1   1   1</pre></td>
-	  </tr>
-	  <tr valign="baseline">
-	    <td><pre> 0  1  1</pre></td>
-	    <td><pre> 0   0   1</pre></td>
-	  </tr>
-	  <tr valign="baseline">
-	    <td><pre> 1  0  0</pre></td>
-	    <td>
-	      <answer type="number" id="2D3" checker="check_binary"></answer>
-	    </td>
-	  </tr>
-	  <tr valign="baseline">
-	    <td><pre> 1  0  1</pre></td>
-	    <td>
-	      <answer type="number" id="2D4" checker="check_binary"></answer>
-	    </td>
-	  </tr>
-	  <tr valign="baseline">
-	    <td><pre> 1  1  0</pre></td>
-	    <td>
-	      <answer type="number" id="2D5" checker="check_binary"></answer>
-	    </td>
-	  </tr>
-	  <tr valign="baseline">
-	    <td><pre> 1  1  1</pre></td>
-	    <td>
-	      <answer type="number" id="2D6" checker="check_binary"></answer>
-	    </td>
-	  </tr>
+        <table cellspacing="10">
+          <tr>
+            <td><img src="2.gif" /></td>
+            <td>
+              <table border="1" cellpadding="2" style="border-collapse:collapse;">
+	        <tr>
+	          <td><pre>S1 S0  B</pre></td>
+	          <td><pre>S1' S0' light</pre></td>
+	        </tr>
+	        <tr valign="baseline">
+	          <td><pre> 0  0  0</pre></td>
+	          <td>
+	            <answer type="number" id="2D1" checker="check_binary"></answer>
+	          </td>
+	        </tr>
+	        <tr valign="baseline">
+	          <td><pre> 0  0  1</pre></td>
+	          <td>
+	            <answer type="number" id="2D2" checker="check_binary"></answer>
+	          </td>
+	        </tr>
+	        <tr valign="baseline">
+	          <td><pre> 0  1  0</pre></td>
+	          <td><pre> 1   1   1</pre></td>
+	        </tr>
+	        <tr valign="baseline">
+	          <td><pre> 0  1  1</pre></td>
+	          <td><pre> 0   0   1</pre></td>
+	        </tr>
+	        <tr valign="baseline">
+	          <td><pre> 1  0  0</pre></td>
+	          <td>
+	            <answer type="number" id="2D3" checker="check_binary"></answer>
+	          </td>
+	        </tr>
+	        <tr valign="baseline">
+	          <td><pre> 1  0  1</pre></td>
+	          <td>
+	            <answer type="number" id="2D4" checker="check_binary"></answer>
+	          </td>
+	        </tr>
+	        <tr valign="baseline">
+	          <td><pre> 1  1  0</pre></td>
+	          <td>
+	            <answer type="number" id="2D5" checker="check_binary"></answer>
+	          </td>
+	        </tr>
+	        <tr valign="baseline">
+	          <td><pre> 1  1  1</pre></td>
+	          <td>
+	            <answer type="number" id="2D6" checker="check_binary"></answer>
+	          </td>
+	        </tr>
+              </table>
+            </td>
+          </tr>
         </table>
-      </td>
-    </tr>
-  </table>
 
-</ol>
+      </ol>
 
-<p><b>Problem 3.  Design problem: Well-formed parenthesis string checker</b>
+      <h3>Problem 3.  Design problem: Well-formed parenthesis string checker</h3>
 
-<p/>In 1936 Alan Turing described the "a-machine", a device that
-performed computations on a string of symbols according to a simple
-set of manipulation rules enumerated in the form of a finite-state
-machine (FSM).  The machine consisted of
+      <p>In 1936 Alan Turing described the "a-machine", a device that
+        performed computations on a string of symbols according to a simple
+        set of manipulation rules enumerated in the form of a finite-state
+        machine (FSM).  The machine consisted of</p>
 
-<p/><ul> ...an unlimited memory capacity obtained in the form of an
-  infinite tape marked out into squares, on each of which a symbol could
-  be printed. At any moment there is one symbol in the machine; it is
-  called the scanned symbol. The machine can alter the scanned symbol
-  and its behavior is in part determined by that symbol, but the symbols
-  on the tape elsewhere do not affect the behavior of the
-  machine. However, the tape can be moved back and forth through the
-  machine, this being one of the elementary operations of the
-  machine. Any symbol on the tape may therefore eventually have an
-  innings.  (Turing, 1948)
-</ul>
+      <ul> ...an unlimited memory capacity obtained in the form of an
+        infinite tape marked out into squares, on each of which a symbol could
+        be printed. At any moment there is one symbol in the machine; it is
+        called the scanned symbol. The machine can alter the scanned symbol
+        and its behavior is in part determined by that symbol, but the symbols
+        on the tape elsewhere do not affect the behavior of the
+        machine. However, the tape can be moved back and forth through the
+        machine, this being one of the elementary operations of the
+        machine. Any symbol on the tape may therefore eventually have an
+        innings.  (Turing, 1948)
+      </ul>
 
-<p/>We now refer to this device as a Turing Machine (TM) and use it as
-our definition for what it means to be computable, i.e., we believe
-(Church's Thesis) that a function is algorithmically computable if and
-only if it's computable by a TM.
+      <p>We now refer to this device as a Turing Machine (TM) and use it as
+        our definition for what it means to be computable, i.e., we believe
+        (Church's Thesis) that a function is algorithmically computable if and
+        only if it's computable by a TM.</p>
 
-<p/>The goal of this lab is write the FSM controller for a TM that
-checks to see if the string of left and right parentheses it finds on
-its input tape "balance".
+      <p>The goal of this lab is write the FSM controller for a TM that
+        checks to see if the string of left and right parentheses it finds on
+        its input tape "balance".</p>
 
-<p/>The TM has a doubly-infinite tape with discrete symbol positions
-(cells) each of which contains one of a finite set of symbols.  The
-control FSM has one input: the symbol found in the current cell.  The
-FSM produces several outputs: the symbol to be written into the
-current cell and a motion control that determines how the head should
-move.  In our simulation, the tape is displayed horizontally, so the
-tape can move left, right, or stay where it is.
+      <p>The TM has a doubly-infinite tape with discrete symbol positions
+        (cells) each of which contains one of a finite set of symbols.  The
+        control FSM has one input: the symbol found in the current cell.  The
+        FSM produces several outputs: the symbol to be written into the
+        current cell and a motion control that determines how the head should
+        move.  In our simulation, the tape is displayed horizontally, so the
+        tape can move left, right, or stay where it is.</p>
 
-<p/>The operation of the TM is specified by a file containing one or
-more of the following statements:
+      <p>The operation of the TM is specified by a file containing one or
+        more of the following statements:</p>
 
-<p/><tt>// <i>comment</i></tt>
-<ul>
-  C++-style comment: ignore characters starting with the "//" and
-  continuing to the end of the current line.
-</ul>
+      <p><tt>// <i>comment</i></tt></p>
+      <ul>
+        C++-style comment: ignore characters starting with the "//" and
+        continuing to the end of the current line.
+      </ul>
 
-<p/><tt>/* ... */</tt>
-<ul>
-  C-style comment: ignore characters between "/*" and "*/".  Note that
-  the ignored characters may include newlines; this type of comment can
-  be used to comment-out multiple lines of your file.
-</ul>
+      <p><tt>/* ... */</tt></p>
+      <ul>
+        C-style comment: ignore characters between "/*" and "*/".  Note that
+        the ignored characters may include newlines; this type of comment can
+        be used to comment-out multiple lines of your file.
+      </ul>
 
-<p/><tt>symbols <i>symbol...</i></tt>
-<ul>
-  Declare one or more tape symbols.  The symbol "-" (dash) is predefined
-  and is used to indicate that a tape cell is blank.  You have to
-  declare symbols you use in an action statement (see below).  A symbol
-  can be any sequence of non-whitespace characters not including "/", "\", or
-  the quote character.  If you want to declare a symbol containing
-  whitespace, "/" or quote, you must enclose the symbol in quotes.  You
-  can have more than one <tt>symbols</tt> statement in your file.
-</ul>
+      <p><tt>symbols <i>symbol...</i></tt></p>
+      <ul>
+        Declare one or more tape symbols.  The symbol "-" (dash) is predefined
+        and is used to indicate that a tape cell is blank.  You have to
+        declare symbols you use in an action statement (see below).  A symbol
+        can be any sequence of non-whitespace characters not including "/", "\", or
+        the quote character.  If you want to declare a symbol containing
+        whitespace, "/" or quote, you must enclose the symbol in quotes.  You
+        can have more than one <tt>symbols</tt> statement in your file.
+      </ul>
 
-<p/><tt>states <i>state...</i></tt>
-<ul>
-  Declare one or more states.  There are two predefined states: "*halt*"
-  and "*error*".  The TM simulation will stop if either of these states
-  is reached.  The "*error*" state is useful for indicating that the TM
-  has halted due to an unexpected condition.  You can have more than one
-  <tt>states</tt> statement in your file.  The first state specified by
-  the first <tt>states</tt> statement is the starting state for the TM.
-</ul>
+      <p><tt>states <i>state...</i></tt></p>
+      <ul>
+        Declare one or more states.  There are two predefined states: "*halt*"
+        and "*error*".  The TM simulation will stop if either of these states
+        is reached.  The "*error*" state is useful for indicating that the TM
+        has halted due to an unexpected condition.  You can have more than one
+        <tt>states</tt> statement in your file.  The first state specified by
+        the first <tt>states</tt> statement is the starting state for the TM.
+      </ul>
 
-<p/><tt>action <i>state symbol newstate writesymbol motion</i></tt>
-<ul>
-  Specify the action performed by the TM when the current state
-  is <tt><i>state</i></tt> and the current symbol
-  is <tt><i>symbol</i></tt>.  First the TM will write <tt><i>writesymbol</i></tt> into
-  the current cell of the tape.  Then the tape is moved left if "l" is
-  specified for the <tt><i>motion</i></tt>, right if "r" is specified and remain where
-  it is if "-" is specified.  Finally the current state of the control
-  FSM is changed to <tt><i>newstate</i></tt> and the TM searches for the next applicable
-  action.  If <tt><i>newstate</i></tt> is "*halt*" or "*error*", the TM simulation
-  stops.  If there is no action specified for the current state and
-  current symbol, the TM enters the "*error*" state.  Note that you have
-  to declare any symbols or states you use in an <tt>action</tt>
-  statement -- this requirement is helpful in catching typos.
-</ul>
+      <p><tt>action <i>state symbol newstate writesymbol motion</i></tt></p>
+      <ul>
+        Specify the action performed by the TM when the current state
+        is <tt><i>state</i></tt> and the current symbol
+        is <tt><i>symbol</i></tt>.  First the TM will write <tt><i>writesymbol</i></tt> into
+        the current cell of the tape.  Then the tape is moved left if "l" is
+        specified for the <tt><i>motion</i></tt>, right if "r" is specified and remain where
+        it is if "-" is specified.  Finally the current state of the control
+        FSM is changed to <tt><i>newstate</i></tt> and the TM searches for the next applicable
+        action.  If <tt><i>newstate</i></tt> is "*halt*" or "*error*", the TM simulation
+        stops.  If there is no action specified for the current state and
+        current symbol, the TM enters the "*error*" state.  Note that you have
+        to declare any symbols or states you use in an <tt>action</tt>
+        statement -- this requirement is helpful in catching typos.
+      </ul>
 
-<p/><tt>tape <i>name symbol...</i></tt>
-<ul>
-  Specifies the initial configuration of a TM tape, each tape has a
-  name.  The various names are displayed as a set of radio buttons at
-  the bottom of the TM animation -- you can select which tape is loaded at
-  reset by clicking on one of the buttons.  You can specify which cell
-  of the tape is to be current cell after reset by enclosing the
-  appropriate symbol in square brackets.  For example, an initial tape
-  configuration called "test" consisting of three non-blank cells with
-  the head positioned over the middle cell is specified by
-  <pre>tape test 1 [2] 3</pre>
-  If no initial head position is specified, the head is positioned over
-  the leftmost symbol on the tape.
-</ul>
+      <p><tt>tape <i>name symbol...</i></tt></p>
+      <ul>
+        Specifies the initial configuration of a TM tape, each tape has a
+        name.  The various names are displayed as a set of radio buttons at
+        the bottom of the TM animation -- you can select which tape is loaded at
+        reset by clicking on one of the buttons.  You can specify which cell
+        of the tape is to be current cell after reset by enclosing the
+        appropriate symbol in square brackets.  For example, an initial tape
+        configuration called "test" consisting of three non-blank cells with
+        the head positioned over the middle cell is specified by
+        <pre>tape test 1 [2] 3</pre>
+        If no initial head position is specified, the head is positioned over
+        the leftmost symbol on the tape.
+      </ul>
 
-<p/><tt>result <i>name symbol...</i></tt>
-<ul>
-  Specifies the expected head position and contents of the tape after
-  the TM has finished processing the initial tape configuration called
-  name.  This statement is used by the checkoff system to verify that
-  your TM has correctly processed each of the test tapes.  Whenever the
-  TM enters the "*halt*" state, the final tape configuration is checked
-  against the appropriate result statement if one has been specified and
-  any discrepancies will be reported in the status display at the bottom
-  of the TMSim window.
-</ul>
+      <p><tt>result <i>name symbol...</i></tt></p>
+      <ul>
+        Specifies the expected head position and contents of the tape after
+        the TM has finished processing the initial tape configuration called
+        name.  This statement is used by the checkoff system to verify that
+        your TM has correctly processed each of the test tapes.  Whenever the
+        TM enters the "*halt*" state, the final tape configuration is checked
+        against the appropriate result statement if one has been specified and
+        any discrepancies will be reported in the status display at the bottom
+        of the TMSim window.
+      </ul>
 
-<p/><tt>result1 <i>name symbol</i></tt>
-<ul>
-  Like result except that only the current symbol is checked against the
-  specified value.
-</ul>
+      <p><tt>result1 <i>name symbol</i></tt></p>
+      <ul>
+        Like <tt>result</tt> except that only the current symbol is checked against the
+        specified value.
+      </ul>
 
-<p/>Here's an example file that defines a control FSM with three
-states (s1, s2 and s3) and two possible tape symbols: "1" and "-"
-(recall that the "-" symbol is predefined).  There is a single tape
-configuration defined called "test" which consists of a blank tape.
-The final tape configuration is expected to be a tape containing six
-consecutive "1" symbols with the head positioned over the second "1".
-Note that there is an action declared for each possible combination of
-the three states and two tape symbols.
+      <p>Here's an example file that defines a control FSM with three
+        states (s1, s2 and s3) and two possible tape symbols: "1" and "-"
+        (recall that the "-" symbol is predefined).  There is a single tape
+        configuration defined called "test" which consists of a blank tape.
+        The final tape configuration is expected to be a tape containing six
+        consecutive "1" symbols with the head positioned over the second "1".
+        Note that there is an action declared for each possible combination of
+        the three states and two tape symbols.</p>
 
-<p/><pre class="jsim">// 3-state busy beaver Turing Machine example
+      <p><pre class="jsim">// 3-state busy beaver Turing Machine example
 
 // See how many 1's we can write on a blank tape using
 // only a three-state Turing Machine
@@ -465,64 +352,65 @@ action s1 1 s3     1 l
 action s2 - s1     1 l
 action s2 1 s2     1 r
 action s3 - s2     1 l
-action s3 1 *halt* 1 r</pre>
+action s3 1 *halt* 1 r</pre></p>
 
-<p/>You'll find an instance of TMSim, our TM simulator, at the bottom
-of this webpage.  Here's what the TM simulator
-looks like:
+      <p>You'll find an instance of TMSim, our TM simulator, at the bottom
+        of this webpage.  Here's what the TM simulator
+        looks like:</p>
 
-<p/><center><img src="10.png" width="600" /></center>
+      <p><center><img src="10.png" width="600" /></center></p>
 
-<p/>The TM display consists of the following parts:
+      <p>The TM display consists of the following parts:</p>
 
-<ul>
-  <i>Simulator control:</i> The five buttons are, respectively:
-  <ul>
-    <li/> reset TM and tape to initial state;
-    <li/> step back to previous state and tape configuration
-    <li/> run the simulation for multiple steps
-    <li/> halt a running simulation
-    <li/> run the simulation for a single step
-  </ul>
-  The speed of the running machine is determined by the radio
-  buttons on the right.
+      <ul>
+        <p>
+        <i>Simulator control:</i> The five buttons are, respectively:
+        <ul>
+          <li/> reset TM and tape to initial state;
+          <li/> step back to previous state and tape configuration
+          <li/> run the simulation for multiple steps
+          <li/> halt a running simulation
+          <li/> run the simulation for a single step
+        </ul>
+        The speed of the running machine is determined by the radio
+        buttons on the right.</p>
 
-  <p/><i>State display:</i> shows the current tape contents, head
-  position and current state of the controlling FSM.  The number of
-  simulation steps is displayed on the left, just below the tape.  The
-  next action to be performed, as determined by the current state and
-  tape symbol, is highlighted in your design file.
+        <p><i>State display:</i> shows the current tape contents, head
+          position and current state of the controlling FSM.  The number of
+          simulation steps is displayed on the left, just below the tape.  The
+          next action to be performed, as determined by the current state and
+          tape symbol, is highlighted in your design file.</p>
 
-  <p/><i>Test selection:</i> radio button to select which test
-  tape to use.  A <button>Checkoff</button> will also be displayed.  Clicking on
-  <button>Checkoff</button> will run all the test tapes and, if they
-  all pass, you'll be able to submit your design file online.
-</ul>
+        <p><i>Test selection:</i> radio button to select which test
+          tape to use.  A <button>Checkoff</button> will also be displayed.  Clicking on
+          <button>Checkoff</button> will run all the test tapes and, if they
+          all pass, you'll be able to submit your design file online.</p>
+      </ul>
 
-<p/><b>Well-formed parenthesis string checker</b>
+      <p><b>Well-formed parenthesis string checker</b></p>
 
-<p/>Your task is to write the control FSM for a TM that determines if
-the parenthesis string on its input tape is balanced.  The initial position
-of the head will be at the leftmost non-blank symbol on the tape, i.e., at
-the left end of the parenthesis string. Your TM should
-halt with a current symbol of "1" if the parens balance, or a current
-symbol of "0" if the parens don't balance.  The head should be
-positioned over the "0" or "1" on the tape.  Note that there are no
-constraints on what the rest of the tape contains.
+      <p>Your task is to write the control FSM for a TM that determines if
+        the parenthesis string on its input tape is balanced.  The initial position
+        of the head will be at the leftmost non-blank symbol on the tape, i.e., at
+        the left end of the parenthesis string. Your TM should
+        halt with a current symbol of "1" if the parens balance, or a current
+        symbol of "0" if the parens don't balance.  The head should be
+        positioned over the "0" or "1" on the tape.  Note that there are no
+        constraints on what the rest of the tape contains.</p>
 
-<p/>NOTE: TMs that simply use some fixed number of states to count the
-number of unmatched open parentheses would not be able handle an
-arbitrary-length inputs and so do not qualify as acceptable solutions.
-The staff will check this constraint during the check-off meeting.
+      <p>NOTE: TMs that simply use some fixed number of states to count the
+        number of unmatched open parentheses would not be able handle an
+        arbitrary-length inputs and so do not qualify as acceptable solutions.
+        The staff will check this constraint during the check-off meeting.</p>
 
-<p/> Use the TMSim simulator below to enter your design in the "Paren
-Checker" tab.  The initial contents of the tab are a sequence of test
-tapes which must be processed successfully by your TM.  To run the tests,
-click "TMSim Assemble" and then "Checkoff".  If all the tests pass,
-then clicking <button>Check &amp; Save</button> will give you credit for completing
-this problem.  Please see the note on scoring at the end of this problem.
+      <p>Use the TMSim simulator below to enter your design in the "Paren
+        Checker" tab.  The initial contents of the tab are a sequence of test
+        tapes which must be processed successfully by your TM.  To run the tests,
+        click "TMSim Assemble" and then "Checkoff".  If all the tests pass,
+        then clicking <button>Check &amp; Save</button> will give you credit for completing
+        this problem.  Please see the note on scoring at the end of this problem.</p>
 
-<answer id="3" type="window" tool_name="TMSim" height="600" src="../../tools/tmsim_workbook.html"><![CDATA[
+      <answer id="3" type="window" tool_name="TMSim" height="600" src="../../tools/tmsim_workbook.html"><![CDATA[
 { "required_tests": ["-2122075866"],
   "initial_state" : {
   "Busy beaver": "// 3-state busy beaver Turing Machine example\n\n// See how many 1's we can write on a blank tape using\n// only a three-state Turing Machine\n\nstates s1 s2 s3  // list of state names, first is starting state\nsymbols 1        // list of symbols (- is blank cell)\n\ntape test -      // initial tape contents, blank in this case\nresult test 1 [1] 1 1 1 1 // expected result\n\n// specify transistions: action state symbol state' write move\n//    state = the current state of the FSM\n//    symbol = the symbol read from the current cell\n//    state' = state on the next cycle \n//    write = symbol to be written into the current cell\n//    move = tape movement (\"l\"=left, \"r\"=right, \"-\"=stay put)\naction s1 - s2     1 r\naction s1 1 s3     1 l\naction s2 - s1     1 l\naction s2 1 s2     1 r\naction s3 - s2     1 l\naction s3 1 *halt* 1 r\n"
@@ -532,143 +420,130 @@ this problem.  Please see the note on scoring at the end of this problem.
 }
 ]]></answer>
 
-<p/>Note that you're welcome to add your own test tapes while
-debugging your implementation, but you'll need to comment them out
-before running the checkoff tests (otherwise the checksum mechanism
-will get confused).
+      <p>Note that you're welcome to add your own test tapes while
+        debugging your implementation, but you'll need to comment them out
+        before running the checkoff tests (otherwise the checksum mechanism
+        will get confused).</p>
 
-<p/>Scoring: The number of points you'll receive at the Check-off
-meeting is determined by the number of states in your TM definition:
-<ul>
-  4 points: 2 states<br/>
-  3 points: 3 states<br/>
-  2 points: 4 states<br/>
-  1 point: 5 or more states
-</ul>
-"Counting" solutions do not receive any credit.
+      <p>Scoring: The number of points you'll receive at the Check-off
+        meeting is determined by the number of states in your TM definition:</p>
+      <ul>
+        4 points: 2 states<br/>
+        3 points: 3 states<br/>
+        2 points: 4 states<br/>
+        1 point: 5 or more states
+      </ul>
+      <p>"Counting" solutions do not receive any credit.</p>
 
-<p/><b>Problem 4. Design problem: Sequential Logic</b>
+      <h3>Problem 4. Design problem: Sequential Logic</h3>
 
-<p/> Your task is to design a sequential logic circuit that
-implements the FSM shown in the state transition diagram below:
+      <p> Your task is to design a sequential logic circuit that
+        implements the FSM shown in the state transition diagram below:</p>
 
-<p /><center><img src="4_1.png" width="500" /></center>
+      <p><center><img src="4_1.png" width="500" /></center></p>
 
-The sequential circuit has three inputs:
+      <p>The sequential circuit has three inputs:</p>
 
-<ul>
+      <ul>
 
-  <li/><tt>CLK</tt>.  One rising clock edge the FSM should advance to
-  the next state which is determined from current state, the RESET
-  input and the <tt>IN</tt> input.
+        <li><tt>CLK</tt>.  One rising clock edge the FSM should advance to
+          the next state which is determined from current state, the RESET
+          input and the <tt>IN</tt> input.</li>
 
-  <p/><li/><tt>IN</tt>.  A simple binary input that determined which,
-  along with the current state, selects which transition is chosen
-  from the state transition diagram.
+        <li><tt>IN</tt>.  A simple binary input that determined which,
+          along with the current state, selects which transition is chosen
+          from the state transition diagram.</li>
 
-  <p/><li/><tt>RESET</tt>. When 1 at the rising edge of CLK, the FSM
-  should transition to the SA state regardless of the current state
-  and value of <tt>IN</tt>.
+        <li><tt>RESET</tt>. When 1 at the rising edge of CLK, the FSM
+          should transition to the SA state regardless of the current state
+          and value of <tt>IN</tt>.</li>
 
-</ul>
+      </ul>
 
-<p/>In the test, the values of <tt>IN</tt> and <tt>RESET</tt> are
-provided 10ns before the rising edge of <tt>CLK</tt>, which should
-provide sufficient time for them to processed by logic or a ROM
-and influence the value for the next state.
+      <p>In the test, the values of <tt>IN</tt> and <tt>RESET</tt> are
+        provided 10ns before the rising edge of <tt>CLK</tt>, which should
+        provide sufficient time for them to processed by logic or a ROM
+        and influence the value for the next state.</p>
 
-<p/>The values of the two outputs, <tt>U</tt> and <tt>V</tt>, are
-determined by the current state and are as shown in the state
-transition diagram.
+      <p>The values of the two outputs, <tt>U</tt> and <tt>V</tt>, are
+        determined by the current state and are as shown in the state
+        transition diagram.</p>
 
-<p/>The details of the implementation are up to you.  Of course,
-you'll need some number D registers to hold the current state.
-The next-state and output logic could be logic gates (see L06
-slides 23 and 24) or our "standard" ROM plus register setup (see
-L06 slide 11).
+      <p>The details of the implementation are up to you.  Of course,
+        you'll need some number D registers to hold the current state.
+        The next-state and output logic could be logic gates (see L06
+        slides 23 and 24) or our "standard" ROM plus register setup (see
+        L06 slide 11).</p>
 
-<p/>The steps you'll need to follow to complete the design are
-outlined on slides 8 and 9 of L06.  See the diagram on slide 11 of
-L06 for one way to handle setting an initial state during reset.
+      <p>The steps you'll need to follow to complete the design are
+        outlined on slides 8 and 9 of L06.  See the diagram on slide 11 of
+        L06 for one way to handle setting an initial state during reset.</p>
 
-<div class="hint">
-  The Memory component can be used to build a read-only memory
-  (ROM).  You can insert a memory component into your schematic by
-  clicking on the "MEM" icon in the schematic tab and dragging it
-  onto the schematic.  Double-click the memory component to change
-  its properties. Please the see documentation for the Memory
-  component at the end of the
-  <a href="/handouts/tool_docs/stdcell.html" target="_blank">Standard Cell Library</a>
-  datasheet.
+      <div class="hint">
+        <p>
+          The Memory component can be used to build a read-only memory
+          (ROM).  You can insert a memory component into your schematic by
+          clicking on the "MEM" icon in the schematic tab and dragging it
+          onto the schematic.  Double-click the memory component to change
+          its properties. Please the see documentation for the Memory
+          component at the end of the
+          <a href="/handouts/tool_docs/stdcell.html" target="_blank">Standard Cell Library</a>
+          datasheet.</p>
 
-  <p/>To build a ROM, set the memory component to have a single
-  port with the desired number of address inputs and data outputs.
-  Connect its CLK and WE inputs to 0'1, which will disable the
-  ability to write into the memory, making it read-only.  And
-  connect its OE input to 1'1 which will enable the D outputs:
+        <p>To build a ROM, set the memory component to have a single
+          port with the desired number of address inputs and data outputs.
+          Connect its CLK and WE inputs to 0'1, which will disable the
+          ability to write into the memory, making it read-only.  And
+          connect its OE input to 1'1 which will enable the D outputs:</p>
 
-  <p /><center><img src="4_2.png" width="200" /></center>
+        <p><center><img src="4_2.png" width="200" /></center></p>
 
+        <p>As described in the datasheet, you can edit the "Contents"
+          property to specify the contents of each memory location.  For
+          example, to fill the first 4 locations of a 4-bit-wide ROM to
+          the binary values 0000, 0101, 1010, and 1111, you could enter
+          the following into the Contents property:</p>
 
-  As described in the datasheet, you can edit the "Contents"
-  property to specify the contents of each memory location.  For
-  example, to fill the first 4 locations of a 4-bit-wide ROM to
-  the binary values 0000, 0101, 1010, and 1111, you could enter
-  the following into the Contents property:
-
-  <pre>// comments are allowed, don't count as content lines
+        <pre>// comments are allowed, don't count as content lines
 // 1 line per ROM location, starting at address 0
 0b0000  // binary value
 5       // decimal value
 0xA     // hexadecimal value
 0b1_111 // binary value, _ is ignored (useful for formatting)</pre>
-</div>
+      </div>
 
-<p/>Use the Jade instance below to enter your design. To complete this
-design problem, select the /fsm/fsm module and click <i class="fa fa-check" style="color:green;"></i>
-in the Jade toolbar and the built-in tester
-will either report any discrepancies between the expected and actual
-outputs, or, if your design is correct, it will record the test passed.
+      <p>Use the Jade instance below to enter your design. To complete this
+        design problem, select the /fsm/fsm module and click <i class="fa fa-check" style="color:green;"></i>
+        in the Jade toolbar and the built-in tester
+        will either report any discrepancies between the expected and actual
+        outputs, or, if your design is correct, it will record the test passed.</p>
 
-<p/> The tests verify that all the state transitions are correct
-by checking the values of <tt>U</tt> and <tt>V</tt> while the
-circuit is processing a sequence of <tt>IN</tt> values.  You can
-select the "Test" tab for the /fsm/fsm to see the input sequence
-and the expected values of <tt>U</tt> and <tt>V</tt> at each clock
-cycle.  The <tt>IN</tt> is changed before the rising edge of the
-clock and the values of <tt>U</tt> and <tt>V</tt> are checked just
-after the rising clock edge (i.e., after the most-recent value
-of <tt>IN</tt> has been processed).  There are comments on each
-test line indicating what the state of the FSM should be after
-processing the new <tt>IN</tt> value.
+      <p>The tests verify that all the state transitions are correct
+        by checking the values of <tt>U</tt> and <tt>V</tt> while the
+        circuit is processing a sequence of <tt>IN</tt> values.  You can
+        select the "Test" tab for the /fsm/fsm to see the input sequence
+        and the expected values of <tt>U</tt> and <tt>V</tt> at each clock
+        cycle.  The <tt>IN</tt> is changed before the rising edge of the
+        clock and the values of <tt>U</tt> and <tt>V</tt> are checked just
+        after the rising clock edge (i.e., after the most-recent value
+        of <tt>IN</tt> has been processed).  There are comments on each
+        test line indicating what the state of the FSM should be after
+        processing the new <tt>IN</tt> value.</p>
 
-<answer id="4" type="window" tool_name="Jade" height="500" required_tests="2cce5785aabc06797428a547fb914d7c" src="../../tools/jade_workbook.html">
-{ "hierarchical": "true",
-  "parts": ["memory", "/gates/.*","/fsm/.*","/user/.*"],
-  "tools": ["check"],
-  "editors": ["schematic","icon","test"],
-  "edit": "/fsm/fsm",
-  "initial_state": {
-      "/fsm/fsm" : {"test": [["test", ".power Vdd=1\n.thresholds Vol=0 Vil=0.1 Vih=0.9 Voh=1\n\n.group inputs RESET IN\n.group outputs U V\n.mode gate\n\n.cycle CLK=0 assert inputs tran 10n CLK=1 tran 20n CLK=0 tran 5n sample outputs tran 5n\n\n1 0 LH //  1. now in SA\n0 0 LH //  2. now in SA\n0 1 LL //  3. now in SB\n0 0 LL //  4. now in SD\n0 1 HL //  5. now in SF\n0 1 HL //  6. now in SF\n0 0 LH //  7. now in SA\n0 1 LL //  8. now in SB\n0 1 HH //  9. now in SC\n0 0 LL // 10. now in SD\n0 0 LL // 11. now in SE\n0 1 HH // 12. now in SC\n0 1 LL // 13. now in SE\n0 0 HL // 14. now in SF\n0 0 LH // 15. now in SA\n\n// now test that RESET always returns us SA\n1 0 LH // 16. now in SA (reset asserted)\n0 1 LL // 17. now in SB\n1 0 LH // 18. now in SA (reset asserted)\n0 1 LL // 19. now in SB\n0 1 HH // 20. now in SC\n1 0 LH // 21. now in SA (reset asserted)\n0 1 LL // 22. now in SB\n0 0 LL // 23. now in SD\n1 0 LH // 24. now in SA (reset asserted)\n0 1 LL // 25. now in SB\n0 0 LL // 26. now in SD\n0 1 HL // 27. now in SF\n1 0 LH // 28. now in SA (reset asserted)\n0 1 LL // 29. now in SB\n0 0 LL // 30. now in SD\n0 0 LL // 31. now in SE\n1 0 LH // 32. now in SA (reset asserted)\n\n// test RESET again this time with IN=1 on reset cycles\n1 1 LH // 33. now in SA (reset asserted)\n0 1 LL // 34. now in SB\n1 1 LH // 35. now in SA (reset asserted)\n0 1 LL // 36. now in SB\n0 1 HH // 37. now in SC\n1 1 LH // 38. now in SA (reset asserted)\n0 1 LL // 39. now in SB\n0 0 LL // 40. now in SD\n1 1 LH // 41. now in SA (reset asserted)\n0 1 LL // 42. now in SB\n0 0 LL // 43. now in SD\n0 1 HL // 44. now in SF\n1 1 LH // 45. now in SA (reset asserted)\n0 1 LL // 46. now in SB\n0 0 LL // 47. now in SD\n0 0 LL // 48. now in SE\n1 1 LH // 49. now in SA (reset asserted)\n\n.plot CLK\n.plot RESET\n.plot IN\n.plot U\n.plot V\n"]], "properties": {"test-readonly": "true","name":{"edit":"yes","type":"name","value":"","label":"Name"}, "name": {"edit": "yes", "type": "name", "value": "", "label": "Name"}}, "schematic": [["port", [-16, -64, 0], {"signal": "CLK"}], ["port", [-16, -80, 0], {"signal": "RESET"}], ["port", [-16, -96, 0], {"signal": "IN"}], ["port", [16, -96, 4], {"signal": "U", "direction": "out"}], ["port", [16, -80, 4], {"signal": "V", "direction": "out"}]]}
-  }}
-</answer>
+      <answer id="4" type="window" tool_name="Jade" height="500" required_tests="2cce5785aabc06797428a547fb914d7c" src="../../tools/jade_workbook.html">
+        { "hierarchical": "true",
+        "parts": ["memory", "/gates/.*","/fsm/.*","/user/.*"],
+        "tools": ["check"],
+        "editors": ["schematic","icon","test"],
+        "edit": "/fsm/fsm",
+        "initial_state": {
+        "/fsm/fsm" : {"test": [["test", ".power Vdd=1\n.thresholds Vol=0 Vil=0.1 Vih=0.9 Voh=1\n\n.group inputs RESET IN\n.group outputs U V\n.mode gate\n\n.cycle CLK=0 assert inputs tran 10n CLK=1 tran 20n CLK=0 tran 5n sample outputs tran 5n\n\n1 0 LH //  1. now in SA\n0 0 LH //  2. now in SA\n0 1 LL //  3. now in SB\n0 0 LL //  4. now in SD\n0 1 HL //  5. now in SF\n0 1 HL //  6. now in SF\n0 0 LH //  7. now in SA\n0 1 LL //  8. now in SB\n0 1 HH //  9. now in SC\n0 0 LL // 10. now in SD\n0 0 LL // 11. now in SE\n0 1 HH // 12. now in SC\n0 1 LL // 13. now in SE\n0 0 HL // 14. now in SF\n0 0 LH // 15. now in SA\n\n// now test that RESET always returns us SA\n1 0 LH // 16. now in SA (reset asserted)\n0 1 LL // 17. now in SB\n1 0 LH // 18. now in SA (reset asserted)\n0 1 LL // 19. now in SB\n0 1 HH // 20. now in SC\n1 0 LH // 21. now in SA (reset asserted)\n0 1 LL // 22. now in SB\n0 0 LL // 23. now in SD\n1 0 LH // 24. now in SA (reset asserted)\n0 1 LL // 25. now in SB\n0 0 LL // 26. now in SD\n0 1 HL // 27. now in SF\n1 0 LH // 28. now in SA (reset asserted)\n0 1 LL // 29. now in SB\n0 0 LL // 30. now in SD\n0 0 LL // 31. now in SE\n1 0 LH // 32. now in SA (reset asserted)\n\n// test RESET again this time with IN=1 on reset cycles\n1 1 LH // 33. now in SA (reset asserted)\n0 1 LL // 34. now in SB\n1 1 LH // 35. now in SA (reset asserted)\n0 1 LL // 36. now in SB\n0 1 HH // 37. now in SC\n1 1 LH // 38. now in SA (reset asserted)\n0 1 LL // 39. now in SB\n0 0 LL // 40. now in SD\n1 1 LH // 41. now in SA (reset asserted)\n0 1 LL // 42. now in SB\n0 0 LL // 43. now in SD\n0 1 HL // 44. now in SF\n1 1 LH // 45. now in SA (reset asserted)\n0 1 LL // 46. now in SB\n0 0 LL // 47. now in SD\n0 0 LL // 48. now in SE\n1 1 LH // 49. now in SA (reset asserted)\n\n.plot CLK\n.plot RESET\n.plot IN\n.plot U\n.plot V\n"]], "properties": {"test-readonly": "true","name":{"edit":"yes","type":"name","value":"","label":"Name"}, "name": {"edit": "yes", "type": "name", "value": "", "label": "Name"}}, "schematic": [["port", [-16, -64, 0], {"signal": "CLK"}], ["port", [-16, -80, 0], {"signal": "RESET"}], ["port", [-16, -96, 0], {"signal": "IN"}], ["port", [16, -96, 4], {"signal": "U", "direction": "out"}], ["port", [16, -80, 4], {"signal": "V", "direction": "out"}]]}
+        }}
+      </answer>
 
-<div class="xyzzy">
-2810bf848d5835b9f99e36ba508144fb39d9197cf36e6dee0a132b7c1ce17740dc1d59d04920d577e87e711dca17288cb48b31f6f57b456d5d042ec71fac16a37f26b62c67ddf4f24c33a830e0398a4d04b97260dcf25059fc47e4a40e580bac017d236500915ee66b76906601f0e3245d3f047bfebed3ee37bcbf5d63d470fb8f20890f255440a701fadcf6008a9dc5b1e30f4e0b24aee12eb3d401ce34bd6f0eae92cd2906493a60fc731f
-</div>
-
-    <div class="footer" style="font-size: small;">
-    <p/><hr/><p/>
-    
-
-    <br>
-    Copyright &copy; 2015-2017 M.I.T. Department of Electrical Engineering and Computer Science
-
-    <br>
-    Your use of this site and materials is subject to our
-    <a href="../../terms.html">terms of use</a>.
-</div>
-
-  </div>
-</body>
+      <div class="xyzzy">
+        2810bf848d5835b9f99e36ba508144fb39d9197cf36e6dee0a132b7c1ce17740dc1d59d04920d577e87e711dca17288cb48b31f6f57b456d5d042ec71fac16a37f26b62c67ddf4f24c33a830e0398a4d04b97260dcf25059fc47e4a40e580bac017d236500915ee66b76906601f0e3245d3f047bfebed3ee37bcbf5d63d470fb8f20890f255440a701fadcf6008a9dc5b1e30f4e0b24aee12eb3d401ce34bd6f0eae92cd2906493a60fc731f
+      </div>
+    </article>
+  </body>
 </html>
