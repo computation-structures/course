@@ -37,7 +37,7 @@ answers = (function () {
         var locn = storage_key();
 
         // {id: {value: string, check: string, message: string},...}
-        var saved_answers = {};
+        let saved_answers = {};
         try {
             saved_answers = JSON.parse(localStorage.getItem(locn) || '{}');
         } catch (e) {
@@ -46,7 +46,7 @@ answers = (function () {
 
         // handler for messages from client iframes/windows
         // message data is JSONified answer object
-        update_handlers = {};
+        const update_handlers = {};
         $(window).on('message',function (event) {
             event = event.originalEvent;
             if (event.origin != window.location.origin) return;
@@ -57,7 +57,7 @@ answers = (function () {
                 update_handlers[id](answer,false);
         });
 
-        var edict = {};
+        let edict = {};
         $('.xyzzy').each(function () {
             var m = $(this).text().trim();
             edict = JSON.parse(substitute_parameters(xyzzy(m.substring(0,8),hexToString(m.substr(8)),0,0,0,2)));
@@ -68,24 +68,32 @@ answers = (function () {
         if (saved_answers._seed_) answers._seed_ = saved_answers._seed_;
         $('answer').each(function (index,adiv) {
             adiv = $(adiv);
-            var id = adiv.attr('id');
-            var type = adiv.attr('type');
-            var state_only = adiv.attr('state_only');
-            var expected = adiv.attr('expected') || edict[id];
-            var samples = adiv.attr('samples');
-            var tool_name = adiv.attr('tool_name') || 'tool';
-            var custom_checker = adiv.attr('checker');
-            var label = adiv.find('label');
-            var placeholder = adiv.find('placeholder');
-            var newdiv;
-            var target;
+            const id = adiv.attr('id');
+            const type = adiv.attr('type');
+            const state_only = adiv.attr('state_only');
+            const expected = adiv.attr('expected') || edict[id];
+            const samples = adiv.attr('samples');
+            const tool_name = adiv.attr('tool_name') || 'tool';
+            const custom_checker = adiv.attr('checker');
+            const label = adiv.find('label');
+            const placeholder = adiv.find('placeholder');
+            const version = adiv.attr('version') || '1';
+            let newdiv;
+            let target;
 
             // set up answer object
-            var answer;
+            let answer;
             if (id) {
                 if (id in answers)
                     console.log('duplicate <answer> id: '+id);
-                answer = saved_answers[id] || {id: id};
+                if (id in saved_answers) {
+                    answer = saved_answers[id];
+                    // if version has changed, throw away old answer
+                    if (answer.version != version)
+                        answer = {id: id, version: version};
+                } else {
+                    answer = {id: id, version: version};
+                }
                 answers[id] = answer;
 
                 // handler to update appropriate state if client sends an update or new state is loaded
@@ -152,8 +160,13 @@ answers = (function () {
             if (type == 'text' || type == 'number' || type == 'twos-complement' || type == 'expression') {
                 newdiv = $(answer_text_template);
                 if (label !== undefined) newdiv.find('label').html(label).attr('for',id);
-                var input = newdiv.find('input');
-                if (placeholder !== undefined) input.attr('placeholder',placeholder.text());
+                const input = newdiv.find('input');
+
+                if (placeholder !== undefined)
+                    input.attr('placeholder',placeholder.text() + ' \u2014 type the Enter key to check answer.');
+                else
+                    input.attr('placeholder','type the Enter key to check answer.');
+
 	        input.on('change',function () {
                     if (answer === undefined) return;
                     var check;
@@ -193,7 +206,7 @@ answers = (function () {
             else if (type == 'menu') {
                 newdiv = $(answer_menu_template);
                 if (label !== undefined) newdiv.find('label').html(label).attr('for',id);
-                var select = newdiv.find('select');
+                const select = newdiv.find('select');
                 select.attr('name',id);
                 adiv.find('menuitem').each(function (index,c) {
                     if (answer === undefined) return;
@@ -226,7 +239,7 @@ answers = (function () {
                     if (answer === undefined)
                         return JSON.stringify({value: initialState});
 
-                    var state;
+                    let state;
                     if (answer.value !== undefined) {
                         // extend initial state with saved user state
                         state = JSON.parse(initialState);
@@ -238,15 +251,24 @@ answers = (function () {
                         id: answer.id,
                         value: state,
                         check: answer.check,
-                        message: answer.message
+                        message: answer.message,
+                        version: answer.version
                     });
+                }
+
+                // function to send message to target
+                function send_message() {
+                    target.postMessage(get_message(),window.location.origin);
                 }
 
                 if (type == 'iframe') {
                     // set up iframe
                     var iframe = $('<iframe></iframe>').attr('id',id).attr('src',src).attr('width',width).attr('height',height).attr('style',style);
                     newdiv = $('<div></div>');
-                    if (id) newdiv.append(iframe_answer_template);
+                    if (id && !state_only) {
+                        newdiv.append(iframe_answer_template);
+                        if (placeholder) newdiv.find('#placeholder').html(placeholder);
+                    } else if (placeholder) newdiv.append(placeholder);
                     newdiv.append(iframe);
                     adiv.replaceWith(newdiv);
 
@@ -254,7 +276,7 @@ answers = (function () {
                     iframe.on('load',function () {
                         target = iframe[0].contentWindow;
                         // ensure pending events happen *before* sending message
-                        setTimeout(function () { target.postMessage(get_message(),window.location.origin); }, 1);
+                        setTimeout(send_message, 1);
                     });
                 } else if (type == 'window') {
                     var wbutton = $('<div class="answer-window"><a href="#">Open '+tool_name+' in a new window</a></div>');
@@ -262,14 +284,20 @@ answers = (function () {
                         if (target === undefined) {
                             if (width == '100%') width = '600';
                             target = window.open(src,'Tool Window '+index.toString(),'width='+width+',height='+height);
+                            let loaded = false;
                             $(target).on('load',function () {
                                 // ensure pending events happen *before* sending message
-                                setTimeout(function () { target.postMessage(get_message(),window.location.origin); }, 1);
+                                setTimeout(send_message, 1);
                                 $('a',wbutton).addClass('open').text(tool_name+' window is open');
-                            });
-                            $(target).on('beforeunload',function () {
-                                target = undefined;
-                                $('a',wbutton).removeClass('open').text('Open '+tool_name+' in a new window');
+                                // we have things to do if target window closes
+                                $(target).on('beforeunload',function () {
+                                    if (loaded) {
+                                        loaded = false;
+                                        target = undefined;
+                                        $('a',wbutton).removeClass('open').text('Open '+tool_name+' in a new window');
+                                    }
+                                });
+                                loaded = true;
                             });
                         } else {
                             target.focus();
@@ -281,7 +309,10 @@ answers = (function () {
                         if (target) target.close();
                     });
                     newdiv = $('<div></div>');
-                    if (id && !state_only) newdiv.append(iframe_answer_template);
+                    if (id && !state_only) {
+                        newdiv.append(iframe_answer_template);
+                        if (placeholder !== undefined) newdiv.find('#placeholder').html(placeholder);
+                    } else if (placeholder !== undefined) newdiv.append(placeholder);
                     newdiv.append(wbutton);
                     adiv.replaceWith(newdiv);
                 }
@@ -292,8 +323,11 @@ answers = (function () {
                 var a = newdiv;
                 if (!a.hasClass('answer')) a = $('.answer',a);
 
-                if (answer.value !== undefined)
+                if (answer.value !== undefined) {
                     a.find('.answer-text-input').val(answer.value);
+                    // clear out any canned messaged in template if user answered
+                    a.find('.answer-message').empty();
+                }
                 if (answer.message !== undefined)
                     a.find('.answer-message').text(answer.message);
                 if (answer.check !== undefined)
@@ -305,7 +339,7 @@ answers = (function () {
         localStorage.setItem(locn,JSON.stringify(answers));
     }
 
-    var answer_text_template = '<div class="answer"><div class="answer-row"><label class="answer-label"></label><input type="text" class="answer-text-input"></input><div class="answer-check"></div></div><div class="answer-message"></div></div>';
+    var answer_text_template = '<div class="answer"><div class="answer-row"><label class="answer-label"></label><input type="text" class="answer-text-input" style="height:35px; width:100%;"></input><div class="answer-check"></div></div><div class="answer-message"></div></div>';
 
     // expected="value"
     function check_text(id,expected,answer) {
@@ -316,6 +350,7 @@ answers = (function () {
 
     // expected="value,tolerance"
     function check_numeric_answer(type,expected,answer) {
+        answer.check = 'wrong';
         expected = expected.split(',');
 
         var v = calculate(expected[0]);
@@ -360,13 +395,13 @@ answers = (function () {
         }
         
         expected = expected.split(',');
-        var v = calculate(expected[0]);
+        let v = calculate(expected[0]);
         if (typeof v == 'string') {
             answer.message('Bad expected value: '+expected[0]);
             return;
         }
 
-        var bitwidth = 32;
+        let bitwidth = 32;
         if (expected.length > 1) {
             bitwidth = parseInt(expected[1]);
 
@@ -377,7 +412,7 @@ answers = (function () {
         }
 
         v = complement_wrap(v, bitwidth);
-        var got = complement_wrap(calculate(answer.value), bitwidth);
+        const got = complement_wrap(calculate(answer.value), bitwidth);
         if (typeof got == 'string') {
             answer.message = got;   // error message
             return;
@@ -480,7 +515,6 @@ answers = (function () {
             answer.message = 'Error evaluating expression: '+e;
             return;
         }
-
         return;
     }
     
@@ -491,14 +525,14 @@ answers = (function () {
         answer.message = undefined;
     }
 
-    var answer_menu_template = '<div class="answer"><div class="answer-row"><label class="answer-label" style="vertical-align: top;"></label><select size="1"><option>--select answer--</option></select><div class="answer-check" style="vertical-align: top;"></div></div><div class="answer-message"></div></div>';
+    var answer_menu_template = '<div class="answer"><div class="answer-row"><label class="answer-label" style="vertical-align: top;"></label><select size="1" style="height:35px;"><option>--select answer--</option></select><div class="answer-check" style="vertical-align: top;"></div></div><div class="answer-message"></div></div>';
 
     function check_menu_answer(type,expected,answer) {
         answer.check = (expected == answer.value) ? 'right' : 'wrong';
         answer.message = undefined;
     }
 
-    var iframe_answer_template = '<div class="answer"><div class="answer-row"><div style="display: table-cell; width: 100%;">To enable the online system to check this answer, first run the design tests provided by the tool.</div><div class="answer-check" style="vertical-align: top;"></div></div><div class="answer-message"></div></div>';
+    var iframe_answer_template = '<div class="answer"><div class="answer-row"><div id="placeholder" style="display: table-cell; width: 100%;"></div><div class="answer-check" style="vertical-align: top;"></div></div><div class="answer-message"></div></div>';
 
     ////////////////////////////////////////////////////////////
     //   Randomization support
