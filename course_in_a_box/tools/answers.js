@@ -76,7 +76,7 @@ answers = (function () {
             const tool_name = adiv.attr('tool_name') || 'tool';
             const custom_checker = adiv.attr('checker');
             const label = adiv.find('label');
-            const placeholder = adiv.find('placeholder');
+            const placeholder = adiv.attr('placeholder');
             const version = adiv.attr('version') || '1';
             let newdiv;
             let target;
