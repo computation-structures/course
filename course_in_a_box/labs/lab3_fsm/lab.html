@@ -410,7 +410,8 @@ action s3 1 *halt* 1 r</pre></p>
         then clicking <button>Check &amp; Save</button> will give you credit for completing
         this problem.  Please see the note on scoring at the end of this problem.</p>
 
-      <answer id="3" type="window" tool_name="TMSim" height="600" src="../../tools/tmsim_workbook.html"><![CDATA[
+      <answer id="3" type="window" tool_name="TMSim" height="600" src="/tools/tmsim_workbook.html"
+              placeholder="Enter your control FSM using the interactive TM simulator, assemble your FSM, then click &#x3C;button&#x3E;Checkoff&#x3c;/button&#x3E; to run all the test tapes."><![CDATA[
 { "required_tests": ["-2122075866"],
   "initial_state" : {
   "Busy beaver": "// 3-state busy beaver Turing Machine example\n\n// See how many 1's we can write on a blank tape using\n// only a three-state Turing Machine\n\nstates s1 s2 s3  // list of state names, first is starting state\nsymbols 1        // list of symbols (- is blank cell)\n\ntape test -      // initial tape contents, blank in this case\nresult test 1 [1] 1 1 1 1 // expected result\n\n// specify transistions: action state symbol state' write move\n//    state = the current state of the FSM\n//    symbol = the symbol read from the current cell\n//    state' = state on the next cycle \n//    write = symbol to be written into the current cell\n//    move = tape movement (\"l\"=left, \"r\"=right, \"-\"=stay put)\naction s1 - s2     1 r\naction s1 1 s3     1 l\naction s2 - s1     1 l\naction s2 1 s2     1 r\naction s3 - s2     1 l\naction s3 1 *halt* 1 r\n"
@@ -530,7 +531,8 @@ action s3 1 *halt* 1 r</pre></p>
         test line indicating what the state of the FSM should be after
         processing the new <tt>IN</tt> value.</p>
 
-      <answer id="4" type="window" tool_name="Jade" height="500" required_tests="2cce5785aabc06797428a547fb914d7c" src="../../tools/jade_workbook.html">
+      <answer id="4" type="window" tool_name="Jade" height="500" required_tests="2cce5785aabc06797428a547fb914d7c" src="/tools/jade_workbook.html"
+              placeholder="Enter the required circuitry using the interactive schematic editor, then click &#x3C;span style=&#x22;color:green;&#x22;&#x3E;&#x2714;&#x3c;/span&#x3E; in the tool bar of the Schematic tab to run the provided tests."><![CDATA[
         { "hierarchical": "true",
         "parts": ["memory", "/gates/.*","/fsm/.*","/user/.*"],
         "tools": ["check"],
@@ -539,7 +541,7 @@ action s3 1 *halt* 1 r</pre></p>
         "initial_state": {
         "/fsm/fsm" : {"test": [["test", ".power Vdd=1\n.thresholds Vol=0 Vil=0.1 Vih=0.9 Voh=1\n\n.group inputs RESET IN\n.group outputs U V\n.mode gate\n\n.cycle CLK=0 assert inputs tran 10n CLK=1 tran 20n CLK=0 tran 5n sample outputs tran 5n\n\n1 0 LH //  1. now in SA\n0 0 LH //  2. now in SA\n0 1 LL //  3. now in SB\n0 0 LL //  4. now in SD\n0 1 HL //  5. now in SF\n0 1 HL //  6. now in SF\n0 0 LH //  7. now in SA\n0 1 LL //  8. now in SB\n0 1 HH //  9. now in SC\n0 0 LL // 10. now in SD\n0 0 LL // 11. now in SE\n0 1 HH // 12. now in SC\n0 1 LL // 13. now in SE\n0 0 HL // 14. now in SF\n0 0 LH // 15. now in SA\n\n// now test that RESET always returns us SA\n1 0 LH // 16. now in SA (reset asserted)\n0 1 LL // 17. now in SB\n1 0 LH // 18. now in SA (reset asserted)\n0 1 LL // 19. now in SB\n0 1 HH // 20. now in SC\n1 0 LH // 21. now in SA (reset asserted)\n0 1 LL // 22. now in SB\n0 0 LL // 23. now in SD\n1 0 LH // 24. now in SA (reset asserted)\n0 1 LL // 25. now in SB\n0 0 LL // 26. now in SD\n0 1 HL // 27. now in SF\n1 0 LH // 28. now in SA (reset asserted)\n0 1 LL // 29. now in SB\n0 0 LL // 30. now in SD\n0 0 LL // 31. now in SE\n1 0 LH // 32. now in SA (reset asserted)\n\n// test RESET again this time with IN=1 on reset cycles\n1 1 LH // 33. now in SA (reset asserted)\n0 1 LL // 34. now in SB\n1 1 LH // 35. now in SA (reset asserted)\n0 1 LL // 36. now in SB\n0 1 HH // 37. now in SC\n1 1 LH // 38. now in SA (reset asserted)\n0 1 LL // 39. now in SB\n0 0 LL // 40. now in SD\n1 1 LH // 41. now in SA (reset asserted)\n0 1 LL // 42. now in SB\n0 0 LL // 43. now in SD\n0 1 HL // 44. now in SF\n1 1 LH // 45. now in SA (reset asserted)\n0 1 LL // 46. now in SB\n0 0 LL // 47. now in SD\n0 0 LL // 48. now in SE\n1 1 LH // 49. now in SA (reset asserted)\n\n.plot CLK\n.plot RESET\n.plot IN\n.plot U\n.plot V\n"]], "properties": {"test-readonly": "true","name":{"edit":"yes","type":"name","value":"","label":"Name"}, "name": {"edit": "yes", "type": "name", "value": "", "label": "Name"}}, "schematic": [["port", [-16, -64, 0], {"signal": "CLK"}], ["port", [-16, -80, 0], {"signal": "RESET"}], ["port", [-16, -96, 0], {"signal": "IN"}], ["port", [16, -96, 4], {"signal": "U", "direction": "out"}], ["port", [16, -80, 4], {"signal": "V", "direction": "out"}]]}
         }}
-      </answer>
+      ]]</answer>
 
       <div class="xyzzy">
         2810bf848d5835b9f99e36ba508144fb39d9197cf36e6dee0a132b7c1ce17740dc1d59d04920d577e87e711dca17288cb48b31f6f57b456d5d042ec71fac16a37f26b62c67ddf4f24c33a830e0398a4d04b97260dcf25059fc47e4a40e580bac017d236500915ee66b76906601f0e3245d3f047bfebed3ee37bcbf5d63d470fb8f20890f255440a701fadcf6008a9dc5b1e30f4e0b24aee12eb3d401ce34bd6f0eae92cd2906493a60fc731f
