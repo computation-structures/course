@@ -35,7 +35,7 @@ Enjoy!
 
 ## Syllabus
 
-* **Digital Circuits**
+* **Part 1: Digital Circuits**
 
   * L01. Basics of Information: <a href="lectures/L01_Basics_of_Information.md">Lecture</a>, <a href="worksheets/pdfs/L01_worksheet.pdf">Worksheet</a>
 
@@ -53,7 +53,17 @@ Enjoy!
 
   * L08. Design Tradeoffs: <a href="lectures/L08_Design_Tradeoffs.md">Lecture</a>
 
-* **Programmable Architectures**
+  * Online labs:
+
+    * <a href="https://raw.githack.com/computation-structures/course/main/labs/lab1_cmos/lab.html">CMOS Technology</a>
+
+    * <a href="https://raw.githack.com/computation-structures/course/main/labs/lab2_adder/lab.html">CMOS Adder</a>
+
+    * <a href="https://raw.githack.com/computation-structures/course/main/labs/lab3_fsm/lab.html">FSMs</a>
+
+    * <a href="https://raw.githack.com/computation-structures/course/main/labs/lab4_alu/lab.html">32-bit ALU</a>
+
+* **Part 2: Programmable Architectures**
 
   * L09. Designing an Instruction Set: <a href="lectures/L09_Designing_an_Instruction_Set.md">Lecture</a>, <a href="worksheets/pdfs/L09_worksheet.pdf">Worksheet</a>
 
@@ -71,7 +81,7 @@ Enjoy!
 
   * L15. Pipelining the Beta: <a href="lectures/L15_Pipelining_the_Beta.md">Lecture</a>, <a href="worksheets/pdfs/L15_worksheet.pdf">Worksheet</a>
 
-* **Computer Organization**
+* **Part 3: Computer Organization**
 
   * L16. Virtual Memory: <a href="lectures/L16_Virtual_Memory.md">Lecture</a>, <a href="worksheets/pdfs/L16_worksheet.pdf">Worksheet</a>
 
