@@ -55,13 +55,13 @@ Enjoy!
 
   * Online labs:
 
-    * <a href="https://raw.githack.com/computation-structures/course/main/labs/lab1_cmos/lab.html">CMOS Technology</a>
+    * <a href="https://raw.githack.com/computation-structures/course/main/labs/lab1_cmos/lab.html">Lab 1: CMOS Technology</a>
 
-    * <a href="https://raw.githack.com/computation-structures/course/main/labs/lab2_adder/lab.html">CMOS Adder</a>
+    * <a href="https://raw.githack.com/computation-structures/course/main/labs/lab2_adder/lab.html">Lab 2: CMOS Adder</a>
 
-    * <a href="https://raw.githack.com/computation-structures/course/main/labs/lab3_fsm/lab.html">FSMs</a>
+    * <a href="https://raw.githack.com/computation-structures/course/main/labs/lab3_fsm/lab.html">Lab 3:FSMs</a>
 
-    * <a href="https://raw.githack.com/computation-structures/course/main/labs/lab4_alu/lab.html">32-bit ALU</a>
+    * <a href="https://raw.githack.com/computation-structures/course/main/labs/lab4_alu/lab.html">Lab 4: 32-bit ALU</a>
 
 * **Part 2: Programmable Architectures**
 
@@ -81,6 +81,12 @@ Enjoy!
 
   * L15. Pipelining the Beta: <a href="lectures/L15_Pipelining_the_Beta.md">Lecture</a>, <a href="worksheets/pdfs/L15_worksheet.pdf">Worksheet</a>
 
+  * Online labs:
+
+    * <a href="https://raw.githack.com/computation-structures/course/main/labs/lab5_assembly/lab.html">Lab 5: Assembly Language</a>
+
+    * <a href="https://raw.githack.com/computation-structures/course/main/labs/lab6_procedures/lab.html">Lab 6: Procedures &amp; Stacks</a>
+
 * **Part 3: Computer Organization**
 
   * L16. Virtual Memory: <a href="lectures/L16_Virtual_Memory.md">Lecture</a>, <a href="worksheets/pdfs/L16_worksheet.pdf">Worksheet</a>
@@ -99,18 +105,6 @@ Enjoy!
 
 * **Online labs**
 
-  * <a href="https://computationstructures.org/exercises/cmos/lab.html">CMOS Technology</a>
-
-  * <a href="https://computationstructures.org/exercises/adder/lab.html">CMOS Adder</a>
-
-  * <a href="https://computationstructures.org/exercises/fsm/lab.html">FSMs</a>
-
-  * <a href="https://computationstructures.org/exercises/alu/lab.html">32-bit ALU</a>
-
-  * <a href="https://computationstructures.org/exercises/assembly/lab.html">Assembly Language</a>
-  
-  * <a href="https://computationstructures.org/exercises/procedures/lab.html">Procedures &amp; Stacks</a>
-    
   * <a href="https://computationstructures.org/exercises/beta/lab.html">Building the Beta</a>
 
   * <a href="https://computationstructures.org/exercises/caches/lab.html">Caches</a>

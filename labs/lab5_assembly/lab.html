@@ -16,6 +16,20 @@
 
   <body>
     <article class="markdown-body">
+      <div style="margin: 10px; border: 1px solid black; padding: 10px; background-color: #FFE;">
+        All your exercise answers for this page are saved by the browser in local storage
+        associated with this page.  You can use the buttons below
+        to load/save the answers on your system.  Note that loading will overwrite
+        any answers currently saved by the browser.
+        <br>
+        <center>
+          Save: <a download="saved_lab_5.json" href="#" onclick="answers.save_answers(this);"><button>Save</button></a>
+          <span style="margin-left: 2em;">Load:</span>
+          <input id="filename" type="file"/>
+          <button onclick="answers.load_answers(document.getElementById('filename'));">Load</button>
+        </center>
+      </div>
+
       <h2>Lab 5: Beta Assembly Language</h2>
 
       <p>When entering numeric values in the answer fields, you can use
@@ -26,8 +40,8 @@
       <p>Useful links:</p>
       <ul>
         <li><a href="../tool_docs/BSim.html" target="_blank">Introduction to BSim</a></li>
-        <li><a href="../tool_docs/betainst.pdf" target="_blank">Summary of Instruction Formats (PDF)</a></li>
-        <li><a href="../tool_docs/beta.pdf" target="_blank">Beta Documentation (PDF)</a></li>
+        <li><a href="../betainst.pdf" target="_blank">Summary of Instruction Formats (PDF)</a></li>
+        <li><a href="../beta.pdf" target="_blank">Beta Documentation (PDF)</a></li>
       </ul>
 
       <h3>Problem 1.  Design Problem: Bubble sort</h3>
@@ -36,8 +50,8 @@
 
       <p>Use the Bsim instance below to enter your code.</p>
 
-      <answer id="bsim" type="window" tool_name="BSim" height="500" src="../tools/bsim_workbook.html
-              "placeholder="Assemble your program, then run the
+      <answer id="bsim" type="window" tool_name="BSim" height="500" src="../tools/bsim_workbook.html"
+              placeholder="Assemble your program, then run the
       simulation to completion.  The built-in test will either report any
       discrepencies between the expected and actual outputs, or, if your
       code is correct, it will record the test passed."><![CDATA[

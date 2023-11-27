@@ -1,174 +1,74 @@
 <!DOCTYPE html>
 <html lang="en">
-<head lang="en">
-<title>Procedures and Stacks</title>
-<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
-<meta name="viewport" content="width=870">
+  <head lang="en">
+    <title>Lab 6: Procedures &amp; Stacks</title>
+    <meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+    <meta name="viewport" content="width=870">
 
-<!-- Global Site Tag (gtag.js) - Google Analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=UA-43707566-1"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
+    <script> MathJax = { tex: { inlineMath: [['$','$'],['\\(','\\)']], processEscapes: true}}; </script>
+    <script src="../tools/MathJax/tex-chtml.js" id="MathJax-script" async></script>
+    <script src="../tools/jquery-3.2.1.min.js"></script>
+    <link rel="stylesheet" href="../tools/github.css">
+    <link rel="stylesheet" href="../tools/labs.css">
+    <link rel="stylesheet" href="../tools/font-awesome.css">
+    <script src="../tools/answers.js"></script>
+  </head>
 
-  gtag('config', 'UA-43707566-1');
-</script>
+  <body>
+    <article class="markdown-body">
+      <div style="margin: 10px; border: 1px solid black; padding: 10px; background-color: #FFE;">
+        All your exercise answers for this page are saved by the browser in local storage
+        associated with this page.  You can use the buttons below
+        to load/save the answers on your system.  Note that loading will overwrite
+        any answers currently saved by the browser.
+        <br>
+        <center>
+          Save: <a download="saved_lab_5.json" href="#" onclick="answers.save_answers(this);"><button>Save</button></a>
+          <span style="margin-left: 2em;">Load:</span>
+          <input id="filename" type="file"/>
+          <button onclick="answers.load_answers(document.getElementById('filename'));">Load</button>
+        </center>
+      </div>
 
-<script type="text/x-mathjax-config">
-  MathJax.Hub.Config({ tex2jax: {inlineMath: [['$','$'],
-  ['\\(','\\)']], processEscapes: true}, TeX: {equationNumbers: { autoNumber: "AMS" }}
-  });
-</script>
-<script type="text/javascript" async src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML'></script>
+      <h2>Procedures and Stacks</h2>
 
-<script src="../../tools/jquery-3.2.1.min.js"></script>
-<link rel="stylesheet" href="../../tools/font-awesome.css">
-<link href="../../tools/workbook.css" rel="stylesheet" type="text/css">
-<script src="../../tools/workbook.js"></script>
-<script src="../../tools/answers.js"></script>
+      <p>When entering numeric values in the answer fields, you can use
+        integers (1000, 0x3E8, 0b1111101000), floating-point numbers
+        (1000.0), scientific notation (1e3), engineering scale factors
+        (1K), or numeric expressions (3*300 + 100).</p>
 
-</head>
+      <p>Useful links:</p>
+      <ul>
+        <li><a href="../tool_docs/BSim.html" target="_blank">Introduction to BSim</a></li>
+        <li><a href="../betainst.pdf" target="_blank">Summary of Instruction Formats (PDF)</a></li>
+        <li><a href="../beta.pdf" target="_blank">Beta Documentation (PDF)</a></li>
+      </ul>
 
-<body>
-  <div class="navigation">
-    <center><img src="../../title.gif" width="200" onclick="window.location='../../index.html';"></center>
-    <style>
-</style>
-<table width="100%">
-  <tr>
-    <td align="center">
-      <a href="../../lectures/index.html"><span class="navtab">lectures</span></a>
-    </td>
-    <td align="center">
-      <a href="../../videos/index.html"><span class="navtab">videos</span></a>
-    </td>
-    <td align="center">
-      <a href="../../worksheets/index.html"><span class="navtab">worksheets</span></a>
-    </td>
-  </tr>
-  <tr>
-    <td align="center">
-      <a href="../../notes/index.html"><span class="navtab">notes</span></a>
-    </td>
-    <td align="center">
-      <a class="selected" href="../../exercises/index.html"><span class="navtab">labs</span></a>
-    </td>
-  </tr>
-</table>
+      <h3>Problem 1.  Beta ISA</h3>
 
-<p><b>Labs</b><br>
-  <a class="" href="../../exercises/cmos/lab.html">
-    1. CMOS Technology
-  </a><br>
-  <a class="" href="../../exercises/adder/lab.html">
-    2. CMOS Adder
-  </a><br>
-  <a class="" href="../../exercises/fsm/lab.html">
-    3. FSMs
-  </a><br>
-  <a class="" href="../../exercises/alu/lab.html">
-    4. 32-bit ALU
-  </a><br>
-  <a class="" href="../../exercises/assembly/lab.html">
-    5. Assembly Language
-  </a><br>
-  <a class="selected" href="../../exercises/procedures/lab.html">
-    6. Procedures &amp; Stacks
-  </a><br>
-  <a class="" href="../../exercises/beta/lab.html">
-    7. Building the Beta
-  </a><br>
-  <a class="" href="../../exercises/caches/lab.html">
-    8. Caches
-  </a><br>
-  <a class="" href="../../exercises/illop/lab.html">
-    9. Emulating Instructions
-  </a><br>
-  <a class="" href="../../exercises/tinyos/lab.html">
-    10. Tiny Operating System
-  </a><br>
-  <a class="" href="../../exercises/dp/lab.html">
-    11. Optimizing the Beta
-  </a><br>
-</p>
+      <p>For each of the Beta instruction sequences shown below, indicate the
+        values of the specified registers after the sequence has been
+        executed by an unpipelined Beta.  Consider each sequence separately
+        and assume that execution begins at location 0 and halts when the
+        HALT() instruction is about to be executed.  Also assume that all
+        registers have been initialized to 0 before execution begins.</p>
 
-<p><b>Tool Sandboxes</b><br>
-  <a class="" href="../../exercises/sandboxes/jade.html">
-    Jade: circuit simulator
-  </a><br>
-  <a class="" href="../../exercises/sandboxes/bsim.html">
-    BSim: Beta simulator
-  </a><br>
-  <a class="" href="../../exercises/sandboxes/tmsim.html">
-    TMSim: Turing Machine simulator
-  </a><br>
-</p>
+      <p>Remember that even though the Beta reads and writes 32-bit
+        words from memory, all addresses are <i>byte addresses</i>, i.e.,
+        the addresses of successive words in memory differ by 4.</p>
 
-  
-<p/>
-<hr style="border-style:solid; border-color:black;"/>
-<p>
-  Your exercise answers are saved by the browser in local storage
-  associated with this webpage.  You can use the buttons below
-  to load/save the answers on your system.
-</p>
+      <p>You can find detailed descriptions of each Beta instruction in
+        the "Beta Documentation" handout -- see link above.</p>
 
-  
-<p>
-  Save all answers:
-  <a download="saved_state.json" href="#" onclick="workbook.save_answers(this);"><button>Save</button></a>
-</p>
+      <div class="hint">
+        <b>Hint:</b> You can enter answers in hex by specifying a
+        "<tt>0x</tt>" prefix, <i>e.g.</i>, 16 could be entered as "<tt>0x10</tt>".  Usually
+        one would enter addresses, values in memory, etc. using hex.
+      </div>
 
-<p>
-  Load all answers (<i>this will overwrite any answers currently saved by the browser</i>): <br/>
-  <input style="margin-left:1em;" type="file" onchange="workbook.load_answers(this);"/>
-</p>
+      <ol type="A">
 
-<p><center><i>Authored by Chris Terman</i></center></p>
-
-
-  </div>
-  <div class="content">
-    <h1>Procedures and Stacks</h1>
-
-<p/>When entering numeric values in the answer fields, you can use
-integers (1000, 0x3E8, 0b1111101000), floating-point numbers
-(1000.0), scientific notation (1e3), engineering scale factors
-(1K), or numeric expressions (3*300 + 100).
-
-<p/>Useful links:
-<ul>
-  <li><a href="../tool_docs/BSim.html" target="_blank">Introduction to BSim</a></li>
-  <li><a href="../../notes/pdfs/betainst.pdf" target="_blank">Summary of Instruction Formats (PDF)</a></li>
-  <li><a href="../../notes/pdfs/beta.pdf" target="_blank">Beta Documentation (PDF)</a></li>
-</ul>
-
-<p/><b>Problem 1.  Beta ISA</b>
-
-<p/>For each of the Beta instruction sequences shown below, indicate the
-values of the specified registers after the sequence has been
-executed by an unpipelined Beta.  Consider each sequence separately
-and assume that execution begins at location 0 and halts when the
-HALT() instruction is about to be executed.  Also assume that all
-registers have been initialized to 0 before execution begins.
-
-<p/>Remember that even though the Beta reads and writes 32-bit
-words from memory, all addresses are <i>byte addresses</i>, i.e.,
-the addresses of successive words in memory differ by 4.
-
-<p/>You can find detailed descriptions of each Beta instruction in
-the "Beta Documentation" handout -- see link above.
-
-<div class="hint">
-  <b>Hint:</b> You can enter answers in hex by specifying a
-  "<tt>0x</tt>" prefix, <i>e.g.</i>, 16 could be entered as "<tt>0x10</tt>".  Usually
-  one would enter addresses, values in memory, etc. using hex.
-</div>
-
-<ol type="A">
-
-  <p/><li/><pre>      . = 0
+        <li><pre>      . = 0
       AND(r31, r31, r0)
       CMPEQ(r31, r31, r1)
       ADD(r1, r1, r2)
@@ -176,23 +76,24 @@ the "Beta Documentation" handout -- see link above.
       SHL(r1, r2, r4)
       HALT()</pre>
 
-    <answer type="number" id="A1" width="20">
-      <label>Value left in R0?</label>
-    </answer>
-    <answer type="number" id="A2" width="20">
-      <label>Value left in R1?</label>
-    </answer>
-    <answer type="number" id="A3" width="20">
-      <label>Value left in R2?</label>
-    </answer>
-    <answer type="number" id="A4" width="20">
-      <label>Value left in R3?</label>
-    </answer>
-    <answer type="number" id="A5" width="20">
-      <label>Address of 32-bit memory location containing OR instruction?</label>
-    </answer>
+          <answer type="number" id="A1" width="20">
+            <label>Value left in R0?</label>
+          </answer>
+          <answer type="number" id="A2" width="20">
+            <label>Value left in R1?</label>
+          </answer>
+          <answer type="number" id="A3" width="20">
+            <label>Value left in R2?</label>
+          </answer>
+          <answer type="number" id="A4" width="20">
+            <label>Value left in R3?</label>
+          </answer>
+          <answer type="number" id="A5" width="20">
+            <label>Address of 32-bit memory location containing OR instruction?</label>
+          </answer>
+        </li>
 
-  <p/><li/><pre>      . = 0
+        <li><pre>      . = 0
       ADDC(r31, N, r0)
       LD(r0, 8, r1)
       SRAC(r1, 4, r2)
@@ -205,23 +106,24 @@ N:    LONG(0x12345678)
       LONG(0xEDEDEDED)
       LONG(0x00000004)</pre>
 
-<answer type="number" id="B1" width="20">
-  <label>Value left in R0?</label>
-</answer>
-<answer type="number" id="B2" width="20">
-  <label>Value left in R1?</label>
-</answer>
-<answer type="number" id="B3" width="20">
-  <label>Value left in R2?</label>
-</answer>
-<answer type="number" id="B4" width="20">
-  <label>Address of 32-bit memory location written by ST?</label>
-</answer>
-<answer type="number" id="B5" width="20">
-  <label>Value found in 32-bit memory location with address 0?</label>
-</answer>
+          <answer type="number" id="B1" width="20">
+            <label>Value left in R0?</label>
+          </answer>
+          <answer type="number" id="B2" width="20">
+            <label>Value left in R1?</label>
+          </answer>
+          <answer type="number" id="B3" width="20">
+            <label>Value left in R2?</label>
+          </answer>
+          <answer type="number" id="B4" width="20">
+            <label>Address of 32-bit memory location written by ST?</label>
+          </answer>
+          <answer type="number" id="B5" width="20">
+            <label>Value found in 32-bit memory location with address 0?</label>
+          </answer>
+        </li>
 
-<p/><li/><pre>      . = 0
+        <li><pre>      . = 0
       LD(r31, X, r0)
       CMPLE(r0, r31, r1)
       BNE(r1, L1, r31)
@@ -234,23 +136,24 @@ L2:   XORC(r2, 0xFFFF, r2)     // be careful here!
       . = 0x1CE8
 X:    LONG(0x87654321)</pre>
 
-<answer type="number" id="C1" width="20">
-  <label>Value left in R0?</label>
-</answer>
-<answer type="number" id="C2" width="20">
-  <label>Value left in R1?</label>
-</answer>
-<answer type="number" id="C3" width="20">
-  <label>Value left in R2?</label>
-</answer>
-<answer type="number" id="C4" width="20">
-  <label>Value uasm assigns to L1?</label>
-</answer>
-<answer type="number" id="C5" width="20">
-  <label>Value found in 32-bit memory location with address 8?</label>
-</answer>
+          <answer type="number" id="C1" width="20">
+            <label>Value left in R0?</label>
+          </answer>
+          <answer type="number" id="C2" width="20">
+            <label>Value left in R1?</label>
+          </answer>
+          <answer type="number" id="C3" width="20">
+            <label>Value left in R2?</label>
+          </answer>
+          <answer type="number" id="C4" width="20">
+            <label>Value uasm assigns to L1?</label>
+          </answer>
+          <answer type="number" id="C5" width="20">
+            <label>Value found in 32-bit memory location with address 8?</label>
+          </answer>
+        </li>
 
-<p/><li/><pre>      . = 0
+        <li><pre>      . = 0
       ADDC(r31, 0, r0)
       LD(r31, N, r1)
       BEQ(r31, L3, r31)
@@ -264,460 +167,448 @@ L3:   BNE(r1, L1, r31)
       . = 0x2468
 N:    LONG(0x8F2E3D4C)</pre>
 
-<answer type="number" id="D1" width="20">
-  <label>Value left in R0?</label>
-</answer>
-<answer type="number" id="D2" width="20">
-  <label>Value left in R1?</label>
-</answer>
-<answer type="number" id="D3" width="20">
-  <label>Number of times instruction labeled L2 is executed?</label>
-</answer>
+          <answer type="number" id="D1" width="20">
+            <label>Value left in R0?</label>
+          </answer>
+          <answer type="number" id="D2" width="20">
+            <label>Value left in R1?</label>
+          </answer>
+          <answer type="number" id="D3" width="20">
+            <label>Number of times instruction labeled L2 is executed?</label>
+          </answer>
 
-<p/>Suppose that the instructions above were relocated so that the
-first instruction were at location 0x100 instead of location 0.
-Assuming we then started execution at location 0x100 and we wanted
-the instructions to perform the same computation, which
-instruction encodings should be changed when relocating the
-program?
+          <p>Suppose that the instructions above were relocated so that the
+            first instruction were at location 0x100 instead of location 0.
+            Assuming we then started execution at location 0x100 and we wanted
+            the instructions to perform the same computation, which
+            instruction encodings should be changed when relocating the
+            program?</p>
 
-<answer type="menu" id="D4">
-  <label>Instructions that need to be changed?</label>
-  <menuitem>no instructions need to be changed</menuitem>
-  <menuitem>BNE and BEQ instructions would need to be changed</menuitem>
-  <menuitem>LD instructions would need to be changed</menuitem>
-  <menuitem>BNE, BEQ and LD instructions would need to be changed</menuitem>
-  <menuitem>all instructions need to be changed</menuitem>
-</answer>
+          <answer type="menu" id="D4">
+            <label>Instructions that need to be changed?</label>
+            <menuitem>no instructions need to be changed</menuitem>
+            <menuitem>BNE and BEQ instructions would need to be changed</menuitem>
+            <menuitem>LD instructions would need to be changed</menuitem>
+            <menuitem>BNE, BEQ and LD instructions would need to be changed</menuitem>
+            <menuitem>all instructions need to be changed</menuitem>
+          </answer>
+        </li>
 
-<p/><li/><pre>
-  . = 0
-  BEQ(r31, L1, r0)
-  ADDC(r0, 0, r0)
-  L1: LD(r0, 0, r1)
-  HALT()
-</pre>
+        <li><pre>      . = 0
+      BEQ(r31, L1, r0)
+      ADDC(r0, 0, r0)
+L1:   LD(r0, 0, r1)
+      HALT()
+          </pre>
 
-<answer type="number" id="E1" width="20">
-  <label>Value left in R0?</label>
-</answer>
-<answer type="number" id="E2" width="20">
-  <label>Value left in R1?</label>
-</answer>
+          <answer type="number" id="E1" width="20">
+            <label>Value left in R0?</label>
+          </answer>
+          <answer type="number" id="E2" width="20">
+            <label>Value left in R1?</label>
+          </answer>
+        </li>
 
-</ol>
+      </ol>
 
-<p/><b>Problem 2.  Design Problem: Quicksort</b>
+      <h3>Problem 2.  Design Problem: Quicksort</h3>
 
-<p/>See the instructions below.
+      <p>See the instructions below.</p>
 
-<p/>Use the Bsim instance below to enter your code. To complete this design problem, you should
-assemble your program, then run the simulation to completion.
-The built-in test will either report any discrepencies between the
-expected and actual outputs, or, if your code is correct, it will
-record the test passed.
+      <p>Use the Bsim instance below to enter your code. To complete this design problem, you should
+        assemble your program, then run the simulation to completion.
+        The built-in test will either report any discrepencies between the
+        expected and actual outputs, or, if your code is correct, it will
+        record the test passed.</p>
 
-<answer id="4" type="window" tool_name="BSim" width="900" height="600" src="../../tools/bsim_workbook.html">
-  { "required_tests":["1352299311"],
-  "initial_state": {
-  "beta.uasm": "url:../exercises/beta.uasm",
-  "checkoff.uasm": "url:../exercises/procedures/checkoff.uasm",
-  "template.uasm": "url:../exercises/procedures/template.uasm"
-  },
-  "state":{"Quicksort":"url:../exercises/procedures/template.uasm"}
-  }
-</answer>
+      <answer id="4" type="window" tool_name="BSim" width="900" height="600" src="../tools/bsim_workbook.html"
+              placeholder="Assemble your program, then run the
+      simulation to completion.  The built-in test will either report any
+      discrepencies between the expected and actual outputs, or, if your
+      code is correct, it will record the test passed.">
+        { "required_tests":["1352299311"],
+        "initial_state": {
+        "beta.uasm": "url:../beta.uasm",
+        "checkoff.uasm": "url:../lab6_procedures/checkoff.uasm",
+        "template.uasm": "url:../lab6_procedures/template.uasm"
+        },
+        "state":{"Quicksort":"url:../lab6_procedures/template.uasm"}
+        }
+      </answer>
 
-<p/>Suppose you have an array of N integers, and wish to sort them
-into ascending order.  There are a variety of approaches you might
-use, ranging from the
-<a href="//www.youtube.com/watch?v=k4RRi_ntQc8">maligned</a>
-<em>bubble sort</em> which takes $O(N^2)$ time, to faster approaches
-such as <em>quicksort</em> that averages $O(N \log N)$ time.  Quicksort
-uses an elegantly simple <em>divide and conquer</em>
-approach to sorting an array:
-<ol>
-  <li>Pick a <em>pivot</em> value from among the array elements,
-    and remove that element from the array.</li>
-  <li>Partition the array into two smaller arrays, containing
-    elements whose values are smaller or larger than the pivot value,
-    respectively.</li>
-  <li>Call quicksort recursively to sort each of the two smaller
-    arrays.</li>
-  <li>Finally, combine the sorted smaller-value array, the pivot
-    element, and the sorted larger-value array into a single sorted
-    result.</li>
-</ol>
-This description glosses over several details which may vary by
-implementation; for example, which of the two smaller arrays should
-contain elements that are <em>equal</em> to the pivot value.
+      <p>Suppose you have an array of N integers, and wish to sort them
+        into ascending order.  There are a variety of approaches you might
+        use, ranging from the
+        <a href="//www.youtube.com/watch?v=k4RRi_ntQc8">maligned</a>
+        <em>bubble sort</em> which takes $O(N^2)$ time, to faster approaches
+        such as <em>quicksort</em> that averages $O(N \log N)$ time.  Quicksort
+        uses an elegantly simple <em>divide and conquer</em>
+        approach to sorting an array:</p>
 
-<p/>
-A high-level Python approach to quicksort of a list is:
-<pre class="jsim">def qsort1(list):
+      <ol>
+        <li>Pick a <em>pivot</em> value from among the array elements,
+          and remove that element from the array.</li>
+        <li>Partition the array into two smaller arrays, containing
+          elements whose values are smaller or larger than the pivot value,
+          respectively.</li>
+        <li>Call quicksort recursively to sort each of the two smaller
+          arrays.</li>
+        <li>Finally, combine the sorted smaller-value array, the pivot
+          element, and the sorted larger-value array into a single sorted
+          result.</li>
+      </ol>
+      This description glosses over several details which may vary by
+      implementation; for example, which of the two smaller arrays should
+      contain elements that are <em>equal</em> to the pivot value.
+
+      <p>high-level Python approach to quicksort of a list is:</p>
+      <pre class="jsim">def qsort1(list):
   if list == []: return []
   else:
-      pivot = list[0]       # arbitrarily choose first element
-      lesser = qsort1([x for x in list[1:] if x &lt; pivot])
-      greater = qsort1([x for x in list[1:] if x &gt;= pivot])
-      return lesser + [pivot] + greater</pre>
+    pivot = list[0]       # arbitrarily choose first element
+    lesser = qsort1([x for x in list[1:] if x &lt; pivot])
+    greater = qsort1([x for x in list[1:] if x &gt;= pivot])
+    return lesser + [pivot] + greater</pre>
 
-<p/>
-Often it is preferable to sort an array <em>in place</em>, rather
-than allocating space for the resulting new array.  A version of
-quicksort for in-place sorting is given in
-<a href="//en.wikipedia.org/wiki/Quicksort#In-place_version">
-  Wikipedia</a> as
+      <p>Often it is preferable to sort an array <em>in place</em>, rather
+        than allocating space for the resulting new array.  A version of
+        quicksort for in-place sorting is given in
+        <a href="//en.wikipedia.org/wiki/Quicksort#In-place_version">Wikipedia</a>
+        as</p>
 
-<pre class="jsim"># in-place partition of subarray
+      <pre class="jsim"># in-place partition of subarray
 #   left is the index of the leftmost element of the subarray
 #   right is the index of the rightmost element of the
 #     subarray (inclusive)
 def partition(array,left,right):
-    # choose middle element of array as pivot
-    pivotIndex = (left+right) >> 1
-    pivotValue = array[pivotIndex]
+  # choose middle element of array as pivot
+  pivotIndex = (left+right) >> 1
+  pivotValue = array[pivotIndex]
 
-    # swap array[right] and array[pivotIndex]
-    # note that we already store array[pivotIndex] in pivotValue
-    array[pivotIndex] = array[right]
+  # swap array[right] and array[pivotIndex]
+  # note that we already store array[pivotIndex] in pivotValue
+  array[pivotIndex] = array[right]
 
-    # elements &lt;= the pivot are moved to the left (smaller indices)
-    storeIndex = left
-    for i in xrange(left,right):  # don't include array[right]
-        temp = array[i]
-        if temp &lt;= pivotValue:
-            array[i] = array[storeIndex]
-            array[storeIndex] = temp
-            storeIndex += 1
+  # elements &lt;= the pivot are moved to the left (smaller indices)
+  storeIndex = left
+  for i in range(left,right):  # don't include array[right]
+    temp = array[i]
+    if temp &lt;= pivotValue:
+      array[i] = array[storeIndex]
+      array[storeIndex] = temp
+      storeIndex += 1
 
-    # move pivot to its final place
-    array[right] = array[storeIndex]
-    array[storeIndex] = pivotValue
-    return storeIndex
+  # move pivot to its final place
+  array[right] = array[storeIndex]
+  array[storeIndex] = pivotValue
+  return storeIndex
 
 def quicksort(array, left, right):
-    if left &lt; right:
-        pivotIndex = partition(array,left,right)
-        quicksort(array,left,pivotIndex-1)
-        quicksort(array,pivotIndex+1,right)</pre>
+  if left &lt; right:
+    pivotIndex = partition(array,left,right)
+    quicksort(array,left,pivotIndex-1)
+    quicksort(array,pivotIndex+1,right)</pre>
 
-Although this code is nominally in Python, it is substantially
-identical to C code.
-<p/>
-Note that the code for both <code>quicksort</code> and <code>partition</code>
-identifies a range of consecutive elements in the <code>array</code> by
-two integers, <code>left</code> and <code>right</code>, that identify the
-array indices of the leftmost and rightmost elements within the range
-respectively.  In contrast to usual C and Python practice, the indicated
-range includes both the left and right elements: thus, the only way
-to designate an empty (zero-length) subrange is by having
-<code>right</code>&lt;<code>left</code>.
+      Although this code is nominally in Python, it is substantially
+      identical to C code.
 
-<p/> Your job is to translate this in-place version of quicksort to
-Beta assembly language.  The <tt>template.uasm</tt> tab in the BSim
-editor contains the appropriate checkoff setup and dummy (empty)
-definitions for the procedures <code>quicksort</code>
-and <code>partition</code>.  It also includes the above Python/C
-versions of the code as comments.
+      <p>Note that the code for both <code>quicksort</code> and <code>partition</code>
+        identifies a range of consecutive elements in the <code>array</code> by
+        two integers, <code>left</code> and <code>right</code>, that identify the
+        array indices of the leftmost and rightmost elements within the range
+        respectively.  In contrast to usual C and Python practice, the indicated
+        range includes both the left and right elements: thus, the only way
+        to designate an empty (zero-length) subrange is by having
+        <code>right</code>&lt;<code>left</code>.</p>
 
-<p/>Arrays are stored in consecutive locations of memory.  In this
-lab, we're dealing with arrays of integers, so each array element
-occupies a 32-bit word.  Since the memory is byte addressed,
-consecutive elements of an integer array have addresses that differ by 4.
-Integer arrays are always <i>word aligned</i>, <i>i.e.</i>, the byte
-addresses of array elements have <tt>00</tt> as the low-order two address
-bits.  When a program refers to an entire array, the value that gets
-passed around is the address of the first array element, <i>i.e.</i>,
-the address of <tt>array[0]</tt>.  For example,
-here's a simple procedure that adds two consecutive array elements:
-<pre class="jsim">
-  def add_pair(array,i): return array[i] + array[i+1]
-</pre>
-The corresponding assembly language code would be
-<pre class="jsim">add_pair:
-     PUSH(LP)       // standard entry sequence
-     PUSH(BP)
-     MOVE(SP,BP)
-     PUSH(R1)       // save registers we use below
+      <p>Your job is to translate this in-place version of quicksort to
+        Beta assembly language.  The <tt>template.uasm</tt> tab in the BSim
+        editor contains the appropriate checkoff setup and dummy (empty)
+        definitions for the procedures <code>quicksort</code>
+        and <code>partition</code>.  It also includes the above Python/C
+        versions of the code as comments.</p>
 
-     LD(BP,-12,R1)  // R1 = address of array[0]
-     LD(BP,-16,R0)  // R0 = i
+      <p>Arrays are stored in consecutive locations of memory.  In this
+        lab, we're dealing with arrays of integers, so each array element
+        occupies a 32-bit word.  Since the memory is byte addressed,
+        consecutive elements of an integer array have addresses that differ by 4.
+        Integer arrays are always <i>word aligned</i>, <i>i.e.</i>, the byte
+        addresses of array elements have <tt>00</tt> as the low-order two address
+        bits.  When a program refers to an entire array, the value that gets
+        passed around is the address of the first array element, <i>i.e.</i>,
+        the address of <tt>array[0]</tt>.  For example,
+        here's a simple procedure that adds two consecutive array elements:</p>
+      <pre class="jsim">def add_pair(array,i): return array[i] + array[i+1]</pre>
+      The corresponding assembly language code would be
+      <pre class="jsim">add_pair:
+        PUSH(LP)       // standard entry sequence
+        PUSH(BP)
+        MOVE(SP,BP)
+        PUSH(R1)       // save registers we use below
 
-     // now we have to convert index i into the appropriate
-     // address offset from the start of the array.  Since
-     // each array element occupies 4 bytes, we multiply the
-     // index by 4 to convert it to a byte offset.
-     SHLC(R0,2,R0)  // shift left by 2 = multiply by 4
-     ADD(R0,R1,R1)  // R1 = address of array[i]
+        LD(BP,-12,R1)  // R1 = address of array[0]
+        LD(BP,-16,R0)  // R0 = i
 
-     LD(R1,0,R0)    // R0 = array[i]
-     LD(R1,4,R1)    // R1 = array[i+1]
-     ADD(R1,R0,R0)  // R0 = array[i] + array[i+1]
+        // now we have to convert index i into the appropriate
+        // address offset from the start of the array.  Since
+        // each array element occupies 4 bytes, we multiply the
+        // index by 4 to convert it to a byte offset.
+        SHLC(R0,2,R0)  // shift left by 2 = multiply by 4
+        ADD(R0,R1,R1)  // R1 = address of array[i]
 
-     POP(R1)        // restore saved registers
-     MOVE(BP,SP)    // standard exit sequence
-     POP(BP)
-     POP(LP)
-     JMP(LP)</pre>
+        LD(R1,0,R0)    // R0 = array[i]
+        LD(R1,4,R1)    // R1 = array[i+1]
+        ADD(R1,R0,R0)  // R0 = array[i] + array[i+1]
 
-<p/>
-<b><em>Setup:</em></b>
-The <code>Quicksort</code> tab in the BSim window has been initialized with the code from
-the <code>template.uasm</code> tab.  Look it over briefly;
-notice that the dummy procedures included are valid (<em>e.g.</em>, they
-obey stack discipline and our linkage conventions) but devoid of any
-function.
-<p/>
-Select the <code>Quicksort</code> tab in the BSim window, click <em>Assemble</em>
-to translate it to binary.  If successful, you'll now see a
-window onto an operating (simulated) Beta running the binary
-translation of your program.  The upper-left displays the contents
-of the Beta's registers, the lower-left a region of memory containing
-the translated code, and to the right two regions of memory (one
-near the top of the stack.  Explore this view a bit: scroll the
-lower-left region and observe labels, hex values, and (where
-sensible) values decoded as Beta instructions.
-Most of these are from the checkoff program and associated infrastructure;
-but at the end of the non-zero contents, you'll see your empty
-partition and quicksort procedures.
-<p/>
-Run the code, by hitting the <em>play</em> button; you'll see the
-Beta stepping through instructions, updating the display.
+        POP(R1)        // restore saved registers
+        MOVE(BP,SP)    // standard exit sequence
+        POP(BP)
+        POP(LP)
+        JMP(LP)</pre>
 
-<div class="hint">
-  <b>Hint:</b> You can click on the "Split" button to configure the BSim window to show
-  both your editor windows and the Beta simulation display.  The simulator
-  will highlight the line in your source code that generated the current
-  Beta instruction, assuming that source line came from the currently
-  selected editor window.  You can watch the Beta scroll through your
-  program making it easy to watch your code being executed.
-</div>
+      <p><b><em>Setup:</em></b>
+        The <code>Quicksort</code> tab in the BSim window has been initialized with the code from
+        the <code>template.uasm</code> tab.  Look it over briefly;
+        notice that the dummy procedures included are valid (<em>e.g.</em>, they
+        obey stack discipline and our linkage conventions) but devoid of any
+        function.</p>
 
-When you get tired of watching this show, hit <em>pause</em> and
-then <em>fast forward</em> to execute without the tedious display
-updates.  You should see some output from the checkoff program in
-the <em>console</em> window at the bottom of your screen.
-<p/>
-<em>Good news</em> - you've passed the first two test cases!  Looking
-at the console output, notice that Test 1 involves a sequence of 1
-element, and Test 2 involves a sequence of length 2 thats already in
-order.  These trivial test cases are already sorted, so your do-nothing
-quicksort (which, in its defense, at least does no damage) passes these
-tests.  The third test, which actually needs some sorting, should fail.
+      <p>Select the <code>Quicksort</code> tab in the BSim window, click <em>Assemble</em>
+        to translate it to binary.  If successful, you'll now see a
+        window onto an operating (simulated) Beta running the binary
+        translation of your program.  The upper-left displays the contents
+        of the Beta's registers, the lower-left a region of memory containing
+        the translated code, and to the right two regions of memory (one
+        near the top of the stack.  Explore this view a bit: scroll the
+        lower-left region and observe labels, hex values, and (where
+        sensible) values decoded as Beta instructions.
+        Most of these are from the checkoff program and associated infrastructure;
+        but at the end of the non-zero contents, you'll see your empty
+        partition and quicksort procedures.</p>
 
-<p/>
-<b><em>TestCase:</em></b>
-Lets focus on the failed test: change the <code>LONG(0)</code> in the location
-labeled <em>TestCase</em> near the beginning of your <em>Quicksort</em> file
-to read <code>LONG(3)</code>.  This tells the checkoff program to run only the
-third test, making debugging that test a bit less tedious.
-<p/>
-Our principal debugging tool is the <em>breakpoint</em>, a marker that
-can be inserted into our program at interesting points to cause it to pause and let us poke
-around.
-<p/>
-Insert the line
-<pre>     .breakpoint</pre>
-in your empty <code>quicksort</code> procedure, immediately following the line
-reading
-<pre>     // Fill in your code here...</pre>
-and run it again.  The simulation should stop when you hit the inserted
-breakpoint, allowing you to examine the state of the Beta and its memory
-at that point.
+      <p>Run the code, by hitting the <em>play</em> button; you'll see the
+        Beta stepping through instructions, updating the display.</p>
 
-<ol type="A">
+      <div class="hint">
+        <b>Hint:</b> You can click on the "Split" button to configure the BSim window to show
+        both your editor windows and the Beta simulation display.  The simulator
+        will highlight the line in your source code that generated the current
+        Beta instruction, assuming that source line came from the currently
+        selected editor window.  You can watch the Beta scroll through your
+        program making it easy to watch your code being executed.
+      </div>
 
-<p/><li/>Looking at the state of the Beta, determine the value in <code>R20</code>.
+      When you get tired of watching this show, hit <em>pause</em> and
+      then <em>fast forward</em> to execute without the tedious display
+      updates.  You should see some output from the checkoff program in
+      the <em>console</em> window at the bottom of your screen.
 
-  <answer type="number" id="x1" width="20" >
-    <label>What is the value in R20?</label>
-  </answer>
+      <p><em>Good news</em> - you've passed the first two test cases!  Looking
+        at the console output, notice that Test 1 involves a sequence of 1
+        element, and Test 2 involves a sequence of length 2 thats already in
+        order.  These trivial test cases are already sorted, so your do-nothing
+        quicksort (which, in its defense, at least does no damage) passes these
+        tests.  The third test, which actually needs some sorting, should fail.</p>
 
-</ol>
+      <p><b><em>TestCase:</em></b>
+        Lets focus on the failed test: change the <code>LONG(0)</code> in the location
+        labeled <em>TestCase</em> near the beginning of your <em>Quicksort</em> file
+        to read <code>LONG(3)</code>.  This tells the checkoff program to run only the
+        third test, making debugging that test a bit less tedious.</p>
 
-<p/>In fact, you'll notice systematic values in registers; these are used by
-the checkoff program to check that you're properly saving/restoring registers.
+      <p>Our principal debugging tool is the <em>breakpoint</em>, a marker that
+        can be inserted into our program at interesting points to cause it to pause and let us poke
+        around.</p>
 
-<p/> Your next project, and the main task of this lab, is to fill in
-the code for the two procedures and get them working correctly.
-Although you may code these procedures however you like, we recommend
-paying careful attention to details in the Python/C versions supplied;
-seemingly minor variations (&lt; rather than &lt;=,
-including/excluding the rightmost element in a loop) can cause errors
-taking hours to debug.
+      <p>Insert the line</p>
+      <pre>     .breakpoint</pre>
+      in your empty <code>quicksort</code> procedure, immediately following the line
+      reading
+      <pre>     // Fill in your code here...</pre>
+      and run it again.  The simulation should stop when you hit the inserted
+      breakpoint, allowing you to examine the state of the Beta and its memory
+      at that point.
 
-<p/> While you may vary the order in which you approach the coding of
-these procedures, we suggest the following sequence of steps:
+      <ol type="A">
 
-<p/> <b><em>quicksort stub:</em></b> Implement the first part
-of <code>quicksort</code>: the call to <code>partition</code>.  Using
-a breakpoint in <code>partition</code>, ensure that its called with
-the proper arguments (identical to those of <code>quicksort</code>).
-Try it on the first few test cases by varying the value
-in <code>TestCase</code>.
+        <li>Looking at the state of the Beta, determine the value in <code>R20</code>.
 
-<p/><b><em>partition:</em></b> Implement the code in <code>partition</code>,
-and debug it (again, using various test cases).  Although this code is
-more complex than <code>quicksort</code>, it avoids the complication
-of recursive calls, making debugging easier.  Once you're
-convinced <code>partition</code> works properly, move on to the next
-step.
-</subquestion>
+          <answer type="number" id="x1" width="20" >
+            <label>What is the value in R20?</label>
+          </answer>
+        </li>
+      </ol>
 
-<div class="hint">
-  <b>Hint:</b> The <code>partition</code> code involves a number of local variables.
-  Although you can allocate these variables in the stack frame (as we have
-  done in examples given in lecture), your code may be both smaller and
-  more readable if you allocate registers to hold local variables.  One
-  convenient way to do this is to define symbolic names, <i>e.g.</i>,
-  <pre class="jsim">    p_array=R2          // base address of array (arg 0)
+      <p>In fact, you'll notice systematic values in registers; these are used by
+        the checkoff program to check that you're properly saving/restoring registers.</p>
+
+      <p>Your next project, and the main task of this lab, is to fill in
+        the code for the two procedures and get them working correctly.
+        Although you may code these procedures however you like, we recommend
+        paying careful attention to details in the Python/C versions supplied;
+        seemingly minor variations (&lt; rather than &lt;=,
+        including/excluding the rightmost element in a loop) can cause errors
+        taking hours to debug.</p>
+
+      <p> While you may vary the order in which you approach the coding of
+        these procedures, we suggest the following sequence of steps:</p>
+
+      <p> <b><em>quicksort stub:</em></b> Implement the first part
+        of <code>quicksort</code>: the call to <code>partition</code>.  Using
+        a breakpoint in <code>partition</code>, ensure that its called with
+        the proper arguments (identical to those of <code>quicksort</code>).
+        Try it on the first few test cases by varying the value
+        in <code>TestCase</code>.</p>
+
+      <p><b><em>partition:</em></b> Implement the code in <code>partition</code>,
+        and debug it (again, using various test cases).  Although this code is
+        more complex than <code>quicksort</code>, it avoids the complication
+        of recursive calls, making debugging easier.  Once you're
+        convinced <code>partition</code> works properly, move on to the next
+        step.</p>
+
+      <div class="hint">
+        <b>Hint:</b> The <code>partition</code> code involves a number of local variables.
+        Although you can allocate these variables in the stack frame (as we have
+        done in examples given in lecture), your code may be both smaller and
+        more readable if you allocate registers to hold local variables.  One
+        convenient way to do this is to define symbolic names, <i>e.g.</i>,
+        <pre class="jsim">    p_array=R2          // base address of array (arg 0)
     p_left=R3
     p_right=R4
     p_pivotIndex=R5     // Corresponds to PivotIndex in C program
     p_pivotValue=R6
     p_storeIndex=R7
     ...</pre>
-  Note that the <code>p_</code> prefixes are prepended to avoid name conflicts
-  with other such assignments.  Of course, you must remember to save and
-  restore the values of any register you use in this (or any other) fashion!
-  <p/>
-  Even if you choose to store these variables in the local stack frame,
-  you will likely find symbolic names (defined as the variable offsets)
-  easier to use than generic <code>Rx</code> register names.
-  <p/>
-  <b>Remember:</b> A procedure can use <tt>R0</tt> with impunity, since the caller is expecting
-  that to change to contain the return value.  But if you use any other register
-  (<tt>R1</tt>, <tt>R2</tt>, ...) it must have the same value after the procedure as it did when the
-  procedure is called.  For each register <tt>Rx</tt> that the procedure uses, there should be
-  a <tt>PUSH(Rx)</tt> in the entry sequence and a <tt>POP(Rx)</tt> at the corresponding
-  part of the exit sequence.
-</div>
+        Note that the <code>p_</code> prefixes are prepended to avoid name conflicts
+        with other such assignments.  Of course, you must remember to save and
+        restore the values of any register you use in this (or any other) fashion!
+        <p/>
+        Even if you choose to store these variables in the local stack frame,
+        you will likely find symbolic names (defined as the variable offsets)
+        easier to use than generic <code>Rx</code> register names.
+        <p/>
+        <b>Remember:</b> A procedure can use <tt>R0</tt> with impunity, since the caller is expecting
+        that to change to contain the return value.  But if you use any other register
+        (<tt>R1</tt>, <tt>R2</tt>, ...) it must have the same value after the procedure as it did when the
+        procedure is called.  For each register <tt>Rx</tt> that the procedure uses, there should be
+        a <tt>PUSH(Rx)</tt> in the entry sequence and a <tt>POP(Rx)</tt> at the corresponding
+        part of the exit sequence.
+      </div>
 
-<p/>
-<b><em>quicksort:</em></b>
-Complete the <code>quicksort</code> procedure, and get it to run correctly
-on all the test cases by setting the value in <code>TestCase</code> to zero.
+      <p><b><em>quicksort:</em></b>
+        Complete the <code>quicksort</code> procedure, and get it to run correctly
+        on all the test cases by setting the value in <code>TestCase</code> to zero.</p>
 
-<p/>
-<b><em>Stack crawling:</em></b>
+      <p><b><em>Stack crawling:</em></b>
+        The <code>left</code> and <code>right</code> values passed
+        to <code>quicksort</code> are described as indices
+        of <code>array</code> elements, implying that they range from zero
+        through one less than the length of <code>array</code>.  This
+        constraint turns out to be not strictly true in all cases in our
+        implementation.  As our last exercise, we'll explore an exception that
+        arises during execution of our <code>quicksort</code> implementation.</p>
 
-The <code>left</code> and <code>right</code> values passed
-to <code>quicksort</code> are described as indices
-of <code>array</code> elements, implying that they range from zero
-through one less than the length of <code>array</code>.  This
-constraint turns out to be not strictly true in all cases in our
-implementation.  As our last exercise, we'll explore an exception that
-arises during execution of our <code>quicksort</code> implementation.
+      <p>Insert a breakpoint in your <code>quicksort</code> procedure,
+        after the stack frame has been set up and interesting values
+        (<em>e.g.</em>, arguments) have been loaded into registers.
+        Set <code>TestCase</code> to contain 13 (running only the last test
+        case), and run your code.</p>
 
-<p/> Insert a breakpoint in your <code>quicksort</code> procedure,
-after the stack frame has been set up and interesting values
-(<em>e.g.</em>, arguments) have been loaded into registers.
-Set <code>TestCase</code> to contain 13 (running only the last test
-case), and run your code.
+      <p> When it stops at your breakpoint, check the value that was passed
+        as the <code>right</code> argument.  If its non-negative,
+        click <em>fast forward</em> to continue until you hit the breakpoint
+        again; click again, and keep clicking until you get to the breakpoint
+        with a <b><em>negative</em></b> value for <code>right</code>.</p>
 
-<p/> When it stops at your breakpoint, check the value that was passed
-as the <code>right</code> argument.  If its non-negative,
-click <em>fast forward</em> to continue until you hit the breakpoint
-again; click again, and keep clicking until you get to the breakpoint
-with a <b><em>negative</em></b> value for <code>right</code>.
+      <p> At this point, you are several calls deep in the recursion of
+        quicksort.  By inspecting values in registers and on the stack, you
+        can determine both the current state of the computation and the call
+        history that led us here.</p>
 
-<p/> At this point, you are several calls deep in the recursion of
-quicksort.  By inspecting values in registers and on the stack, you
-can determine both the current state of the computation and the call
-history that led us here.
+      <ol type="A" start="2">
+        <li>Find the two arguments to the current call:
 
-<ol type="A" start="2">
-<p/><li/>Find the two arguments to the current call:</p>
+          <answer type="number" id="x2" width="20" >
+            <label>Argument "left" in current call</label>
+          </answer>
+          <answer type="number" id="x3" width="20">
+            <label>Argument "right" in current call</label>
+          </answer>
+        </li>
 
-<answer type="number" id="x2" width="20" >
-  <label>Argument "left" in current call</label>
-</answer>
-<answer type="number" id="x3" width="20">
-  <label>Argument "right" in current call</label>
-</answer>
+        <li>What's the current value in element zero of the array?
 
-<p/><li/>What's the current value in element zero of the array?</p>
+          <answer type="number" id="x4" width="20">
+            <label>Value in array[0]</label>
+          </answer>
+        </li>
 
-<answer type="number" id="x4" width="20">
-  <label>Value in array[0]</label>
-</answer>
+      </ol>
 
-</ol>
+      <p> Note the relation between the element zero value and the other
+        values in the array.  If you look a bit at the code and think about
+        the behavior of your two procedures, you can see how the negative
+        value arises and convince yourself that it does no harm to the
+        computation.  It is, however, a bit sloppy for the author of this code
+        not to have documented this anomaly in an explanatory comment!</p>
 
-<p/> Note the relation between the element zero value and the other
-values in the array.  If you look a bit at the code and think about
-the behavior of your two procedures, you can see how the negative
-value arises and convince yourself that it does no harm to the
-computation.  It is, however, a bit sloppy for the author of this code
-not to have documented this anomaly in an explanatory comment!
+      <p>
+        <b><em>BP Chain:</em></b>
+        Observe where BP points into your stack frame, and the location
+        of the saved LP value relative to this point.  Scroll the disassembly
+        window of BSim and find the two recursive calls within <code>quicksort</code>;
+        note the hex locations of the instructions <em>following</em> each call.
+        Write down these values;
+        they will be saved LP values in stack frames associated with
+        recursive calls, and can be used to distinguish recursive calls from
+        the original call by the checkoff code.</p>
 
-<p/>
-<b><em>BP Chain:</em></b>
-Observe where BP points into your stack frame, and the location
-of the saved LP value relative to this point.  Scroll the disassembly
-window of BSim and find the two recursive calls within <code>quicksort</code>;
-note the hex locations of the instructions <em>following</em> each call.
-Write down these values;
-they will be saved LP values in stack frames associated with
-recursive calls, and can be used to distinguish recursive calls from
-the original call by the checkoff code.
+      <ol type="A" start="4">
+        <li>
+          By inspecting the saved LP value, determine whether the current
+          recursive call to <code>quicksort</code> is from the first recursive
+          call (sorting the array of smaller elements) or the second within
+          <code>quicksort</code>.
 
-<ol type="A" start="4">
-<p/><li/>
-  By inspecting the saved LP value, determine whether the current
-  recursive call to <code>quicksort</code> is from the first recursive
-  call (sorting the array of smaller elements) or the second within
-  <code>quicksort</code>.</p>
+          <answer type="menu" id="x55" width="30">
+            <label>Which recursive call?</label>
+            <menuitem>first (smaller elements)</menuitem>
+            <menuitem>second (larger elements)</menuitem>
+          </answer>
+        </li>
 
-<answer type="menu" id="x55" width="30">
-  <label>Which recursive call?</label>
-  <menuitem>first (smaller elements)</menuitem>
-  <menuitem>second (larger elements)</menuitem>
-</answer>
+        <li>
+          Find the saved BP, which points to the stack frame for
+          the prior call to <code>quicksort</code>; find the arguments to that call.
 
-<p/><li/>
-  Find the saved BP, which points to the stack frame for
-  the prior call to <code>quicksort</code>; find the arguments to that call.</p>
+          <answer type="number" id="x5" width="20">
+            <label>Argument "left" in prior call</label>
+          </answer>
 
-<answer type="number" id="x5" width="20">
-  <label>Argument "left" in prior call</label>
-</answer>
+          <answer type="number" id="x6" width="20">
+            <label>Argument "right" in prior call</label>
+          </answer>
+        </li>
 
-<answer type="number" id="x6" width="20">
-  <label>Argument "right" in prior call</label>
-</answer>
+        <li>
+          Follow the BP chain back to the original call, and report
+          the recursion depth (number of active calls) when the
+          negative argument is encountered.  Note that a couple of
+          frames at the bottom of the stack belong to procedures
+          in the testing code -- we only want you to count frames
+          belonging to quicksort.  Think about how you can distinguish
+          quicksort frames from test code frames.
 
-<p/><li/>
-  Follow the BP chain back to the original call, and report
-  the recursion depth (number of active calls) when the
-  negative argument is encountered.  Note that a couple of
-  frames at the bottom of the stack belong to procedures
-  in the testing code -- we only want you to count frames
-  belonging to quicksort.  Think about how you can distinguish
-  quicksort frames from test code frames.</p>
+          <answer type="number" id="x7" width="20">
+            <label>Number of active quicksort calls</label>
+          </answer>
+        </li>
+      </ol>
 
-<answer type="number" id="x7" width="20">
-  <label>Number of active quicksort calls</label>
-</answer>
-</ol>
-
-<div class="xyzzy">
-6614cf76c81431ca63f2cc11c8eaa8c0838e6d21a4261badc375fc72232250814de4f881c5ab662800f309d247ec175614504fa30cf20f89657e3f3d2accd6bb0a11cbf0b4ef27f250f30b39e9249637e6ce0a9a52ff893a8571e434bb6b371c30e3a7f68fc2fdef92ccc783a75640c3e10a2c99442255c143e829bc2120cadaa524c8694227f3a7cb1160a0fdba309a241cf823f85f4f6897b667ed977e434cea5bcae984e7aa7b2c3f4d1c5e5c7bffdc6fffb7658c8150b67f1b58b2e5feb61c3297a9eec7a4f70138560a1df3517b27724d2222504365a20f664f8d73497fd119b17c3f66dd4d2d2e241f0f0231cd5eb25083b53560fa29dea0c38a388af9bd42d9cc4c7943e581e6244ffd3ff5da748d7166b53560fa29dea0c340e6b81e90a08a8d0bc4ac6aa29656aef21449f521fe547030f1955d25837a33189d31b6386c128fda5cb29802a821ba7fb3b25d325fda194259b163ebe8a5afcd44db1841a799bb96b4270e9070180986584d6c9d6518da9cf22f19f93a06d7347b58840976a064920cfea0d747f70c620066c7c18cedd12691dc38bd0c42e5
-</div>
-
-    <div class="footer" style="font-size: small;">
-    <p/><hr/><p/>
-    
-
-    <br>
-    Copyright &copy; 2015-2017 M.I.T. Department of Electrical Engineering and Computer Science
-
-    <br>
-    Your use of this site and materials is subject to our
-    <a href="../../terms.html">terms of use</a>.
-</div>
-
-  </div>
-</body>
+      <div class="xyzzy">
+        6614cf76c81431ca63f2cc11c8eaa8c0838e6d21a4261badc375fc72232250814de4f881c5ab662800f309d247ec175614504fa30cf20f89657e3f3d2accd6bb0a11cbf0b4ef27f250f30b39e9249637e6ce0a9a52ff893a8571e434bb6b371c30e3a7f68fc2fdef92ccc783a75640c3e10a2c99442255c143e829bc2120cadaa524c8694227f3a7cb1160a0fdba309a241cf823f85f4f6897b667ed977e434cea5bcae984e7aa7b2c3f4d1c5e5c7bffdc6fffb7658c8150b67f1b58b2e5feb61c3297a9eec7a4f70138560a1df3517b27724d2222504365a20f664f8d73497fd119b17c3f66dd4d2d2e241f0f0231cd5eb25083b53560fa29dea0c38a388af9bd42d9cc4c7943e581e6244ffd3ff5da748d7166b53560fa29dea0c340e6b81e90a08a8d0bc4ac6aa29656aef21449f521fe547030f1955d25837a33189d31b6386c128fda5cb29802a821ba7fb3b25d325fda194259b163ebe8a5afcd44db1841a799bb96b4270e9070180986584d6c9d6518da9cf22f19f93a06d7347b58840976a064920cfea0d747f70c620066c7c18cedd12691dc38bd0c42e5
+      </div>
+    </article>
+  </body>
 </html>
