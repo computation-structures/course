@@ -16,6 +16,20 @@
 
   <body>
     <article class="markdown-body">
+      <div style="margin: 10px; border: 1px solid black; padding: 10px; background-color: #FFE;">
+        All your exercise answers for this page are saved by the browser in local storage
+        associated with this page.  You can use the buttons below
+        to load/save the answers on your system.  Note that loading will overwrite
+        any answers currently saved by the browser.
+        <br>
+        <center>
+          Save: <a download="saved_lab_4.json" href="#" onclick="answers.save_answers(this);"><button>Save</button></a>
+          <span style="margin-left: 2em;">Load:</span>
+          <input id="filename" type="file"/>
+          <button onclick="answers.load_answers(document.getElementById('filename'));">Load</button>
+        </center>
+      </div>
+
       <h2>Lab 4: 32-bit ALU</h2>
 
       <p>When entering numeric values in the answer fields, you can use

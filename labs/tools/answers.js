@@ -1156,6 +1156,29 @@ answers = (function () {
         return remote_update;
     }
 
+    function utoa(data) {
+        return btoa(unescape(encodeURIComponent(data)));
+    }
+
+    function save_answers(a) {
+        a.setAttribute('href','data:text/plain;base64,'+utoa(JSON.stringify(localStorage)));
+    }
+
+    function load_answers(target) {
+        var file = target.files[0];
+        if (!file) return;
+        var reader = new FileReader();
+        reader.onload = function(e) {
+            var contents = JSON.parse(e.target.result);
+            for (var tag in contents) {
+                localStorage.setItem(tag,contents[tag]);
+            }
+            // reload page so it reflects newly loaded state
+            location.reload();
+        };
+        reader.readAsText(file);
+    }
+
     ////////////////////////////////////////////////////////////
     //   Module exports
     ////////////////////////////////////////////////////////////
@@ -1169,7 +1192,10 @@ answers = (function () {
         random_int: random_int,
         random_float: random_float,
         random_choice: random_choice,
-        random_shuffle: random_shuffle
+        random_shuffle: random_shuffle,
+
+        save_answers: save_answers,
+        load_answers: load_answers
     };
 
 })();
