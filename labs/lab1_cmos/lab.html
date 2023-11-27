@@ -6,12 +6,12 @@
     <meta name="viewport" content="width=870">
 
     <script> MathJax = { tex: { inlineMath: [['$','$'],['\\(','\\)']], processEscapes: true}}; </script>
-    <script src="/tools/MathJax/tex-chtml.js" id="MathJax-script" async></script>
-    <script src="/tools/jquery-3.2.1.min.js"></script>
-    <link rel="stylesheet" href="/tools/github.css">
-    <link rel="stylesheet" href="/tools/labs.css">
-    <link rel="stylesheet" href="/tools/font-awesome.css">
-    <script src="/tools/answers.js"></script>
+    <script src="../tools/MathJax/tex-chtml.js" id="MathJax-script" async></script>
+    <script src="../tools/jquery-3.2.1.min.js"></script>
+    <link rel="stylesheet" href="../tools/github.css">
+    <link rel="stylesheet" href="../tools/labs.css">
+    <link rel="stylesheet" href="../tools/font-awesome.css">
+    <script src="../tools/answers.js"></script>
   </head>
 
   <body>
@@ -25,7 +25,7 @@
 
       <p>Useful links:</p>
       <ul>
-        <li><a href="/labs/tool_docs/jade.html" target="_blank">Introduction to Jade</a></li>
+        <li><a href="../tool_docs/jade.html" target="_blank">Introduction to Jade</a></li>
       </ul>
 
 
@@ -41,7 +41,7 @@
       controlled by a voltage source (\(V_{GS}\)) whose value will be set
       to a sequence of values between 0V and 3V by the sweep tool.</p>
 
-      <answer type="iframe" tool_name="Jade" width="100%" height="500" src="/tools/jade_workbook.html"><![CDATA[
+      <answer type="iframe" tool_name="Jade" width="100%" height="500" src="../tools/jade_workbook.html"><![CDATA[
 { "parts": ["/cmos/VTC"],
   "readonly": "true",
   "tools": ["sweep"],
@@ -149,7 +149,7 @@
       loading, we'll use a chain of 3 CMOS inverters and make our
       measurements on the output of the middle inverter:</p>
 
-      <answer type="iframe" tool_name="Jade" width="100%" height="500" src="/tools/jade_workbook.html" style="border:none;"><![CDATA[
+      <answer type="iframe" tool_name="Jade" width="100%" height="500" src="../tools/jade_workbook.html" style="border:none;"><![CDATA[
 { "parts": ["/cmos/Timing"],
   "readonly": "true",
   "tools": ["tran"],
@@ -259,7 +259,7 @@
       the chain of three inverters from Question 2 have been changed to
       a chain of three CMOS buffers by interchanging the NFETs and PFETs.</p>
 
-      <answer type="iframe" tool_name="Jade" width="100%" height="500" src="/tools/jade_workbook.html" style="border:none;"><![CDATA[
+      <answer type="iframe" tool_name="Jade" width="100%" height="500" src="../tools/jade_workbook.html" style="border:none;"><![CDATA[
 { "parts": ["/cmos/Buffers"],
   "readonly": "true",
   "tools": ["tran"],
@@ -393,7 +393,7 @@
 
       <p>Please implement \(F = C + A\cdot B\).</p>
 
-      <answer type="window" tool_name="Jade" id="4" height="500" src="/tools/jade_workbook.html"
+      <answer type="window" tool_name="Jade" id="4" height="500" src="../tools/jade_workbook.html"
               placeholder="Enter the required circuitry using the interactive schematic editor, then click &#x3C;span style=&#x22;color:green;&#x22;&#x3E;&#x2714;&#x3c;/span&#x3E; in the tool bar of the Schematic tab to run the provided tests."><![CDATA[
 { "parts": ["/analog/[np]fet","/cmos/F"],
   "tools": ["check"],
