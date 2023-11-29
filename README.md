@@ -87,6 +87,8 @@ Enjoy!
 
     * <a href="https://raw.githack.com/computation-structures/course/main/labs/lab6_procedures/lab.html">Lab 6: Procedures &amp; Stacks</a>
 
+    * <a href="https://raw.githack.com/computation-structures/course/main/labs/lab7_procedures/lab.html">Lab 7: Building the Beta</a>
+
 * **Part 3: Computer Organization**
 
   * L16. Virtual Memory: <a href="lectures/L16_Virtual_Memory.md">Lecture</a>, <a href="worksheets/pdfs/L16_worksheet.pdf">Worksheet</a>
