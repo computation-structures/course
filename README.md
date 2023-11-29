@@ -87,7 +87,7 @@ Enjoy!
 
     * <a href="https://raw.githack.com/computation-structures/course/main/labs/lab6_procedures/lab.html">Lab 6: Procedures &amp; Stacks</a>
 
-    * <a href="https://raw.githack.com/computation-structures/course/main/labs/lab7_procedures/lab.html">Lab 7: Building the Beta</a>
+    * <a href="https://raw.githack.com/computation-structures/course/main/labs/lab7_beta/lab.html">Lab 7: Building the Beta</a>
 
 * **Part 3: Computer Organization**
 
@@ -106,8 +106,6 @@ Enjoy!
   * <a href="lectures/Wrap_up.md">Wrap-up</a>
 
 * **Online labs**
-
-  * <a href="https://computationstructures.org/exercises/beta/lab.html">Building the Beta</a>
 
   * <a href="https://computationstructures.org/exercises/caches/lab.html">Caches</a>
 
