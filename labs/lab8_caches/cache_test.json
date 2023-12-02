@@ -1,0 +1,31 @@
+.include "beta.uasm"
+
+// A little cache benchmarking program: adds N words from
+// array A, then repeats.  The starting addresses for the
+// program and the array A are set by the I and A symbols
+// below.
+
+. = 0
+  BR(test)        // branch to the start of the benchmark
+
+I = 0x200        // location of benchmark program
+A = 0x240        // starting address of array A
+N = 16           // size of data region (in words)
+
+. = I            // start benchmark program here
+test:
+  CMOVE(N,R0)    // initialize loop index J
+  CMOVE(0,R1)
+
+loop:            // add up elements in array
+  SUBC(R0,1,R0)  // decrement index
+  MULC(R0,4,R2)  // convert to byte offset
+  LD(R2,A,R3)    // load value from A[J]
+  ADDC(R3,0,R1)  // add to sum
+  BNE(R0,loop)   // loop until all words are summed
+
+  BR(test)       // perform test again!
+
+// allocate space to hold array
+. = A
+  STORAGE(N)     // N words
