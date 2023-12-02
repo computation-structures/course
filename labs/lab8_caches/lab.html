@@ -1,1167 +1,1057 @@
 <!DOCTYPE html>
 <html lang="en">
-<head lang="en">
-<title>Caches</title>
-<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
-<meta name="viewport" content="width=870">
+  <head lang="en">
+    <title>Lab 8: Caches</title>
+    <meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+    <meta name="viewport" content="width=870">
 
-<!-- Global Site Tag (gtag.js) - Google Analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=UA-43707566-1"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
+    <script> MathJax = { tex: { inlineMath: [['$','$'],['\\(','\\)']], processEscapes: true}}; </script>
+    <script src="../tools/MathJax/tex-chtml.js" id="MathJax-script" async></script>
+    <script src="../tools/jquery-3.2.1.min.js"></script>
+    <link rel="stylesheet" href="../tools/github.css">
+    <link rel="stylesheet" href="../tools/labs.css">
+    <link rel="stylesheet" href="../tools/font-awesome.css">
+    <script src="../tools/answers.js"></script>
+  </head>
 
-  gtag('config', 'UA-43707566-1');
-</script>
+  <body>
+    <article class="markdown-body">
+      <div style="margin: 10px; border: 1px solid black; padding: 10px; background-color: #FFE;">
+        All your exercise answers for this page are saved by the browser in local storage
+        associated with this page.  You can use the buttons below
+        to load/save the answers on your system.  Note that loading will overwrite
+        any answers currently saved by the browser.
+        <br>
+        <center>
+          Save: <a download="saved_lab_8.json" href="#" onclick="answers.save_answers(this);"><button>Save</button></a>
+          <span style="margin-left: 2em;">Load:</span>
+          <input id="filename" type="file"/>
+          <button onclick="answers.load_answers(document.getElementById('filename'));">Load</button>
+        </center>
+      </div>
 
-<script type="text/x-mathjax-config">
-  MathJax.Hub.Config({ tex2jax: {inlineMath: [['$','$'],
-  ['\\(','\\)']], processEscapes: true}, TeX: {equationNumbers: { autoNumber: "AMS" }}
-  });
-</script>
-<script type="text/javascript" async src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML'></script>
+      <h2>Lab 8: Caches</h2>
 
-<script src="../../tools/jquery-3.2.1.min.js"></script>
-<link rel="stylesheet" href="../../tools/font-awesome.css">
-<link href="../../tools/workbook.css" rel="stylesheet" type="text/css">
-<script src="../../tools/workbook.js"></script>
-<script src="../../tools/answers.js"></script>
+      <p>When entering numeric values in the answer fields, you can use
+        integers (1000), floating-point numbers (1000.0), scientific notation
+        (1e3), engineering scale factors (1K), or numeric expressions (3*300 + 100).</p>
 
-</head>
+      <p>Useful links:</p>
+      <ul>
+        <li><a href="../tool_docs/BSim.html" target="_blank">Introduction to BSim</a></li>
+        <li><a href="../betainst.pdf" target="_blank">Summary of Instruction Formats (PDF)</a></li>
+        <li><a href="../beta.pdf" target="_blank">Beta Documentation (PDF)</a></li>
+      </ul>
 
-<body>
-  <div class="navigation">
-    <center><img src="../../title.gif" width="200" onclick="window.location='../../index.html';"></center>
-    <style>
-</style>
-<table width="100%">
-  <tr>
-    <td align="center">
-      <a href="../../lectures/index.html"><span class="navtab">lectures</span></a>
-    </td>
-    <td align="center">
-      <a href="../../videos/index.html"><span class="navtab">videos</span></a>
-    </td>
-    <td align="center">
-      <a href="../../worksheets/index.html"><span class="navtab">worksheets</span></a>
-    </td>
-  </tr>
-  <tr>
-    <td align="center">
-      <a href="../../notes/index.html"><span class="navtab">notes</span></a>
-    </td>
-    <td align="center">
-      <a class="selected" href="../../exercises/index.html"><span class="navtab">labs</span></a>
-    </td>
-  </tr>
-</table>
+      <h3>Problem 1.  Cache Architectures</h3>
 
-<p><b>Labs</b><br>
-  <a class="" href="../../exercises/cmos/lab.html">
-    1. CMOS Technology
-  </a><br>
-  <a class="" href="../../exercises/adder/lab.html">
-    2. CMOS Adder
-  </a><br>
-  <a class="" href="../../exercises/fsm/lab.html">
-    3. FSMs
-  </a><br>
-  <a class="" href="../../exercises/alu/lab.html">
-    4. 32-bit ALU
-  </a><br>
-  <a class="" href="../../exercises/assembly/lab.html">
-    5. Assembly Language
-  </a><br>
-  <a class="" href="../../exercises/procedures/lab.html">
-    6. Procedures &amp; Stacks
-  </a><br>
-  <a class="" href="../../exercises/beta/lab.html">
-    7. Building the Beta
-  </a><br>
-  <a class="selected" href="../../exercises/caches/lab.html">
-    8. Caches
-  </a><br>
-  <a class="" href="../../exercises/illop/lab.html">
-    9. Emulating Instructions
-  </a><br>
-  <a class="" href="../../exercises/tinyos/lab.html">
-    10. Tiny Operating System
-  </a><br>
-  <a class="" href="../../exercises/dp/lab.html">
-    11. Optimizing the Beta
-  </a><br>
-</p>
+      <p>Please read <A href="#controls">"Appendix: BSim Cache Simulation"</A>
+        below to learn how to drive the cache simulator that's built into BSim.</p>
 
-<p><b>Tool Sandboxes</b><br>
-  <a class="" href="../../exercises/sandboxes/jade.html">
-    Jade: circuit simulator
-  </a><br>
-  <a class="" href="../../exercises/sandboxes/bsim.html">
-    BSim: Beta simulator
-  </a><br>
-  <a class="" href="../../exercises/sandboxes/tmsim.html">
-    TMSim: Turing Machine simulator
-  </a><br>
-</p>
+      <p>We'll be using the following test program to explore the
+        behavior of caches:</p>
 
-  
-<p/>
-<hr style="border-style:solid; border-color:black;"/>
-<p>
-  Your exercise answers are saved by the browser in local storage
-  associated with this webpage.  You can use the buttons below
-  to load/save the answers on your system.
-</p>
+      <pre class="jsim">.include "beta.uasm"
 
-  
-<p>
-  Save all answers:
-  <a download="saved_state.json" href="#" onclick="workbook.save_answers(this);"><button>Save</button></a>
-</p>
+        // A little cache benchmarking program: adds N words from
+        // array A, then repeats.  The starting addresses for the
+        // program and the array A are set by the I and A symbols
+        // below.
 
-<p>
-  Load all answers (<i>this will overwrite any answers currently saved by the browser</i>): <br/>
-  <input style="margin-left:1em;" type="file" onchange="workbook.load_answers(this);"/>
-</p>
+        . = 0
+        BR(test)        // branch to the start of the benchmark
 
-<p><center><i>Authored by Chris Terman</i></center></p>
+        I = 0x200        // location of benchmark program
+        A = 0x240        // starting address of array A
+        N = 16           // size of data region (in words)
 
-
-  </div>
-  <div class="content">
-    <h1>Caches</h1>
-
-    <p/>When entering numeric values in the answer fields, you can use
-    integers (1000), floating-point numbers (1000.0), scientific notation
-    (1e3), engineering scale factors (1K), or numeric expressions (3*300 + 100).
-
-    <p/>Useful links:
-    <ul>
-  <li><a href="../tool_docs/BSim.html" target="_blank">Introduction to BSim</a></li>
-  <li><a href="../../notes/pdfs/betainst.pdf" target="_blank">Summary of Instruction Formats (PDF)</a></li>
-  <li><a href="../../notes/pdfs/beta.pdf" target="_blank">Beta Documentation (PDF)</a></li>
-    </ul>
-
-    <p/><b>Problem 1.  Cache Architectures</b>
-
-    <p/>Please read <A href="#controls">"Appendix: BSim Cache Simulation"</A>
-    below to learn how to drive the cache simulator that's built into BSim.
-
-    <p/>We'll be using the following test program to explore the
-    behavior of caches:
-
-<pre class="jsim">.include "beta.uasm"
-
-// A little cache benchmarking program: adds N words from
-// array A, then repeats.  The starting addresses for the
-// program and the array A are set by the I and A symbols
-// below.
-
-. = 0
-  BR(test)        // branch to the start of the benchmark
-
-I = 0x200        // location of benchmark program
-A = 0x240        // starting address of array A
-N = 16           // size of data region (in words)
-
-. = I            // start benchmark program here
+        . = I            // start benchmark program here
 test:
-  CMOVE(N,R0)    // initialize loop index J
-  CMOVE(0,R1)
+        CMOVE(N,R0)    // initialize loop index J
+        CMOVE(0,R1)
 
-loop:            // add up elements in array
-  SUBC(R0,1,R0)  // decrement index
-  MULC(R0,4,R2)  // convert to byte offset
-  LD(R2,A,R3)    // load value from A[J]
-  ADDC(R3,0,R1)  // add to sum
-  BNE(R0,loop)   // loop until all words are summed
+loop:                  // add up elements in array
+        SUBC(R0,1,R0)  // decrement index
+        MULC(R0,4,R2)  // convert to byte offset
+        LD(R2,A,R3)    // load value from A[J]
+        ADDC(R3,0,R1)  // add to sum
+        BNE(R0,loop)   // loop until all words are summed
 
-  BR(test)       // perform test again!
+        BR(test)       // perform test again!
 
-// allocate space to hold array
-. = A
-  STORAGE(N)     // N words</pre>
+        // allocate space to hold array
+        . = A
+        STORAGE(N)     // N words</pre>
 
-    <p/>This test program is pre-loaded into the BSim instance below.
-    Note that any changes you make to the program (e.g.,
-    changing symbol values) will not be saved when leaving the BSim window.
-    "cache_test.uasm" tab has a read-only version of the program
-    in case you need to copy it into the "Lab 6" to start with a clean
-    slate.
+      <p>This test program is pre-loaded into the BSim instance below.
+        Note that any changes you make to the program (e.g.,
+        changing symbol values) will not be saved when leaving the BSim window.
+        "cache_test.uasm" tab has a read-only version of the program
+        in case you need to copy it into the "Lab 6" to start with a clean
+        slate.</p>
 
-<answer type="window" tool_name="BSim" width="900" height="600" src="../../tools/bsim_workbook.html">
-{  "initial_state": {
-      "beta.uasm": "url:../exercises/beta.uasm",
-      "cache_test.uasm": "url:../exercises/caches/cache_test.uasm"
-   },
-   "state":{"Cache test": "url:../exercises/caches//cache_test.uasm"}
-}
-</answer>
-
-<div class="hint">
-  Hint: In answering the questions below you may find it useful to
-  make changes to the assembly-language program to add .breakpoint,
-  run slightly different experiments, etc.  Help yourself!  You can
-  always restore the original program by closing the BSim window,
-  then reopening it.
-</div>
-
-    <p/><b>Ideal Cache Behavior</b>
-
-    <p/>Try assembling the program, opening the cache control, turning
-    on the cache, then clicking on the "Run Fast" control, which runs
-    the test in a continuous loop.  You'll observe that with the
-    initial placement of the instructions and the array, and the initial
-    cache configuration, the cache hit ratio is essentially 1.00.
-
-    <p/>
-
-    <ol type="A">
-
-      <li/>There are few <i>compulsory</i> misses (e.g., 9 IFetch
-      misses), i.e., misses that bring the instructions and data into
-      the initially empty cache.  If the value of the symbol N were
-      temporarily changed from 16 to 8, what would the new miss numbers be?
-
-      <answer type="number" id="A1" width="20">
-        <label>New number of Ifetch misses?</label>
-      </answer>
-      <answer type="number" id="A2" width="20">
-        <label>New number of Dread misses?</label>
+      <answer type="window" tool_name="BSim" width="900" height="600" src="../../tools/bsim_workbook.html">
+        {  "initial_state": {
+        "beta.uasm": "url:../exercises/beta.uasm",
+        "cache_test.uasm": "url:../exercises/caches/cache_test.uasm"
+        },
+        "state":{"Cache test": "url:../exercises/caches//cache_test.uasm"}
+        }
       </answer>
 
+      <div class="hint">
+        Hint: In answering the questions below you may find it useful to
+        make changes to the assembly-language program to add .breakpoint,
+        run slightly different experiments, etc.  Help yourself!  You can
+        always restore the original program by closing the BSim window,
+        then reopening it.
+      </div>
+
+      <p><b>Ideal Cache Behavior</b></p>
+
+      <p>Try assembling the program, opening the cache control, turning
+        on the cache, then clicking on the "Run Fast" control, which runs
+        the test in a continuous loop.  You'll observe that with the
+        initial placement of the instructions and the array, and the initial
+        cache configuration, the cache hit ratio is essentially 1.00.</p>
+
+      <ol type="A">
+
+        <li>There are few <i>compulsory</i> misses (e.g., 9 IFetch
+          misses), i.e., misses that bring the instructions and data into
+          the initially empty cache.  If the value of the symbol N were
+          temporarily changed from 16 to 8, what would the new miss numbers be?
+
+          <answer type="number" id="A1" width="20">
+            <label>New number of Ifetch misses?</label>
+          </answer>
+          <answer type="number" id="A2" width="20">
+            <label>New number of Dread misses?</label>
+          </answer>
+        </li>
       </ol>
 
-    <p/>The key to understanding cache performance is understanding how
-    the memory address received from the CPU is processed by the cache
-    hardware.  Here's the right recipe:
+      <p>The key to understanding cache performance is understanding how
+        the memory address received from the CPU is processed by the cache
+        hardware.  Here's the right recipe:</p>
 
-    <ol type="1">
-      <li/> Look at the assembly language program to determine
-      instruction and data addresses generated by the CPU as the
-      program executes.  The sequence of addresses is sometimes called
-      the <i>reference string</i>.
+      <ol type="1">
+        <li> Look at the assembly language program to determine
+          instruction and data addresses generated by the CPU as the
+          program executes.  The sequence of addresses is sometimes called
+          the <i>reference string</i>.</li>
 
-      <p/><li/>Then look at the "Address bits" info in the cache
-      control panel to determine how each memory address is divided
-      into offset, index and tag fields.  The index bits determine the
-      cache line and the tag bits of the address are compared with the
-      the tag field of the selected cache line to determine if there's
-      a hit.
-    </ol>
+        <li>Then look at the "Address bits" info in the cache
+          control panel to determine how each memory address is divided
+          into offset, index and tag fields.  The index bits determine the
+          cache line and the tag bits of the address are compared with the
+          the tag field of the selected cache line to determine if there's
+          a hit.</li>
+      </ol>
 
-    <p/>Our cache has 64 data words altogether.  The initial
-    configuration is direct mapped with 1 word/line, so the cache has
-    64 lines numbered 0 through 63.  To achieve the 100% hit ratio, it
-    must be the case that the instructions and array data can reside
-    in the cache at the same time.
+      <p>Our cache has 64 data words altogether.  The initial
+        configuration is direct mapped with 1 word/line, so the cache has
+        64 lines numbered 0 through 63.  To achieve the 100% hit ratio, it
+        must be the case that the instructions and array data can reside
+        in the cache at the same time.</p>
 
-    <ol type="A" start="2">
-      <li/>Please determine which cache line will hold each of the
-      following instruction or data words.  And for practice, compute
-      the tag field for each of the addresses.  Remember that to enter an
-      address in hex, you should include a <tt>0x</tt> prefix.
+      <ol type="A" start="2">
+        <li>Please determine which cache line will hold each of the
+          following instruction or data words.  And for practice, compute
+          the tag field for each of the addresses.  Remember that to enter an
+          address in hex, you should include a <tt>0x</tt> prefix.
 
-      <answer type="number" id="B1a" width="5">
-        <label>Address of the <tt>CMOVE(N,R0)</tt> instruction?</label>
-      </answer>
-      <answer type="number" id="B1b" width="5">
-        <label>Cache line for <tt>CMOVE(N,R0)</tt> instruction?</label>
-      </answer>
-      <answer type="number" id="B1c" width="5">
-        <label>Tag field for <tt>CMOVE(N,R0)</tt> instruction?</label>
-      </answer>
+          <answer type="number" id="B1a" width="5">
+            <label>Address of the <tt>CMOVE(N,R0)</tt> instruction?</label>
+          </answer>
+          <answer type="number" id="B1b" width="5">
+            <label>Cache line for <tt>CMOVE(N,R0)</tt> instruction?</label>
+          </answer>
+          <answer type="number" id="B1c" width="5">
+            <label>Tag field for <tt>CMOVE(N,R0)</tt> instruction?</label>
+          </answer>
 
-      <br/>
-      <answer type="number" id="B2a" width="5">
-        <label>Address of the second <tt>BR(test)</tt> instruction?</label>
-      </answer>
-      <answer type="number" id="B2b" width="5">
-        <label>Cache line for second <tt>BR(test)</tt> instruction?</label>
-      </answer>
-      <answer type="number" id="B2c" width="5">
-        <label>Tag field for second <tt>BR(test)</tt> instruction?</label>
-      </answer>
+          <br/>
+          <answer type="number" id="B2a" width="5">
+            <label>Address of the second <tt>BR(test)</tt> instruction?</label>
+          </answer>
+          <answer type="number" id="B2b" width="5">
+            <label>Cache line for second <tt>BR(test)</tt> instruction?</label>
+          </answer>
+          <answer type="number" id="B2c" width="5">
+            <label>Tag field for second <tt>BR(test)</tt> instruction?</label>
+          </answer>
 
-      <br/>
-      <answer type="number" id="B3a" width="5">
-        <label>Address of <tt>A[0]</tt> data?</label>
-      </answer>
-      <answer type="number" id="B3b" width="5">
-        <label>Cache line for <tt>A[0]</tt> data?</label>
-      </answer>
-      <answer type="number" id="B3c" width="5">
-        <label>Tag field for <tt>A[0]</tt> data?</label>
-      </answer>
+          <br/>
+          <answer type="number" id="B3a" width="5">
+            <label>Address of <tt>A[0]</tt> data?</label>
+          </answer>
+          <answer type="number" id="B3b" width="5">
+            <label>Cache line for <tt>A[0]</tt> data?</label>
+          </answer>
+          <answer type="number" id="B3c" width="5">
+            <label>Tag field for <tt>A[0]</tt> data?</label>
+          </answer>
 
-      <br/>
-      <answer type="number" id="B4a" width="5">
-        <label>Address of <tt>A[15]</tt> data?</label>
-      </answer>
-      <answer type="number" id="B4b" width="5">
-        <label>Cache line for <tt>A[15]</tt> data?</label>
-      </answer>
-      <answer type="number" id="B4c" width="5">
-        <label>Tag field for <tt>A[15]</tt> data?</label>
-      </answer>
+          <br/>
+          <answer type="number" id="B4a" width="5">
+            <label>Address of <tt>A[15]</tt> data?</label>
+          </answer>
+          <answer type="number" id="B4b" width="5">
+            <label>Cache line for <tt>A[15]</tt> data?</label>
+          </answer>
+          <answer type="number" id="B4c" width="5">
+            <label>Tag field for <tt>A[15]</tt> data?</label>
+          </answer>
+        </li>
+      </ol>
 
-    </ol>
+      <p>Aha! All the instruction and data words map to different cache lines,
+        so all of instructions and data accessed by the loop can reside in
+        the cache at the same time.</p>
 
-    <p/>Aha! All the instruction and data words map to different cache lines,
-    so all of instructions and data accessed by the loop can reside in
-    the cache at the same time.
+      <p><b>Collisions</b></p>
 
-    <p/><b>Collisions</b>
+      <p>Now let's change the location of the A array in memory by modifying
+        the appropriate line in the assembly language program to be</p>
 
-    <p/>Now let's change the location of the A array in memory by modifying
-    the appropriate line in the assembly language program to be
+      <pre class="jsim">A = 0x300        // starting address of array A</pre>
 
-    <pre class="jsim">A = 0x300        // starting address of array A</pre>
+      <p>If you changed N to 8 for the previous question, please reset it
+        to 16.  Rerun the simulation for a while with the cache enabled and observe that
+        the hit ratio on instruction fetch is now .904 and the overall hit ratio is
+        .838.</p>
 
-    <p/>If you changed N to 8 for the previous question, please reset it
-    to 16.  Rerun the simulation for a while with the cache enabled and observe that
-    the hit ratio on instruction fetch is now .904 and the overall hit ratio is
-    .838.
+      <ol type="A" start="3">
+        <li>Determine which cache lines will now hold the A array and compute
+          the associated tag field.
+          
+          <answer type="number" id="C1a" width="5">
+            <label>Address for <tt>A[0]</tt> data?</label>
+          </answer>
+          <answer type="number" id="C1b" width="5">
+            <label>Cache line for <tt>A[0]</tt> data?</label>
+          </answer>
+          <answer type="number" id="C1c" width="5">
+            <label>Tag field for <tt>A[0]</tt> data?</label>
+          </answer>
 
-    <ol type="A" start="3">
-      <li/>Determine which cache lines will now hold the A array and compute
-      the associated tag field.
-    
-      <answer type="number" id="C1a" width="5">
-        <label>Address for <tt>A[0]</tt> data?</label>
-      </answer>
-      <answer type="number" id="C1b" width="5">
-        <label>Cache line for <tt>A[0]</tt> data?</label>
-      </answer>
-      <answer type="number" id="C1c" width="5">
-        <label>Tag field for <tt>A[0]</tt> data?</label>
-      </answer>
+          <br/>
+          <answer type="number" id="C2a" width="5">
+            <label>Address for <tt>A[15]</tt> data?</label>
+          </answer>
+          <answer type="number" id="C2b" width="5">
+            <label>Cache line for <tt>A[15]</tt> data?</label>
+          </answer>
+          <answer type="number" id="C2c" width="5">
+            <label>Tag field for <tt>A[15]</tt> data?</label>
+          </answer>
+        </li>
+      </ol>
 
-      <br/>
-      <answer type="number" id="C2a" width="5">
-        <label>Address for <tt>A[15]</tt> data?</label>
-      </answer>
-      <answer type="number" id="C2b" width="5">
-        <label>Cache line for <tt>A[15]</tt> data?</label>
-      </answer>
-      <answer type="number" id="C2c" width="5">
-        <label>Tag field for <tt>A[15]</tt> data?</label>
-      </answer>
-    </ol>
+      <p>Moving A means that addresses for A[0] through A[7] are mapped
+        into the same cache lines as those used for the instructions.  The
+        data accesses to A and instruction fetches are said to <i>collide</i>, i.e.,
+        since their addresses map to the same cache lines, they contend for
+        residency in the direct-mapped cache.</p>
 
-    <p/>Moving A means that addresses for A[0] through A[7] are mapped
-    into the same cache lines as those used for the instructions.  The
-    data accesses to A and instruction fetches are said to <i>collide</i>, i.e.,
-    since their addresses map to the same cache lines, they contend for
-    residency in the direct-mapped cache.
+      <ol type="A" start="4">
+        <li>The data for A[4] maps to the same cache line as which
+          instruction?  Recall that A[0], the first element of the array
+          is located at address 0x300.
 
-    <ol type="A" start="4">
-      <li/>The data for A[4] maps to the same cache line as which
-      instruction?  Recall that A[0], the first element of the array
-      is located at address 0x300.
+          <answer type="menu" id="D">
+            <label>Which instruction?</label>
+            <menuitem><tt>CMOVE(N,R0)</tt></menuitem>
+            <menuitem><tt>CMOVE(0,R1)</tt></menuitem>
+            <menuitem><tt>SUBC(R0,1,R0)</tt></menuitem>
+            <menuitem><tt>MULC(R0,4,R2)</tt></menuitem>
+            <menuitem><tt>LD(R2,A,R3)</tt></menuitem>
+            <menuitem><tt>ADDC(R3,0,R1)</tt></menuitem>
+            <menuitem><tt>BNE(R0,loop)</tt></menuitem>
+            <menuitem><tt>BR(test)</tt></menuitem>
+          </answer>
+        </li>
+      </ol>
 
-      <answer type="menu" id="D">
-        <label>Which instruction?</label>
-        <menuitem><tt>CMOVE(N,R0)</tt></menuitem>
-        <menuitem><tt>CMOVE(0,R1)</tt></menuitem>
-        <menuitem><tt>SUBC(R0,1,R0)</tt></menuitem>
-        <menuitem><tt>MULC(R0,4,R2)</tt></menuitem>
-        <menuitem><tt>LD(R2,A,R3)</tt></menuitem>
-        <menuitem><tt>ADDC(R3,0,R1)</tt></menuitem>
-        <menuitem><tt>BNE(R0,loop)</tt></menuitem>
-        <menuitem><tt>BR(test)</tt></menuitem>
-      </answer>
-    </ol>
+      <p>Why is the long-term instruction fetch hit ratio .904?  Let's do
+        the calculations for one complete iteration of the <i>outer</i>
+        loop, which involves N (16) iterations of the inner loop.  Consider
+        execution starting with the instruction at <tt>test:</tt> and ending
+        when the same instruction is about to be executed again.</p>
 
-    <p/>Why is the long-term instruction fetch hit ratio .904?  Let's do
-    the calculations for one complete iteration of the <i>outer</i>
-    loop, which involves N (16) iterations of the inner loop.  Consider
-    execution starting with the instruction at <tt>test:</tt> and ending
-    when the same instruction is about to be executed again.
+      <div class="hint">
+        Hint: placing a .breakpoint just after <tt>test:</tt> will let
+        you compare the cache statistics between two successive iterations
+        of the outer loop and use the difference to answer the questions
+        below.  Or, of course, you can simply figure it out from the
+        assembly language program!    We're interested in the steady
+        state behavior, so don't use measurements from the first iteration
+        of the loop, which would include cumpulsory misses when filling
+        the empty cache.
+      </div>
 
-    <div class="hint">
-      Hint: placing a .breakpoint just after <tt>test:</tt> will let
-      you compare the cache statistics between two successive iterations
-      of the outer loop and use the difference to answer the questions
-      below.  Or, of course, you can simply figure it out from the
-      assembly language program!    We're interested in the steady
-      state behavior, so don't use measurements from the first iteration
-      of the loop, which would include cumpulsory misses when filling
-      the empty cache.
-    </div>
+      <ol type="A" start="5">
+        <li> What is the total number of instruction fetches during
+          one full iteration of the outer loop?
+          <answer type="number" id="E" width="5">
+            <label>Total number of instruction fetches?</label>
+          </answer>
+        </li>
+      </ol>
 
-    <ol type="A" start="5">
-      <li/> What is the total number of instruction fetches during
-      one full iteration of the outer loop?
-      <answer type="number" id="E" width="5">
-        <label>Total number of instruction fetches?</label>
-      </answer>
-    </ol>
-    
-    <p/>The sixteen iterations of the inner loop access A[15] down to
-    A[0].  Recall that accesses to A[0] through A[7] collide with the
-    instructions.  So some of those data access will end up replacing
-    an instruction in the cache, which will then cause a cache miss
-    when that instruction is fetched on the next iteration of the
-    inner loop.
+      <p>The sixteen iterations of the inner loop access A[15] down to
+        A[0].  Recall that accesses to A[0] through A[7] collide with the
+        instructions.  So some of those data access will end up replacing
+        an instruction in the cache, which will then cause a cache miss
+        when that instruction is fetched on the next iteration of the
+        inner loop.</p>
 
-    <ol type="A" start="6">
-      <li/> What are total numbers of misses and hits for one full
-      iteration of the outer loop?
-      <answer type="number" id="F1" width="5">
-        <label>Total number of misses during instruction fetch?</label>
-      </answer>
+      <ol type="A" start="6">
+        <li> What are total numbers of misses and hits for one full
+          iteration of the outer loop?
+          <answer type="number" id="F1" width="5">
+            <label>Total number of misses during instruction fetch?</label>
+          </answer>
 
-      <answer type="number" id="F2" width="5">
-        <label>Total number of hits during instruction fetch?</label>
-      </answer>
-     </ol>
+          <answer type="number" id="F2" width="5">
+            <label>Total number of hits during instruction fetch?</label>
+          </answer>
+        </li>
+      </ol>
 
-    <p/>If we compute the hit ratio as hits/(total fetches) we
-    get 0.9036.
+      <p>If we compute the hit ratio as hits/(total fetches) we
+        get 0.9036.</p>
 
-    <p/><b>Associativity</b>
+      <p><b>Associativity</b></p>
 
-    <p/>Keeping the new address for the A array, change the
-    associativity setting from "direct mapped" to "2-way".  Note that
-    the 64 total cache lines are now divided into two ways, each
-    having 32 lines.  So the address bits used to select the cache
-    line are a bit different (pun intended!) than before.  If you
-    added a .breakpoint, you can remove it now.  Rerun the
-    simulation for a while and observe the new hit ratio: 1.00 again!
+      <p>Keeping the new address for the A array, change the
+        associativity setting from "direct mapped" to "2-way".  Note that
+        the 64 total cache lines are now divided into two ways, each
+        having 32 lines.  So the address bits used to select the cache
+        line are a bit different (pun intended!) than before.  If you
+        added a .breakpoint, you can remove it now.  Rerun the
+        simulation for a while and observe the new hit ratio: 1.00 again!</p>
 
-    <ol type="A" start="7">
+      <ol type="A" start="7">
 
-      <p/><li>Why does the 2-way set-associative cache have a
-        better hit ratio on data accesses than the direct-mapped cache?
+        <li>Why does the 2-way set-associative cache have a
+          better hit ratio on data accesses than the direct-mapped cache?
 
-        <answer type="choice" id="G">
-	  <choice> A[0] through A[7] and the instructions now map to
-            disjoint sets of cache lines and no longer collide.  </choice>
+          <answer type="choice" id="G">
+            <choice> A[0] through A[7] and the instructions now map to
+              disjoint sets of cache lines and no longer collide.  </choice>
 
-	  <choice> A[0] and <tt>CMOVE(N,R0)</tt> can both reside in
-            the cache at the same time (one in each of the two ways)
-            even though their addresses map to the same cache
-            line.  And so on for the other collisions in the
-            direct-mapped cache.</choice> 
+            <choice> A[0] and <tt>CMOVE(N,R0)</tt> can both reside in
+              the cache at the same time (one in each of the two ways)
+              even though their addresses map to the same cache
+              line.  And so on for the other collisions in the
+              direct-mapped cache.</choice> 
 
-	  <choice> There's a bug in the cache simulation. </choice>
-        </answer>
+            <choice> There's a bug in the cache simulation. </choice>
+          </answer>
+        </li>
+      </ol>
 
-    </ol>
+      <p>So far our experiements have involved only a few instructions and
+        data words which will all fit in the 64-word cache if we can arrange for
+        them not to collide either by appropriate choice of addressing or by
+        using a 2-way set-associative cache.</p>
 
-    <p/>So far our experiements have involved only a few instructions and
-    data words which will all fit in the 64-word cache if we can arrange for
-    them not to collide either by appropriate choice of addressing or by
-    using a 2-way set-associative cache.
+      <p>Now let's consider what happens when we access a much larger
+        array.  Modify the assembly language program to be</p>
 
-    <p/>Now let's consider what happens when we access a much larger
-    array.  Modify the assembly language program to be
-
-    <pre class="jsim">A = 0x300        // starting address of array A
+      <pre class="jsim">A = 0x300        // starting address of array A
 N = 64           // size of data region (words)</pre>
 
-    Run the modified program with the most recent cache settings: 64
-    total words, 1 word/line, 2-way associativity.
+      Run the modified program with the most recent cache settings: 64
+      total words, 1 word/line, 2-way associativity.
 
-    <ol type="A" start="8">
-      <li/> Report the hit ratio percentages for Ifetch and Dread:
+      <ol type="A" start="8">
+        <li> Report the hit ratio percentages for Ifetch and Dread:
 
-      <answer type="number" id="H1" width="5">
-        <label>Ifetch hit ratio (between 0 and 1)?</label>
+          <answer type="number" id="H1" width="5">
+            <label>Ifetch hit ratio (between 0 and 1)?</label>
+          </answer>
+
+          <answer type="number" id="H2" width="5">
+            <label>Dread hit ratio (between 0 and 1)?</label>
+          </answer>
+        </li>
+      </ol>
+
+      <p>You should be able to explain these results!</p>
+
+      <p>The very high Ifetch hit ratio is pretty easy to explain, using
+        the approach from parts (E) and (F).  The instructions in the
+        inner loop are all executed once for each data access, so the
+        cache lines holding these instructions will never be "least
+        recently used" when a cache line needs to be replaced due to a
+        data miss.  This means the instructions in the inner loop will always
+        be in one way of the cache after the initial instruction fetch.
+        So it's just the 2 instructions at the beginning of the outer loop
+        and the one at the end that generate the 3 misses for each
+        iteration of the outer loop.  Running the numbers: total
+        instruction fetches = 64*5+3 = 323; total misses = 3; Ifetch hit
+        ratio = 320/323 = 0.9907.</p>
+
+      <p><img src="1.png" width="150" style="float:right;margin-left:10px;"/></p>
+
+      <p>To analyze the Dfetch hit ratio, it's helpful to refer to
+        the figure on the right, which sketches the layout of a 2-way
+        set-associative cache with 64 total words.  The instructions occupy
+        lines 0-7 in one of the ways (shown conceptually as the shaded area
+        of the cache).  That leaves the other 7/8 of the cache for holding
+        array data.</p>
+
+      <p>The 64 elements of the array collide with themselves in a
+        cache with 32 lines.</p>
+
+      <ol type="A" start="9">
+        <li>For example, <tt>A[17]</tt> collides with <tt>A[i]</tt>
+          for what value of <tt>i</tt>?
+          <answer type="number" id="I" width="5">
+            <label>Value of i?</label>
+          </answer>
+        </li>
+      </ol>
+
+      <p> Since the cache is 2-way set-associative, two addresses
+        that collide can both reside in the cache.  So 75% of the
+        array values (those that map to cache lines 8 through 31)
+        will stay in the cache once they're loaded.  But 25%
+        of the array elements also collide with the instructions.</p>
+
+      <ol type="A" start="10">
+        <li>There are two array values, <tt>A[j]</tt> and <tt>A[k]</tt>,
+          that collide with the instruction <tt>ADDC(R3,0,R1)</tt>.
+          What are the values for <tt>j</tt> and <tt>k</tt>?  Enter the
+          smaller of the two indicies as the value for <tt>j</tt>.
+          <answer type="number" id="J1" width="5">
+            <label>Value of j?</label>
+          </answer>
+          <answer type="number" id="J2" width="5">
+            <label>Value of k?</label>
+          </answer>
+        </li>
+      </ol>
+
+      <p>It's these 25% of the array elements that collide with
+        each other that lead to cache misses and refills from
+        one iteration of the outer loop to the next.  Hence the .75
+        hit ratio for Dfetches.</p>
+
+      <p><b>Block size (words/cache line)</b></p>
+
+      <p>Finally, let's make one last adjustment to the cache controls:
+        change the words/line to the value 2, still keeping the address of
+        the array at 0x300.  This changes the layout of
+        the cache once again: each of the 2 ways now has 16 cache lines,
+        but each cache line now holds 2 words of data.  The first word in
+        a cache line will be from a memory location whose byte address is
+        a multiple of 8, the second word will be from the following memory
+        location.  When a cache line is refilled both words are read
+        from memory and stored in the cache -- there's no notion of a
+        partially-filled cache line.</p>
+
+      <p>Suppose <tt>A[53]</tt> is resident in our cache as currently
+        configured (64 total words, 2 words/line, 2-way set-associative).</p>
+
+      <ol type="A" start="11">
+        <li>Looking at the assembly language program, determine
+          the memory address for <tt>A[53]</tt>.
+          <answer type="number" id="K1" width="5">
+            <label>Memory address for <tt>A[53]</tt>?</label>
+          </answer>
+
+          <p/>If <tt>A[53]</tt> is resident in the cache, <tt>A[m]</tt>
+          will also be present in the same cache line.
+          <answer type="number" id="K2" width="5">
+            <label>Value for index <tt>m</tt>?</label>
+          </answer>
+
+          <p>If <tt>A[53]</tt> is resident in the cache, in which
+            cache line will it reside?  In other words, what's the value
+            of the index field of the address you entered above?</p>
+          <answer type="number" id="K3" width="5">
+            <label>Value for the index field?</label>
+          </answer>
+
+          <p>If <tt>A[53]</tt> is resident in the cache, what will
+            be the value of the tag field for that line?</p>
+          <answer type="number" id="K4" width="5">
+            <label>Value for the tag field?</label>
+          </answer>
+        </li>
+      </ol>
+
+      <p>Rerun the program for a while with the new cache configuration.</p>
+
+      <ol type="A" start="12">
+        <li> Report the hit ratio percentages for Dread:
+
+          <answer type="number" id="L" width="5">
+            <label>Dread hit ratio (between 0 and 1)?</label>
+          </answer>
+        </li>
+      </ol>
+
+      <p>Doubling the number of words/line has halved the number of
+        Dread misses in each iteration of the outer loop!  Why?  The
+        refill triggered by each miss brings in two entries from the array,
+        the one that's needed to satisfy the current LD instruction, and
+        the memory location that will be accessed by LD in the next
+        iteration of the inner loop.  For example, if there's a miss when
+        loading A[7], both A[6] and A[7] are brought into the cache.
+        On the next iteration, the load of A[6] will be a hit! So every
+        second LD access is now a hit.</p>
+
+      <p>Moral of the story: sequential array accesses are good examples
+        of the principal of locality.  An increased words/line will bring
+        in neighboring array elements on a miss and those neighbors will
+        be accessed in successive iterations.  So at a slightly larger
+        refill cost (bringing in the extra words), there's a big impact
+        on the miss rate.</p>
+
+      <h3>Problem 2.  Design Problem: Set-associative Instruction Cache</h3>
+
+      <p>See the instructions below.</p>
+
+      <answer id="2" type="window" tool_name="Jade" width="900" height="600" required_tests="6c6d9c78813b045fd4a145304b5da5f3" src="../tools/jade_workbook.html"
+              placeholder="Enter the required circuitry using the interactive schematic editor, then click &#x3C;span style=&#x22;color:green;&#x22;&#x3E;&#x2714;&#x3c;/span&#x3E; in the tool bar of the Schematic tab to run the provided tests.">
+        { "hierarchical": "true",
+        "parts": ["/gates/.*","/caches/.*","memory","/user/.*"],
+        "tools": ["check","timing"],
+        "editors": ["schematic","icon","test"],
+        "edit": "/caches/test",
+        "initial_state":
+        {
+        "/caches/test": {"test": [["test", ".power Vdd=1\n.thresholds Vol=0 Vil=0.1 Vih=0.9 Voh=1\n\n.group inputs reset ia[31:0]\n.group outputs irdy id[31:0]\n\n.mode gate\n\n.cycle CLK=1 tran 10n assert inputs tran 40n CLK=0 tran 49n sample outputs tran 1n\n\n1 -------------------------------- - -------------------------------- //  1 reset\n\n// read 0x000.  It's a miss, so fetch the 2-word block at locns 0 and 4 from main memory\n// way 0 is LRU, so put the data there in line 0.  then make way 1 LRU for cache line 0.\n0 00000000000000000000000000000000 L -------------------------------- //  2 read locn 0 => miss\n0 00000000000000000000000000000000 L -------------------------------- //  3 read locn 0 RD1\n0 00000000000000000000000000000000 H LLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL //  4 read locn 0 RD2 => done\n\n// read 0x004  Expect a hit in line 0, way 0.\n0 00000000000000000000000000000100 H LLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLH //  5 read locn 4 => hit\n\n// read 0x100 (which also maps to cache line 0) => a miss, but fill line 0 in way 1\n// way 0 now becomes LRU for cache line 0\n0 00000000000000000000000100000000 L -------------------------------- //  6 read locn 100 => miss\n0 00000000000000000000000100000000 L -------------------------------- //  7 read locn 100 RD1\n0 00000000000000000000000100000000 H LLLLLLLLLLLLLLLLLLLLLLLLLHLLLLLL //  8 read locn 100 RD2 => done\n\n// read 0x004.  Should still be a hit in line 0, way 0.\n0 00000000000000000000000000000100 H LLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLH //  9 read locn 4 => hit\n\n// read 0x104.  Expect a hit in line 0, way 1.\n0 00000000000000000000000100000100 H LLLLLLLLLLLLLLLLLLLLLLLLLHLLLLLH // 10 read locn 104 => hit\n\n// read 0x204.  Expect a miss; refill line 0, way 0; way 1 becomes LRU\n0 00000000000000000000001000000100 L -------------------------------- // 11 read locn 204 => miss\n0 00000000000000000000001000000100 L -------------------------------- // 12 read locn 204 RD1\n0 00000000000000000000001000000100 H LLLLLLLLLLLLLLLLLLLLLLLLHLLLLLLH // 13 read locn 204 RD2 => done\n\n// read 0x104.  Expect a hit since it should still be in line 0, way 1.\n0 00000000000000000000000100000100 H LLLLLLLLLLLLLLLLLLLLLLLLLHLLLLLH // 14 read locn 104 => hit\n\n// read 0x3FC => a miss, fill line 31, way 0\n0 00000000000000000000001111111100 L -------------------------------- // 15 read locn 3FC => miss\n0 00000000000000000000001111111100 L -------------------------------- // 16 read locn 3FC RD1\n0 00000000000000000000001111111100 H LLLLLLLLLLLLLLLLLLLLLLLLHHHHHHHH // 17 read locn 3FC RD2 => done\n\n// read 0x100.  Expect a hit in line 0, way 1\n0 00000000000000000000000100000000 H LLLLLLLLLLLLLLLLLLLLLLLLLHLLLLLL // 18 read locn 100 => hit\n// read 0x200.  Expect a hit in line 0, way 0\n0 00000000000000000000001000000000 H LLLLLLLLLLLLLLLLLLLLLLLLHLLLLLLL // 19 read locn 200 => hit\n// read 0x3F8.  Expect a hit in line 31, way 0\n0 00000000000000000000001111111000 H LLLLLLLLLLLLLLLLLLLLLLLLHHHHHHHL // 20 read locn 3F8 => done\n\n\n.plot clk\n.plot reset\n.plot X(ia[31:0])\n.plot irdy\n.plot X(id[31:0])\n.plot X(xma[31:3])\n.plot X(xdata[63:32])\n.plot X(xdata[31:0])\n\n\n"]], "properties": {"icon-readonly":"true","test-readonly":"true","schematic-readonly":"true","name": {"edit": "yes", "type": "name", "value": "", "label": "Name"}}, "schematic": [["memory", [80, -40, 0], {"ndata": "64", "name": "Main", "naddr": "9", "contents": "0x0000000100000000\n0x0000000300000002\n0x0000000500000004\n0x0000000700000006\n0x0000000900000008\n0x0000000B0000000A\n0x0000000D0000000C\n0x0000000F0000000E\n\n0x0000001100000010\n0x0000001300000012\n0x0000001500000014\n0x0000001700000016\n0x0000001900000018\n0x0000001B0000001A\n0x0000001D0000001C\n0x0000001F0000001E\n\n0x0000002100000020\n0x0000002300000022\n0x0000002500000024\n0x0000002700000026\n0x0000002900000028\n0x0000002B0000002A\n0x0000002D0000002C\n0x0000002F0000002E\n\n0x0000003100000030\n0x0000003300000032\n0x0000003500000034\n0x0000003700000036\n0x0000003900000038\n0x0000003B0000003A\n0x0000003D0000003C\n0x0000003F0000003E\n\n0x0000004100000040\n0x0000004300000042\n0x0000004500000044\n0x0000004700000046\n0x0000004900000048\n0x0000004B0000004A\n0x0000004D0000004C\n0x0000004F0000004E\n\n0x0000005100000050\n0x0000005300000052\n0x0000005500000054\n0x0000005700000056\n0x0000005900000058\n0x0000005B0000005A\n0x0000005D0000005C\n0x0000005F0000005E\n\n0x0000006100000060\n0x0000006300000062\n0x0000006500000064\n0x0000006700000066\n0x0000006900000068\n0x0000006B0000006A\n0x0000006D0000006C\n0x0000006F0000006E\n\n0x0000007100000070\n0x0000007300000072\n0x0000007500000074\n0x0000007700000076\n0x0000007900000078\n0x0000007B0000007A\n0x0000007D0000007C\n0x0000007F0000007E\n\n0x0000008100000080\n0x0000008300000082\n0x0000008500000084\n0x0000008700000086\n0x0000008900000088\n0x0000008B0000008A\n0x0000008D0000008C\n0x0000008F0000008E\n\n0x0000009100000090\n0x0000009300000092\n0x0000009500000094\n0x0000009700000096\n0x0000009900000098\n0x0000009B0000009A\n0x0000009D0000009C\n0x0000009F0000009E\n\n0x000000A1000000A0\n0x000000A3000000A2\n0x000000A5000000A4\n0x000000A7000000A6\n0x000000A9000000A8\n0x000000AB000000AA\n0x000000AD000000AC\n0x000000AF000000AE\n\n0x000000B1000000B0\n0x000000B3000000B2\n0x000000B5000000B4\n0x000000B7000000B6\n0x000000B9000000B8\n0x000000BB000000BA\n0x000000BD000000BC\n0x000000BF000000BE\n\n0x000000C1000000C0\n0x000000C3000000C2\n0x000000C5000000C4\n0x000000C7000000C6\n0x000000C9000000C8\n0x000000CB000000CA\n0x000000CD000000CC\n0x000000CF000000CE\n\n0x000000D1000000D0\n0x000000D3000000D2\n0x000000D5000000D4\n0x000000D7000000D6\n0x000000D9000000D8\n0x000000DB000000DA\n0x000000DD000000DC\n0x000000DF000000DE\n\n0x000000E1000000E0\n0x000000E3000000E2\n0x000000E5000000E4\n0x000000E7000000E6\n0x000000E9000000E8\n0x000000EB000000EA\n0x000000ED000000EC\n0x000000EF000000EE\n\n0x000000F1000000F0\n0x000000F3000000F2\n0x000000F5000000F4\n0x000000F7000000F6\n0x000000F9000000F8\n0x000000FB000000FA\n0x000000FD000000FC\n0x000000FF000000FE"}], ["wire", [80, -40, 0, -8, 0], {"signal": "xma[11:3]"}], ["wire", [80, -32, 0, -8, 0], {"signal": "1'1"}], ["wire", [80, -24, 0, -8, 0], {"signal": "0'1"}], ["wire", [80, -16, 0, -8, 0], {"signal": "0'1"}], ["wire", [152, -40, 0, 8, 0], {"signal": "xdata[63:0]"}], ["wire", [-16, -56, 0, 8, 0], {"signal": "xdata[63:0]"}], ["wire", [-16, -72, 0, 8, 0], {"signal": "xma[31:3]"}], ["wire", [-128, -16, 0, -8, 0], {"signal": "reset"}], ["wire", [-128, 0, 0, -8, 0], {"signal": "clk"}], ["/caches/icache", [-40, 48, 0], {"name": "icache"}], ["wire", [-128, -72, 0, -8, 0], {"signal": "irdy"}], ["wire", [-128, -56, 0, -8, 0], {"signal": "id[31:0]"}], ["wire", [-128, -32, 0, -8, 0], {"signal": "ia[31:0]"}]]},
+        "/caches/equal24": {"test": [["test", ""]], "properties": {"icon-readonly":"true","schematic-readonly":"true","name": {"edit": "yes", "type": "name", "value": "", "label": "Name"}}, "schematic": [["port", [-80, -128, 0], {"signal": "A[23:0]"}], ["port", [-80, -112, 0], {"signal": "B[23:0]"}], ["wire", [-32, -120, 0, 8, 0], {"signal": "eq[23:0]"}], ["wire", [-80, -48, 0, -8, 0], {"signal": "eq[5:0]"}], ["wire", [-80, -64, 0, -8, 0], {"signal": "eq[11:6]"}], ["wire", [-80, -80, 0, -8, 0], {"signal": "eq[17:12]"}], ["wire", [-80, -96, 0, -8, 0], {"signal": "eq[23:18]"}], ["wire", [-32, -72, 0, 8, 0], {"signal": "mx[5:0]"}], ["/gates/nand4", [-80, -96, 0]], ["/gates/xnor2", [-80, -128, 0]], ["wire", [-80, 0, 0, -8, 0], {"signal": "mx[1:0]"}], ["wire", [-80, -16, 0, -8, 0], {"signal": "mx[3:2]"}], ["wire", [-80, -32, 0, -8, 0], {"signal": "mx[5:4]"}], ["/gates/nor3", [-80, -32, 0]], ["wire", [-32, -16, 0, 8, 0], {"signal": "my[1:0]"}], ["/gates/nand2", [-80, 16, 0]], ["wire", [-80, 16, 0, -8, 0], {"signal": "my[1]"}], ["wire", [-80, 32, 0, -8, 0], {"signal": "my[0]"}], ["/gates/inverter", [-32, 24, 0]], ["port", [0, 24, 4], {"signal": "equal", "direction": "out"}]], "icon": [["terminal", [-40, -16, 0], {"name": "A[23:0]"}], ["terminal", [-40, 0, 0], {"name": "B[23:0]"}], ["terminal", [24, -8, 4], {"name": "equal"}], ["text", [-30, -16, 0], {"text": "A"}], ["text", [-30, 0, 0], {"text": "B"}], ["text", [14, -8, 0], {"text": "equal", "align": "center-right"}], ["text", [-8, -26, 0], {"text": "equal24", "align": "center", "font": "8pt bold sans-serif"}], ["line", [-32, -32, 0, 0, 40]], ["line", [-32, 8, 0, 48, 0]], ["line", [16, 8, 0, 0, -40]], ["line", [16, -32, 0, -48, 0]]]},
+        "/caches/icache": {"test": [["test", ""]], "properties": {"icon-readonly":"true","name": {"edit": "yes", "type": "name", "value": "", "label": "Name"}}, "schematic": [["port", [-184, -184, 0], {"signal": "ia[31:0]"}], ["port", [-184, -168, 0], {"signal": "reset"}], ["port", [-184, -152, 0], {"signal": "clk"}], ["port", [-216, -40, 4], {"signal": "xdata[63:0]", "direction": "in"}], ["port", [-184, -216, 0], {"signal": "irdy", "direction": "out"}], ["text", [-223, -229, 0], {"text": "CPU interface"}], ["text", [-236, -74, 0], {"text": "Main memory interface"}], ["jumper", [-224, -56, 0]], ["wire", [-224, -56, 0, -8, 0], {"signal": "ia[31:3]"}], ["port", [-216, -56, 4], {"signal": "xma[31:3]", "direction": "out"}], ["port", [-184, -200, 0], {"signal": "id[31:0]", "direction": "out"}], ["jumper", [-200, -112, 0]], ["wire", [-192, -112, 0, 8, 0], {"signal": "line[4:0]"}], ["wire", [-200, -112, 0, -8, 0], {"signal": "ia[7:3]"}], ["jumper", [-200, -128, 0]], ["wire", [-192, -128, 0, 8, 0], {"signal": "offset"}], ["wire", [-200, -128, 0, -8, 0], {"signal": "ia[2]"}], ["jumper", [-200, -96, 0]], ["wire", [-192, -96, 0, 8, 0], {"signal": "atag[23:0]"}], ["wire", [-200, -96, 0, -8, 0], {"signal": "ia[31:8]"}]], "icon": [["terminal", [-88, -80, 0], {"name": "ia[31:0]"}], ["terminal", [-88, -64, 0], {"name": "reset"}], ["terminal", [-88, -48, 0], {"name": "clk"}], ["terminal", [-88, -120, 6], {"name": "irdy"}], ["terminal", [24, -120, 2], {"name": "xma[31:3]"}], ["terminal", [24, -104, 2], {"name": "xdata[63:0]"}], ["terminal", [-88, -104, 6], {"name": "id[31:0]"}], ["text", [-78, -80, 0], {"text": "ia[31:0]"}], ["text", [-78, -64, 0], {"text": "reset"}], ["text", [-78, -48, 0], {"text": "clk"}], ["text", [-78, -120, 0], {"text": "irdy"}], ["text", [-78, -104, 0], {"text": "id[31:0]"}], ["text", [14, -120, 4], {"text": "xma[31:3]"}], ["text", [14, -104, 4], {"text": "xdata[63:0]"}], ["text", [-32, -134, 0], {"text": "ICACHE", "align": "center", "font": "10pt bold sans-serif"}], ["line", [-80, -40, 0, 96, 0]], ["line", [16, -144, 0, -96, 0]], ["line", [-80, -144, 0, 0, 104]], ["line", [16, -144, 0, 0, 104]]]}
+        }
+        }
       </answer>
 
-      <answer type="number" id="H2" width="5">
-        <label>Dread hit ratio (between 0 and 1)?</label>
-      </answer>
-     </ol>
-    
-    <p/>You should be able to explain these results!
+      <p><b>Instructions</b></p>
 
-    <p/>The very high Ifetch hit ratio is pretty easy to explain, using
-    the approach from parts (E) and (F).  The instructions in the
-    inner loop are all executed once for each data access, so the
-    cache lines holding these instructions will never be "least
-    recently used" when a cache line needs to be replaced due to a
-    data miss.  This means the instructions in the inner loop will always
-    be in one way of the cache after the initial instruction fetch.
-    So it's just the 2 instructions at the beginning of the outer loop
-    and the one at the end that generate the 3 misses for each
-    iteration of the outer loop.  Running the numbers: total
-    instruction fetches = 64*5+3 = 323; total misses = 3; Ifetch hit
-    ratio = 320/323 = 0.9907.
+      <p>In this lab, you'll design a 2-way set-associative instruction
+        cache with a block size of 2 and an LRU replacement strategy.
+        Most modern CPUs use separate caches for instruction fetch and
+        data accesses as the first level of their memory hierarchy.  That
+        way misses from data accesses will never interfere with cached
+        instructions, potentially increasing the hit rate of the
+        instruction cache.  Instruction caches can be simpler since they
+        don't have to deal with write requests and so don't need the
+        machinery associated with dirty bits, write back, etc.</p>
 
-    <p/><img src="1.png" width="150" style="float:right;margin-left:10px;"/>
+      <p>We'll test your design using the <tt>/caches/test</tt> module:</p>
 
-    To analyze the Dfetch hit ratio, it's helpful to refer to
-    the figure on the right, which sketches the layout of a 2-way
-    set-associative cache with 64 total words.  The instructions occupy
-    lines 0-7 in one of the ways (shown conceptually as the shaded area
-    of the cache).  That leaves the other 7/8 of the cache for holding
-    array data.
+      <div>
+        <svg viewbox="20 120 720 220"><g id="grid" stroke="rgb(230,230,230)" stroke-width="0.2" fill="none" transform="translate(345.0625 316.9375) scale(1.953125)"></g><g id="content" stroke="rgb(88,110,117)" stroke-width="1" stroke-linecap="round" fill="none" transform="translate(345.0625 316.9375) scale(1.953125)"><g><line x1="-128" y1="-32" x2="-136" y2="-32" stroke-width="1" stroke="rgb(0,0,0)"></line><text fill="rgb(0,0,0)" style="font: 5pt sans-serif" x="-139" y="-32" stroke="none" text-anchor="end" dy="0.4em">ia[31:0]</text></g><g><line x1="-128" y1="-56" x2="-136" y2="-56" stroke-width="1" stroke="rgb(0,0,0)"></line><text fill="rgb(0,0,0)" style="font: 5pt sans-serif" x="-139" y="-56" stroke="none" text-anchor="end" dy="0.4em">id[31:0]</text></g><g><line x1="-128" y1="-72" x2="-136" y2="-72" stroke-width="1" stroke="rgb(0,0,0)"></line><text fill="rgb(0,0,0)" style="font: 5pt sans-serif" x="-139" y="-72" stroke="none" text-anchor="end" dy="0.4em">irdy</text></g><g><line x1="-128" y1="0" x2="-136" y2="0" stroke-width="1" stroke="rgb(0,0,0)"></line><text fill="rgb(0,0,0)" style="font: 5pt sans-serif" x="-139" y="0" stroke="none" text-anchor="end" dy="0.4em">clk</text></g><g><line x1="-128" y1="-16" x2="-136" y2="-16" stroke-width="1" stroke="rgb(0,0,0)"></line><text fill="rgb(0,0,0)" style="font: 5pt sans-serif" x="-139" y="-16" stroke="none" text-anchor="end" dy="0.4em">reset</text></g><g><line x1="-16" y1="-72" x2="-8" y2="-72" stroke-width="1" stroke="rgb(0,0,0)"></line><text fill="rgb(0,0,0)" style="font: 5pt sans-serif" x="-5" y="-72" stroke="none" text-anchor="start" dy="0.4em">xma[31:3]</text></g><g><line x1="-16" y1="-56" x2="-8" y2="-56" stroke-width="1" stroke="rgb(0,0,0)"></line><text fill="rgb(0,0,0)" style="font: 5pt sans-serif" x="-5" y="-56" stroke="none" text-anchor="start" dy="0.4em">xdata[63:0]</text></g><g><line x1="152" y1="-40" x2="160" y2="-40" stroke-width="1" stroke="rgb(0,0,0)"></line><text fill="rgb(0,0,0)" style="font: 5pt sans-serif" x="163" y="-40" stroke="none" text-anchor="start" dy="0.4em">xdata[63:0]</text></g><g><line x1="80" y1="-16" x2="72" y2="-16" stroke-width="1" stroke="rgb(0,0,0)"></line><text fill="rgb(0,0,0)" style="font: 5pt sans-serif" x="69" y="-16" stroke="none" text-anchor="end" dy="0.4em">0'1</text></g><g><line x1="80" y1="-24" x2="72" y2="-24" stroke-width="1" stroke="rgb(0,0,0)"></line><text fill="rgb(0,0,0)" style="font: 5pt sans-serif" x="69" y="-24" stroke="none" text-anchor="end" dy="0.4em">0'1</text></g><g><line x1="80" y1="-32" x2="72" y2="-32" stroke-width="1" stroke="rgb(0,0,0)"></line><text fill="rgb(0,0,0)" style="font: 5pt sans-serif" x="69" y="-32" stroke="none" text-anchor="end" dy="0.4em">1'1</text></g><g><line x1="80" y1="-40" x2="72" y2="-40" stroke-width="1" stroke="rgb(0,0,0)"></line><text fill="rgb(0,0,0)" style="font: 5pt sans-serif" x="69" y="-40" stroke="none" text-anchor="end" dy="0.4em">xma[11:3]</text></g><g><line x1="88" y1="-64" x2="144" y2="-64" stroke-width="1" stroke="rgb(0,0,0)"></line><line x1="88" y1="-64" x2="88" y2="-8" stroke-width="1" stroke="rgb(0,0,0)"></line><line x1="144" y1="-64" x2="144" y2="-8" stroke-width="1" stroke="rgb(0,0,0)"></line><line x1="88" y1="-48" x2="144" y2="-48" stroke-width="1" stroke="rgb(0,0,0)"></line><line x1="80" y1="-40" x2="88" y2="-40" stroke-width="1" stroke="rgb(0,0,0)"></line><text fill="rgb(0,0,0)" style="font: 4pt sans-serif" x="89" y="-40" stroke="none" text-anchor="start" dy="0.4em">A[8:0]</text><line x1="144" y1="-40" x2="152" y2="-40" stroke-width="1" stroke="rgb(0,0,0)"></line><text fill="rgb(0,0,0)" style="font: 4pt sans-serif" x="143" y="-40" stroke="none" text-anchor="end" dy="0.4em">D[63:0]</text><line x1="80" y1="-32" x2="88" y2="-32" stroke-width="1" stroke="rgb(0,0,0)"></line><text fill="rgb(0,0,0)" style="font: 4pt sans-serif" x="89" y="-32" stroke="none" text-anchor="start" dy="0.4em">OE</text><line x1="80" y1="-24" x2="88" y2="-24" stroke-width="1" stroke="rgb(0,0,0)"></line><text fill="rgb(0,0,0)" style="font: 4pt sans-serif" x="89" y="-24" stroke="none" text-anchor="start" dy="0.4em">WE</text><line x1="80" y1="-16" x2="88" y2="-16" stroke-width="1" stroke="rgb(0,0,0)"></line><line x1="88" y1="-18" x2="92" y2="-16" stroke-width="1" stroke="rgb(0,0,0)"></line><line x1="88" y1="-14" x2="92" y2="-16" stroke-width="1" stroke="rgb(0,0,0)"></line><line x1="88" y1="-8" x2="144" y2="-8" stroke-width="1" stroke="rgb(0,0,0)"></line><text fill="rgb(0,0,0)" style="font: 5pt sans-serif" x="116" y="-56" stroke="none" text-anchor="middle" dy="-0.1em">Main</text><text fill="rgb(0,0,0)" style="font: 5pt sans-serif" x="116" y="-56" stroke="none" text-anchor="middle" dy="0.9em">512×64</text></g></g><g id="selected" stroke="rgb(211,54,130)" stroke-width="1" stroke-linecap="round" fill="none" transform="translate(345.0625 316.9375) scale(1.953125)"><g stroke="black" stroke-width="1" fill="black"><line x1="-24" y1="-96" x2="-24" y2="8" stroke-width="1" stroke="rgb(211,54,130)"></line><line x1="-120" y1="-96" x2="-120" y2="8" stroke-width="1" stroke="rgb(211,54,130)"></line><line x1="-24" y1="-96" x2="-120" y2="-96" stroke-width="1" stroke="rgb(211,54,130)"></line><line x1="-120" y1="8" x2="-24" y2="8" stroke-width="1" stroke="rgb(211,54,130)"></line><text fill="rgb(211,54,130)" style="font: 10pt bold sans-serif" x="-72" y="-86" stroke="none" text-anchor="middle" dy="0.4em">ICACHE</text><text fill="rgb(211,54,130)" style="font: 6pt sans-serif" x="-26" y="-56" stroke="none" text-anchor="end" dy="0.4em">xdata[63:0]</text><text fill="rgb(211,54,130)" style="font: 6pt sans-serif" x="-26" y="-72" stroke="none" text-anchor="end" dy="0.4em">xma[31:3]</text><text fill="rgb(211,54,130)" style="font: 6pt sans-serif" x="-118" y="-56" stroke="none" text-anchor="start" dy="0.4em">id[31:0]</text><text fill="rgb(211,54,130)" style="font: 6pt sans-serif" x="-118" y="-72" stroke="none" text-anchor="start" dy="0.4em">irdy</text><text fill="rgb(211,54,130)" style="font: 6pt sans-serif" x="-118" y="0" stroke="none" text-anchor="start" dy="0.4em">clk</text><text fill="rgb(211,54,130)" style="font: 6pt sans-serif" x="-118" y="-16" stroke="none" text-anchor="start" dy="0.4em">reset</text><text fill="rgb(211,54,130)" style="font: 6pt sans-serif" x="-118" y="-32" stroke="none" text-anchor="start" dy="0.4em">ia[31:0]</text><line x1="-128" y1="-56" x2="-120" y2="-56" stroke-width="1" stroke="rgb(211,54,130)"></line><line x1="-16" y1="-56" x2="-24" y2="-56" stroke-width="1" stroke="rgb(211,54,130)"></line><line x1="-16" y1="-72" x2="-24" y2="-72" stroke-width="1" stroke="rgb(211,54,130)"></line><line x1="-128" y1="-72" x2="-120" y2="-72" stroke-width="1" stroke="rgb(211,54,130)"></line><line x1="-128" y1="0" x2="-120" y2="0" stroke-width="1" stroke="rgb(211,54,130)"></line><line x1="-128" y1="-16" x2="-120" y2="-16" stroke-width="1" stroke="rgb(211,54,130)"></line><line x1="-128" y1="-32" x2="-120" y2="-32" stroke-width="1" stroke="rgb(211,54,130)"></line></g><circle cx="72" cy="-40" r="2" fill="none" stroke="rgb(0,0,0)"></circle><circle cx="72" cy="-32" r="2" fill="none" stroke="rgb(0,0,0)"></circle><circle cx="72" cy="-24" r="2" fill="none" stroke="rgb(0,0,0)"></circle><circle cx="72" cy="-16" r="2" fill="none" stroke="rgb(0,0,0)"></circle><circle cx="160" cy="-40" r="2" fill="none" stroke="rgb(0,0,0)"></circle><circle cx="-8" cy="-56" r="2" fill="none" stroke="rgb(0,0,0)"></circle><circle cx="-8" cy="-72" r="2" fill="none" stroke="rgb(0,0,0)"></circle><circle cx="-136" cy="-16" r="2" fill="none" stroke="rgb(0,0,0)"></circle><circle cx="-136" cy="0" r="2" fill="none" stroke="rgb(0,0,0)"></circle><circle cx="-136" cy="-72" r="2" fill="none" stroke="rgb(0,0,0)"></circle><circle cx="-136" cy="-56" r="2" fill="none" stroke="rgb(0,0,0)"></circle><circle cx="-136" cy="-32" r="2" fill="none" stroke="rgb(0,0,0)"></circle></g></svg>
+      </div>
 
-    <p/>The 64 elements of the array collide with themselves in a
-    cache with 32 lines.
+      <p>On the right of the diagram is the 64-bit wide main memory --
+        we're only showing the one port used for reading instructions.
+        This memory takes <i>two</i> clock cycles to complete a read operation.
+        The 64-bit width is a perfect match for the 2-word block size, i.e.,
+        a single access to main memory can refill an entire line of cache.</p>
 
-    <ol type="A" start="9">
-      <li>For example, <tt>A[17]</tt> collides with <tt>A[i]</tt>
-        for what value of <tt>i</tt>?
-      <answer type="number" id="I" width="5">
-        <label>Value of i?</label>
-      </answer>
-    </ol>
+      <p>You'll be designing the component on the left, highlighted in
+        red.  On its left are the interface signals that connect to the
+        instruction address (<tt>ia[31:0]</tt>) and instruction data
+        (<tt>id[31:0]</tt>).  There's one additional signal, <tt>irdy</tt>, that
+        the cache generates to tell the Beta that the cache has completed the
+        requested instruction fetch during the current clock period.  If
+        there's a cache hit, the request is completed in the cycle it is
+        issued.  Otherwise, it will take two additional cycles before the request
+        is complete since the cache will have to access the slower main
+        memory.</p>
 
-    <p/> Since the cache is 2-way set-associative, two addresses
-    that collide can both reside in the cache.  So 75% of the
-    array values (those that map to cache lines 8 through 31)
-    will stay in the cache once they're loaded.  But 25%
-    of the array elements also collide with the instructions.
+      <p>These signals are described in detail in the final section
+        of this document.</p>
 
-    <ol type="A" start="10">
-      <li>There are two array values, <tt>A[j]</tt> and <tt>A[k]</tt>,
-        that collide with the instruction <tt>ADDC(R3,0,R1)</tt>.
-        What are the values for <tt>j</tt> and <tt>k</tt>?  Enter the
-        smaller of the two indicies as the value for <tt>j</tt>.
-      <answer type="number" id="J1" width="5">
-        <label>Value of j?</label>
-      </answer>
-      <answer type="number" id="J2" width="5">
-        <label>Value of k?</label>
-      </answer>
-    </ol>
+      <p>You'll be entering your cache circuitry in the schematic for
+        the <tt>/caches/icache</tt> module.  To test your design, use
+        the <tt>/caches/test</tt> module.</p>
 
-    <p/>It's these 25% of the array elements that collide with
-    each other that lead to cache misses and refills from
-    one iteration of the outer loop to the next.  Hence the .75
-    hit ratio for Dfetches.
+      <p><b>Cache memory</b></p>
 
-    
-    <p/><b>Block size (words/cache line)</b>
+      <p>Each way of our 2-way set-associative cache will contain 32
+        cache lines and each cache line holds 2 data words.  So to complete
+        a cache access, the incoming instruction address is divided up
+        as follows:</p>
 
-    <p/>Finally, let's make one last adjustment to the cache controls:
-    change the words/line to the value 2, still keeping the address of
-    the array at 0x300.  This changes the layout of
-    the cache once again: each of the 2 ways now has 16 cache lines,
-    but each cache line now holds 2 words of data.  The first word in
-    a cache line will be from a memory location whose byte address is
-    a multiple of 8, the second word will be from the following memory
-    location.  When a cache line is refilled both words are read
-    from memory and stored in the cache -- there's no notion of a
-    partially-filled cache line.
+      <ul>
+        <table cellpadding="3" border="0">
+          <tr>
+            <td><tt>ia[1:0]</tt></td>
+            <td>byte offset (ignored by cache)</td>
+          </tr>
+          <tr>
+            <td><tt>ia[2]</tt></td>
+            <td>word offset (selects word from 2-word cache line)</td>
+          </tr>
+          <tr>
+            <td><tt>ia[7:3]</tt></td>
+            <td>5-bit cache line index (selects cache line)</td>
+          </tr>
+          <tr>
+            <td><tt>ia[31:8]</tt></td>
+            <td>24-bit address tag field</td>
+          </tr>
+        </table>
+      </ul>
 
-    <p/>Suppose <tt>A[53]</tt> is resident in our cache as currently
-    configured (64 total words, 2 words/line, 2-way set-associative).
+      <p/>Each cache line requires the following storage:
 
-    <ol type="A" start="11">
-      <li/>Looking at the assembly language program, determine
-        the memory address for <tt>A[53]</tt>.
-      <answer type="number" id="K1" width="5">
-        <label>Memory address for <tt>A[53]</tt>?</label>
-      </answer>
+      <ul>
+        <table cellpadding="3" border="0">
+          <tr>
+            <td><tt>valid</tt></td>
+            <td>1-bit flag is 1 if cache line is valid</td>
+          </tr>
+          <tr>
+            <td><tt>tag[23:0]</tt></td>
+            <td>24-bit tag field for this cache line</td>
+          </tr>
+          <tr>
+            <td><tt>cdata[63:0]</tt></td>
+            <td>64 bits (2 words) of data</td>
+          </tr>
+        </table>
+      </ul>
 
-      <p/>If <tt>A[53]</tt> is resident in the cache, <tt>A[m]</tt>
-      will also be present in the same cache line.
-      <answer type="number" id="K2" width="5">
-        <label>Value for index <tt>m</tt>?</label>
-      </answer>
+      <p>which is a total of 89 bits.  So each way requires its own 2-port
+        32x89 memory.  One port is used for reading out the valid/tag/data
+        information for the requested cache line, and the other port is used
+        to write valid/tag/data information when a cache line is refilled.
+        So you'll need to add something like the following to the <tt>icache</tt>
+        schematic:</p>
 
-      <p/>If <tt>A[53]</tt> is resident in the cache, in which
-      cache line will it reside?  In other words, what's the value
-      of the index field of the address you entered above?
-      <answer type="number" id="K3" width="5">
-        <label>Value for the index field?</label>
-      </answer>
+      <center><div style="width:500px">
+          <svg viewbox="0 40 677 350"><g id="grid" stroke="rgb(230,230,230)" stroke-width="0.2" fill="none" transform="translate(756.5908203124999 57.43798828125001) scale(3.0517578125)"></g><g id="content" stroke="rgb(88,110,117)" stroke-width="1" stroke-linecap="round" fill="none" transform="translate(756.5908203124999 57.43798828125001) scale(3.0517578125)"><g><line x1="-208" y1="88" x2="-216" y2="88" stroke-width="1" stroke="rgb(0,0,0)"></line><text fill="rgb(0,0,0)" style="font: 5pt sans-serif" x="-219" y="88" stroke="none" text-anchor="end" dy="0.4em">cwe0</text></g><g><line x1="-136" y1="72" x2="-128" y2="72" stroke-width="1" stroke="rgb(0,0,0)"></line><text fill="rgb(0,0,0)" style="font: 5pt sans-serif" x="-125" y="72" stroke="none" text-anchor="start" dy="0.4em">1'1,ia[31:8],xdata[63:0]</text></g><g><text fill="rgb(0,0,0)" style="font: 6pt sans-serif" x="-171" y="-1" stroke="none" text-anchor="middle" dy="0.4em">cache storage for Way 0</text></g><g><line x1="-136" y1="32" x2="-128" y2="32" stroke-width="1" stroke="rgb(0,0,0)"></line><text fill="rgb(0,0,0)" style="font: 5pt sans-serif" x="-125" y="32" stroke="none" text-anchor="start" dy="0.4em">valid0,tag0[23:0],cdata0[63:0]</text></g><g><line x1="-208" y1="96" x2="-216" y2="96" stroke-width="1" stroke="rgb(0,0,0)"></line><text fill="rgb(0,0,0)" style="font: 5pt sans-serif" x="-219" y="96" stroke="none" text-anchor="end" dy="0.4em">clk</text></g><g><line x1="-208" y1="80" x2="-216" y2="80" stroke-width="1" stroke="rgb(0,0,0)"></line><text fill="rgb(0,0,0)" style="font: 5pt sans-serif" x="-219" y="80" stroke="none" text-anchor="end" dy="0.4em">0'1</text></g><g><line x1="-208" y1="72" x2="-216" y2="72" stroke-width="1" stroke="rgb(0,0,0)"></line><text fill="rgb(0,0,0)" style="font: 5pt sans-serif" x="-219" y="72" stroke="none" text-anchor="end" dy="0.4em">ia[7:3]</text></g><g><line x1="-208" y1="56" x2="-216" y2="56" stroke-width="1" stroke="rgb(0,0,0)"></line><text fill="rgb(0,0,0)" style="font: 5pt sans-serif" x="-219" y="56" stroke="none" text-anchor="end" dy="0.4em">0'1</text></g><g><line x1="-208" y1="48" x2="-216" y2="48" stroke-width="1" stroke="rgb(0,0,0)"></line><text fill="rgb(0,0,0)" style="font: 5pt sans-serif" x="-219" y="48" stroke="none" text-anchor="end" dy="0.4em">0'1</text></g><g><line x1="-208" y1="40" x2="-216" y2="40" stroke-width="1" stroke="rgb(0,0,0)"></line><text fill="rgb(0,0,0)" style="font: 5pt sans-serif" x="-219" y="40" stroke="none" text-anchor="end" dy="0.4em">1'1</text></g><g><line x1="-208" y1="32" x2="-216" y2="32" stroke-width="1" stroke="rgb(0,0,0)"></line><text fill="rgb(0,0,0)" style="font: 5pt sans-serif" x="-219" y="32" stroke="none" text-anchor="end" dy="0.4em">ia[7:3]</text></g><g><line x1="-200" y1="8" x2="-144" y2="8" stroke-width="1" stroke="rgb(0,0,0)"></line><line x1="-200" y1="8" x2="-200" y2="104" stroke-width="1" stroke="rgb(0,0,0)"></line><line x1="-144" y1="8" x2="-144" y2="104" stroke-width="1" stroke="rgb(0,0,0)"></line><line x1="-200" y1="24" x2="-144" y2="24" stroke-width="1" stroke="rgb(0,0,0)"></line><line x1="-208" y1="32" x2="-200" y2="32" stroke-width="1" stroke="rgb(0,0,0)"></line><text fill="rgb(0,0,0)" style="font: 4pt sans-serif" x="-199" y="32" stroke="none" text-anchor="start" dy="0.4em">A[4:0]</text><line x1="-144" y1="32" x2="-136" y2="32" stroke-width="1" stroke="rgb(0,0,0)"></line><text fill="rgb(0,0,0)" style="font: 4pt sans-serif" x="-145" y="32" stroke="none" text-anchor="end" dy="0.4em">D[88:0]</text><line x1="-208" y1="40" x2="-200" y2="40" stroke-width="1" stroke="rgb(0,0,0)"></line><text fill="rgb(0,0,0)" style="font: 4pt sans-serif" x="-199" y="40" stroke="none" text-anchor="start" dy="0.4em">OE</text><line x1="-208" y1="48" x2="-200" y2="48" stroke-width="1" stroke="rgb(0,0,0)"></line><text fill="rgb(0,0,0)" style="font: 4pt sans-serif" x="-199" y="48" stroke="none" text-anchor="start" dy="0.4em">WE</text><line x1="-208" y1="56" x2="-200" y2="56" stroke-width="1" stroke="rgb(0,0,0)"></line><line x1="-200" y1="54" x2="-196" y2="56" stroke-width="1" stroke="rgb(0,0,0)"></line><line x1="-200" y1="58" x2="-196" y2="56" stroke-width="1" stroke="rgb(0,0,0)"></line><line x1="-200" y1="64" x2="-144" y2="64" stroke-width="1" stroke="rgb(0,0,0)"></line><line x1="-208" y1="72" x2="-200" y2="72" stroke-width="1" stroke="rgb(0,0,0)"></line><text fill="rgb(0,0,0)" style="font: 4pt sans-serif" x="-199" y="72" stroke="none" text-anchor="start" dy="0.4em">A[4:0]</text><line x1="-144" y1="72" x2="-136" y2="72" stroke-width="1" stroke="rgb(0,0,0)"></line><text fill="rgb(0,0,0)" style="font: 4pt sans-serif" x="-145" y="72" stroke="none" text-anchor="end" dy="0.4em">D[88:0]</text><line x1="-208" y1="80" x2="-200" y2="80" stroke-width="1" stroke="rgb(0,0,0)"></line><text fill="rgb(0,0,0)" style="font: 4pt sans-serif" x="-199" y="80" stroke="none" text-anchor="start" dy="0.4em">OE</text><line x1="-208" y1="88" x2="-200" y2="88" stroke-width="1" stroke="rgb(0,0,0)"></line><text fill="rgb(0,0,0)" style="font: 4pt sans-serif" x="-199" y="88" stroke="none" text-anchor="start" dy="0.4em">WE</text><line x1="-208" y1="96" x2="-200" y2="96" stroke-width="1" stroke="rgb(0,0,0)"></line><line x1="-200" y1="94" x2="-196" y2="96" stroke-width="1" stroke="rgb(0,0,0)"></line><line x1="-200" y1="98" x2="-196" y2="96" stroke-width="1" stroke="rgb(0,0,0)"></line><line x1="-200" y1="104" x2="-144" y2="104" stroke-width="1" stroke="rgb(0,0,0)"></line><text fill="rgb(0,0,0)" style="font: 5pt sans-serif" x="-172" y="16" stroke="none" text-anchor="middle" dy="-0.1em">way0</text><text fill="rgb(0,0,0)" style="font: 5pt sans-serif" x="-172" y="16" stroke="none" text-anchor="middle" dy="0.9em">32×89</text></g></g><g id="selected" stroke="rgb(211,54,130)" stroke-width="1" stroke-linecap="round" fill="none" transform="translate(756.5908203124999 57.43798828125001) scale(3.0517578125)"><circle cx="-216" cy="32" r="2" fill="none" stroke="rgb(0,0,0)"></circle><circle cx="-216" cy="40" r="2" fill="none" stroke="rgb(0,0,0)"></circle><circle cx="-216" cy="48" r="2" fill="none" stroke="rgb(0,0,0)"></circle><circle cx="-216" cy="56" r="2" fill="none" stroke="rgb(0,0,0)"></circle><circle cx="-216" cy="72" r="2" fill="none" stroke="rgb(0,0,0)"></circle><circle cx="-216" cy="80" r="2" fill="none" stroke="rgb(0,0,0)"></circle><circle cx="-216" cy="96" r="2" fill="none" stroke="rgb(0,0,0)"></circle><circle cx="-128" cy="32" r="2" fill="none" stroke="rgb(0,0,0)"></circle><circle cx="-128" cy="72" r="2" fill="none" stroke="rgb(0,0,0)"></circle><circle cx="-216" cy="88" r="2" fill="none" stroke="rgb(0,0,0)"></circle></g></svg>
+      </div></center>
 
-      <p/>If <tt>A[53]</tt> is resident in the cache, what will
-      be the value of the tag field for that line?
-      <answer type="number" id="K4" width="5">
-        <label>Value for the tag field?</label>
-      </answer>
-    </ol>
-      
-    <p/>Rerun the program for a while with the new cache configuration.
+      <p>To initialize the valid bits for each line to 0, the initial
+        contents for each location should be specified as 0.  To do this,
+        edit the memory's contents property and enter 32 lines of 0.</p>
 
-    <ol type="A" start="12">
-      <li/> Report the hit ratio percentages for Dread:
+      <p>Of course, you'll have two of these with the appropriate changes to signal
+        names to keep the valid/tag/data info separate.  <tt>xdata[63:0]</tt>
+        is the 64-bit data coming back from main memory during a refill
+        operation.  The write enable signal (<tt>cwe0</tt>) is discussed in
+        the next section.</p>
 
-      <answer type="number" id="L" width="5">
-        <label>Dread hit ratio (between 0 and 1)?</label>
-      </answer>
-    </ol>
+      <p><b>Cache control logic</b></p>
 
-    <p/>Doubling the number of words/line has halved the number of
-    Dread misses in each iteration of the outer loop!  Why?  The
-    refill triggered by each miss brings in two entries from the array,
-    the one that's needed to satisfy the current LD instruction, and
-    the memory location that will be accessed by LD in the next
-    iteration of the inner loop.  For example, if there's a miss when
-    loading A[7], both A[6] and A[7] are brought into the cache.
-    On the next iteration, the load of A[6] will be a hit! So every
-    second LD access is now a hit.
+      <p>On each cycle, the cache reads the line requested by the cache
+        line index field of the instruction address and then checks to see
+        if there's a cache hit by comparing the tag fields of the cache line
+        and instruction address:</p>
 
-    <p/>Moral of the story: sequential array accesses are good examples
-    of the principal of locality.  An increased words/line will bring
-    in neighboring array elements on a miss and those neighbors will
-    be accessed in successive iterations.  So at a slightly larger
-    refill cost (bringing in the extra words), there's a big impact
-    on the miss rate.
-    
-<p/><b>Problem 2.  Design Problem: Set-associative Instruction Cache</b>
+      <center><div style="width:487px">
+          <svg viewbox="0 30 487 150"><g id="grid" stroke="rgb(230,230,230)" stroke-width="0.2" fill="none" transform="translate(118.5 95.875) scale(1.953125)"></g><g id="content" stroke="rgb(88,110,117)" stroke-width="1" stroke-linecap="round" fill="none" transform="translate(118.5 95.875) scale(1.953125)"><g><line x1="64" y1="32" x2="56" y2="32" stroke-width="1" stroke="rgb(0,0,0)"></line><text fill="rgb(0,0,0)" style="font: 5pt sans-serif" x="53" y="32" stroke="none" text-anchor="end" dy="0.4em">reset</text></g><g stroke="black" stroke-width="1" fill="black"><line x1="96" y1="32" x2="92" y2="32" stroke-width="1" stroke="rgb(0,0,0)"></line><circle cx="90" cy="32" r="2" fill="none" stroke="rgb(0,0,0)"></circle><text fill="rgb(0,0,0)" style="font: 5pt sans-serif" x="80" y="36" stroke="none" text-anchor="start" dy="0.9em"></text><line x1="88" y1="32" x2="72" y2="24" stroke-width="1" stroke="rgb(0,0,0)"></line><line x1="72" y1="40" x2="88" y2="32" stroke-width="1" stroke="rgb(0,0,0)"></line><line x1="72" y1="24" x2="72" y2="40" stroke-width="1" stroke="rgb(0,0,0)"></line><line x1="64" y1="32" x2="72" y2="32" stroke-width="1" stroke="rgb(0,0,0)"></line></g><g><line x1="96" y1="0" x2="48" y2="0" stroke-width="1" stroke="rgb(0,0,0)"></line><text fill="rgb(0,0,0)" style="font: 5pt sans-serif" x="72" y="-2" stroke="none" text-anchor="middle" dy="-0.1em">match0</text></g><g><line x1="144" y1="16" x2="152" y2="16" stroke-width="1" stroke="rgb(0,0,0)"></line><text fill="rgb(0,0,0)" style="font: 5pt sans-serif" x="155" y="16" stroke="none" text-anchor="start" dy="0.4em">hit0</text></g><g stroke="black" stroke-width="1" fill="black"><line x1="136" y1="16" x2="132" y2="16" stroke-width="1" stroke="rgb(0,0,0)"></line><line x1="104" y1="-4" x2="104" y2="36" stroke-width="1" stroke="rgb(0,0,0)"></line><line x1="96" y1="32" x2="104" y2="32" stroke-width="1" stroke="rgb(0,0,0)"></line><text fill="rgb(0,0,0)" style="font: 5pt sans-serif" x="129" y="23" stroke="none" text-anchor="start" dy="0.9em"></text><line x1="104" y1="28" x2="116" y2="28" stroke-width="1" stroke="rgb(0,0,0)"></line><line x1="104" y1="4" x2="116" y2="4" stroke-width="1" stroke="rgb(0,0,0)"></line><path stroke="rgb(0,0,0)" d="M 116 28 A 15.36590742882148 15.36590742882148 0 0 0 132 16" fill="none"></path><path stroke="rgb(0,0,0)" d="M 116 4 A 15.36590742882148 15.36590742882148 0 0 1 132 16" fill="none"></path><line x1="144" y1="16" x2="136" y2="16" stroke-width="1" stroke="rgb(0,0,0)"></line><line x1="96" y1="16" x2="104" y2="16" stroke-width="1" stroke="rgb(0,0,0)"></line><line x1="96" y1="0" x2="104" y2="0" stroke-width="1" stroke="rgb(0,0,0)"></line></g><g><line x1="96" y1="16" x2="88" y2="16" stroke-width="1" stroke="rgb(0,0,0)"></line><text fill="rgb(0,0,0)" style="font: 5pt sans-serif" x="85" y="16" stroke="none" text-anchor="end" dy="0.4em">valid0</text></g><g><line x1="-16" y1="8" x2="-24" y2="8" stroke-width="1" stroke="rgb(0,0,0)"></line><text fill="rgb(0,0,0)" style="font: 5pt sans-serif" x="-27" y="8" stroke="none" text-anchor="end" dy="0.4em">ia[31:8]</text></g><g><line x1="-16" y1="-8" x2="-24" y2="-8" stroke-width="1" stroke="rgb(0,0,0)"></line><text fill="rgb(0,0,0)" style="font: 5pt sans-serif" x="-27" y="-8" stroke="none" text-anchor="end" dy="0.4em">tag0[23:0]</text></g><g stroke="black" stroke-width="1" fill="black"><line x1="40" y1="-24" x2="-8" y2="-24" stroke-width="1" stroke="rgb(0,0,0)"></line><line x1="40" y1="16" x2="40" y2="-24" stroke-width="1" stroke="rgb(0,0,0)"></line><line x1="-8" y1="16" x2="40" y2="16" stroke-width="1" stroke="rgb(0,0,0)"></line><line x1="-8" y1="-24" x2="-8" y2="16" stroke-width="1" stroke="rgb(0,0,0)"></line><text fill="rgb(0,0,0)" style="font: 8pt bold sans-serif" x="16" y="-18" stroke="none" text-anchor="middle" dy="0.4em">equal24</text><text fill="rgb(0,0,0)" style="font: 6pt sans-serif" x="38" y="0" stroke="none" text-anchor="end" dy="0.4em">equal</text><text fill="rgb(0,0,0)" style="font: 6pt sans-serif" x="-6" y="8" stroke="none" text-anchor="start" dy="0.4em">B</text><text fill="rgb(0,0,0)" style="font: 6pt sans-serif" x="-6" y="-8" stroke="none" text-anchor="start" dy="0.4em">A</text><line x1="48" y1="0" x2="40" y2="0" stroke-width="1" stroke="rgb(0,0,0)"></line><line x1="-16" y1="8" x2="-8" y2="8" stroke-width="1" stroke="rgb(0,0,0)"></line><line x1="-16" y1="-8" x2="-8" y2="-8" stroke-width="1" stroke="rgb(0,0,0)"></line></g></g><g id="selected" stroke="rgb(211,54,130)" stroke-width="1" stroke-linecap="round" fill="none" transform="translate(118.5 95.875) scale(1.953125)"><circle cx="-24" cy="-8" r="2" fill="none" stroke="rgb(0,0,0)"></circle><circle cx="-24" cy="8" r="2" fill="none" stroke="rgb(0,0,0)"></circle><circle cx="88" cy="16" r="2" fill="none" stroke="rgb(0,0,0)"></circle><circle cx="152" cy="16" r="2" fill="none" stroke="rgb(0,0,0)"></circle><circle cx="56" cy="32" r="2" fill="none" stroke="rgb(0,0,0)"></circle></g></svg>
+      </div></center>
 
-    <p/>See the instructions below.
-    
-    <p/>Use the Jade instance below to enter your design.  Your design
-    will be saved to the server each time you run a simulation.
+      <p>We get a cache hit if the tags match, the cache line is
+        valid and (so we deal with start up correctly) if the reset signal
+        is 0.  Here we've used the handy <tt>/caches/equal24</tt> module
+        that compares two 24-bit values and tells us if they're equal.
+        Again, you'll need a copy of this logic for each way.</p>
 
-<answer id="2" type="window" tool_name="Jade" width="900" height="600" required_tests="6c6d9c78813b045fd4a145304b5da5f3" src="../../tools/jade_workbook.html">
-{ "hierarchical": "true",
-  "parts": ["/gates/.*","/caches/.*","memory","/user/.*"],
-  "tools": ["check","timing"],
-  "editors": ["schematic","icon","test"],
-  "edit": "/caches/test",
-  "initial_state":
-{
-"/caches/test": {"test": [["test", ".power Vdd=1\n.thresholds Vol=0 Vil=0.1 Vih=0.9 Voh=1\n\n.group inputs reset ia[31:0]\n.group outputs irdy id[31:0]\n\n.mode gate\n\n.cycle CLK=1 tran 10n assert inputs tran 40n CLK=0 tran 49n sample outputs tran 1n\n\n1 -------------------------------- - -------------------------------- //  1 reset\n\n// read 0x000.  It's a miss, so fetch the 2-word block at locns 0 and 4 from main memory\n// way 0 is LRU, so put the data there in line 0.  then make way 1 LRU for cache line 0.\n0 00000000000000000000000000000000 L -------------------------------- //  2 read locn 0 => miss\n0 00000000000000000000000000000000 L -------------------------------- //  3 read locn 0 RD1\n0 00000000000000000000000000000000 H LLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL //  4 read locn 0 RD2 => done\n\n// read 0x004  Expect a hit in line 0, way 0.\n0 00000000000000000000000000000100 H LLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLH //  5 read locn 4 => hit\n\n// read 0x100 (which also maps to cache line 0) => a miss, but fill line 0 in way 1\n// way 0 now becomes LRU for cache line 0\n0 00000000000000000000000100000000 L -------------------------------- //  6 read locn 100 => miss\n0 00000000000000000000000100000000 L -------------------------------- //  7 read locn 100 RD1\n0 00000000000000000000000100000000 H LLLLLLLLLLLLLLLLLLLLLLLLLHLLLLLL //  8 read locn 100 RD2 => done\n\n// read 0x004.  Should still be a hit in line 0, way 0.\n0 00000000000000000000000000000100 H LLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLH //  9 read locn 4 => hit\n\n// read 0x104.  Expect a hit in line 0, way 1.\n0 00000000000000000000000100000100 H LLLLLLLLLLLLLLLLLLLLLLLLLHLLLLLH // 10 read locn 104 => hit\n\n// read 0x204.  Expect a miss; refill line 0, way 0; way 1 becomes LRU\n0 00000000000000000000001000000100 L -------------------------------- // 11 read locn 204 => miss\n0 00000000000000000000001000000100 L -------------------------------- // 12 read locn 204 RD1\n0 00000000000000000000001000000100 H LLLLLLLLLLLLLLLLLLLLLLLLHLLLLLLH // 13 read locn 204 RD2 => done\n\n// read 0x104.  Expect a hit since it should still be in line 0, way 1.\n0 00000000000000000000000100000100 H LLLLLLLLLLLLLLLLLLLLLLLLLHLLLLLH // 14 read locn 104 => hit\n\n// read 0x3FC => a miss, fill line 31, way 0\n0 00000000000000000000001111111100 L -------------------------------- // 15 read locn 3FC => miss\n0 00000000000000000000001111111100 L -------------------------------- // 16 read locn 3FC RD1\n0 00000000000000000000001111111100 H LLLLLLLLLLLLLLLLLLLLLLLLHHHHHHHH // 17 read locn 3FC RD2 => done\n\n// read 0x100.  Expect a hit in line 0, way 1\n0 00000000000000000000000100000000 H LLLLLLLLLLLLLLLLLLLLLLLLLHLLLLLL // 18 read locn 100 => hit\n// read 0x200.  Expect a hit in line 0, way 0\n0 00000000000000000000001000000000 H LLLLLLLLLLLLLLLLLLLLLLLLHLLLLLLL // 19 read locn 200 => hit\n// read 0x3F8.  Expect a hit in line 31, way 0\n0 00000000000000000000001111111000 H LLLLLLLLLLLLLLLLLLLLLLLLHHHHHHHL // 20 read locn 3F8 => done\n\n\n.plot clk\n.plot reset\n.plot X(ia[31:0])\n.plot irdy\n.plot X(id[31:0])\n.plot X(xma[31:3])\n.plot X(xdata[63:32])\n.plot X(xdata[31:0])\n\n\n"]], "properties": {"icon-readonly":"true","test-readonly":"true","schematic-readonly":"true","name": {"edit": "yes", "type": "name", "value": "", "label": "Name"}}, "schematic": [["memory", [80, -40, 0], {"ndata": "64", "name": "Main", "naddr": "9", "contents": "0x0000000100000000\n0x0000000300000002\n0x0000000500000004\n0x0000000700000006\n0x0000000900000008\n0x0000000B0000000A\n0x0000000D0000000C\n0x0000000F0000000E\n\n0x0000001100000010\n0x0000001300000012\n0x0000001500000014\n0x0000001700000016\n0x0000001900000018\n0x0000001B0000001A\n0x0000001D0000001C\n0x0000001F0000001E\n\n0x0000002100000020\n0x0000002300000022\n0x0000002500000024\n0x0000002700000026\n0x0000002900000028\n0x0000002B0000002A\n0x0000002D0000002C\n0x0000002F0000002E\n\n0x0000003100000030\n0x0000003300000032\n0x0000003500000034\n0x0000003700000036\n0x0000003900000038\n0x0000003B0000003A\n0x0000003D0000003C\n0x0000003F0000003E\n\n0x0000004100000040\n0x0000004300000042\n0x0000004500000044\n0x0000004700000046\n0x0000004900000048\n0x0000004B0000004A\n0x0000004D0000004C\n0x0000004F0000004E\n\n0x0000005100000050\n0x0000005300000052\n0x0000005500000054\n0x0000005700000056\n0x0000005900000058\n0x0000005B0000005A\n0x0000005D0000005C\n0x0000005F0000005E\n\n0x0000006100000060\n0x0000006300000062\n0x0000006500000064\n0x0000006700000066\n0x0000006900000068\n0x0000006B0000006A\n0x0000006D0000006C\n0x0000006F0000006E\n\n0x0000007100000070\n0x0000007300000072\n0x0000007500000074\n0x0000007700000076\n0x0000007900000078\n0x0000007B0000007A\n0x0000007D0000007C\n0x0000007F0000007E\n\n0x0000008100000080\n0x0000008300000082\n0x0000008500000084\n0x0000008700000086\n0x0000008900000088\n0x0000008B0000008A\n0x0000008D0000008C\n0x0000008F0000008E\n\n0x0000009100000090\n0x0000009300000092\n0x0000009500000094\n0x0000009700000096\n0x0000009900000098\n0x0000009B0000009A\n0x0000009D0000009C\n0x0000009F0000009E\n\n0x000000A1000000A0\n0x000000A3000000A2\n0x000000A5000000A4\n0x000000A7000000A6\n0x000000A9000000A8\n0x000000AB000000AA\n0x000000AD000000AC\n0x000000AF000000AE\n\n0x000000B1000000B0\n0x000000B3000000B2\n0x000000B5000000B4\n0x000000B7000000B6\n0x000000B9000000B8\n0x000000BB000000BA\n0x000000BD000000BC\n0x000000BF000000BE\n\n0x000000C1000000C0\n0x000000C3000000C2\n0x000000C5000000C4\n0x000000C7000000C6\n0x000000C9000000C8\n0x000000CB000000CA\n0x000000CD000000CC\n0x000000CF000000CE\n\n0x000000D1000000D0\n0x000000D3000000D2\n0x000000D5000000D4\n0x000000D7000000D6\n0x000000D9000000D8\n0x000000DB000000DA\n0x000000DD000000DC\n0x000000DF000000DE\n\n0x000000E1000000E0\n0x000000E3000000E2\n0x000000E5000000E4\n0x000000E7000000E6\n0x000000E9000000E8\n0x000000EB000000EA\n0x000000ED000000EC\n0x000000EF000000EE\n\n0x000000F1000000F0\n0x000000F3000000F2\n0x000000F5000000F4\n0x000000F7000000F6\n0x000000F9000000F8\n0x000000FB000000FA\n0x000000FD000000FC\n0x000000FF000000FE"}], ["wire", [80, -40, 0, -8, 0], {"signal": "xma[11:3]"}], ["wire", [80, -32, 0, -8, 0], {"signal": "1'1"}], ["wire", [80, -24, 0, -8, 0], {"signal": "0'1"}], ["wire", [80, -16, 0, -8, 0], {"signal": "0'1"}], ["wire", [152, -40, 0, 8, 0], {"signal": "xdata[63:0]"}], ["wire", [-16, -56, 0, 8, 0], {"signal": "xdata[63:0]"}], ["wire", [-16, -72, 0, 8, 0], {"signal": "xma[31:3]"}], ["wire", [-128, -16, 0, -8, 0], {"signal": "reset"}], ["wire", [-128, 0, 0, -8, 0], {"signal": "clk"}], ["/caches/icache", [-40, 48, 0], {"name": "icache"}], ["wire", [-128, -72, 0, -8, 0], {"signal": "irdy"}], ["wire", [-128, -56, 0, -8, 0], {"signal": "id[31:0]"}], ["wire", [-128, -32, 0, -8, 0], {"signal": "ia[31:0]"}]]},
-"/caches/equal24": {"test": [["test", ""]], "properties": {"icon-readonly":"true","schematic-readonly":"true","name": {"edit": "yes", "type": "name", "value": "", "label": "Name"}}, "schematic": [["port", [-80, -128, 0], {"signal": "A[23:0]"}], ["port", [-80, -112, 0], {"signal": "B[23:0]"}], ["wire", [-32, -120, 0, 8, 0], {"signal": "eq[23:0]"}], ["wire", [-80, -48, 0, -8, 0], {"signal": "eq[5:0]"}], ["wire", [-80, -64, 0, -8, 0], {"signal": "eq[11:6]"}], ["wire", [-80, -80, 0, -8, 0], {"signal": "eq[17:12]"}], ["wire", [-80, -96, 0, -8, 0], {"signal": "eq[23:18]"}], ["wire", [-32, -72, 0, 8, 0], {"signal": "mx[5:0]"}], ["/gates/nand4", [-80, -96, 0]], ["/gates/xnor2", [-80, -128, 0]], ["wire", [-80, 0, 0, -8, 0], {"signal": "mx[1:0]"}], ["wire", [-80, -16, 0, -8, 0], {"signal": "mx[3:2]"}], ["wire", [-80, -32, 0, -8, 0], {"signal": "mx[5:4]"}], ["/gates/nor3", [-80, -32, 0]], ["wire", [-32, -16, 0, 8, 0], {"signal": "my[1:0]"}], ["/gates/nand2", [-80, 16, 0]], ["wire", [-80, 16, 0, -8, 0], {"signal": "my[1]"}], ["wire", [-80, 32, 0, -8, 0], {"signal": "my[0]"}], ["/gates/inverter", [-32, 24, 0]], ["port", [0, 24, 4], {"signal": "equal", "direction": "out"}]], "icon": [["terminal", [-40, -16, 0], {"name": "A[23:0]"}], ["terminal", [-40, 0, 0], {"name": "B[23:0]"}], ["terminal", [24, -8, 4], {"name": "equal"}], ["text", [-30, -16, 0], {"text": "A"}], ["text", [-30, 0, 0], {"text": "B"}], ["text", [14, -8, 0], {"text": "equal", "align": "center-right"}], ["text", [-8, -26, 0], {"text": "equal24", "align": "center", "font": "8pt bold sans-serif"}], ["line", [-32, -32, 0, 0, 40]], ["line", [-32, 8, 0, 48, 0]], ["line", [16, 8, 0, 0, -40]], ["line", [16, -32, 0, -48, 0]]]},
-"/caches/icache": {"test": [["test", ""]], "properties": {"icon-readonly":"true","name": {"edit": "yes", "type": "name", "value": "", "label": "Name"}}, "schematic": [["port", [-184, -184, 0], {"signal": "ia[31:0]"}], ["port", [-184, -168, 0], {"signal": "reset"}], ["port", [-184, -152, 0], {"signal": "clk"}], ["port", [-216, -40, 4], {"signal": "xdata[63:0]", "direction": "in"}], ["port", [-184, -216, 0], {"signal": "irdy", "direction": "out"}], ["text", [-223, -229, 0], {"text": "CPU interface"}], ["text", [-236, -74, 0], {"text": "Main memory interface"}], ["jumper", [-224, -56, 0]], ["wire", [-224, -56, 0, -8, 0], {"signal": "ia[31:3]"}], ["port", [-216, -56, 4], {"signal": "xma[31:3]", "direction": "out"}], ["port", [-184, -200, 0], {"signal": "id[31:0]", "direction": "out"}], ["jumper", [-200, -112, 0]], ["wire", [-192, -112, 0, 8, 0], {"signal": "line[4:0]"}], ["wire", [-200, -112, 0, -8, 0], {"signal": "ia[7:3]"}], ["jumper", [-200, -128, 0]], ["wire", [-192, -128, 0, 8, 0], {"signal": "offset"}], ["wire", [-200, -128, 0, -8, 0], {"signal": "ia[2]"}], ["jumper", [-200, -96, 0]], ["wire", [-192, -96, 0, 8, 0], {"signal": "atag[23:0]"}], ["wire", [-200, -96, 0, -8, 0], {"signal": "ia[31:8]"}]], "icon": [["terminal", [-88, -80, 0], {"name": "ia[31:0]"}], ["terminal", [-88, -64, 0], {"name": "reset"}], ["terminal", [-88, -48, 0], {"name": "clk"}], ["terminal", [-88, -120, 6], {"name": "irdy"}], ["terminal", [24, -120, 2], {"name": "xma[31:3]"}], ["terminal", [24, -104, 2], {"name": "xdata[63:0]"}], ["terminal", [-88, -104, 6], {"name": "id[31:0]"}], ["text", [-78, -80, 0], {"text": "ia[31:0]"}], ["text", [-78, -64, 0], {"text": "reset"}], ["text", [-78, -48, 0], {"text": "clk"}], ["text", [-78, -120, 0], {"text": "irdy"}], ["text", [-78, -104, 0], {"text": "id[31:0]"}], ["text", [14, -120, 4], {"text": "xma[31:3]"}], ["text", [14, -104, 4], {"text": "xdata[63:0]"}], ["text", [-32, -134, 0], {"text": "ICACHE", "align": "center", "font": "10pt bold sans-serif"}], ["line", [-80, -40, 0, 96, 0]], ["line", [16, -144, 0, -96, 0]], ["line", [-80, -144, 0, 0, 104]], ["line", [16, -144, 0, 0, 104]]]}
-}
-}
-</answer>
+      <p>So now we know if a request has hit in either of the ways.
+        The next step is to deal with misses and generate the <tt>irdy</tt>
+        when the instruction data is ready to go.  We can use a 3-state
+        FSM to control the cache operation:</p>
 
-    <p/><b>Instructions</b>
+      <center><img src="cache_fsm.png" width="400"/></center>
 
-    <p/>In this lab, you'll design a 2-way set-associative instruction
-    cache with a block size of 2 and an LRU replacement strategy.
-    Most modern CPUs use separate caches for instruction fetch and
-    data accesses as the first level of their memory hierarchy.  That
-    way misses from data accesses will never interfere with cached
-    instructions, potentially increasing the hit rate of the
-    instruction cache.  Instruction caches can be simpler since they
-    don't have to deal with write requests and so don't need the
-    machinery associated with dirty bits, write back, etc.
+      Initially the FSM starts in the <tt>RDY</tt> state, waiting for requests
+      from the Beta.  The following definitions will be useful in understanding
+      how the FSM works:
 
-    <p/>We'll test your design using the <tt>/caches/test</tt> module:
+      <ul>
+        <li>a request is a <i>hit</i> if in one of the ways the
+          selected cache line is valid, the address tag field matches
+          the cache line's tag field, and <tt>reset = 0</tt>.</li>
 
-    <div>
-<svg viewbox="20 120 720 220"><g id="grid" stroke="rgb(230,230,230)" stroke-width="0.2" fill="none" transform="translate(345.0625 316.9375) scale(1.953125)"></g><g id="content" stroke="rgb(88,110,117)" stroke-width="1" stroke-linecap="round" fill="none" transform="translate(345.0625 316.9375) scale(1.953125)"><g><line x1="-128" y1="-32" x2="-136" y2="-32" stroke-width="1" stroke="rgb(0,0,0)"></line><text fill="rgb(0,0,0)" style="font: 5pt sans-serif" x="-139" y="-32" stroke="none" text-anchor="end" dy="0.4em">ia[31:0]</text></g><g><line x1="-128" y1="-56" x2="-136" y2="-56" stroke-width="1" stroke="rgb(0,0,0)"></line><text fill="rgb(0,0,0)" style="font: 5pt sans-serif" x="-139" y="-56" stroke="none" text-anchor="end" dy="0.4em">id[31:0]</text></g><g><line x1="-128" y1="-72" x2="-136" y2="-72" stroke-width="1" stroke="rgb(0,0,0)"></line><text fill="rgb(0,0,0)" style="font: 5pt sans-serif" x="-139" y="-72" stroke="none" text-anchor="end" dy="0.4em">irdy</text></g><g><line x1="-128" y1="0" x2="-136" y2="0" stroke-width="1" stroke="rgb(0,0,0)"></line><text fill="rgb(0,0,0)" style="font: 5pt sans-serif" x="-139" y="0" stroke="none" text-anchor="end" dy="0.4em">clk</text></g><g><line x1="-128" y1="-16" x2="-136" y2="-16" stroke-width="1" stroke="rgb(0,0,0)"></line><text fill="rgb(0,0,0)" style="font: 5pt sans-serif" x="-139" y="-16" stroke="none" text-anchor="end" dy="0.4em">reset</text></g><g><line x1="-16" y1="-72" x2="-8" y2="-72" stroke-width="1" stroke="rgb(0,0,0)"></line><text fill="rgb(0,0,0)" style="font: 5pt sans-serif" x="-5" y="-72" stroke="none" text-anchor="start" dy="0.4em">xma[31:3]</text></g><g><line x1="-16" y1="-56" x2="-8" y2="-56" stroke-width="1" stroke="rgb(0,0,0)"></line><text fill="rgb(0,0,0)" style="font: 5pt sans-serif" x="-5" y="-56" stroke="none" text-anchor="start" dy="0.4em">xdata[63:0]</text></g><g><line x1="152" y1="-40" x2="160" y2="-40" stroke-width="1" stroke="rgb(0,0,0)"></line><text fill="rgb(0,0,0)" style="font: 5pt sans-serif" x="163" y="-40" stroke="none" text-anchor="start" dy="0.4em">xdata[63:0]</text></g><g><line x1="80" y1="-16" x2="72" y2="-16" stroke-width="1" stroke="rgb(0,0,0)"></line><text fill="rgb(0,0,0)" style="font: 5pt sans-serif" x="69" y="-16" stroke="none" text-anchor="end" dy="0.4em">0'1</text></g><g><line x1="80" y1="-24" x2="72" y2="-24" stroke-width="1" stroke="rgb(0,0,0)"></line><text fill="rgb(0,0,0)" style="font: 5pt sans-serif" x="69" y="-24" stroke="none" text-anchor="end" dy="0.4em">0'1</text></g><g><line x1="80" y1="-32" x2="72" y2="-32" stroke-width="1" stroke="rgb(0,0,0)"></line><text fill="rgb(0,0,0)" style="font: 5pt sans-serif" x="69" y="-32" stroke="none" text-anchor="end" dy="0.4em">1'1</text></g><g><line x1="80" y1="-40" x2="72" y2="-40" stroke-width="1" stroke="rgb(0,0,0)"></line><text fill="rgb(0,0,0)" style="font: 5pt sans-serif" x="69" y="-40" stroke="none" text-anchor="end" dy="0.4em">xma[11:3]</text></g><g><line x1="88" y1="-64" x2="144" y2="-64" stroke-width="1" stroke="rgb(0,0,0)"></line><line x1="88" y1="-64" x2="88" y2="-8" stroke-width="1" stroke="rgb(0,0,0)"></line><line x1="144" y1="-64" x2="144" y2="-8" stroke-width="1" stroke="rgb(0,0,0)"></line><line x1="88" y1="-48" x2="144" y2="-48" stroke-width="1" stroke="rgb(0,0,0)"></line><line x1="80" y1="-40" x2="88" y2="-40" stroke-width="1" stroke="rgb(0,0,0)"></line><text fill="rgb(0,0,0)" style="font: 4pt sans-serif" x="89" y="-40" stroke="none" text-anchor="start" dy="0.4em">A[8:0]</text><line x1="144" y1="-40" x2="152" y2="-40" stroke-width="1" stroke="rgb(0,0,0)"></line><text fill="rgb(0,0,0)" style="font: 4pt sans-serif" x="143" y="-40" stroke="none" text-anchor="end" dy="0.4em">D[63:0]</text><line x1="80" y1="-32" x2="88" y2="-32" stroke-width="1" stroke="rgb(0,0,0)"></line><text fill="rgb(0,0,0)" style="font: 4pt sans-serif" x="89" y="-32" stroke="none" text-anchor="start" dy="0.4em">OE</text><line x1="80" y1="-24" x2="88" y2="-24" stroke-width="1" stroke="rgb(0,0,0)"></line><text fill="rgb(0,0,0)" style="font: 4pt sans-serif" x="89" y="-24" stroke="none" text-anchor="start" dy="0.4em">WE</text><line x1="80" y1="-16" x2="88" y2="-16" stroke-width="1" stroke="rgb(0,0,0)"></line><line x1="88" y1="-18" x2="92" y2="-16" stroke-width="1" stroke="rgb(0,0,0)"></line><line x1="88" y1="-14" x2="92" y2="-16" stroke-width="1" stroke="rgb(0,0,0)"></line><line x1="88" y1="-8" x2="144" y2="-8" stroke-width="1" stroke="rgb(0,0,0)"></line><text fill="rgb(0,0,0)" style="font: 5pt sans-serif" x="116" y="-56" stroke="none" text-anchor="middle" dy="-0.1em">Main</text><text fill="rgb(0,0,0)" style="font: 5pt sans-serif" x="116" y="-56" stroke="none" text-anchor="middle" dy="0.9em">512×64</text></g></g><g id="selected" stroke="rgb(211,54,130)" stroke-width="1" stroke-linecap="round" fill="none" transform="translate(345.0625 316.9375) scale(1.953125)"><g stroke="black" stroke-width="1" fill="black"><line x1="-24" y1="-96" x2="-24" y2="8" stroke-width="1" stroke="rgb(211,54,130)"></line><line x1="-120" y1="-96" x2="-120" y2="8" stroke-width="1" stroke="rgb(211,54,130)"></line><line x1="-24" y1="-96" x2="-120" y2="-96" stroke-width="1" stroke="rgb(211,54,130)"></line><line x1="-120" y1="8" x2="-24" y2="8" stroke-width="1" stroke="rgb(211,54,130)"></line><text fill="rgb(211,54,130)" style="font: 10pt bold sans-serif" x="-72" y="-86" stroke="none" text-anchor="middle" dy="0.4em">ICACHE</text><text fill="rgb(211,54,130)" style="font: 6pt sans-serif" x="-26" y="-56" stroke="none" text-anchor="end" dy="0.4em">xdata[63:0]</text><text fill="rgb(211,54,130)" style="font: 6pt sans-serif" x="-26" y="-72" stroke="none" text-anchor="end" dy="0.4em">xma[31:3]</text><text fill="rgb(211,54,130)" style="font: 6pt sans-serif" x="-118" y="-56" stroke="none" text-anchor="start" dy="0.4em">id[31:0]</text><text fill="rgb(211,54,130)" style="font: 6pt sans-serif" x="-118" y="-72" stroke="none" text-anchor="start" dy="0.4em">irdy</text><text fill="rgb(211,54,130)" style="font: 6pt sans-serif" x="-118" y="0" stroke="none" text-anchor="start" dy="0.4em">clk</text><text fill="rgb(211,54,130)" style="font: 6pt sans-serif" x="-118" y="-16" stroke="none" text-anchor="start" dy="0.4em">reset</text><text fill="rgb(211,54,130)" style="font: 6pt sans-serif" x="-118" y="-32" stroke="none" text-anchor="start" dy="0.4em">ia[31:0]</text><line x1="-128" y1="-56" x2="-120" y2="-56" stroke-width="1" stroke="rgb(211,54,130)"></line><line x1="-16" y1="-56" x2="-24" y2="-56" stroke-width="1" stroke="rgb(211,54,130)"></line><line x1="-16" y1="-72" x2="-24" y2="-72" stroke-width="1" stroke="rgb(211,54,130)"></line><line x1="-128" y1="-72" x2="-120" y2="-72" stroke-width="1" stroke="rgb(211,54,130)"></line><line x1="-128" y1="0" x2="-120" y2="0" stroke-width="1" stroke="rgb(211,54,130)"></line><line x1="-128" y1="-16" x2="-120" y2="-16" stroke-width="1" stroke="rgb(211,54,130)"></line><line x1="-128" y1="-32" x2="-120" y2="-32" stroke-width="1" stroke="rgb(211,54,130)"></line></g><circle cx="72" cy="-40" r="2" fill="none" stroke="rgb(0,0,0)"></circle><circle cx="72" cy="-32" r="2" fill="none" stroke="rgb(0,0,0)"></circle><circle cx="72" cy="-24" r="2" fill="none" stroke="rgb(0,0,0)"></circle><circle cx="72" cy="-16" r="2" fill="none" stroke="rgb(0,0,0)"></circle><circle cx="160" cy="-40" r="2" fill="none" stroke="rgb(0,0,0)"></circle><circle cx="-8" cy="-56" r="2" fill="none" stroke="rgb(0,0,0)"></circle><circle cx="-8" cy="-72" r="2" fill="none" stroke="rgb(0,0,0)"></circle><circle cx="-136" cy="-16" r="2" fill="none" stroke="rgb(0,0,0)"></circle><circle cx="-136" cy="0" r="2" fill="none" stroke="rgb(0,0,0)"></circle><circle cx="-136" cy="-72" r="2" fill="none" stroke="rgb(0,0,0)"></circle><circle cx="-136" cy="-56" r="2" fill="none" stroke="rgb(0,0,0)"></circle><circle cx="-136" cy="-32" r="2" fill="none" stroke="rgb(0,0,0)"></circle></g></svg>
-    </div>
+        <li>a request is a <i>miss</i> if neither way reported a hit:
+          $\textrm{miss}= \overline{\textrm{reset}} \cdot \overline{\textrm{hit0}} \cdot \overline{\textrm{hit1}}$.</li>
+      </ul>
 
-    <p/>On the right of the diagram is the 64-bit wide main memory --
-    we're only showing the one port used for reading instructions.
-    This memory takes <i>two</i> clock cycles to complete a read operation.
-    The 64-bit width is a perfect match for the 2-word block size, i.e.,
-    a single access to main memory can refill an entire line of cache.
+      Here's how the FSM controls the cache to handle requests.  Note that
+      the control signals for each state are summarized in a table below.
 
-    <p/>You'll be designing the component on the left, highlighted in
-    red.  On its left are the interface signals that connect to the
-    instruction address (<tt>ia[31:0]</tt>) and instruction data
-    (<tt>id[31:0]</tt>).  There's one additional signal, <tt>irdy</tt>, that
-    the cache generates to tell the Beta that the cache has completed the
-    requested instruction fetch during the current clock period.  If
-    there's a cache hit, the request is completed in the cycle it is
-    issued.  Otherwise, it will take two additional cycles before the request
-    is complete since the cache will have to access the slower main
-    memory.
+      <ul>
 
-    <p/>These signals are described in detail in the final section
-    of this document.
+        <li><i>hit</i>.  If the request is a hit, it can be satisfied
+          by using <tt>ia[2]</tt> to select between <tt>CDATAx[31:0]</tt>
+          or <tt>CDATAx[63:32]</tt> to supply the value
+          of <tt>id[31:0]</tt> where "x" is the index of the way that
+          reported the hit.  <tt>irdy</tt> can immediately be set to 1 and
+          the request is completed in the same cycle it was issued.  The FSM
+          state remains at <tt>RDY</tt>.</li>
 
-    <p/>You'll be entering your cache circuitry in the schematic for
-    the <tt>/caches/icache</tt> module.  To test your design, use
-    the <tt>/caches/test</tt> module.
+        <li><i>miss</i>.  The correct cache line
+          contents must be filled from main memory and placed in whichever
+          way is least recently used.  This is accomplished
+          in two clock cycles via FSM states <tt>R1</tt> and <tt>R2</tt>.
+          The selected way is updated from <tt>xdata[63:0]</tt> at the end of
+          the <tt>R2</tt> cycle.  At the same time as we're updating the
+          cache line we can use <tt>ia[2]</tt> to select between
+          <tt>XDATA[31:0]</tt> or <tt>XDATA[63:32]</tt> to supply the value of
+          <tt>id[31:0]</tt>.  Since we're completing the request, <tt>irdy</tt>
+          is set to 1 during the <tt>R2</tt> cycle.</li>
 
-    <p/><b>Cache memory</b>
+      </ul>
 
-    <p/>Each way of our 2-way set-associative cache will contain 32
-    cache lines and each cache line holds 2 data words.  So to complete
-    a cache access, the incoming instruction address is divided up
-    as follows:
+      <p>Using our usual ROM+reg FSM implementation, you might design something
+        like:</p>
 
-    <ul>
-      <table cellpadding="3" border="0">
+      <center><div style="width: 419px">
+          <svg viewbox="0 40 419 240"><g id="grid" stroke="rgb(230,230,230)" stroke-width="0.2" fill="none" transform="translate(37.62499999999999 40.12499999999999) scale(1.953125)"></g><g id="content" stroke="rgb(88,110,117)" stroke-width="1" stroke-linecap="round" fill="none" transform="translate(37.62499999999999 40.12499999999999) scale(1.953125)"><g><text fill="rgb(0,0,0)" style="font: 6pt sans-serif" x="2" y="8" stroke="none" text-anchor="start" dy="0.4em">3-state FSM</text></g><g><line x1="32" y1="80" x2="24" y2="80" stroke-width="1" stroke="rgb(0,0,0)"></line><text fill="rgb(0,0,0)" style="font: 5pt sans-serif" x="21" y="80" stroke="none" text-anchor="end" dy="0.4em">nstate[1:0]</text></g><g><line x1="32" y1="96" x2="24" y2="96" stroke-width="1" stroke="rgb(0,0,0)"></line><text fill="rgb(0,0,0)" style="font: 5pt sans-serif" x="21" y="96" stroke="none" text-anchor="end" dy="0.4em">resetn</text></g><g><line x1="80" y1="88" x2="96" y2="88" stroke-width="1" stroke="rgb(0,0,0)"></line><line x1="88" y1="86" x2="88" y2="90" stroke-width="0.5" stroke="rgb(0,0,0)"></line><text fill="rgb(0,0,0)" style="font: 3pt sans-serif" x="88" y="90" stroke="none" text-anchor="middle" dy="0.9em">2</text><text fill="rgb(0,0,0)" style="font: 5pt sans-serif" x="88" y="86" stroke="none" text-anchor="middle" dy="-0.1em"></text></g><g stroke="black" stroke-width="1" fill="black"><line x1="72" y1="88" x2="68" y2="88" stroke-width="1" stroke="rgb(0,0,0)"></line><text fill="rgb(0,0,0)" style="font: 5pt sans-serif" x="65" y="95" stroke="none" text-anchor="start" dy="0.9em"></text><line x1="40" y1="100" x2="52" y2="100" stroke-width="1" stroke="rgb(0,0,0)"></line><line x1="40" y1="76" x2="52" y2="76" stroke-width="1" stroke="rgb(0,0,0)"></line><path stroke="rgb(0,0,0)" d="M 52 100 A 15.36590742882148 15.36590742882148 0 0 0 68 88" fill="none"></path><path stroke="rgb(0,0,0)" d="M 52 76 A 15.36590742882148 15.36590742882148 0 0 1 68 88" fill="none"></path><line x1="40" y1="76" x2="40" y2="100" stroke-width="1" stroke="rgb(0,0,0)"></line><line x1="80" y1="88" x2="72" y2="88" stroke-width="1" stroke="rgb(0,0,0)"></line><line x1="32" y1="96" x2="40" y2="96" stroke-width="1" stroke="rgb(0,0,0)"></line><line x1="32" y1="80" x2="40" y2="80" stroke-width="1" stroke="rgb(0,0,0)"></line></g><g><line x1="96" y1="104" x2="88" y2="104" stroke-width="1" stroke="rgb(0,0,0)"></line><text fill="rgb(0,0,0)" style="font: 5pt sans-serif" x="85" y="104" stroke="none" text-anchor="end" dy="0.4em">clk</text></g><g><line x1="136" y1="88" x2="144" y2="88" stroke-width="1" stroke="rgb(0,0,0)"></line><text fill="rgb(0,0,0)" style="font: 5pt sans-serif" x="147" y="88" stroke="none" text-anchor="start" dy="0.4em">state[1:0]</text></g><g stroke="black" stroke-width="1" fill="black"><text fill="rgb(0,0,0)" style="font: 5pt sans-serif" x="116" y="80" stroke="none" text-anchor="middle" dy="-0.1em"></text><line x1="110" y1="104" x2="104" y2="101" stroke-width="1" stroke="rgb(0,0,0)"></line><line x1="110" y1="104" x2="104" y2="107" stroke-width="1" stroke="rgb(0,0,0)"></line><line x1="104" y1="112" x2="104" y2="80" stroke-width="1" stroke="rgb(0,0,0)"></line><line x1="128" y1="112" x2="104" y2="112" stroke-width="1" stroke="rgb(0,0,0)"></line><line x1="128" y1="80" x2="128" y2="112" stroke-width="1" stroke="rgb(0,0,0)"></line><line x1="104" y1="80" x2="128" y2="80" stroke-width="1" stroke="rgb(0,0,0)"></line><text fill="rgb(0,0,0)" style="font: 4pt sans-serif" x="126" y="88" stroke="none" text-anchor="end" dy="0.4em">Q</text><text fill="rgb(0,0,0)" style="font: 4pt sans-serif" x="106" y="88" stroke="none" text-anchor="start" dy="0.4em">D</text><line x1="136" y1="88" x2="128" y2="88" stroke-width="1" stroke="rgb(0,0,0)"></line><line x1="96" y1="104" x2="104" y2="104" stroke-width="1" stroke="rgb(0,0,0)"></line><line x1="96" y1="88" x2="104" y2="88" stroke-width="1" stroke="rgb(0,0,0)"></line></g><g><line x1="48" y1="24" x2="40" y2="24" stroke-width="1" stroke="rgb(0,0,0)"></line><text fill="rgb(0,0,0)" style="font: 5pt sans-serif" x="37" y="24" stroke="none" text-anchor="end" dy="0.4em">state[1:0],miss</text></g><g><line x1="48" y1="48" x2="40" y2="48" stroke-width="1" stroke="rgb(0,0,0)"></line><text fill="rgb(0,0,0)" style="font: 5pt sans-serif" x="37" y="48" stroke="none" text-anchor="end" dy="0.4em">0'1</text></g><g><line x1="48" y1="40" x2="40" y2="40" stroke-width="1" stroke="rgb(0,0,0)"></line><text fill="rgb(0,0,0)" style="font: 5pt sans-serif" x="37" y="40" stroke="none" text-anchor="end" dy="0.4em">0'1</text></g><g><line x1="48" y1="32" x2="40" y2="32" stroke-width="1" stroke="rgb(0,0,0)"></line><text fill="rgb(0,0,0)" style="font: 5pt sans-serif" x="37" y="32" stroke="none" text-anchor="end" dy="0.4em">1'1</text></g><g><line x1="120" y1="24" x2="128" y2="24" stroke-width="1" stroke="rgb(0,0,0)"></line><text fill="rgb(0,0,0)" style="font: 5pt sans-serif" x="131" y="24" stroke="none" text-anchor="start" dy="0.4em">nstate[1:0],irdy,cwe</text></g><g><line x1="56" y1="0" x2="112" y2="0" stroke-width="1" stroke="rgb(0,0,0)"></line><line x1="56" y1="0" x2="56" y2="56" stroke-width="1" stroke="rgb(0,0,0)"></line><line x1="112" y1="0" x2="112" y2="56" stroke-width="1" stroke="rgb(0,0,0)"></line><line x1="56" y1="16" x2="112" y2="16" stroke-width="1" stroke="rgb(0,0,0)"></line><line x1="48" y1="24" x2="56" y2="24" stroke-width="1" stroke="rgb(0,0,0)"></line><text fill="rgb(0,0,0)" style="font: 4pt sans-serif" x="57" y="24" stroke="none" text-anchor="start" dy="0.4em">A[2:0]</text><line x1="112" y1="24" x2="120" y2="24" stroke-width="1" stroke="rgb(0,0,0)"></line><text fill="rgb(0,0,0)" style="font: 4pt sans-serif" x="111" y="24" stroke="none" text-anchor="end" dy="0.4em">D[3:0]</text><line x1="48" y1="32" x2="56" y2="32" stroke-width="1" stroke="rgb(0,0,0)"></line><text fill="rgb(0,0,0)" style="font: 4pt sans-serif" x="57" y="32" stroke="none" text-anchor="start" dy="0.4em">OE</text><line x1="48" y1="40" x2="56" y2="40" stroke-width="1" stroke="rgb(0,0,0)"></line><text fill="rgb(0,0,0)" style="font: 4pt sans-serif" x="57" y="40" stroke="none" text-anchor="start" dy="0.4em">WE</text><line x1="48" y1="48" x2="56" y2="48" stroke-width="1" stroke="rgb(0,0,0)"></line><line x1="56" y1="46" x2="60" y2="48" stroke-width="1" stroke="rgb(0,0,0)"></line><line x1="56" y1="50" x2="60" y2="48" stroke-width="1" stroke="rgb(0,0,0)"></line><line x1="56" y1="56" x2="112" y2="56" stroke-width="1" stroke="rgb(0,0,0)"></line><text fill="rgb(0,0,0)" style="font: 5pt sans-serif" x="84" y="8" stroke="none" text-anchor="middle" dy="-0.1em">ROM</text><text fill="rgb(0,0,0)" style="font: 5pt sans-serif" x="84" y="8" stroke="none" text-anchor="middle" dy="0.9em">8×4</text></g></g><g id="selected" stroke="rgb(211,54,130)" stroke-width="1" stroke-linecap="round" fill="none" transform="translate(37.62499999999999 40.12499999999999) scale(1.953125)"><circle cx="128" cy="24" r="2" fill="none" stroke="rgb(0,0,0)"></circle><circle cx="40" cy="32" r="2" fill="none" stroke="rgb(0,0,0)"></circle><circle cx="40" cy="40" r="2" fill="none" stroke="rgb(0,0,0)"></circle><circle cx="40" cy="48" r="2" fill="none" stroke="rgb(0,0,0)"></circle><circle cx="40" cy="24" r="2" fill="none" stroke="rgb(0,0,0)"></circle><circle cx="144" cy="88" r="2" fill="none" stroke="rgb(0,0,0)"></circle><circle cx="24" cy="80" r="2" fill="none" stroke="rgb(0,0,0)"></circle><circle cx="24" cy="96" r="2" fill="none" stroke="rgb(0,0,0)"></circle><circle cx="88" cy="104" r="2" fill="none" stroke="rgb(0,0,0)"></circle></g></svg>
+      </div></center>
+
+      <div class="hint">
+        When editing the contents property of the ROM, remember that you need
+        to indicate the radix for each number you enter.  <tt>101</tt> is the number
+        one hundred and one, <tt>0b101</tt> is the number 5.  For ROMs used as
+        FSM controllers, you'll almost always want to use the <tt>0b</tt> prefix.
+      </div>
+
+      <p>The <tt>irdy</tt> and <tt>cwe</tt> outputs are determined by the
+        <tt>miss</tt> signal and the current state:</p>
+
+      <center><table cellpadding="5" border="1" style="border-collapse:collapse;">
+          <tr>
+            <td></td>
+            <td><tt>RDY</tt></td>
+            <td><tt>R1</tt></td>
+            <td><tt>R2</tt></td>
+          </tr>
+          <tr>
+            <td><tt>irdy</tt></td>
+            <td>$\overline{\textrm{miss}}$</td>
+            <td><tt>0</tt></td>
+            <td><tt>1</tt></td>
+          </tr>
+          <tr>
+            <td><tt>cwe</tt></td>
+            <td><tt>0</tt></td>
+            <td><tt>0</tt></td>
+            <td><tt>1</tt></td>
+          </tr>
+      </table></center>
+
+      <p>The <tt>cwe</tt> signal is combined with the LRU state (see below) to
+        generate the write enables for the two ways (<tt>cwe0</tt> and <tt>cwe1</tt>).</p>
+
+      <p>So a request takes either 1 cycle to complete if it's a hit or
+        3 cycles to complete if it's a miss. Here's a table showing
+        where <tt>id[31:0]</tt> comes from</p>
+
+      <center><table cellpadding="5" border="1" style="border-collapse:collapse;">
+          <tr>
+            <td></td>
+            <td><tt>ia[2] = 0</tt></td>
+            <td><tt>ia[2] = 1</tt></td>
+          </tr>
+          <tr>
+            <td><tt>hit0 = 1</tt></td>
+            <td><tt>cdata0[31:0]</tt></td>
+            <td><tt>cdata0[63:32]</tt></td>
+          </tr>
+          <tr>
+            <td><tt>hit1 = 1</tt></td>
+            <td><tt>cdata1[31:0]</tt></td>
+            <td><tt>cdata1[63:32]</tt></td>
+          </tr>
+          <tr>
+            <td><tt>state = R2</tt></td>
+            <td><tt>xdata[31:0]</tt></td>
+            <td><tt>xdata[63:32]</tt></td>
+          </tr>
+      </table></center>
+
+      <p><b>LRU replacement strategy</b></p>
+
+      <p>The final piece of the puzzle is figuring out which way to
+        replace when there's a miss and we're reading the required data
+        from main memory.  For a 2-way set-associative cache, we only need
+        one bit of state for each cache line.  If the state bit is 0, then
+        way 0 holds the LRU cache line. If the state bit is 1, then way 1
+        holds the LRU cache line.  Once we know which way is LRU, it's
+        easy to generate the correct write enable (<tt>cwe0</tt>
+        or <tt>cwe1</tt>) for the ways:</p>
+
+      <div>
+        <svg viewbox="25 30 670 190"><g id="grid" stroke="rgb(230,230,230)" stroke-width="0.2" fill="none" transform="translate(74.00000000000003 51.09375000000001) scale(1.5625)"></g><g id="content" stroke="rgb(88,110,117)" stroke-width="1" stroke-linecap="round" fill="none" transform="translate(74.00000000000003 51.09375000000001) scale(1.5625)"><g><line x1="32" y1="88" x2="32" y2="96" stroke-width="1" stroke="rgb(0,0,0)"></line><text fill="rgb(0,0,0)" style="font: 5pt sans-serif" x="32" y="99" stroke="none" text-anchor="middle" dy="0.9em">resetn</text></g><g><line x1="0" y1="88" x2="-8" y2="88" stroke-width="1" stroke="rgb(0,0,0)"></line><text fill="rgb(0,0,0)" style="font: 5pt sans-serif" x="-11" y="88" stroke="none" text-anchor="end" dy="0.4em">reset</text></g><g stroke="black" stroke-width="1" fill="black"><line x1="32" y1="88" x2="28" y2="88" stroke-width="1" stroke="rgb(0,0,0)"></line><circle cx="26" cy="88" r="2" fill="none" stroke="rgb(0,0,0)"></circle><text fill="rgb(0,0,0)" style="font: 5pt sans-serif" x="16" y="92" stroke="none" text-anchor="start" dy="0.9em"></text><line x1="24" y1="88" x2="8" y2="80" stroke-width="1" stroke="rgb(0,0,0)"></line><line x1="8" y1="96" x2="24" y2="88" stroke-width="1" stroke="rgb(0,0,0)"></line><line x1="8" y1="80" x2="8" y2="96" stroke-width="1" stroke="rgb(0,0,0)"></line><line x1="0" y1="88" x2="8" y2="88" stroke-width="1" stroke="rgb(0,0,0)"></line></g><g><line x1="80" y1="80" x2="104" y2="80" stroke-width="1" stroke="rgb(0,0,0)"></line><text fill="rgb(0,0,0)" style="font: 5pt sans-serif" x="92" y="78" stroke="none" text-anchor="middle" dy="-0.1em"></text></g><g><text fill="rgb(0,0,0)" style="font: 6pt sans-serif" x="137" y="-9" stroke="none" text-anchor="middle" dy="0.4em">LRU state for each cache line</text></g><g><line x1="224" y1="56" x2="232" y2="56" stroke-width="1" stroke="rgb(0,0,0)"></line><text fill="rgb(0,0,0)" style="font: 5pt sans-serif" x="235" y="56" stroke="none" text-anchor="start" dy="0.4em">cwe0</text></g><g><line x1="224" y1="72" x2="232" y2="72" stroke-width="1" stroke="rgb(0,0,0)"></line><text fill="rgb(0,0,0)" style="font: 5pt sans-serif" x="235" y="72" stroke="none" text-anchor="start" dy="0.4em">hit0</text></g><g stroke="black" stroke-width="1" fill="black"><line x1="184" y1="64" x2="188" y2="64" stroke-width="1" stroke="rgb(0,0,0)"></line><text fill="rgb(0,0,0)" style="font: 5pt sans-serif" x="192" y="70" stroke="none" text-anchor="end" dy="0.9em"></text><line x1="216" y1="72" x2="214" y2="72" stroke-width="1" stroke="rgb(0,0,0)"></line><line x1="216" y1="56" x2="214" y2="56" stroke-width="1" stroke="rgb(0,0,0)"></line><path stroke="rgb(0,0,0)" d="M 216 52 A 25.5 25.5 0 0 0 216 76" fill="none"></path><path stroke="rgb(0,0,0)" d="M 208 76 A 23.50531854708632 23.50531854708632 0 0 1 188 64" fill="none"></path><path stroke="rgb(0,0,0)" d="M 208 52 A 23.50531854708632 23.50531854708632 0 0 0 188 64" fill="none"></path><line x1="216" y1="52" x2="208" y2="52" stroke-width="1" stroke="rgb(0,0,0)"></line><line x1="216" y1="76" x2="208" y2="76" stroke-width="1" stroke="rgb(0,0,0)"></line><line x1="176" y1="64" x2="184" y2="64" stroke-width="1" stroke="rgb(0,0,0)"></line><line x1="224" y1="72" x2="216" y2="72" stroke-width="1" stroke="rgb(0,0,0)"></line><line x1="224" y1="56" x2="216" y2="56" stroke-width="1" stroke="rgb(0,0,0)"></line></g><g><line x1="224" y1="24" x2="232" y2="24" stroke-width="1" stroke="rgb(0,0,0)"></line><text fill="rgb(0,0,0)" style="font: 5pt sans-serif" x="235" y="24" stroke="none" text-anchor="start" dy="0.4em">lru_is_0</text></g><g><line x1="192" y1="24" x2="184" y2="24" stroke-width="1" stroke="rgb(0,0,0)"></line><text fill="rgb(0,0,0)" style="font: 5pt sans-serif" x="188" y="22" stroke="none" text-anchor="middle" dy="-0.1em"></text></g><g><line x1="176" y1="24" x2="184" y2="24" stroke-width="1" stroke="rgb(0,0,0)"></line><text fill="rgb(0,0,0)" style="font: 5pt sans-serif" x="180" y="22" stroke="none" text-anchor="middle" dy="-0.1em"></text></g><g stroke="black" stroke-width="1" fill="black"><line x1="224" y1="24" x2="220" y2="24" stroke-width="1" stroke="rgb(0,0,0)"></line><circle cx="218" cy="24" r="2" fill="none" stroke="rgb(0,0,0)"></circle><text fill="rgb(0,0,0)" style="font: 5pt sans-serif" x="208" y="28" stroke="none" text-anchor="start" dy="0.9em"></text><line x1="216" y1="24" x2="200" y2="16" stroke-width="1" stroke="rgb(0,0,0)"></line><line x1="200" y1="32" x2="216" y2="24" stroke-width="1" stroke="rgb(0,0,0)"></line><line x1="200" y1="16" x2="200" y2="32" stroke-width="1" stroke="rgb(0,0,0)"></line><line x1="192" y1="24" x2="200" y2="24" stroke-width="1" stroke="rgb(0,0,0)"></line></g><g><line x1="104" y1="24" x2="96" y2="24" stroke-width="1" stroke="rgb(0,0,0)"></line><text fill="rgb(0,0,0)" style="font: 5pt sans-serif" x="93" y="24" stroke="none" text-anchor="end" dy="0.4em">ia[7:3]</text></g><g><line x1="104" y1="48" x2="96" y2="48" stroke-width="1" stroke="rgb(0,0,0)"></line><text fill="rgb(0,0,0)" style="font: 5pt sans-serif" x="93" y="48" stroke="none" text-anchor="end" dy="0.4em">0'1</text></g><g><line x1="104" y1="40" x2="96" y2="40" stroke-width="1" stroke="rgb(0,0,0)"></line><text fill="rgb(0,0,0)" style="font: 5pt sans-serif" x="93" y="40" stroke="none" text-anchor="end" dy="0.4em">0'1</text></g><g><line x1="104" y1="32" x2="96" y2="32" stroke-width="1" stroke="rgb(0,0,0)"></line><text fill="rgb(0,0,0)" style="font: 5pt sans-serif" x="93" y="32" stroke="none" text-anchor="end" dy="0.4em">1'1</text></g><g><line x1="184" y1="16" x2="184" y2="24" stroke-width="1" stroke="rgb(0,0,0)"></line><text fill="rgb(0,0,0)" style="font: 5pt sans-serif" x="184" y="13" stroke="none" text-anchor="middle" dy="-0.1em">lru_is_1</text></g><g><line x1="104" y1="64" x2="96" y2="64" stroke-width="1" stroke="rgb(0,0,0)"></line><text fill="rgb(0,0,0)" style="font: 5pt sans-serif" x="93" y="64" stroke="none" text-anchor="end" dy="0.4em">ia[7:3]</text></g><g><line x1="104" y1="72" x2="96" y2="72" stroke-width="1" stroke="rgb(0,0,0)"></line><text fill="rgb(0,0,0)" style="font: 5pt sans-serif" x="93" y="72" stroke="none" text-anchor="end" dy="0.4em">0'1</text></g><g><line x1="104" y1="88" x2="96" y2="88" stroke-width="1" stroke="rgb(0,0,0)"></line><text fill="rgb(0,0,0)" style="font: 5pt sans-serif" x="93" y="88" stroke="none" text-anchor="end" dy="0.4em">clk</text></g><g><line x1="112" y1="0" x2="168" y2="0" stroke-width="1" stroke="rgb(0,0,0)"></line><line x1="112" y1="0" x2="112" y2="96" stroke-width="1" stroke="rgb(0,0,0)"></line><line x1="168" y1="0" x2="168" y2="96" stroke-width="1" stroke="rgb(0,0,0)"></line><line x1="112" y1="16" x2="168" y2="16" stroke-width="1" stroke="rgb(0,0,0)"></line><line x1="104" y1="24" x2="112" y2="24" stroke-width="1" stroke="rgb(0,0,0)"></line><text fill="rgb(0,0,0)" style="font: 4pt sans-serif" x="113" y="24" stroke="none" text-anchor="start" dy="0.4em">A[4:0]</text><line x1="168" y1="24" x2="176" y2="24" stroke-width="1" stroke="rgb(0,0,0)"></line><text fill="rgb(0,0,0)" style="font: 4pt sans-serif" x="167" y="24" stroke="none" text-anchor="end" dy="0.4em">D[0]</text><line x1="104" y1="32" x2="112" y2="32" stroke-width="1" stroke="rgb(0,0,0)"></line><text fill="rgb(0,0,0)" style="font: 4pt sans-serif" x="113" y="32" stroke="none" text-anchor="start" dy="0.4em">OE</text><line x1="104" y1="40" x2="112" y2="40" stroke-width="1" stroke="rgb(0,0,0)"></line><text fill="rgb(0,0,0)" style="font: 4pt sans-serif" x="113" y="40" stroke="none" text-anchor="start" dy="0.4em">WE</text><line x1="104" y1="48" x2="112" y2="48" stroke-width="1" stroke="rgb(0,0,0)"></line><line x1="112" y1="46" x2="116" y2="48" stroke-width="1" stroke="rgb(0,0,0)"></line><line x1="112" y1="50" x2="116" y2="48" stroke-width="1" stroke="rgb(0,0,0)"></line><line x1="112" y1="56" x2="168" y2="56" stroke-width="1" stroke="rgb(0,0,0)"></line><line x1="104" y1="64" x2="112" y2="64" stroke-width="1" stroke="rgb(0,0,0)"></line><text fill="rgb(0,0,0)" style="font: 4pt sans-serif" x="113" y="64" stroke="none" text-anchor="start" dy="0.4em">A[4:0]</text><line x1="168" y1="64" x2="176" y2="64" stroke-width="1" stroke="rgb(0,0,0)"></line><text fill="rgb(0,0,0)" style="font: 4pt sans-serif" x="167" y="64" stroke="none" text-anchor="end" dy="0.4em">D[0]</text><line x1="104" y1="72" x2="112" y2="72" stroke-width="1" stroke="rgb(0,0,0)"></line><text fill="rgb(0,0,0)" style="font: 4pt sans-serif" x="113" y="72" stroke="none" text-anchor="start" dy="0.4em">OE</text><line x1="104" y1="80" x2="112" y2="80" stroke-width="1" stroke="rgb(0,0,0)"></line><text fill="rgb(0,0,0)" style="font: 4pt sans-serif" x="113" y="80" stroke="none" text-anchor="start" dy="0.4em">WE</text><line x1="104" y1="88" x2="112" y2="88" stroke-width="1" stroke="rgb(0,0,0)"></line><line x1="112" y1="86" x2="116" y2="88" stroke-width="1" stroke="rgb(0,0,0)"></line><line x1="112" y1="90" x2="116" y2="88" stroke-width="1" stroke="rgb(0,0,0)"></line><line x1="112" y1="96" x2="168" y2="96" stroke-width="1" stroke="rgb(0,0,0)"></line><text fill="rgb(0,0,0)" style="font: 5pt sans-serif" x="140" y="8" stroke="none" text-anchor="middle" dy="-0.1em">lru_state</text><text fill="rgb(0,0,0)" style="font: 5pt sans-serif" x="140" y="8" stroke="none" text-anchor="middle" dy="0.9em">32×1</text></g><g stroke="black" stroke-width="1" fill="black"><line x1="72" y1="80" x2="68" y2="80" stroke-width="1" stroke="rgb(0,0,0)"></line><text fill="rgb(0,0,0)" style="font: 5pt sans-serif" x="65" y="87" stroke="none" text-anchor="start" dy="0.9em"></text><line x1="40" y1="92" x2="52" y2="92" stroke-width="1" stroke="rgb(0,0,0)"></line><line x1="40" y1="68" x2="52" y2="68" stroke-width="1" stroke="rgb(0,0,0)"></line><path stroke="rgb(0,0,0)" d="M 52 92 A 15.36590742882148 15.36590742882148 0 0 0 68 80" fill="none"></path><path stroke="rgb(0,0,0)" d="M 52 68 A 15.36590742882148 15.36590742882148 0 0 1 68 80" fill="none"></path><line x1="40" y1="68" x2="40" y2="92" stroke-width="1" stroke="rgb(0,0,0)"></line><line x1="80" y1="80" x2="72" y2="80" stroke-width="1" stroke="rgb(0,0,0)"></line><line x1="32" y1="88" x2="40" y2="88" stroke-width="1" stroke="rgb(0,0,0)"></line><line x1="32" y1="72" x2="40" y2="72" stroke-width="1" stroke="rgb(0,0,0)"></line></g><g><line x1="352" y1="24" x2="360" y2="24" stroke-width="1" stroke="rgb(0,0,0)"></line><text fill="rgb(0,0,0)" style="font: 5pt sans-serif" x="363" y="24" stroke="none" text-anchor="start" dy="0.4em">cwe0</text></g><g><line x1="304" y1="40" x2="296" y2="40" stroke-width="1" stroke="rgb(0,0,0)"></line><text fill="rgb(0,0,0)" style="font: 5pt sans-serif" x="293" y="40" stroke="none" text-anchor="end" dy="0.4em">resetn</text></g><g stroke="black" stroke-width="1" fill="black"><line x1="344" y1="24" x2="340" y2="24" stroke-width="1" stroke="rgb(0,0,0)"></line><line x1="312" y1="4" x2="312" y2="44" stroke-width="1" stroke="rgb(0,0,0)"></line><line x1="304" y1="40" x2="312" y2="40" stroke-width="1" stroke="rgb(0,0,0)"></line><text fill="rgb(0,0,0)" style="font: 5pt sans-serif" x="337" y="31" stroke="none" text-anchor="start" dy="0.9em"></text><line x1="312" y1="36" x2="324" y2="36" stroke-width="1" stroke="rgb(0,0,0)"></line><line x1="312" y1="12" x2="324" y2="12" stroke-width="1" stroke="rgb(0,0,0)"></line><path stroke="rgb(0,0,0)" d="M 324 36 A 15.36590742882148 15.36590742882148 0 0 0 340 24" fill="none"></path><path stroke="rgb(0,0,0)" d="M 324 12 A 15.36590742882148 15.36590742882148 0 0 1 340 24" fill="none"></path><line x1="352" y1="24" x2="344" y2="24" stroke-width="1" stroke="rgb(0,0,0)"></line><line x1="304" y1="24" x2="312" y2="24" stroke-width="1" stroke="rgb(0,0,0)"></line><line x1="304" y1="8" x2="312" y2="8" stroke-width="1" stroke="rgb(0,0,0)"></line></g><g><line x1="304" y1="8" x2="296" y2="8" stroke-width="1" stroke="rgb(0,0,0)"></line><text fill="rgb(0,0,0)" style="font: 5pt sans-serif" x="293" y="8" stroke="none" text-anchor="end" dy="0.4em">cwe</text></g><g><line x1="304" y1="24" x2="296" y2="24" stroke-width="1" stroke="rgb(0,0,0)"></line><text fill="rgb(0,0,0)" style="font: 5pt sans-serif" x="293" y="24" stroke="none" text-anchor="end" dy="0.4em">lru_is_0</text></g><g><line x1="352" y1="72" x2="360" y2="72" stroke-width="1" stroke="rgb(0,0,0)"></line><text fill="rgb(0,0,0)" style="font: 5pt sans-serif" x="363" y="72" stroke="none" text-anchor="start" dy="0.4em">cwe1</text></g><g><line x1="304" y1="88" x2="296" y2="88" stroke-width="1" stroke="rgb(0,0,0)"></line><text fill="rgb(0,0,0)" style="font: 5pt sans-serif" x="293" y="88" stroke="none" text-anchor="end" dy="0.4em">resetn</text></g><g stroke="black" stroke-width="1" fill="black"><line x1="344" y1="72" x2="340" y2="72" stroke-width="1" stroke="rgb(0,0,0)"></line><line x1="312" y1="52" x2="312" y2="92" stroke-width="1" stroke="rgb(0,0,0)"></line><line x1="304" y1="88" x2="312" y2="88" stroke-width="1" stroke="rgb(0,0,0)"></line><text fill="rgb(0,0,0)" style="font: 5pt sans-serif" x="337" y="79" stroke="none" text-anchor="start" dy="0.9em"></text><line x1="312" y1="84" x2="324" y2="84" stroke-width="1" stroke="rgb(0,0,0)"></line><line x1="312" y1="60" x2="324" y2="60" stroke-width="1" stroke="rgb(0,0,0)"></line><path stroke="rgb(0,0,0)" d="M 324 84 A 15.36590742882148 15.36590742882148 0 0 0 340 72" fill="none"></path><path stroke="rgb(0,0,0)" d="M 324 60 A 15.36590742882148 15.36590742882148 0 0 1 340 72" fill="none"></path><line x1="352" y1="72" x2="344" y2="72" stroke-width="1" stroke="rgb(0,0,0)"></line><line x1="304" y1="72" x2="312" y2="72" stroke-width="1" stroke="rgb(0,0,0)"></line><line x1="304" y1="56" x2="312" y2="56" stroke-width="1" stroke="rgb(0,0,0)"></line></g><g><line x1="304" y1="56" x2="296" y2="56" stroke-width="1" stroke="rgb(0,0,0)"></line><text fill="rgb(0,0,0)" style="font: 5pt sans-serif" x="293" y="56" stroke="none" text-anchor="end" dy="0.4em">cwe</text></g><g><line x1="32" y1="72" x2="24" y2="72" stroke-width="1" stroke="rgb(0,0,0)"></line><text fill="rgb(0,0,0)" style="font: 5pt sans-serif" x="21" y="72" stroke="none" text-anchor="end" dy="0.4em">irdy</text></g><g><line x1="304" y1="72" x2="296" y2="72" stroke-width="1" stroke="rgb(0,0,0)"></line><text fill="rgb(0,0,0)" style="font: 5pt sans-serif" x="293" y="72" stroke="none" text-anchor="end" dy="0.4em">lru_is_1</text></g></g><g id="selected" stroke="rgb(211,54,130)" stroke-width="1" stroke-linecap="round" fill="none" transform="translate(74.00000000000003 51.09375000000001) scale(1.5625)"><circle cx="296" cy="72" r="2" fill="none" stroke="rgb(0,0,0)"></circle><circle cx="24" cy="72" r="2" fill="none" stroke="rgb(0,0,0)"></circle><circle cx="296" cy="56" r="2" fill="none" stroke="rgb(0,0,0)"></circle><circle cx="296" cy="88" r="2" fill="none" stroke="rgb(0,0,0)"></circle><circle cx="360" cy="72" r="2" fill="none" stroke="rgb(0,0,0)"></circle><circle cx="296" cy="24" r="2" fill="none" stroke="rgb(0,0,0)"></circle><circle cx="296" cy="8" r="2" fill="none" stroke="rgb(0,0,0)"></circle><circle cx="296" cy="40" r="2" fill="none" stroke="rgb(0,0,0)"></circle><circle cx="360" cy="24" r="2" fill="none" stroke="rgb(0,0,0)"></circle><circle cx="32" cy="88" r="2" fill="rgb(88,110,117)" stroke="none"></circle><circle cx="96" cy="88" r="2" fill="none" stroke="rgb(0,0,0)"></circle><circle cx="96" cy="72" r="2" fill="none" stroke="rgb(0,0,0)"></circle><circle cx="96" cy="64" r="2" fill="none" stroke="rgb(0,0,0)"></circle><circle cx="184" cy="24" r="2" fill="rgb(88,110,117)" stroke="none"></circle><circle cx="184" cy="16" r="2" fill="none" stroke="rgb(0,0,0)"></circle><circle cx="96" cy="32" r="2" fill="none" stroke="rgb(0,0,0)"></circle><circle cx="96" cy="40" r="2" fill="none" stroke="rgb(0,0,0)"></circle><circle cx="96" cy="48" r="2" fill="none" stroke="rgb(0,0,0)"></circle><circle cx="96" cy="24" r="2" fill="none" stroke="rgb(0,0,0)"></circle><circle cx="232" cy="24" r="2" fill="none" stroke="rgb(0,0,0)"></circle><circle cx="232" cy="72" r="2" fill="none" stroke="rgb(0,0,0)"></circle><circle cx="232" cy="56" r="2" fill="none" stroke="rgb(0,0,0)"></circle><circle cx="-8" cy="88" r="2" fill="none" stroke="rgb(0,0,0)"></circle><circle cx="32" cy="96" r="2" fill="none" stroke="rgb(0,0,0)"></circle></g></svg>
+      </div>
+
+      <p>To initialize the LRU bits for each line to 0, the initial
+        contents for each location of the LRU state memory should be
+        specified as 0.  To do this, edit the memory's contents property and
+        enter 32 lines of 0.</p>
+
+      <p>The LRU state needs to be updated at the end of every
+        request, i.e., whenever <tt>irdy</tt> is 1.  If there was a hit
+        in way 0, or if we're updating way 0 during a refill, then
+        we set the LRU state bit to 1, indicating that way 1 now holds the
+        LRU cache line.  In other words, if we just finished accessing
+        way 0 to complete the request, it's now the most recently used
+        cache line!  And vice versa.</p>
+
+      <p><b>Testing</b></p>
+
+      <p>To test your icache design, switch to the <tt>/caches/test</tt>
+        module, click the green checkmark, and hope for the best!</p>
+
+      <p>Here's a rundown of the requests made:</p>
+
+      <ul>
+        <li>read from location 0x000.  This should be a miss since all
+          cache lines are invalid after reset.  So the FSM should cycle
+          through states R1 and R2, filling line 0 of way 0 (the LRU way)
+          with the data from main memory.  <tt>xdata[31:0]</tt> should
+          also be routed to <tt>id[31:0]</tt> and <tt>irdy</tt> set to 1
+          during the R2 cycle.
+          For cache line 0, way 1 is now LRU.</li>
+
+        <li>read from location 0x004.  This should be a hit in line
+          0, way 0. <tt>irdy</tt> should be set to 1 in the cycle the request is
+          issued and <tt>cdata0[63:32]</tt> should be routed to <tt>id[31:0]</tt>.
+          For cache line 0, way 1 is now LRU.</li>
+
+        <li>read from location 0x100.  This location also maps to line
+          0 and should be a miss.  But this time it's line 0 of way 1 that
+          gets refilled.  For cache line 0, way 0 is now LRU.</li>
+
+        <li>read from location 0x004.  This should be a hit in line
+          0, way 0.  For cache line 0, way 1 is now LRU.</li>
+
+        <li>read from location 0x104.  This should be a hit in line
+          0, way 1.
+          For cache line 0, way 0 is now LRU.</li>
+
+        <li>read from location 0x204.  This should be a miss; replace
+          line 0, way 0.
+          For cache line 0, way 1 is now LRU.</li>
+        
+        <li>read from location 0x104.  This should be a hit in line
+          0, way 1.
+          For cache line 0, way 0 is now LRU.</li>
+
+        <li>read from location 0x3FC.  This should be a miss; replace
+          line 31, way 0.
+          For cache line 31, way 1 is now LRU.</li>
+        
+        <li>read from location 0x100.  This should be a hit in line
+          0, way 1.
+          For cache line 0, way 0 is now LRU.</li>
+
+        <li>read from location 0x200.  This should be a hit in line
+          0, way 0.
+          For cache line 0, way 1 is now LRU.</li>
+        
+        <li>read from location 0x3F8.  This should be a hit in
+          line 31, way 0.
+          For cache line 31, way 1 is now LRU.</li>
+
+      </ul>
+
+      <p>Good luck!</p>
+
+      <p><b>Description of cache input/output signals</b></p>
+
+      <p>Here's a table describing the interface signals that connect
+        to the Beta's memory interface.</p>
+
+      <table border="1" cellpadding="3" style="border-collapse:collapse">
         <tr>
-          <td><tt>ia[1:0]</tt></td>
-          <td>byte offset (ignored by cache)</td>
+          <td><tt>clk</tt></td>
+          <td>input</td>
+          <td>
+            clock (from test circuitry): a 10MHz square wave creating a 100ns
+            clock period.
+          </td>
         </tr>
         <tr>
-          <td><tt>ia[2]</tt></td>
-          <td>word offset (selects word from 2-word cache line)</td>
+          <td><tt>reset</tt></td>
+          <td>input</td>
+          <td>
+            reset (from test circuitry): set by the test circuitry to 1 until
+            after the first rising edge of <tt>clk</tt>, then set to 0 to start
+            the cache running.
+          </td>
         </tr>
         <tr>
-          <td><tt>ia[7:3]</tt></td>
-          <td>5-bit cache line index (selects cache line)</td>
+          <td><tt>ia[31:0]</tt></td>
+          <td>inputs</td>
+          <td>
+            instruction address (from test circuitry): address of the instruction location in main
+            memory to be read.  These signals are required to be stable and valid each cycle
+            since the cache assumes that the CPU is trying to fetch an instruction every
+            cycle.
+          </td>
         </tr>
         <tr>
-          <td><tt>ia[31:8]</tt></td>
-          <td>24-bit address tag field</td>
-        </tr>
-      </table>
-    </ul>
-
-    <p/>Each cache line requires the following storage:
-
-    <ul>
-      <table cellpadding="3" border="0">
-        <tr>
-          <td><tt>valid</tt></td>
-          <td>1-bit flag is 1 if cache line is valid</td>
-        </tr>
-        <tr>
-          <td><tt>tag[23:0]</tt></td>
-          <td>24-bit tag field for this cache line</td>
-        </tr>
-        <tr>
-          <td><tt>cdata[63:0]</tt></td>
-          <td>64 bits (2 words) of data</td>
-        </tr>
-      </table>
-    </ul>
-
-    <p/>which is a total of 89 bits.  So each way requires its own 2-port
-    32x89 memory.  One port is used for reading out the valid/tag/data
-    information for the requested cache line, and the other port is used
-    to write valid/tag/data information when a cache line is refilled.
-    So you'll need to add something like the following to the <tt>icache</tt>
-    schematic:
-
-    <center><div style="width:500px">
-<svg viewbox="0 40 677 350"><g id="grid" stroke="rgb(230,230,230)" stroke-width="0.2" fill="none" transform="translate(756.5908203124999 57.43798828125001) scale(3.0517578125)"></g><g id="content" stroke="rgb(88,110,117)" stroke-width="1" stroke-linecap="round" fill="none" transform="translate(756.5908203124999 57.43798828125001) scale(3.0517578125)"><g><line x1="-208" y1="88" x2="-216" y2="88" stroke-width="1" stroke="rgb(0,0,0)"></line><text fill="rgb(0,0,0)" style="font: 5pt sans-serif" x="-219" y="88" stroke="none" text-anchor="end" dy="0.4em">cwe0</text></g><g><line x1="-136" y1="72" x2="-128" y2="72" stroke-width="1" stroke="rgb(0,0,0)"></line><text fill="rgb(0,0,0)" style="font: 5pt sans-serif" x="-125" y="72" stroke="none" text-anchor="start" dy="0.4em">1'1,ia[31:8],xdata[63:0]</text></g><g><text fill="rgb(0,0,0)" style="font: 6pt sans-serif" x="-171" y="-1" stroke="none" text-anchor="middle" dy="0.4em">cache storage for Way 0</text></g><g><line x1="-136" y1="32" x2="-128" y2="32" stroke-width="1" stroke="rgb(0,0,0)"></line><text fill="rgb(0,0,0)" style="font: 5pt sans-serif" x="-125" y="32" stroke="none" text-anchor="start" dy="0.4em">valid0,tag0[23:0],cdata0[63:0]</text></g><g><line x1="-208" y1="96" x2="-216" y2="96" stroke-width="1" stroke="rgb(0,0,0)"></line><text fill="rgb(0,0,0)" style="font: 5pt sans-serif" x="-219" y="96" stroke="none" text-anchor="end" dy="0.4em">clk</text></g><g><line x1="-208" y1="80" x2="-216" y2="80" stroke-width="1" stroke="rgb(0,0,0)"></line><text fill="rgb(0,0,0)" style="font: 5pt sans-serif" x="-219" y="80" stroke="none" text-anchor="end" dy="0.4em">0'1</text></g><g><line x1="-208" y1="72" x2="-216" y2="72" stroke-width="1" stroke="rgb(0,0,0)"></line><text fill="rgb(0,0,0)" style="font: 5pt sans-serif" x="-219" y="72" stroke="none" text-anchor="end" dy="0.4em">ia[7:3]</text></g><g><line x1="-208" y1="56" x2="-216" y2="56" stroke-width="1" stroke="rgb(0,0,0)"></line><text fill="rgb(0,0,0)" style="font: 5pt sans-serif" x="-219" y="56" stroke="none" text-anchor="end" dy="0.4em">0'1</text></g><g><line x1="-208" y1="48" x2="-216" y2="48" stroke-width="1" stroke="rgb(0,0,0)"></line><text fill="rgb(0,0,0)" style="font: 5pt sans-serif" x="-219" y="48" stroke="none" text-anchor="end" dy="0.4em">0'1</text></g><g><line x1="-208" y1="40" x2="-216" y2="40" stroke-width="1" stroke="rgb(0,0,0)"></line><text fill="rgb(0,0,0)" style="font: 5pt sans-serif" x="-219" y="40" stroke="none" text-anchor="end" dy="0.4em">1'1</text></g><g><line x1="-208" y1="32" x2="-216" y2="32" stroke-width="1" stroke="rgb(0,0,0)"></line><text fill="rgb(0,0,0)" style="font: 5pt sans-serif" x="-219" y="32" stroke="none" text-anchor="end" dy="0.4em">ia[7:3]</text></g><g><line x1="-200" y1="8" x2="-144" y2="8" stroke-width="1" stroke="rgb(0,0,0)"></line><line x1="-200" y1="8" x2="-200" y2="104" stroke-width="1" stroke="rgb(0,0,0)"></line><line x1="-144" y1="8" x2="-144" y2="104" stroke-width="1" stroke="rgb(0,0,0)"></line><line x1="-200" y1="24" x2="-144" y2="24" stroke-width="1" stroke="rgb(0,0,0)"></line><line x1="-208" y1="32" x2="-200" y2="32" stroke-width="1" stroke="rgb(0,0,0)"></line><text fill="rgb(0,0,0)" style="font: 4pt sans-serif" x="-199" y="32" stroke="none" text-anchor="start" dy="0.4em">A[4:0]</text><line x1="-144" y1="32" x2="-136" y2="32" stroke-width="1" stroke="rgb(0,0,0)"></line><text fill="rgb(0,0,0)" style="font: 4pt sans-serif" x="-145" y="32" stroke="none" text-anchor="end" dy="0.4em">D[88:0]</text><line x1="-208" y1="40" x2="-200" y2="40" stroke-width="1" stroke="rgb(0,0,0)"></line><text fill="rgb(0,0,0)" style="font: 4pt sans-serif" x="-199" y="40" stroke="none" text-anchor="start" dy="0.4em">OE</text><line x1="-208" y1="48" x2="-200" y2="48" stroke-width="1" stroke="rgb(0,0,0)"></line><text fill="rgb(0,0,0)" style="font: 4pt sans-serif" x="-199" y="48" stroke="none" text-anchor="start" dy="0.4em">WE</text><line x1="-208" y1="56" x2="-200" y2="56" stroke-width="1" stroke="rgb(0,0,0)"></line><line x1="-200" y1="54" x2="-196" y2="56" stroke-width="1" stroke="rgb(0,0,0)"></line><line x1="-200" y1="58" x2="-196" y2="56" stroke-width="1" stroke="rgb(0,0,0)"></line><line x1="-200" y1="64" x2="-144" y2="64" stroke-width="1" stroke="rgb(0,0,0)"></line><line x1="-208" y1="72" x2="-200" y2="72" stroke-width="1" stroke="rgb(0,0,0)"></line><text fill="rgb(0,0,0)" style="font: 4pt sans-serif" x="-199" y="72" stroke="none" text-anchor="start" dy="0.4em">A[4:0]</text><line x1="-144" y1="72" x2="-136" y2="72" stroke-width="1" stroke="rgb(0,0,0)"></line><text fill="rgb(0,0,0)" style="font: 4pt sans-serif" x="-145" y="72" stroke="none" text-anchor="end" dy="0.4em">D[88:0]</text><line x1="-208" y1="80" x2="-200" y2="80" stroke-width="1" stroke="rgb(0,0,0)"></line><text fill="rgb(0,0,0)" style="font: 4pt sans-serif" x="-199" y="80" stroke="none" text-anchor="start" dy="0.4em">OE</text><line x1="-208" y1="88" x2="-200" y2="88" stroke-width="1" stroke="rgb(0,0,0)"></line><text fill="rgb(0,0,0)" style="font: 4pt sans-serif" x="-199" y="88" stroke="none" text-anchor="start" dy="0.4em">WE</text><line x1="-208" y1="96" x2="-200" y2="96" stroke-width="1" stroke="rgb(0,0,0)"></line><line x1="-200" y1="94" x2="-196" y2="96" stroke-width="1" stroke="rgb(0,0,0)"></line><line x1="-200" y1="98" x2="-196" y2="96" stroke-width="1" stroke="rgb(0,0,0)"></line><line x1="-200" y1="104" x2="-144" y2="104" stroke-width="1" stroke="rgb(0,0,0)"></line><text fill="rgb(0,0,0)" style="font: 5pt sans-serif" x="-172" y="16" stroke="none" text-anchor="middle" dy="-0.1em">way0</text><text fill="rgb(0,0,0)" style="font: 5pt sans-serif" x="-172" y="16" stroke="none" text-anchor="middle" dy="0.9em">32×89</text></g></g><g id="selected" stroke="rgb(211,54,130)" stroke-width="1" stroke-linecap="round" fill="none" transform="translate(756.5908203124999 57.43798828125001) scale(3.0517578125)"><circle cx="-216" cy="32" r="2" fill="none" stroke="rgb(0,0,0)"></circle><circle cx="-216" cy="40" r="2" fill="none" stroke="rgb(0,0,0)"></circle><circle cx="-216" cy="48" r="2" fill="none" stroke="rgb(0,0,0)"></circle><circle cx="-216" cy="56" r="2" fill="none" stroke="rgb(0,0,0)"></circle><circle cx="-216" cy="72" r="2" fill="none" stroke="rgb(0,0,0)"></circle><circle cx="-216" cy="80" r="2" fill="none" stroke="rgb(0,0,0)"></circle><circle cx="-216" cy="96" r="2" fill="none" stroke="rgb(0,0,0)"></circle><circle cx="-128" cy="32" r="2" fill="none" stroke="rgb(0,0,0)"></circle><circle cx="-128" cy="72" r="2" fill="none" stroke="rgb(0,0,0)"></circle><circle cx="-216" cy="88" r="2" fill="none" stroke="rgb(0,0,0)"></circle></g></svg>
-    </div></center>
-
-    <p/>To initialize the valid bits for each line to 0, the initial
-    contents for each location should be specified as 0.  To do this,
-    edit the memory's contents property and enter 32 lines of 0.
-
-    <p/>Of course, you'll have two of these with the appropriate changes to signal
-    names to keep the valid/tag/data info separate.  <tt>xdata[63:0]</tt>
-    is the 64-bit data coming back from main memory during a refill
-    operation.  The write enable signal (<tt>cwe0</tt>) is discussed in
-    the next section.
-
-    <p/><b>Cache control logic</b>
-
-    <p/>On each cycle, the cache reads the line requested by the cache
-    line index field of the instruction address and then checks to see
-    if there's a cache hit by comparing the tag fields of the cache line
-    and instruction address:
-
-    <center><div style="width:487px">
-      <svg viewbox="0 30 487 150"><g id="grid" stroke="rgb(230,230,230)" stroke-width="0.2" fill="none" transform="translate(118.5 95.875) scale(1.953125)"></g><g id="content" stroke="rgb(88,110,117)" stroke-width="1" stroke-linecap="round" fill="none" transform="translate(118.5 95.875) scale(1.953125)"><g><line x1="64" y1="32" x2="56" y2="32" stroke-width="1" stroke="rgb(0,0,0)"></line><text fill="rgb(0,0,0)" style="font: 5pt sans-serif" x="53" y="32" stroke="none" text-anchor="end" dy="0.4em">reset</text></g><g stroke="black" stroke-width="1" fill="black"><line x1="96" y1="32" x2="92" y2="32" stroke-width="1" stroke="rgb(0,0,0)"></line><circle cx="90" cy="32" r="2" fill="none" stroke="rgb(0,0,0)"></circle><text fill="rgb(0,0,0)" style="font: 5pt sans-serif" x="80" y="36" stroke="none" text-anchor="start" dy="0.9em"></text><line x1="88" y1="32" x2="72" y2="24" stroke-width="1" stroke="rgb(0,0,0)"></line><line x1="72" y1="40" x2="88" y2="32" stroke-width="1" stroke="rgb(0,0,0)"></line><line x1="72" y1="24" x2="72" y2="40" stroke-width="1" stroke="rgb(0,0,0)"></line><line x1="64" y1="32" x2="72" y2="32" stroke-width="1" stroke="rgb(0,0,0)"></line></g><g><line x1="96" y1="0" x2="48" y2="0" stroke-width="1" stroke="rgb(0,0,0)"></line><text fill="rgb(0,0,0)" style="font: 5pt sans-serif" x="72" y="-2" stroke="none" text-anchor="middle" dy="-0.1em">match0</text></g><g><line x1="144" y1="16" x2="152" y2="16" stroke-width="1" stroke="rgb(0,0,0)"></line><text fill="rgb(0,0,0)" style="font: 5pt sans-serif" x="155" y="16" stroke="none" text-anchor="start" dy="0.4em">hit0</text></g><g stroke="black" stroke-width="1" fill="black"><line x1="136" y1="16" x2="132" y2="16" stroke-width="1" stroke="rgb(0,0,0)"></line><line x1="104" y1="-4" x2="104" y2="36" stroke-width="1" stroke="rgb(0,0,0)"></line><line x1="96" y1="32" x2="104" y2="32" stroke-width="1" stroke="rgb(0,0,0)"></line><text fill="rgb(0,0,0)" style="font: 5pt sans-serif" x="129" y="23" stroke="none" text-anchor="start" dy="0.9em"></text><line x1="104" y1="28" x2="116" y2="28" stroke-width="1" stroke="rgb(0,0,0)"></line><line x1="104" y1="4" x2="116" y2="4" stroke-width="1" stroke="rgb(0,0,0)"></line><path stroke="rgb(0,0,0)" d="M 116 28 A 15.36590742882148 15.36590742882148 0 0 0 132 16" fill="none"></path><path stroke="rgb(0,0,0)" d="M 116 4 A 15.36590742882148 15.36590742882148 0 0 1 132 16" fill="none"></path><line x1="144" y1="16" x2="136" y2="16" stroke-width="1" stroke="rgb(0,0,0)"></line><line x1="96" y1="16" x2="104" y2="16" stroke-width="1" stroke="rgb(0,0,0)"></line><line x1="96" y1="0" x2="104" y2="0" stroke-width="1" stroke="rgb(0,0,0)"></line></g><g><line x1="96" y1="16" x2="88" y2="16" stroke-width="1" stroke="rgb(0,0,0)"></line><text fill="rgb(0,0,0)" style="font: 5pt sans-serif" x="85" y="16" stroke="none" text-anchor="end" dy="0.4em">valid0</text></g><g><line x1="-16" y1="8" x2="-24" y2="8" stroke-width="1" stroke="rgb(0,0,0)"></line><text fill="rgb(0,0,0)" style="font: 5pt sans-serif" x="-27" y="8" stroke="none" text-anchor="end" dy="0.4em">ia[31:8]</text></g><g><line x1="-16" y1="-8" x2="-24" y2="-8" stroke-width="1" stroke="rgb(0,0,0)"></line><text fill="rgb(0,0,0)" style="font: 5pt sans-serif" x="-27" y="-8" stroke="none" text-anchor="end" dy="0.4em">tag0[23:0]</text></g><g stroke="black" stroke-width="1" fill="black"><line x1="40" y1="-24" x2="-8" y2="-24" stroke-width="1" stroke="rgb(0,0,0)"></line><line x1="40" y1="16" x2="40" y2="-24" stroke-width="1" stroke="rgb(0,0,0)"></line><line x1="-8" y1="16" x2="40" y2="16" stroke-width="1" stroke="rgb(0,0,0)"></line><line x1="-8" y1="-24" x2="-8" y2="16" stroke-width="1" stroke="rgb(0,0,0)"></line><text fill="rgb(0,0,0)" style="font: 8pt bold sans-serif" x="16" y="-18" stroke="none" text-anchor="middle" dy="0.4em">equal24</text><text fill="rgb(0,0,0)" style="font: 6pt sans-serif" x="38" y="0" stroke="none" text-anchor="end" dy="0.4em">equal</text><text fill="rgb(0,0,0)" style="font: 6pt sans-serif" x="-6" y="8" stroke="none" text-anchor="start" dy="0.4em">B</text><text fill="rgb(0,0,0)" style="font: 6pt sans-serif" x="-6" y="-8" stroke="none" text-anchor="start" dy="0.4em">A</text><line x1="48" y1="0" x2="40" y2="0" stroke-width="1" stroke="rgb(0,0,0)"></line><line x1="-16" y1="8" x2="-8" y2="8" stroke-width="1" stroke="rgb(0,0,0)"></line><line x1="-16" y1="-8" x2="-8" y2="-8" stroke-width="1" stroke="rgb(0,0,0)"></line></g></g><g id="selected" stroke="rgb(211,54,130)" stroke-width="1" stroke-linecap="round" fill="none" transform="translate(118.5 95.875) scale(1.953125)"><circle cx="-24" cy="-8" r="2" fill="none" stroke="rgb(0,0,0)"></circle><circle cx="-24" cy="8" r="2" fill="none" stroke="rgb(0,0,0)"></circle><circle cx="88" cy="16" r="2" fill="none" stroke="rgb(0,0,0)"></circle><circle cx="152" cy="16" r="2" fill="none" stroke="rgb(0,0,0)"></circle><circle cx="56" cy="32" r="2" fill="none" stroke="rgb(0,0,0)"></circle></g></svg>
-    </div></center>
-    
-    <p/>We get a cache hit if the tags match, the cache line is
-    valid and (so we deal with start up correctly) if the reset signal
-    is 0.  Here we've used the handy <tt>/caches/equal24</tt> module
-    that compares two 24-bit values and tells us if they're equal.
-    Again, you'll need a copy of this logic for each way.
-
-    <p/>So now we know if a request has hit in either of the ways.
-    The next step is to deal with misses and generate the <tt>irdy</tt>
-    when the instruction data is ready to go.  We can use a 3-state
-    FSM to control the cache operation:
-
-    <center><img src="cache_fsm.png" width="400"/></center>
-    
-    Initially the FSM starts in the <tt>RDY</tt> state, waiting for requests
-    from the Beta.  The following definitions will be useful in understanding
-    how the FSM works:
-
-    <ul>
-      <li/>a request is a <i>hit</i> if in one of the ways the
-      selected cache line is valid, the address tag field matches
-      the cache line's tag field, and <tt>reset = 0</tt>.
-
-      <p/><li/>a request is a <i>miss</i> if neither way reported a hit:
-      $\textrm{miss}= \overline{\textrm{reset}} \cdot \overline{\textrm{hit0}} \cdot \overline{\textrm{hit1}}$.
-    </ul>
-
-    Here's how the FSM controls the cache to handle requests.  Note that
-    the control signals for each state are summarized in a table below.
-
-    <ul>
-
-      <li/><i>hit</i>.  If the request is a hit, it can be satisfied
-      by using <tt>ia[2]</tt> to select between <tt>CDATAx[31:0]</tt>
-      or <tt>CDATAx[63:32]</tt> to supply the value
-      of <tt>id[31:0]</tt> where "x" is the index of the way that
-      reported the hit.  <tt>irdy</tt> can immediately be set to 1 and
-      the request is completed in the same cycle it was issued.  The FSM
-      state remains at <tt>RDY</tt>.
-
-      <p/><li/><i>miss</i>.  The correct cache line
-      contents must be filled from main memory and placed in whichever
-      way is least recently used.  This is accomplished
-      in two clock cycles via FSM states <tt>R1</tt> and <tt>R2</tt>.
-      The selected way is updated from <tt>xdata[63:0]</tt> at the end of
-      the <tt>R2</tt> cycle.  At the same time as we're updating the
-      cache line we can use <tt>ia[2]</tt> to select between
-      <tt>XDATA[31:0]</tt> or <tt>XDATA[63:32]</tt> to supply the value of
-      <tt>id[31:0]</tt>.  Since we're completing the request, <tt>irdy</tt>
-      is set to 1 during the <tt>R2</tt> cycle.
-
-    </ul>
-
-    <p/>Using our usual ROM+reg FSM implementation, you might design something
-    like:
-    
-    <center><div style="width: 419px">
-<svg viewbox="0 40 419 240"><g id="grid" stroke="rgb(230,230,230)" stroke-width="0.2" fill="none" transform="translate(37.62499999999999 40.12499999999999) scale(1.953125)"></g><g id="content" stroke="rgb(88,110,117)" stroke-width="1" stroke-linecap="round" fill="none" transform="translate(37.62499999999999 40.12499999999999) scale(1.953125)"><g><text fill="rgb(0,0,0)" style="font: 6pt sans-serif" x="2" y="8" stroke="none" text-anchor="start" dy="0.4em">3-state FSM</text></g><g><line x1="32" y1="80" x2="24" y2="80" stroke-width="1" stroke="rgb(0,0,0)"></line><text fill="rgb(0,0,0)" style="font: 5pt sans-serif" x="21" y="80" stroke="none" text-anchor="end" dy="0.4em">nstate[1:0]</text></g><g><line x1="32" y1="96" x2="24" y2="96" stroke-width="1" stroke="rgb(0,0,0)"></line><text fill="rgb(0,0,0)" style="font: 5pt sans-serif" x="21" y="96" stroke="none" text-anchor="end" dy="0.4em">resetn</text></g><g><line x1="80" y1="88" x2="96" y2="88" stroke-width="1" stroke="rgb(0,0,0)"></line><line x1="88" y1="86" x2="88" y2="90" stroke-width="0.5" stroke="rgb(0,0,0)"></line><text fill="rgb(0,0,0)" style="font: 3pt sans-serif" x="88" y="90" stroke="none" text-anchor="middle" dy="0.9em">2</text><text fill="rgb(0,0,0)" style="font: 5pt sans-serif" x="88" y="86" stroke="none" text-anchor="middle" dy="-0.1em"></text></g><g stroke="black" stroke-width="1" fill="black"><line x1="72" y1="88" x2="68" y2="88" stroke-width="1" stroke="rgb(0,0,0)"></line><text fill="rgb(0,0,0)" style="font: 5pt sans-serif" x="65" y="95" stroke="none" text-anchor="start" dy="0.9em"></text><line x1="40" y1="100" x2="52" y2="100" stroke-width="1" stroke="rgb(0,0,0)"></line><line x1="40" y1="76" x2="52" y2="76" stroke-width="1" stroke="rgb(0,0,0)"></line><path stroke="rgb(0,0,0)" d="M 52 100 A 15.36590742882148 15.36590742882148 0 0 0 68 88" fill="none"></path><path stroke="rgb(0,0,0)" d="M 52 76 A 15.36590742882148 15.36590742882148 0 0 1 68 88" fill="none"></path><line x1="40" y1="76" x2="40" y2="100" stroke-width="1" stroke="rgb(0,0,0)"></line><line x1="80" y1="88" x2="72" y2="88" stroke-width="1" stroke="rgb(0,0,0)"></line><line x1="32" y1="96" x2="40" y2="96" stroke-width="1" stroke="rgb(0,0,0)"></line><line x1="32" y1="80" x2="40" y2="80" stroke-width="1" stroke="rgb(0,0,0)"></line></g><g><line x1="96" y1="104" x2="88" y2="104" stroke-width="1" stroke="rgb(0,0,0)"></line><text fill="rgb(0,0,0)" style="font: 5pt sans-serif" x="85" y="104" stroke="none" text-anchor="end" dy="0.4em">clk</text></g><g><line x1="136" y1="88" x2="144" y2="88" stroke-width="1" stroke="rgb(0,0,0)"></line><text fill="rgb(0,0,0)" style="font: 5pt sans-serif" x="147" y="88" stroke="none" text-anchor="start" dy="0.4em">state[1:0]</text></g><g stroke="black" stroke-width="1" fill="black"><text fill="rgb(0,0,0)" style="font: 5pt sans-serif" x="116" y="80" stroke="none" text-anchor="middle" dy="-0.1em"></text><line x1="110" y1="104" x2="104" y2="101" stroke-width="1" stroke="rgb(0,0,0)"></line><line x1="110" y1="104" x2="104" y2="107" stroke-width="1" stroke="rgb(0,0,0)"></line><line x1="104" y1="112" x2="104" y2="80" stroke-width="1" stroke="rgb(0,0,0)"></line><line x1="128" y1="112" x2="104" y2="112" stroke-width="1" stroke="rgb(0,0,0)"></line><line x1="128" y1="80" x2="128" y2="112" stroke-width="1" stroke="rgb(0,0,0)"></line><line x1="104" y1="80" x2="128" y2="80" stroke-width="1" stroke="rgb(0,0,0)"></line><text fill="rgb(0,0,0)" style="font: 4pt sans-serif" x="126" y="88" stroke="none" text-anchor="end" dy="0.4em">Q</text><text fill="rgb(0,0,0)" style="font: 4pt sans-serif" x="106" y="88" stroke="none" text-anchor="start" dy="0.4em">D</text><line x1="136" y1="88" x2="128" y2="88" stroke-width="1" stroke="rgb(0,0,0)"></line><line x1="96" y1="104" x2="104" y2="104" stroke-width="1" stroke="rgb(0,0,0)"></line><line x1="96" y1="88" x2="104" y2="88" stroke-width="1" stroke="rgb(0,0,0)"></line></g><g><line x1="48" y1="24" x2="40" y2="24" stroke-width="1" stroke="rgb(0,0,0)"></line><text fill="rgb(0,0,0)" style="font: 5pt sans-serif" x="37" y="24" stroke="none" text-anchor="end" dy="0.4em">state[1:0],miss</text></g><g><line x1="48" y1="48" x2="40" y2="48" stroke-width="1" stroke="rgb(0,0,0)"></line><text fill="rgb(0,0,0)" style="font: 5pt sans-serif" x="37" y="48" stroke="none" text-anchor="end" dy="0.4em">0'1</text></g><g><line x1="48" y1="40" x2="40" y2="40" stroke-width="1" stroke="rgb(0,0,0)"></line><text fill="rgb(0,0,0)" style="font: 5pt sans-serif" x="37" y="40" stroke="none" text-anchor="end" dy="0.4em">0'1</text></g><g><line x1="48" y1="32" x2="40" y2="32" stroke-width="1" stroke="rgb(0,0,0)"></line><text fill="rgb(0,0,0)" style="font: 5pt sans-serif" x="37" y="32" stroke="none" text-anchor="end" dy="0.4em">1'1</text></g><g><line x1="120" y1="24" x2="128" y2="24" stroke-width="1" stroke="rgb(0,0,0)"></line><text fill="rgb(0,0,0)" style="font: 5pt sans-serif" x="131" y="24" stroke="none" text-anchor="start" dy="0.4em">nstate[1:0],irdy,cwe</text></g><g><line x1="56" y1="0" x2="112" y2="0" stroke-width="1" stroke="rgb(0,0,0)"></line><line x1="56" y1="0" x2="56" y2="56" stroke-width="1" stroke="rgb(0,0,0)"></line><line x1="112" y1="0" x2="112" y2="56" stroke-width="1" stroke="rgb(0,0,0)"></line><line x1="56" y1="16" x2="112" y2="16" stroke-width="1" stroke="rgb(0,0,0)"></line><line x1="48" y1="24" x2="56" y2="24" stroke-width="1" stroke="rgb(0,0,0)"></line><text fill="rgb(0,0,0)" style="font: 4pt sans-serif" x="57" y="24" stroke="none" text-anchor="start" dy="0.4em">A[2:0]</text><line x1="112" y1="24" x2="120" y2="24" stroke-width="1" stroke="rgb(0,0,0)"></line><text fill="rgb(0,0,0)" style="font: 4pt sans-serif" x="111" y="24" stroke="none" text-anchor="end" dy="0.4em">D[3:0]</text><line x1="48" y1="32" x2="56" y2="32" stroke-width="1" stroke="rgb(0,0,0)"></line><text fill="rgb(0,0,0)" style="font: 4pt sans-serif" x="57" y="32" stroke="none" text-anchor="start" dy="0.4em">OE</text><line x1="48" y1="40" x2="56" y2="40" stroke-width="1" stroke="rgb(0,0,0)"></line><text fill="rgb(0,0,0)" style="font: 4pt sans-serif" x="57" y="40" stroke="none" text-anchor="start" dy="0.4em">WE</text><line x1="48" y1="48" x2="56" y2="48" stroke-width="1" stroke="rgb(0,0,0)"></line><line x1="56" y1="46" x2="60" y2="48" stroke-width="1" stroke="rgb(0,0,0)"></line><line x1="56" y1="50" x2="60" y2="48" stroke-width="1" stroke="rgb(0,0,0)"></line><line x1="56" y1="56" x2="112" y2="56" stroke-width="1" stroke="rgb(0,0,0)"></line><text fill="rgb(0,0,0)" style="font: 5pt sans-serif" x="84" y="8" stroke="none" text-anchor="middle" dy="-0.1em">ROM</text><text fill="rgb(0,0,0)" style="font: 5pt sans-serif" x="84" y="8" stroke="none" text-anchor="middle" dy="0.9em">8×4</text></g></g><g id="selected" stroke="rgb(211,54,130)" stroke-width="1" stroke-linecap="round" fill="none" transform="translate(37.62499999999999 40.12499999999999) scale(1.953125)"><circle cx="128" cy="24" r="2" fill="none" stroke="rgb(0,0,0)"></circle><circle cx="40" cy="32" r="2" fill="none" stroke="rgb(0,0,0)"></circle><circle cx="40" cy="40" r="2" fill="none" stroke="rgb(0,0,0)"></circle><circle cx="40" cy="48" r="2" fill="none" stroke="rgb(0,0,0)"></circle><circle cx="40" cy="24" r="2" fill="none" stroke="rgb(0,0,0)"></circle><circle cx="144" cy="88" r="2" fill="none" stroke="rgb(0,0,0)"></circle><circle cx="24" cy="80" r="2" fill="none" stroke="rgb(0,0,0)"></circle><circle cx="24" cy="96" r="2" fill="none" stroke="rgb(0,0,0)"></circle><circle cx="88" cy="104" r="2" fill="none" stroke="rgb(0,0,0)"></circle></g></svg>
-    </div></center>
-
-    <div class="hint">
-      When editing the contents property of the ROM, remember that you need
-      to indicate the radix for each number you enter.  <tt>101</tt> is the number
-      one hundred and one, <tt>0b101</tt> is the number 5.  For ROMs used as
-      FSM controllers, you'll almost always want to use the <tt>0b</tt> prefix.
-    </div>
-
-    <p/>The <tt>irdy</tt> and <tt>cwe</tt> outputs are determined by the
-    <tt>miss</tt> signal and the current state:  
-
-    <center><table cellpadding="5" border="1" style="border-collapse:collapse;">
-        <tr>
-          <td></td>
-          <td><tt>RDY</tt></td>
-          <td><tt>R1</tt></td>
-          <td><tt>R2</tt></td>
+          <td><tt>id[31:0]</tt></td>
+          <td>outputs</td>
+          <td>
+            memory read data (from cache): the
+            cache will drive these signals with the contents of the
+            memory location specified by <tt>ia[31:0]</tt>.  Only valid
+            during the cycle in which the cache sets <tt>irdy</tt> to 1.
+          </td>
         </tr>
         <tr>
           <td><tt>irdy</tt></td>
-          <td>$\overline{\textrm{miss}}$</td>
-          <td><tt>0</tt></td>
-          <td><tt>1</tt></td>
+          <td>output</td>
+          <td>
+            instruction data ready (from cache): the cache sets this signal to indicate that
+            during this cycle <tt>id[31:0]</tt> is the instruction data read from
+            location <tt>ia[31:0]</tt>.
+          </td>
+        </tr>
+      </table>
+
+      <p>And here's a table describing the interface signals that connect
+        to main memory.</p>
+
+      <table border="1" cellpadding="3" style="border-collapse:collapse">
+        <tr>
+        <tr>
+          <td><tt>xdata[63:0]</tt></td>
+          <td>inputs</td>
+          <td>
+            memory read data (from main memory): On reads, the main memory
+            will drive these signals with the contents of the memory location
+            specified by <tt>xma[31:0]</tt>.
+          </td>
         </tr>
         <tr>
-          <td><tt>cwe</tt></td>
-          <td><tt>0</tt></td>
-          <td><tt>0</tt></td>
-          <td><tt>1</tt></td>
+          <td><tt>xma[31:0]</tt></td>
+          <td>outputs</td>
+          <td>
+            main memory data address (from cache): address of data location in main
+            memory to be read.
+          </td>
         </tr>
-    </table></center>
+      </table>
 
-    <p/>The <tt>cwe</tt> signal is combined with the LRU state (see below) to
-    generate the write enables for the two ways (<tt>cwe0</tt> and <tt>cwe1</tt>).
+      <p><b><a name="controls">Appendix: BSim Cache Simulation</a></b></p>
 
-    <p/>So a request takes either 1 cycle to complete if it's a hit or
-    3 cycles to complete if it's a miss. Here's a table showing
-    where <tt>id[31:0]</tt> comes from
+      <p>Clicking on <button>Cache</button> in the BSim simulation pane shows
+        the cache control panel:</p>
 
-    <center><table cellpadding="5" border="1" style="border-collapse:collapse;">
-        <tr>
-          <td></td>
-          <td><tt>ia[2] = 0</tt></td>
-          <td><tt>ia[2] = 1</tt></td>
-        </tr>
-        <tr>
-          <td><tt>hit0 = 1</tt></td>
-          <td><tt>cdata0[31:0]</tt></td>
-          <td><tt>cdata0[63:32]</tt></td>
-        </tr>
-        <tr>
-          <td><tt>hit1 = 1</tt></td>
-          <td><tt>cdata1[31:0]</tt></td>
-          <td><tt>cdata1[63:32]</tt></td>
-        </tr>
-        <tr>
-          <td><tt>state = R2</tt></td>
-          <td><tt>xdata[31:0]</tt></td>
-          <td><tt>xdata[63:32]</tt></td>
-        </tr>
-      </table></center>
+      <center><img border="0" width="100%" src="cache_ctl.png" /></center>
 
-    <p/><b>LRU replacement strategy</b>
+      <p>The control panel is organized as three sections: left-to-right
+        they are cache configuration, cache details, and cache statistics.</p>
 
-    <p/>The final piece of the puzzle is figuring out which way to
-    replace when there's a miss and we're reading the required data
-    from main memory.  For a 2-way set-associative cache, we only need
-    one bit of state for each cache line.  If the state bit is 0, then
-    way 0 holds the LRU cache line. If the state bit is 1, then way 1
-    holds the LRU cache line.  Once we know which way is LRU, it's
-    easy to generate the correct write enable (<tt>cwe0</tt>
-    or <tt>cwe1</tt>) for the ways:
+      <p>There are six cache controls, all of which can be used while
+        the simulator is running, so you can change the cache parameters
+        on-the-fly.  Changes to the controls will reset the statistics.</p>
 
-    <div>
-<svg viewbox="25 30 670 190"><g id="grid" stroke="rgb(230,230,230)" stroke-width="0.2" fill="none" transform="translate(74.00000000000003 51.09375000000001) scale(1.5625)"></g><g id="content" stroke="rgb(88,110,117)" stroke-width="1" stroke-linecap="round" fill="none" transform="translate(74.00000000000003 51.09375000000001) scale(1.5625)"><g><line x1="32" y1="88" x2="32" y2="96" stroke-width="1" stroke="rgb(0,0,0)"></line><text fill="rgb(0,0,0)" style="font: 5pt sans-serif" x="32" y="99" stroke="none" text-anchor="middle" dy="0.9em">resetn</text></g><g><line x1="0" y1="88" x2="-8" y2="88" stroke-width="1" stroke="rgb(0,0,0)"></line><text fill="rgb(0,0,0)" style="font: 5pt sans-serif" x="-11" y="88" stroke="none" text-anchor="end" dy="0.4em">reset</text></g><g stroke="black" stroke-width="1" fill="black"><line x1="32" y1="88" x2="28" y2="88" stroke-width="1" stroke="rgb(0,0,0)"></line><circle cx="26" cy="88" r="2" fill="none" stroke="rgb(0,0,0)"></circle><text fill="rgb(0,0,0)" style="font: 5pt sans-serif" x="16" y="92" stroke="none" text-anchor="start" dy="0.9em"></text><line x1="24" y1="88" x2="8" y2="80" stroke-width="1" stroke="rgb(0,0,0)"></line><line x1="8" y1="96" x2="24" y2="88" stroke-width="1" stroke="rgb(0,0,0)"></line><line x1="8" y1="80" x2="8" y2="96" stroke-width="1" stroke="rgb(0,0,0)"></line><line x1="0" y1="88" x2="8" y2="88" stroke-width="1" stroke="rgb(0,0,0)"></line></g><g><line x1="80" y1="80" x2="104" y2="80" stroke-width="1" stroke="rgb(0,0,0)"></line><text fill="rgb(0,0,0)" style="font: 5pt sans-serif" x="92" y="78" stroke="none" text-anchor="middle" dy="-0.1em"></text></g><g><text fill="rgb(0,0,0)" style="font: 6pt sans-serif" x="137" y="-9" stroke="none" text-anchor="middle" dy="0.4em">LRU state for each cache line</text></g><g><line x1="224" y1="56" x2="232" y2="56" stroke-width="1" stroke="rgb(0,0,0)"></line><text fill="rgb(0,0,0)" style="font: 5pt sans-serif" x="235" y="56" stroke="none" text-anchor="start" dy="0.4em">cwe0</text></g><g><line x1="224" y1="72" x2="232" y2="72" stroke-width="1" stroke="rgb(0,0,0)"></line><text fill="rgb(0,0,0)" style="font: 5pt sans-serif" x="235" y="72" stroke="none" text-anchor="start" dy="0.4em">hit0</text></g><g stroke="black" stroke-width="1" fill="black"><line x1="184" y1="64" x2="188" y2="64" stroke-width="1" stroke="rgb(0,0,0)"></line><text fill="rgb(0,0,0)" style="font: 5pt sans-serif" x="192" y="70" stroke="none" text-anchor="end" dy="0.9em"></text><line x1="216" y1="72" x2="214" y2="72" stroke-width="1" stroke="rgb(0,0,0)"></line><line x1="216" y1="56" x2="214" y2="56" stroke-width="1" stroke="rgb(0,0,0)"></line><path stroke="rgb(0,0,0)" d="M 216 52 A 25.5 25.5 0 0 0 216 76" fill="none"></path><path stroke="rgb(0,0,0)" d="M 208 76 A 23.50531854708632 23.50531854708632 0 0 1 188 64" fill="none"></path><path stroke="rgb(0,0,0)" d="M 208 52 A 23.50531854708632 23.50531854708632 0 0 0 188 64" fill="none"></path><line x1="216" y1="52" x2="208" y2="52" stroke-width="1" stroke="rgb(0,0,0)"></line><line x1="216" y1="76" x2="208" y2="76" stroke-width="1" stroke="rgb(0,0,0)"></line><line x1="176" y1="64" x2="184" y2="64" stroke-width="1" stroke="rgb(0,0,0)"></line><line x1="224" y1="72" x2="216" y2="72" stroke-width="1" stroke="rgb(0,0,0)"></line><line x1="224" y1="56" x2="216" y2="56" stroke-width="1" stroke="rgb(0,0,0)"></line></g><g><line x1="224" y1="24" x2="232" y2="24" stroke-width="1" stroke="rgb(0,0,0)"></line><text fill="rgb(0,0,0)" style="font: 5pt sans-serif" x="235" y="24" stroke="none" text-anchor="start" dy="0.4em">lru_is_0</text></g><g><line x1="192" y1="24" x2="184" y2="24" stroke-width="1" stroke="rgb(0,0,0)"></line><text fill="rgb(0,0,0)" style="font: 5pt sans-serif" x="188" y="22" stroke="none" text-anchor="middle" dy="-0.1em"></text></g><g><line x1="176" y1="24" x2="184" y2="24" stroke-width="1" stroke="rgb(0,0,0)"></line><text fill="rgb(0,0,0)" style="font: 5pt sans-serif" x="180" y="22" stroke="none" text-anchor="middle" dy="-0.1em"></text></g><g stroke="black" stroke-width="1" fill="black"><line x1="224" y1="24" x2="220" y2="24" stroke-width="1" stroke="rgb(0,0,0)"></line><circle cx="218" cy="24" r="2" fill="none" stroke="rgb(0,0,0)"></circle><text fill="rgb(0,0,0)" style="font: 5pt sans-serif" x="208" y="28" stroke="none" text-anchor="start" dy="0.9em"></text><line x1="216" y1="24" x2="200" y2="16" stroke-width="1" stroke="rgb(0,0,0)"></line><line x1="200" y1="32" x2="216" y2="24" stroke-width="1" stroke="rgb(0,0,0)"></line><line x1="200" y1="16" x2="200" y2="32" stroke-width="1" stroke="rgb(0,0,0)"></line><line x1="192" y1="24" x2="200" y2="24" stroke-width="1" stroke="rgb(0,0,0)"></line></g><g><line x1="104" y1="24" x2="96" y2="24" stroke-width="1" stroke="rgb(0,0,0)"></line><text fill="rgb(0,0,0)" style="font: 5pt sans-serif" x="93" y="24" stroke="none" text-anchor="end" dy="0.4em">ia[7:3]</text></g><g><line x1="104" y1="48" x2="96" y2="48" stroke-width="1" stroke="rgb(0,0,0)"></line><text fill="rgb(0,0,0)" style="font: 5pt sans-serif" x="93" y="48" stroke="none" text-anchor="end" dy="0.4em">0'1</text></g><g><line x1="104" y1="40" x2="96" y2="40" stroke-width="1" stroke="rgb(0,0,0)"></line><text fill="rgb(0,0,0)" style="font: 5pt sans-serif" x="93" y="40" stroke="none" text-anchor="end" dy="0.4em">0'1</text></g><g><line x1="104" y1="32" x2="96" y2="32" stroke-width="1" stroke="rgb(0,0,0)"></line><text fill="rgb(0,0,0)" style="font: 5pt sans-serif" x="93" y="32" stroke="none" text-anchor="end" dy="0.4em">1'1</text></g><g><line x1="184" y1="16" x2="184" y2="24" stroke-width="1" stroke="rgb(0,0,0)"></line><text fill="rgb(0,0,0)" style="font: 5pt sans-serif" x="184" y="13" stroke="none" text-anchor="middle" dy="-0.1em">lru_is_1</text></g><g><line x1="104" y1="64" x2="96" y2="64" stroke-width="1" stroke="rgb(0,0,0)"></line><text fill="rgb(0,0,0)" style="font: 5pt sans-serif" x="93" y="64" stroke="none" text-anchor="end" dy="0.4em">ia[7:3]</text></g><g><line x1="104" y1="72" x2="96" y2="72" stroke-width="1" stroke="rgb(0,0,0)"></line><text fill="rgb(0,0,0)" style="font: 5pt sans-serif" x="93" y="72" stroke="none" text-anchor="end" dy="0.4em">0'1</text></g><g><line x1="104" y1="88" x2="96" y2="88" stroke-width="1" stroke="rgb(0,0,0)"></line><text fill="rgb(0,0,0)" style="font: 5pt sans-serif" x="93" y="88" stroke="none" text-anchor="end" dy="0.4em">clk</text></g><g><line x1="112" y1="0" x2="168" y2="0" stroke-width="1" stroke="rgb(0,0,0)"></line><line x1="112" y1="0" x2="112" y2="96" stroke-width="1" stroke="rgb(0,0,0)"></line><line x1="168" y1="0" x2="168" y2="96" stroke-width="1" stroke="rgb(0,0,0)"></line><line x1="112" y1="16" x2="168" y2="16" stroke-width="1" stroke="rgb(0,0,0)"></line><line x1="104" y1="24" x2="112" y2="24" stroke-width="1" stroke="rgb(0,0,0)"></line><text fill="rgb(0,0,0)" style="font: 4pt sans-serif" x="113" y="24" stroke="none" text-anchor="start" dy="0.4em">A[4:0]</text><line x1="168" y1="24" x2="176" y2="24" stroke-width="1" stroke="rgb(0,0,0)"></line><text fill="rgb(0,0,0)" style="font: 4pt sans-serif" x="167" y="24" stroke="none" text-anchor="end" dy="0.4em">D[0]</text><line x1="104" y1="32" x2="112" y2="32" stroke-width="1" stroke="rgb(0,0,0)"></line><text fill="rgb(0,0,0)" style="font: 4pt sans-serif" x="113" y="32" stroke="none" text-anchor="start" dy="0.4em">OE</text><line x1="104" y1="40" x2="112" y2="40" stroke-width="1" stroke="rgb(0,0,0)"></line><text fill="rgb(0,0,0)" style="font: 4pt sans-serif" x="113" y="40" stroke="none" text-anchor="start" dy="0.4em">WE</text><line x1="104" y1="48" x2="112" y2="48" stroke-width="1" stroke="rgb(0,0,0)"></line><line x1="112" y1="46" x2="116" y2="48" stroke-width="1" stroke="rgb(0,0,0)"></line><line x1="112" y1="50" x2="116" y2="48" stroke-width="1" stroke="rgb(0,0,0)"></line><line x1="112" y1="56" x2="168" y2="56" stroke-width="1" stroke="rgb(0,0,0)"></line><line x1="104" y1="64" x2="112" y2="64" stroke-width="1" stroke="rgb(0,0,0)"></line><text fill="rgb(0,0,0)" style="font: 4pt sans-serif" x="113" y="64" stroke="none" text-anchor="start" dy="0.4em">A[4:0]</text><line x1="168" y1="64" x2="176" y2="64" stroke-width="1" stroke="rgb(0,0,0)"></line><text fill="rgb(0,0,0)" style="font: 4pt sans-serif" x="167" y="64" stroke="none" text-anchor="end" dy="0.4em">D[0]</text><line x1="104" y1="72" x2="112" y2="72" stroke-width="1" stroke="rgb(0,0,0)"></line><text fill="rgb(0,0,0)" style="font: 4pt sans-serif" x="113" y="72" stroke="none" text-anchor="start" dy="0.4em">OE</text><line x1="104" y1="80" x2="112" y2="80" stroke-width="1" stroke="rgb(0,0,0)"></line><text fill="rgb(0,0,0)" style="font: 4pt sans-serif" x="113" y="80" stroke="none" text-anchor="start" dy="0.4em">WE</text><line x1="104" y1="88" x2="112" y2="88" stroke-width="1" stroke="rgb(0,0,0)"></line><line x1="112" y1="86" x2="116" y2="88" stroke-width="1" stroke="rgb(0,0,0)"></line><line x1="112" y1="90" x2="116" y2="88" stroke-width="1" stroke="rgb(0,0,0)"></line><line x1="112" y1="96" x2="168" y2="96" stroke-width="1" stroke="rgb(0,0,0)"></line><text fill="rgb(0,0,0)" style="font: 5pt sans-serif" x="140" y="8" stroke="none" text-anchor="middle" dy="-0.1em">lru_state</text><text fill="rgb(0,0,0)" style="font: 5pt sans-serif" x="140" y="8" stroke="none" text-anchor="middle" dy="0.9em">32×1</text></g><g stroke="black" stroke-width="1" fill="black"><line x1="72" y1="80" x2="68" y2="80" stroke-width="1" stroke="rgb(0,0,0)"></line><text fill="rgb(0,0,0)" style="font: 5pt sans-serif" x="65" y="87" stroke="none" text-anchor="start" dy="0.9em"></text><line x1="40" y1="92" x2="52" y2="92" stroke-width="1" stroke="rgb(0,0,0)"></line><line x1="40" y1="68" x2="52" y2="68" stroke-width="1" stroke="rgb(0,0,0)"></line><path stroke="rgb(0,0,0)" d="M 52 92 A 15.36590742882148 15.36590742882148 0 0 0 68 80" fill="none"></path><path stroke="rgb(0,0,0)" d="M 52 68 A 15.36590742882148 15.36590742882148 0 0 1 68 80" fill="none"></path><line x1="40" y1="68" x2="40" y2="92" stroke-width="1" stroke="rgb(0,0,0)"></line><line x1="80" y1="80" x2="72" y2="80" stroke-width="1" stroke="rgb(0,0,0)"></line><line x1="32" y1="88" x2="40" y2="88" stroke-width="1" stroke="rgb(0,0,0)"></line><line x1="32" y1="72" x2="40" y2="72" stroke-width="1" stroke="rgb(0,0,0)"></line></g><g><line x1="352" y1="24" x2="360" y2="24" stroke-width="1" stroke="rgb(0,0,0)"></line><text fill="rgb(0,0,0)" style="font: 5pt sans-serif" x="363" y="24" stroke="none" text-anchor="start" dy="0.4em">cwe0</text></g><g><line x1="304" y1="40" x2="296" y2="40" stroke-width="1" stroke="rgb(0,0,0)"></line><text fill="rgb(0,0,0)" style="font: 5pt sans-serif" x="293" y="40" stroke="none" text-anchor="end" dy="0.4em">resetn</text></g><g stroke="black" stroke-width="1" fill="black"><line x1="344" y1="24" x2="340" y2="24" stroke-width="1" stroke="rgb(0,0,0)"></line><line x1="312" y1="4" x2="312" y2="44" stroke-width="1" stroke="rgb(0,0,0)"></line><line x1="304" y1="40" x2="312" y2="40" stroke-width="1" stroke="rgb(0,0,0)"></line><text fill="rgb(0,0,0)" style="font: 5pt sans-serif" x="337" y="31" stroke="none" text-anchor="start" dy="0.9em"></text><line x1="312" y1="36" x2="324" y2="36" stroke-width="1" stroke="rgb(0,0,0)"></line><line x1="312" y1="12" x2="324" y2="12" stroke-width="1" stroke="rgb(0,0,0)"></line><path stroke="rgb(0,0,0)" d="M 324 36 A 15.36590742882148 15.36590742882148 0 0 0 340 24" fill="none"></path><path stroke="rgb(0,0,0)" d="M 324 12 A 15.36590742882148 15.36590742882148 0 0 1 340 24" fill="none"></path><line x1="352" y1="24" x2="344" y2="24" stroke-width="1" stroke="rgb(0,0,0)"></line><line x1="304" y1="24" x2="312" y2="24" stroke-width="1" stroke="rgb(0,0,0)"></line><line x1="304" y1="8" x2="312" y2="8" stroke-width="1" stroke="rgb(0,0,0)"></line></g><g><line x1="304" y1="8" x2="296" y2="8" stroke-width="1" stroke="rgb(0,0,0)"></line><text fill="rgb(0,0,0)" style="font: 5pt sans-serif" x="293" y="8" stroke="none" text-anchor="end" dy="0.4em">cwe</text></g><g><line x1="304" y1="24" x2="296" y2="24" stroke-width="1" stroke="rgb(0,0,0)"></line><text fill="rgb(0,0,0)" style="font: 5pt sans-serif" x="293" y="24" stroke="none" text-anchor="end" dy="0.4em">lru_is_0</text></g><g><line x1="352" y1="72" x2="360" y2="72" stroke-width="1" stroke="rgb(0,0,0)"></line><text fill="rgb(0,0,0)" style="font: 5pt sans-serif" x="363" y="72" stroke="none" text-anchor="start" dy="0.4em">cwe1</text></g><g><line x1="304" y1="88" x2="296" y2="88" stroke-width="1" stroke="rgb(0,0,0)"></line><text fill="rgb(0,0,0)" style="font: 5pt sans-serif" x="293" y="88" stroke="none" text-anchor="end" dy="0.4em">resetn</text></g><g stroke="black" stroke-width="1" fill="black"><line x1="344" y1="72" x2="340" y2="72" stroke-width="1" stroke="rgb(0,0,0)"></line><line x1="312" y1="52" x2="312" y2="92" stroke-width="1" stroke="rgb(0,0,0)"></line><line x1="304" y1="88" x2="312" y2="88" stroke-width="1" stroke="rgb(0,0,0)"></line><text fill="rgb(0,0,0)" style="font: 5pt sans-serif" x="337" y="79" stroke="none" text-anchor="start" dy="0.9em"></text><line x1="312" y1="84" x2="324" y2="84" stroke-width="1" stroke="rgb(0,0,0)"></line><line x1="312" y1="60" x2="324" y2="60" stroke-width="1" stroke="rgb(0,0,0)"></line><path stroke="rgb(0,0,0)" d="M 324 84 A 15.36590742882148 15.36590742882148 0 0 0 340 72" fill="none"></path><path stroke="rgb(0,0,0)" d="M 324 60 A 15.36590742882148 15.36590742882148 0 0 1 340 72" fill="none"></path><line x1="352" y1="72" x2="344" y2="72" stroke-width="1" stroke="rgb(0,0,0)"></line><line x1="304" y1="72" x2="312" y2="72" stroke-width="1" stroke="rgb(0,0,0)"></line><line x1="304" y1="56" x2="312" y2="56" stroke-width="1" stroke="rgb(0,0,0)"></line></g><g><line x1="304" y1="56" x2="296" y2="56" stroke-width="1" stroke="rgb(0,0,0)"></line><text fill="rgb(0,0,0)" style="font: 5pt sans-serif" x="293" y="56" stroke="none" text-anchor="end" dy="0.4em">cwe</text></g><g><line x1="32" y1="72" x2="24" y2="72" stroke-width="1" stroke="rgb(0,0,0)"></line><text fill="rgb(0,0,0)" style="font: 5pt sans-serif" x="21" y="72" stroke="none" text-anchor="end" dy="0.4em">irdy</text></g><g><line x1="304" y1="72" x2="296" y2="72" stroke-width="1" stroke="rgb(0,0,0)"></line><text fill="rgb(0,0,0)" style="font: 5pt sans-serif" x="293" y="72" stroke="none" text-anchor="end" dy="0.4em">lru_is_1</text></g></g><g id="selected" stroke="rgb(211,54,130)" stroke-width="1" stroke-linecap="round" fill="none" transform="translate(74.00000000000003 51.09375000000001) scale(1.5625)"><circle cx="296" cy="72" r="2" fill="none" stroke="rgb(0,0,0)"></circle><circle cx="24" cy="72" r="2" fill="none" stroke="rgb(0,0,0)"></circle><circle cx="296" cy="56" r="2" fill="none" stroke="rgb(0,0,0)"></circle><circle cx="296" cy="88" r="2" fill="none" stroke="rgb(0,0,0)"></circle><circle cx="360" cy="72" r="2" fill="none" stroke="rgb(0,0,0)"></circle><circle cx="296" cy="24" r="2" fill="none" stroke="rgb(0,0,0)"></circle><circle cx="296" cy="8" r="2" fill="none" stroke="rgb(0,0,0)"></circle><circle cx="296" cy="40" r="2" fill="none" stroke="rgb(0,0,0)"></circle><circle cx="360" cy="24" r="2" fill="none" stroke="rgb(0,0,0)"></circle><circle cx="32" cy="88" r="2" fill="rgb(88,110,117)" stroke="none"></circle><circle cx="96" cy="88" r="2" fill="none" stroke="rgb(0,0,0)"></circle><circle cx="96" cy="72" r="2" fill="none" stroke="rgb(0,0,0)"></circle><circle cx="96" cy="64" r="2" fill="none" stroke="rgb(0,0,0)"></circle><circle cx="184" cy="24" r="2" fill="rgb(88,110,117)" stroke="none"></circle><circle cx="184" cy="16" r="2" fill="none" stroke="rgb(0,0,0)"></circle><circle cx="96" cy="32" r="2" fill="none" stroke="rgb(0,0,0)"></circle><circle cx="96" cy="40" r="2" fill="none" stroke="rgb(0,0,0)"></circle><circle cx="96" cy="48" r="2" fill="none" stroke="rgb(0,0,0)"></circle><circle cx="96" cy="24" r="2" fill="none" stroke="rgb(0,0,0)"></circle><circle cx="232" cy="24" r="2" fill="none" stroke="rgb(0,0,0)"></circle><circle cx="232" cy="72" r="2" fill="none" stroke="rgb(0,0,0)"></circle><circle cx="232" cy="56" r="2" fill="none" stroke="rgb(0,0,0)"></circle><circle cx="-8" cy="88" r="2" fill="none" stroke="rgb(0,0,0)"></circle><circle cx="32" cy="96" r="2" fill="none" stroke="rgb(0,0,0)"></circle></g></svg>
-    </div>
-    
-    <p/>To initialize the LRU bits for each line to 0, the initial
-    contents for each location of the LRU state memory should be
-    specified as 0.  To do this, edit the memory's contents property and
-    enter 32 lines of 0.
-
-    <p/>The LRU state needs to be updated at the end of every
-    request, i.e., whenever <tt>irdy</tt> is 1.  If there was a hit
-    in way 0, or if we're updating way 0 during a refill, then
-    we set the LRU state bit to 1, indicating that way 1 now holds the
-    LRU cache line.  In other words, if we just finished accessing
-    way 0 to complete the request, it's now the most recently used
-    cache line!  And vice versa.
-
-    <p/><b>Testing</b>
-    
-    <p/>To test your icache design, switch to the <tt>/caches/test</tt>
-    module, click the green checkmark, and hope for the best!
-
-    <p/>Here's a rundown of the requests made:
-
-    <ul>
-      <li/>read from location 0x000.  This should be a miss since all
-      cache lines are invalid after reset.  So the FSM should cycle
-      through states R1 and R2, filling line 0 of way 0 (the LRU way)
-      with the data from main memory.  <tt>xdata[31:0]</tt> should
-      also be routed to <tt>id[31:0]</tt> and <tt>irdy</tt> set to 1
-      during the R2 cycle.
-      For cache line 0, way 1 is now LRU.
-
-      <p/><li/>read from location 0x004.  This should be a hit in line
-      0, way 0. <tt>irdy</tt> should be set to 1 in the cycle the request is
-      issued and <tt>cdata0[63:32]</tt> should be routed to <tt>id[31:0]</tt>.
-      For cache line 0, way 1 is now LRU.
-
-      <p/><li/>read from location 0x100.  This location also maps to line
-      0 and should be a miss.  But this time it's line 0 of way 1 that
-      gets refilled.  For cache line 0, way 0 is now LRU.
-
-      <p/><li/>read from location 0x004.  This should be a hit in line
-      0, way 0.  For cache line 0, way 1 is now LRU.
-
-      <p/><li/>read from location 0x104.  This should be a hit in line
-      0, way 1.
-      For cache line 0, way 0 is now LRU.
-
-      <p/><li/>read from location 0x204.  This should be a miss; replace
-      line 0, way 0.
-      For cache line 0, way 1 is now LRU.
-      
-      <p/><li/>read from location 0x104.  This should be a hit in line
-      0, way 1.
-      For cache line 0, way 0 is now LRU.
-
-      <p/><li/>read from location 0x3FC.  This should be a miss; replace
-      line 31, way 0.
-      For cache line 31, way 1 is now LRU.
-      
-      <p/><li/>read from location 0x100.  This should be a hit in line
-      0, way 1.
-      For cache line 0, way 0 is now LRU.
-
-      <p/><li/>read from location 0x200.  This should be a hit in line
-      0, way 0.
-      For cache line 0, way 1 is now LRU.
-      
-      <p/><li/>read from location 0x3F8.  This should be a hit in
-      line 31, way 0.
-      For cache line 31, way 1 is now LRU.
-
-    </ul>
-
-    <p/>Good luck!
-
-    <p/><b>Description of cache input/output signals</b>
-
-    <p/>Here's a table describing the interface signals that connect
-    to the Beta's memory interface.
-
-    <p/><table border="1" cellpadding="3" style="border-collapse:collapse">
-<tr>
-  <td><tt>clk</tt></td>
-  <td>input</td>
-  <td>
-    clock (from test circuitry): a 10MHz square wave creating a 100ns
-    clock period.
-  </td>
-</tr>
-<tr>
-  <td><tt>reset</tt></td>
-  <td>input</td>
-  <td>
-    reset (from test circuitry): set by the test circuitry to 1 until
-    after the first rising edge of <tt>clk</tt>, then set to 0 to start
-    the cache running.
-  </td>
-</tr>
-<tr>
-  <td><tt>ia[31:0]</tt></td>
-  <td>inputs</td>
-  <td>
-    instruction address (from test circuitry): address of the instruction location in main
-    memory to be read.  These signals are required to be stable and valid each cycle
-    since the cache assumes that the CPU is trying to fetch an instruction every
-    cycle.
-  </td>
-</tr>
-<tr>
-  <td><tt>id[31:0]</tt></td>
-  <td>outputs</td>
-  <td>
-    memory read data (from cache): the
-    cache will drive these signals with the contents of the
-    memory location specified by <tt>ia[31:0]</tt>.  Only valid
-    during the cycle in which the cache sets <tt>irdy</tt> to 1.
-  </td>
-</tr>
-<tr>
-  <td><tt>irdy</tt></td>
-  <td>output</td>
-  <td>
-    instruction data ready (from cache): the cache sets this signal to indicate that
-    during this cycle <tt>id[31:0]</tt> is the instruction data read from
-    location <tt>ia[31:0]</tt>.
-  </td>
-</tr>
-</table>
-
-    <p/>And here's a table describing the interface signals that connect
-    to main memory.
-
-    <p/><table border="1" cellpadding="3" style="border-collapse:collapse">
-<tr>
-<tr>
-  <td><tt>xdata[63:0]</tt></td>
-  <td>inputs</td>
-  <td>
-    memory read data (from main memory): On reads, the main memory
-    will drive these signals with the contents of the memory location
-    specified by <tt>xma[31:0]</tt>.
-  </td>
-</tr>
-<tr>
-  <td><tt>xma[31:0]</tt></td>
-  <td>outputs</td>
-  <td>
-    main memory data address (from cache): address of data location in main
-    memory to be read.
-  </td>
-</tr>
-</table>
-
-
-
-    <!-- ======================== -->
-    <p/><b><a name="controls">Appendix: BSim Cache Simulation</a></b>
-
-    <p/>Clicking on <button>Cache</button> in the BSim simulation pane shows
-    the cache control panel:
-
-    <p/><center><img border="0" width="100%" src="cache_ctl.png" /></center>
-
-    <p/>The control panel is organized as three sections: left-to-right
-    they are cache configuration, cache details, and cache statistics.
-
-    <p/>There are six cache controls, all of which can be used while
-    the simulator is running, so you can change the cache parameters
-    on-the-fly.  Changes to the controls will reset the statistics.
-
-    <ul>
-      <li/><i>Cache</i>: turns the cache simulation on and off.
+      <ul>
+        <li><i>Cache</i>: turns the cache simulation on and off.</li>
         
-      <p/><li/><i>Total words</i>: The total number of 32-bit data words
-      in the cache.  To test different cache architectures, typically this
-      control remains fixed, while changing the other parameters to
-      determine how these data words are organized into sets of cache lines.
+        <li><i>Total words</i>: The total number of 32-bit data words
+          in the cache.  To test different cache architectures, typically this
+          control remains fixed, while changing the other parameters to
+          determine how these data words are organized into sets of cache lines.</li>
 
-      <p/><li/><i>Words/line</i>: The number of data words in each
-      cache line, aka the block size of the cache.  The total number of
-      cache lines in the cache is Total words divided by Words/line.
+        <li><i>Words/line</i>: The number of data words in each
+          cache line, aka the block size of the cache.  The total number of
+          cache lines in the cache is Total words divided by Words/line.</li>
 
-      <p/><li/><i>Associativity</i>: The number of "ways" in a set-associative
-      cache.  "Direct mapped" refers to a 1-way cache.  The cache lines are
-      apportioned equally between the ways.  In a fully-associative cache,
-      the number of ways is chosen so that each way has exactly one cache
-      line.
+        <li><i>Associativity</i>: The number of "ways" in a set-associative
+          cache.  "Direct mapped" refers to a 1-way cache.  The cache lines are
+          apportioned equally between the ways.  In a fully-associative cache,
+          the number of ways is chosen so that each way has exactly one cache
+          line.</li>
 
-      <p/><li/><i>Replacement</i>: Determines the strategy used to
-      choose which way is updated when a collision causes a cache miss.
-      Not applicable for direct-mapped caches.  <i>LRU</i> = least-recently used,
-      <i>FIFO</i> = first-in, first-out (sometimes referred to as
-      least-recently replaced), <i>Random</i> = choice is made
-      randomly, <i>Cycle</i> = choose the first way for first
-      replacement, the second way for second replacement, and so on in a
-      round-robin fashion.
+        <li><i>Replacement</i>: Determines the strategy used to
+          choose which way is updated when a collision causes a cache miss.
+          Not applicable for direct-mapped caches.  <i>LRU</i> = least-recently used,
+          <i>FIFO</i> = first-in, first-out (sometimes referred to as
+          least-recently replaced), <i>Random</i> = choice is made
+          randomly, <i>Cycle</i> = choose the first way for first
+          replacement, the second way for second replacement, and so on in a
+          round-robin fashion.</li>
 
-      <p/><li/><i>Write strategy</i>: Determines how to compute the cycle cost
-      of rewriting dirty cache lines to memory.  <i>Write-back</i> = cost is
-      incurred once when the cache line is replaced.  <i>Write-through</i> =
-      cost is incurred on each write to the cache line.
+        <li><i>Write strategy</i>: Determines how to compute the cycle cost
+          of rewriting dirty cache lines to memory.  <i>Write-back</i> = cost is
+          incurred once when the cache line is replaced.  <i>Write-through</i> =
+          cost is incurred on each write to the cache line.</li>
 
-    </ul>
+      </ul>
 
-    <p/>The following cache details are provided:
+      <p>The following cache details are provided:</p>
 
-    <ul>
+      <ul>
 
-      <p/><li/><i>Address bits</i>: shows how the 32 address bits from the
-      Beta are used when accessing the cache.  The number of offset bits (minimum
-      of two) is determined by the words/line.  The number of index bits is
-      determined by the number of cache lines per way.  The remaining address
-      bits become part of the tag to be compared with the tag field of the
-      selected cache line.
+        <li><i>Address bits</i>: shows how the 32 address bits from the
+          Beta are used when accessing the cache.  The number of offset bits (minimum
+          of two) is determined by the words/line.  The number of index bits is
+          determined by the number of cache lines per way.  The remaining address
+          bits become part of the tag to be compared with the tag field of the
+          selected cache line.</li>
 
-      <p/><li/><i>Mem size</i>: <i>nways</i>*(<i>nlines</i>*<i>bits/line</i>).
-      <i>nways</i> is determined by the associativity.  <i>nlines</i> is determined
-      by the number of cache lines per way.  The <i>bits/line</i> includes the
-      valid bit, dirty bit, tag field, and data bits (words/line * 32).
+        <li><i>Mem size</i>: <i>nways</i>*(<i>nlines</i>*<i>bits/line</i>).
+          <i>nways</i> is determined by the associativity.  <i>nlines</i> is determined
+          by the number of cache lines per way.  The <i>bits/line</i> includes the
+          valid bit, dirty bit, tag field, and data bits (words/line * 32).</li>
 
-      <p/><li/><i>Comparator bits</i>: the number of bitwise comparisons needed
-      to match the tag field, determined by the number of ways times the number
-      of bits in the tag field.
+        <li><i>Comparator bits</i>: the number of bitwise comparisons needed
+          to match the tag field, determined by the number of ways times the number
+          of bits in the tag field.</li>
 
-      <p/><li/><i>2-to-1 MUX bits</i>: the number of 2-to-1 multiplexors needed
-      to select the appropriate data word to return to the CPU if the number
-      of words/line is greater than 1.  This requires a tree of 32-bit 2-to-1 muxes:
-      the tree has depth 1 when words/line = 2, depth 2 when words/line = 4, and
-      so on.  The total number of 2-to-1 muxes needed is 32*(words/line - 1).
-      
-      <p/><li/><i>Total cost</i>: an estimate (good for relative comparisons)
-      of the total hardware cost including memory address logic, the memory data
-      array, the memory sense amps, the tag comparators, and the MUX logic.
-      All quantities are weighted by a rough estimate of their size in square
-      microns.
+        <li><i>2-to-1 MUX bits</i>: the number of 2-to-1 multiplexors needed
+          to select the appropriate data word to return to the CPU if the number
+          of words/line is greater than 1.  This requires a tree of 32-bit 2-to-1 muxes:
+          the tree has depth 1 when words/line = 2, depth 2 when words/line = 4, and
+          so on.  The total number of 2-to-1 muxes needed is 32*(words/line - 1).</li>
+        
+        <li><i>Total cost</i>: an estimate (good for relative comparisons)
+          of the total hardware cost including memory address logic, the memory data
+          array, the memory sense amps, the tag comparators, and the MUX logic.
+          All quantities are weighted by a rough estimate of their size in square
+          microns.</li>
 
-    </ul>
+      </ul>
 
-    <p/>The following cache statistics are computed; the table is updated
-    while the simulation is running.  <i>Ifetch</i> = instruction fetches,
-    <i>Dread</i> = read data loads generated by LD/LDR instructions, <i>Dwrite</i> =
-    write data stores generated by the ST instruction.
+      <p>The following cache statistics are computed; the table is updated
+        while the simulation is running.  <i>Ifetch</i> = instruction fetches,
+        <i>Dread</i> = read data loads generated by LD/LDR instructions, <i>Dwrite</i> =
+        write data stores generated by the ST instruction.</p>
 
-    <ul>
+      <ul>
 
-      <p/><li/><i>hits</i>: Count of memory accesses that resulted in a
-      cache hit.
+        <li><i>hits</i>: Count of memory accesses that resulted in a
+          cache hit.</li>
 
-      <p/><li/><i>misses</i>: Count of memory accesses that result in a
-      cache miss.
+        <li><i>misses</i>: Count of memory accesses that result in a
+          cache miss.</li>
 
-      <p/><li/><i>totals</i>: Count of all memory accesses = hits + misses.
+        <li><i>totals</i>: Count of all memory accesses = hits + misses.</li>
 
-      <p/><li/><i>hit ratio</i>: hits/totals.
+        <li><i>hit ratio</i>: hits/totals.</li>
 
-      <p/><li/><i>cycles</i>: Total number of cycles needed to satisfy
-      the memory requests to date.  Each access costs one cycle to access
-      the cache.  Memory reads generated by cache line refills and memory
-      writes generated by write-back or write-though of dirty cache
-      lines cost 10 cycles for the first word and 1 additional cycle
-      for each additional word on the cache line.
-    </ul>
+        <li><i>cycles</i>: Total number of cycles needed to satisfy
+          the memory requests to date.  Each access costs one cycle to access
+          the cache.  Memory reads generated by cache line refills and memory
+          writes generated by write-back or write-though of dirty cache
+          lines cost 10 cycles for the first word and 1 additional cycle
+          for each additional word on the cache line.</li>
 
-<div class="xyzzy">
-488b1be6d197b49ef0e3cbb239bd182204ab9b364eea36afe6fb8df0370e7df35952271e06bdb72409bab35848e3e3f8805dcb0fbe4320db43449c80b4e152ff479fe7743562315763b371ed5a3237507a50fc25069573416cc6815c6173029ad65f2a70e1b46eef8f0d68dc0461859602d9aa7dce38466b048f38b3e4b01a5fa8074a03c71bcef31e6e3c785034e238c4538b2233f5fdd1ee94263be4599bbc59ae3c9398c294ec6a08304072cec3a72421e1a1bf2e4f10d345c572347cba65e4a6ca9d90d78bb68a08b5769f728906ab3f015231f8693c6216b14f46c31f2b43e5fd4002e9495351c1c66fb163f82724d232df83d434529d9e82941c1a4923726cdc2643e1371b71aa78e2b2380346843dd743821666bb8212a58052cd22cb3627fcf8012378d17e432b9aab85dcf947e883d0d7427a0adc4160a2cc71b3308c55c675225320adc8f02bc21f0a9bad6f76421c01602249b2fad535d041a2691e944d5faad235112b023dd9d7cefb519463fc5782f168b8bd7b5a7268b12d77089aaac116f60d4aefd96288742d1d74e44aad8eb07048e5d086f2f9
-</div>
+      </ul>
 
-    <div class="footer" style="font-size: small;">
-    <p/><hr/><p/>
-    
+      <div class="xyzzy">
+        488b1be6d197b49ef0e3cbb239bd182204ab9b364eea36afe6fb8df0370e7df35952271e06bdb72409bab35848e3e3f8805dcb0fbe4320db43449c80b4e152ff479fe7743562315763b371ed5a3237507a50fc25069573416cc6815c6173029ad65f2a70e1b46eef8f0d68dc0461859602d9aa7dce38466b048f38b3e4b01a5fa8074a03c71bcef31e6e3c785034e238c4538b2233f5fdd1ee94263be4599bbc59ae3c9398c294ec6a08304072cec3a72421e1a1bf2e4f10d345c572347cba65e4a6ca9d90d78bb68a08b5769f728906ab3f015231f8693c6216b14f46c31f2b43e5fd4002e9495351c1c66fb163f82724d232df83d434529d9e82941c1a4923726cdc2643e1371b71aa78e2b2380346843dd743821666bb8212a58052cd22cb3627fcf8012378d17e432b9aab85dcf947e883d0d7427a0adc4160a2cc71b3308c55c675225320adc8f02bc21f0a9bad6f76421c01602249b2fad535d041a2691e944d5faad235112b023dd9d7cefb519463fc5782f168b8bd7b5a7268b12d77089aaac116f60d4aefd96288742d1d74e44aad8eb07048e5d086f2f9
+      </div>
 
-    <br>
-    Copyright &copy; 2015-2017 M.I.T. Department of Electrical Engineering and Computer Science
-
-    <br>
-    Your use of this site and materials is subject to our
-    <a href="../../terms.html">terms of use</a>.
-</div>
-
-  </div>
-</body>
+    </article>
+  </body>
 </html>

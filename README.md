@@ -89,6 +89,8 @@ Enjoy!
 
     * <a href="https://raw.githack.com/computation-structures/course/main/labs/lab7_beta/lab.html">Lab 7: Building the Beta</a>
 
+    * <a href="https://raw.githack.com/computation-structures/course/main/labs/lab8_caches/lab.html">Lab 8: Caches</a>
+
 * **Part 3: Computer Organization**
 
   * L16. Virtual Memory: <a href="lectures/L16_Virtual_Memory.md">Lecture</a>, <a href="worksheets/pdfs/L16_worksheet.pdf">Worksheet</a>
@@ -106,8 +108,6 @@ Enjoy!
   * <a href="lectures/Wrap_up.md">Wrap-up</a>
 
 * **Online labs**
-
-  * <a href="https://computationstructures.org/exercises/caches/lab.html">Caches</a>
 
   * <a href="https://computationstructures.org/exercises/illop/lab.html">Emulating Instructions</a>
 
