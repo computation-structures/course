@@ -107,10 +107,10 @@ Enjoy!
 
   * <a href="lectures/Wrap_up.md">Wrap-up</a>
 
-* **Online labs**
+  * Online labs:
 
-  * <a href="https://computationstructures.org/exercises/illop/lab.html">Emulating Instructions</a>
+    * <a href="https://raw.githack.com/computation-structures/course/main/labs/lab9_assembly/lab.html">Lab 9: Emulating Instructions</a>
 
-  * <a href="https://computationstructures.org/exercises/tinyos/lab.html">Tiny Operating System</a>
+    * <a href="https://raw.githack.com/computation-structures/course/main/labs/lab10_tinyos/lab.html">Lab 10: Tiny Operating System</a>
 
-  * <a href="https://computationstructures.org/exercises/dp/lab.html">Optimizing the Beta</a> (optional, extra points!)
+    * <a href="https://raw.githack.com/computation-structures/course/main/labs/lab11_design_project/lab.html">Lab 11: Optimizing the Beta</a> (optional, extra points!)

@@ -1,185 +1,87 @@
 <!DOCTYPE html>
 <html lang="en">
-<head lang="en">
-<title>Emulating Instructions</title>
-<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
-<meta name="viewport" content="width=870">
+  <head lang="en">
+    <title>Lab 9: Emulating Instructions</title>
+    <meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+    <meta name="viewport" content="width=870">
 
-<!-- Global Site Tag (gtag.js) - Google Analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=UA-43707566-1"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
+    <script> MathJax = { tex: { inlineMath: [['$','$'],['\\(','\\)']], processEscapes: true}}; </script>
+    <script src="../tools/MathJax/tex-chtml.js" id="MathJax-script" async></script>
+    <script src="../tools/jquery-3.2.1.min.js"></script>
+    <link rel="stylesheet" href="../tools/github.css">
+    <link rel="stylesheet" href="../tools/labs.css">
+    <link rel="stylesheet" href="../tools/font-awesome.css">
+    <script src="../tools/answers.js"></script>
+  </head>
 
-  gtag('config', 'UA-43707566-1');
-</script>
+  <body>
+    <article class="markdown-body">
+      <div style="margin: 10px; border: 1px solid black; padding: 10px; background-color: #FFE;">
+        All your exercise answers for this page are saved by the browser in local storage
+        associated with this page.  You can use the buttons below
+        to load/save the answers on your system.  Note that loading will overwrite
+        any answers currently saved by the browser.
+        <br>
+        <center>
+          Save: <a download="saved_lab_9.json" href="#" onclick="answers.save_answers(this);"><button>Save</button></a>
+          <span style="margin-left: 2em;">Load:</span>
+          <input id="filename" type="file"/>
+          <button onclick="answers.load_answers(document.getElementById('filename'));">Load</button>
+        </center>
+      </div>
 
-<script type="text/x-mathjax-config">
-  MathJax.Hub.Config({ tex2jax: {inlineMath: [['$','$'],
-  ['\\(','\\)']], processEscapes: true}, TeX: {equationNumbers: { autoNumber: "AMS" }}
-  });
-</script>
-<script type="text/javascript" async src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML'></script>
+      <h2>Lab 9: Emulating Instructions</h2>
 
-<script src="../../tools/jquery-3.2.1.min.js"></script>
-<link rel="stylesheet" href="../../tools/font-awesome.css">
-<link href="../../tools/workbook.css" rel="stylesheet" type="text/css">
-<script src="../../tools/workbook.js"></script>
-<script src="../../tools/answers.js"></script>
+      <p>Useful links:</p>
+      <ul>
+        <li><A href="../tool_docs/bsim.html" target="_blank">Introduction to BSim</A></li>
+        <li><a href="../betainst.pdf" target="_blank">Summary of Instruction Formats (PDF)</a></li>
+        <li><a href="../beta.pdf" target="_blank">Beta Documentation (PDF)</a></li>
+      </ul>
 
-</head>
+      <h3>Problem 1: Design Problem: Adding LDB/STB in software</h3>
 
-<body>
-  <div class="navigation">
-    <center><img src="../../title.gif" width="200" onclick="window.location='../../index.html';"></center>
-    <style>
-</style>
-<table width="100%">
-  <tr>
-    <td align="center">
-      <a href="../../lectures/index.html"><span class="navtab">lectures</span></a>
-    </td>
-    <td align="center">
-      <a href="../../videos/index.html"><span class="navtab">videos</span></a>
-    </td>
-    <td align="center">
-      <a href="../../worksheets/index.html"><span class="navtab">worksheets</span></a>
-    </td>
-  </tr>
-  <tr>
-    <td align="center">
-      <a href="../../notes/index.html"><span class="navtab">notes</span></a>
-    </td>
-    <td align="center">
-      <a class="selected" href="../../exercises/index.html"><span class="navtab">labs</span></a>
-    </td>
-  </tr>
-</table>
+      <p>See the instructions below. Use the Bsim instance below to enter your code.</p>
 
-<p><b>Labs</b><br>
-  <a class="" href="../../exercises/cmos/lab.html">
-    1. CMOS Technology
-  </a><br>
-  <a class="" href="../../exercises/adder/lab.html">
-    2. CMOS Adder
-  </a><br>
-  <a class="" href="../../exercises/fsm/lab.html">
-    3. FSMs
-  </a><br>
-  <a class="" href="../../exercises/alu/lab.html">
-    4. 32-bit ALU
-  </a><br>
-  <a class="" href="../../exercises/assembly/lab.html">
-    5. Assembly Language
-  </a><br>
-  <a class="" href="../../exercises/procedures/lab.html">
-    6. Procedures &amp; Stacks
-  </a><br>
-  <a class="" href="../../exercises/beta/lab.html">
-    7. Building the Beta
-  </a><br>
-  <a class="" href="../../exercises/caches/lab.html">
-    8. Caches
-  </a><br>
-  <a class="selected" href="../../exercises/illop/lab.html">
-    9. Emulating Instructions
-  </a><br>
-  <a class="" href="../../exercises/tinyos/lab.html">
-    10. Tiny Operating System
-  </a><br>
-  <a class="" href="../../exercises/dp/lab.html">
-    11. Optimizing the Beta
-  </a><br>
-</p>
+      <answer id="4" type="window" tool_name="BSim" width="900" height="600" src="../tools/bsim_workbook.html"
+              placeholder="Assemble your program, then run the
+                           simulation to completion.  The built-in test will either report any
+                           discrepencies between the expected and actual outputs, or, if your
+                           code is correct, it will record the test passed.">{
+        "required_tests": ["-369169648"],
+        "initial_state": {
+        "beta.uasm": "url:../beta.json",
+        "checkoff.uasm": "url:../lab9_illop/checkoff.json"
+        },
+        "state":{
+        "LDB_STB":".include \u0022beta.uasm\u0022\n.include \u0022checkoff.uasm\u0022\n\nUI:\n   ... your assembly language code here ...\n"
+        }
+        }
+      </answer>
 
-<p><b>Tool Sandboxes</b><br>
-  <a class="" href="../../exercises/sandboxes/jade.html">
-    Jade: circuit simulator
-  </a><br>
-  <a class="" href="../../exercises/sandboxes/bsim.html">
-    BSim: Beta simulator
-  </a><br>
-  <a class="" href="../../exercises/sandboxes/tmsim.html">
-    TMSim: Turing Machine simulator
-  </a><br>
-</p>
+      <p><b>Instructions</b></p>
 
-  
-<p/>
-<hr style="border-style:solid; border-color:black;"/>
-<p>
-  Your exercise answers are saved by the browser in local storage
-  associated with this webpage.  You can use the buttons below
-  to load/save the answers on your system.
-</p>
+      <p>The goal of this lab is to add support for two new instructions to
+        the Beta.  But instead of adding hardware, we&#700;ll support the
+        instructions in software (!) by writing the appropriate emulation code
+        in the handler for "illegal instruction" exceptions.</p>
 
-  
-<p>
-  Save all answers:
-  <a download="saved_state.json" href="#" onclick="workbook.save_answers(this);"><button>Save</button></a>
-</p>
+      <p>The new instructions implement load and store operations for byte
+        (8-bit) data:</p>
 
-<p>
-  Load all answers (<i>this will overwrite any answers currently saved by the browser</i>): <br/>
-  <input style="margin-left:1em;" type="file" onchange="workbook.load_answers(this);"/>
-</p>
-
-<p><center><i>Authored by Chris Terman</i></center></p>
-
-
-  </div>
-  <div class="content">
-    <h1>Emulating Instructions</h1>
-
-<p/>Useful links:
-<ul>
-  <li/><A href="../tool_docs/bsim.html" target="_blank">Introduction to BSim</A></li>
-  <li><a href="../../notes/pdfs/betainst.pdf" target="_blank">Summary of Instruction Formats (PDF)</a></li>
-  <li><a href="../../notes/pdfs/beta.pdf" target="_blank">Beta Documentation (PDF)</a></li>
-</ul>
-
-<question> <b>Problem 1: Design Problem: Adding LDB/STB in software</b>
-
-<p/>See the instructions below.
-
-<p/>Use the Bsim instance below to enter your code. To complete this design problem, you should
-assemble your program, then run the simulation to completion.
-The built-in test will either report any discrepencies between the
-expected and actual outputs, or, if your code is correct, it will
-record the test passed.
-
-<answer id="4" type="window" tool_name="BSim" width="900" height="600" src="../../tools/bsim_workbook.html">
-{  "required_tests": ["-369169648"],
-  "initial_state": {
-    "beta.uasm": "url:../exercises/beta.uasm",
-    "checkoff.uasm": "url:../exercises/illop/checkoff.uasm"
-  },
-  "state":{
-    "LDB_STB":".include \u0022beta.uasm\u0022\n.include \u0022checkoff.uasm\u0022\n\nUI:\n   ... your assembly language code here ...\n"
-  }
-}
-</answer>
-
-<p/><b>Instructions</b>
-
-<p/>The goal of this lab is to add support for two new instructions to
-the Beta.  But instead of adding hardware, we'll support the
-instructions in software (!) by writing the appropriate emulation code
-in the handler for "illegal instruction" exceptions.
-
-<p/>The new instructions implement load and store operations for byte
-(8-bit) data:
-
-<p/><center><table border="0" cellpadding="3" style="width:550px;">
-<tr><td colspan="2"><b>LDB</b></td></tr>
-<tr><td>Usage:</td><td><tt>LDB(Ra, literal, Rc)</tt></td></tr>
-<tr><td>Opcode:</td><td>
-  <table border="1" cellpadding="3" style="border-collapse:collapse">
-    <tr><td><pre>  010000  </pre></td><td><pre>  Rc  </pre></td><td><pre>  Ra  </pre></td><td><pre>  literal  </pre></td></tr>
-  </table>
-</td></tr>
-<tr valign="top"><td>Operation:</td><td><pre>PC &lt;= PC+4
+      <style>
+        .opcode pre { margin-bottom: 0; }
+      </style>
+      <div style="margin-left: 1em;">
+        <table class="opcode" border="0" cellpadding="3" style="width:550px;">
+          <tr><td colspan="2"><b>LDB</b></td></tr>
+          <tr><td>Usage:</td><td><tt>LDB(Ra, literal, Rc)</tt></td></tr>
+          <tr><td>Opcode:</td><td>
+              <table border="1" cellpadding="3" style="border-collapse:collapse">
+                <tr><td><pre>  010000  </pre></td><td><pre>  Rc  </pre></td><td><pre>  Ra  </pre></td><td><pre>  literal  </pre></td></tr>
+              </table>
+          </td></tr>
+          <tr valign="top"><td>Operation:</td><td><pre>PC &lt;= PC+4
 EA &lt;= Reg[Ra] + SEXT(literal)
 MDATA &lt;= Mem[EA]
 Reg[Rc]<sub>7:0</sub> &lt;= if EA<sub>1:0</sub> = 0b00 then MDATA<sub>7:0</sub>
@@ -187,23 +89,23 @@ Reg[Rc]<sub>7:0</sub> &lt;= if EA<sub>1:0</sub> = 0b00 then MDATA<sub>7:0</sub>
               else if EA<sub>1:0</sub> = 0b10 then MDATA<sub>23:16</sub>
               else if EA<sub>1:0</sub> = 0b11 then MDATA<sub>31:24</sub>
 Reg[Rc]<sub>31:8</sub> &lt;= 0x000000</pre>
-</td></tr>
-<tr><td colspan="2" style="line-height: 1.5;"> The effective address EA is computed by adding
-the contents of register Ra to the sign-extended 16-bit displacement
-literal.  The byte location in memory specified by EA is read into the
-low-order 8 bits of register Rc; bits 31:8 of Rc are cleared.
-</td></tr>
-</table></center>
+          </td></tr>
+          <tr><td colspan="2" style="line-height: 1.5;"> The effective address EA is computed by adding
+              the contents of register Ra to the sign-extended 16-bit displacement
+              literal.  The byte location in memory specified by EA is read into the
+              low-order 8 bits of register Rc; bits 31:8 of Rc are cleared.
+          </td></tr>
+        </table>
 
-<p/><center><table border="0" cellpadding="3" style="width:550px;">
-<tr><td colspan="2"><b>STB</b></td></tr>
-<tr><td>Usage:</td><td><tt>STB(Rc, literal, Ra)</tt></td></tr>
-<tr><td>Opcode:</td><td>
-  <table border="1" cellpadding="3" style="border-collapse:collapse">
-    <tr><td><pre>  010001  </pre></td><td><pre>  Rc  </pre></td><td><pre>  Ra  </pre></td><td><pre>  literal  </pre></td></tr>
-  </table>
-</td></tr>
-<tr valign="top"><td>Operation:</td><td><pre>PC &lt;= PC+4
+        <table class="opcode" border="0" cellpadding="3" style="width:550px;">
+          <tr><td colspan="2"><b>STB</b></td></tr>
+          <tr><td>Usage:</td><td><tt>STB(Rc, literal, Ra)</tt></td></tr>
+          <tr><td>Opcode:</td><td>
+              <table border="1" cellpadding="3" style="border-collapse:collapse">
+                <tr><td><pre>  010001  </pre></td><td><pre>  Rc  </pre></td><td><pre>  Ra  </pre></td><td><pre>  literal  </pre></td></tr>
+              </table>
+          </td></tr>
+          <tr valign="top"><td>Operation:</td><td><pre>PC &lt;= PC+4
 EA &lt;= Reg[Ra] + SEXT(literal)
 MDATA &lt;= Mem[EA]
 if EA<sub>1:0</sub> = 0b00 then MDATA<sub>7:0</sub> &lt;= Reg[Rc]<sub>7:0</sub>
@@ -211,148 +113,136 @@ if EA<sub>1:0</sub> = 0b01 then MDATA<sub>15:8</sub> &lt;= Reg[Rc]<sub>7:0</sub>
 if EA<sub>1:0</sub> = 0b10 then MDATA<sub>23:16</sub> &lt;= Reg[Rc]<sub>7:0</sub>
 if EA<sub>1:0</sub> = 0b11 then MDATA<sub>31:24</sub> &lt;= Reg[Rc]<sub>7:0</sub>
 Mem[EA] &lt;= MDATA</pre>
-</td></tr>
-<tr><td colspan="2" style="line-height: 1.5;"> The effective address EA is computed by adding
-the contents of register Ra to the sign-extended 16-bit displacement
-literal.  The low-order 8-bits of register Rc are written into the
-byte location in memory specified by EA.  <b>The other bytes of the
-memory word remain unchanged.</b>
-</td></tr>
-</table></center>
+          </td></tr>
+          <tr><td colspan="2" style="line-height: 1.5;"> The effective address EA is computed by adding
+              the contents of register Ra to the sign-extended 16-bit displacement
+              literal.  The low-order 8-bits of register Rc are written into the
+              byte location in memory specified by EA.  <b>The other bytes of the
+                memory word remain unchanged.</b>
+          </td></tr>
+        </table>
+      </div>
 
-<p/>When the Beta hardware, which doesn't know about these
-instructions, detects either of the two opcodes above, it will cause
-an "illegal instruction" exception (see section 6.4 of the Beta
-documentation) and set the PC to 4.
- 
-<p/>The checkoff code has loaded location 4 with <tt>BR(UI)</tt> that
-branches to an assembly language routine labeled UI which handles
-illegal instructions -- this is the routine that you need to write.  It
-should do the following:
+      <p>When the Beta hardware, which doesn&#700;t know about these
+        instructions, detects either of the two opcodes above, it will cause
+        an "illegal instruction" exception (see section 6.4 of the Beta
+        documentation) and set the PC to 4.</p>
+      
+      <p>The checkoff code has loaded location 4 with <tt>BR(UI)</tt> that
+        branches to an assembly language routine labeled UI which handles
+        illegal instructions -- this is the routine that you need to write.  It
+        should do the following:</p>
 
-<ol type="1">
+      <ol type="1">
 
-<p/><li>Determine if the opcode for the illegal instruction is for <tt>LDB</tt>
-or <tt>STB</tt>.  The address of the instruction after the illegal instruction
-has been loaded into register <tt>XP</tt> by the hardware (<i>i.e.</i>, the illegal
-instruction is at memory address Reg[XP]-4).
-</li>
+        <li>Determine if the opcode for the illegal instruction is for <tt>LDB</tt>
+          or <tt>STB</tt>.  The address of the instruction after the illegal instruction
+          has been loaded into register <tt>XP</tt> by the hardware (<i>i.e.</i>, the illegal
+          instruction is at memory address Reg[XP]-4).
+        </li>
 
-<p/><li>If the illegal instruction is not <tt>LDB</tt>
-or <tt>STB</tt>, your routine should branch to the label
-<tt>_IllegalInstruction</tt> -- note the leading underscore.  Before branching,
-the contents of all the registers should be the same as they were when
-your routine was entered.  So you should save and restore any
-registers you use in Step 1.
-</li>
+        <li>If the illegal instruction is not <tt>LDB</tt>
+          or <tt>STB</tt>, your routine should branch to the label
+          <tt>_IllegalInstruction</tt> -- note the leading underscore.  Before branching,
+          the contents of all the registers should be the same as they were when
+          your routine was entered.  So you should save and restore any
+          registers you use in Step 1.
+        </li>
 
-<p/><li>If the illegal instruction is <tt>LDB</tt> or <tt>STB</tt>,
-your routine should perform the appropriate memory and register
-accesses to emulate the operation of these instructions.  Your routine
-will have to decode the instruction at Reg[XP]-4 to determine what
-registers and memory locations to use.
+        <li>If the illegal instruction is <tt>LDB</tt> or <tt>STB</tt>,
+          your routine should perform the appropriate memory and register
+          accesses to emulate the operation of these instructions.  Your routine
+          will have to decode the instruction at Reg[XP]-4 to determine what
+          registers and memory locations to use.
 
-<p/><b>Note:</b>For this assignment, assume that kernel-mode MMU context
-and the user-mode MMU context are the same, i.e., that the kernel can
-access user-mode virtual addresses without first having to perform
-a virtual-to-physical address translation.  So LD and ST instructions
-in your emulation code that access user-mode memory can simply use
-the addresses derived from the contents of user-mode registers.
-</li>
+          <p><b>Note:</b>For this assignment, assume that kernel-mode MMU context
+            and the user-mode MMU context are the same, i.e., that the kernel can
+            access user-mode virtual addresses without first having to perform
+            a virtual-to-physical address translation.  So LD and ST instructions
+            in your emulation code that access user-mode memory can simply use
+            the addresses derived from the contents of user-mode registers.</p>
+        </li>
 
-<p/><li>When your emulation is complete, return control to the
-interrupted program at the instruction following the <tt>LDB</tt> or <tt>STB</tt>.  The
-contents of all the registers should be the same as they were when
-your routine was entered, except for the register changed by <tt>LDB</tt>.  So
-you need to save and restore any registers you use in steps 1 and 3.
-</li>
+        <li>When your emulation is complete, return control to the
+          interrupted program at the instruction following the <tt>LDB</tt> or <tt>STB</tt>.  The
+          contents of all the registers should be the same as they were when
+          your routine was entered, except for the register changed by <tt>LDB</tt>.  So
+          you need to save and restore any registers you use in steps 1 and 3.
+        </li>
 
-</ol>
+      </ol>
 
-<p/>To test your code, we'll be using the BSim Beta simulator.  In
-order to interface properly with the checkoff code, your assembly
-language program should follow the template below:
+      <p>To test your code, we&#700;ll be using the BSim Beta simulator.  In
+        order to interface properly with the checkoff code, your assembly
+        language program should follow the template below:</p>
 
-<pre class="jsim">.include "beta.uasm"
-.include "checkoff.uasm"
+      <pre class="jsim">.include "beta.uasm"
+        .include "checkoff.uasm"
 
-UI:
-   <i>... your assembly language code here ...</i>
-</pre>
+        UI:
+        <i>... your assembly language code here ...</i>
+      </pre>
 
-<p/><tt>checkoff.uasm</tt> contains the checkoff code for this
-lab.  When execution begins, it does the appropriate initialization
-(setting <tt>SP</tt> to point to an area of memory used for the stack, etc.)
-and then executes a small test program that includes <tt>LDB</tt> and <tt>STB</tt>
-instructions that test your emulation routine.  The program will type
-out messages as it executes, reporting any errors it detects.  When it
-types "Checkoff tests completed successfully!", you'll receive credit
-for completing this problem.
+      <p><tt>checkoff.uasm</tt> contains the checkoff code for this
+        lab.  When execution begins, it does the appropriate initialization
+        (setting <tt>SP</tt> to point to an area of memory used for the stack, etc.)
+        and then executes a small test program that includes <tt>LDB</tt> and <tt>STB</tt>
+        instructions that test your emulation routine.  The program will type
+        out messages as it executes, reporting any errors it detects.  When it
+        types "Checkoff tests completed successfully!", you&#700;ll receive credit
+        for completing this problem.</p>
 
-<p/>To help you get started here's an example illegal instruction
-handler that emulates a new instruction <tt>swapreg(RA,RC)</tt> which
-interchanges the values in registers <tt>RA</tt> and <tt>RC</tt>.
-This example utilizes some useful macros (defined in <tt>beta.uasm</tt>)
-for saving/restoring registers and extracting bit fields from a 32-bit
-word.
+      <p>To help you get started here&#700;s an example illegal instruction
+        handler that emulates a new instruction <tt>swapreg(RA,RC)</tt> which
+        interchanges the values in registers <tt>RA</tt> and <tt>RC</tt>.
+        This example utilizes some useful macros (defined in <tt>beta.uasm</tt>)
+        for saving/restoring registers and extracting bit fields from a 32-bit
+        word.</p>
 
-<pre class="jsim">.include "beta.uasm"
+      <pre class="jsim">.include "beta.uasm"
 
-// Handler for opcode 1 extension:
-// swapreg(RA,RC) swaps the contents of the two named registers.
-// UASM defn = .macro swapreg(RA,RC) betaopc(0x01,RA,0,RC)
+        // Handler for opcode 1 extension:
+        // swapreg(RA,RC) swaps the contents of the two named registers.
+        // UASM defn = .macro swapreg(RA,RC) betaopc(0x01,RA,0,RC)
 
 regs:
-  RESERVE(32)                // Array used to store register contents
+        RESERVE(32)                // Array used to store register contents
 
 UI: 
-  save_all_regs(regs)
- 
-  LD(xp,-4,r0)                    // illegal instruction
-  extract_field(r0,31,26,r1) // extract opcode, bits 31:26
-  CMPEQC(r1,0x1,r2)          // OPCODE=1?
-  BT(r2, swapreg)            // yes, handle the swapreg instruction.
+        save_all_regs(regs)
+        
+        LD(xp,-4,r0)               // fetch the illegal instruction
+        extract_field(r0,31,26,r1) // extract opcode, bits 31:26
+        CMPEQC(r1,0x1,r2)          // OPCODE=1?
+        BT(r2, swapreg)            // yes, handle the swapreg instruction.
 
-  LD(r31,regs,r0)            // Its something else.  Restore regs
-  LD(r31,regs+4,r1)          // we've used, and go to the system's
-  LD(r31,regs+8,r2)          // Illegal Instruction handler.
-  BR(_IllegalInstruction)
+        LD(r31,regs,r0)            // Its something else.  Restore regs
+        LD(r31,regs+4,r1)          // we've used, and go to the system's
+        LD(r31,regs+8,r2)          // Illegal Instruction handler.
+        BR(_IllegalInstruction)
 
 swapreg:
-  extract_field(r0,25,21,r1)  // extract rc field from trapped instruction
-  MULC(r1, 4, r1)             // convert to byte offset into regs array
-  extract_field(r0,20,16,r2)  // extract ra field from trapped instruction
-  MULC(r2, 4, r2)             // convert to byte offset into regs array
-  LD(r1, regs, r3)            // r3 &lt;- regs[rc]
-  LD(r2, regs, r4)            // r4 &lt;- regs[ra]
-  ST(r4, regs, r1)            // regs[rc] &lt;- old regs[ra]
-  ST(r3, regs, r2)            // regs[ra] &lt;- old regs[rc]
-      
-  restore_all_regs(regs)
-  JMP(xp)
+        extract_field(r0,25,21,r1)  // extract rc field from trapped instruction
+        MULC(r1, 4, r1)             // convert to byte offset into regs array
+        extract_field(r0,20,16,r2)  // extract ra field from trapped instruction
+        MULC(r2, 4, r2)             // convert to byte offset into regs array
+        LD(r1, regs, r3)            // r3 &lt;- regs[rc]
+        LD(r2, regs, r4)            // r4 &lt;- regs[ra]
+        ST(r4, regs, r1)            // regs[rc] &lt;- old regs[ra]
+        ST(r3, regs, r2)            // regs[ra] &lt;- old regs[rc]
+        
+        restore_all_regs(regs)
+        JMP(xp)
 
 _IllegalInstruction:
-  // code to handle an actual illegal instruction goes here...
-  // for this lab this code is supplied by checkoff.uasm
-  HALT()
-</pre>
+        // code to handle an actual illegal instruction goes here...
+        // for this lab this code is supplied by checkoff.uasm
+        HALT()
+      </pre>
 
-<div class="xyzzy">
-c8acc3e54bd241b2634e7925
-</div>
-
-    <div class="footer" style="font-size: small;">
-    <p/><hr/><p/>
-    
-
-    <br>
-    Copyright &copy; 2015-2017 M.I.T. Department of Electrical Engineering and Computer Science
-
-    <br>
-    Your use of this site and materials is subject to our
-    <a href="../../terms.html">terms of use</a>.
-</div>
-
-  </div>
-</body>
+      <div class="xyzzy">
+        c8acc3e54bd241b2634e7925
+      </div>
+    </article>
+  </body>
 </html>

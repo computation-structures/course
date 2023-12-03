@@ -13,5 +13,3 @@ on GitHub itself.
 
 * browse to <a href="http://localhost:6004/">http://localhost:6004/</a> to see the
 top-level webpage for the course.
-
-Coming soon: local versions of the Computation Structures online labs.
