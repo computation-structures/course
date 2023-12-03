@@ -65,11 +65,11 @@
       }
 ]]></answer>
 
-      <p>In this lab, we'll build the arithmetic and logic unit (ALU) for
-        the Beta processor.  The ALU has two 32-bit inputs (which we'll call
-        "A" and "B") and produces one 32-bit output.  We'll start by designing
+      <p>In this lab, we&#700;ll build the arithmetic and logic unit (ALU) for
+        the Beta processor.  The ALU has two 32-bit inputs (which we&#700;ll call
+        "A" and "B") and produces one 32-bit output.  We&#700;ll start by designing
         each piece of the ALU as a separate circuit, each producing its own
-        32-bit output.  Then we'll combine these outputs into a single ALU
+        32-bit output.  Then we&#700;ll combine these outputs into a single ALU
         result.</p>
 
       <p>When designing circuitry there are three separate factors that can
@@ -81,7 +81,7 @@
         <li> design for the best cost/performance ratio (minimize area*latency)</li>
       </ol>
 
-      <p>Happily it's often possible to do all three at once but in some
+      <p>Happily it&#700;s often possible to do all three at once but in some
         portions of the circuit some sort of design tradeoff will need to be
         made.  When designing your circuitry you should choose which of these
         three factors is most important to you and optimize your design
@@ -107,9 +107,9 @@
         for each gate.  In Jade, the gates in the standard cell library can be
         found in the parts bin under "/gates/".</p>
 
-      <p>Since we're designing at the gate level we can use a faster
+      <p>Since we&#700;re designing at the gate level we can use a faster
         simulator that only knows about gates and logic values (instead of
-        transistors and voltages).  Note that your design can't contain any
+        transistors and voltages).  Note that your design can&#700;t contain any
         mosfets, resistors, capacitors, etc.; the gate-level simulator only supports the
         gate primitives in the standard cell library.</p>
 
@@ -126,8 +126,8 @@
       </div>
 
       <p>A fourth value "Z" is used to represent the value of nodes that
-        aren't being driven by any gate output (<i>e.g.</i>, the outputs of tristate
-        drivers that aren't enabled).  The following diagram shows how these
+        aren&#700;t being driven by any gate output (<i>e.g.</i>, the outputs of tristate
+        drivers that aren&#700;t enabled).  The following diagram shows how these
         values appear on the waveform display:</p>
 
       <p><center><img src="12.png" alt="waveforms"/></center></p>
@@ -202,7 +202,7 @@
       <p>NOTE: the FN signals used to control the operation of the ALU
         circuitry use an encoding chosen to make the design of the ALU
         circuitry simple.  This encoding is not the same as the one used to
-        encode the 6-bit opcode field of Beta instructions.  In Lab 5, you'll
+        encode the 6-bit opcode field of Beta instructions.  In Lab 7, you&#700;ll
         build some logic (actually a ROM) that will translate the opcode field
         of an instruction into the appropriate FN control bits.</p>
 
@@ -218,13 +218,13 @@
       <img src="13.png" width="200" style="float:right; margin-left: 10px;"/>
       <p>The suggested implementation uses 32 copies of a 4-to-1
         multiplexor (<tt>mux4</tt>) where <tt>BFN[3:0]</tt> encode the operation to
-        be performed and A[31:0] and B[31:0] are hooked to the multiplexor's select
+        be performed and A[31:0] and B[31:0] are hooked to the multiplexor&#700;s select
         inputs.  This implementation can produce any of the 16 2-input Boolean
         functions.</p>
 
       <div class="hint" style="clear: both;">
         <p>Hint: Jade will automatically replicate a logic gate to match the width of
-          the gate's inputs and outputs to the width of the signals that connect
+          the gate&#700;s inputs and outputs to the width of the signals that connect
           to the gate.</p>
 
         <p>For example, the MUX4 gate shown above has a 1-bit output signal,
@@ -263,7 +263,7 @@
 
       <p>When your BOOL circuitry has been entered, run the test
         by clicking the green checkmark; a simulation plot window showing the inputs and
-        outputs should appear.  Jade will check your circuit's results against a list of
+        outputs should appear.  Jade will check your circuit&#700;s results against a list of
         expected values and report any discrepancies it finds.</p>
 
       <div class="hint">
@@ -288,7 +288,7 @@
       <p><b>ARITH unit</b></p>
 
       <p>Design an adder/subtractor (ARITH) unit that operates on 32-bit
-        two's complement inputs and generates a 32-bit output.  It will be
+        two&#700;s complement inputs and generates a 32-bit output.  It will be
         useful to generate three other output signals to be used by the CMP
         unit: <tt>Z</tt> which is true when the <tt>S</tt> outputs are all
         zero, <tt>V</tt> which is true when the addition operation overflows
@@ -314,23 +314,23 @@
 
       <p><tt>AFN</tt> will be set to 0 for an ADD (\(S = A+B\)) and 1 for a
         SUBTRACT (\(S = A-B\)); <tt>A[31:0]</tt> and <tt>B[31:0]</tt> are the
-        32-bit two's complement input operands; <tt>S[31:0]</tt> is the 32-bit
+        32-bit two&#700;s complement input operands; <tt>S[31:0]</tt> is the 32-bit
         result; <tt>Z</tt>/<tt>V</tt>/<tt>N</tt> are the three condition code
-        bits described above.  We'll be using the "little-endian" bit
+        bits described above.  We&#700;ll be using the "little-endian" bit
         numbering convention where bit 31 is the most-significant bit and bit
         0 is the least-significant bit.</p>
 
-      <p>We've provided a FA module for entering the gate-level schematic
+      <p>We&#700;ve provided a FA module for entering the gate-level schematic
         for the full adder (see Problem 8 of Lab #1) to be used in constructing
         the 32-bit ripple carry adder that forms the heart of the ARITH unit.</p>
 
       <p>The <tt>AFN</tt> input signal selects whether the operation
         is an ADD or SUBTRACT.  To do a SUBTRACT, the circuit first computes
-        the two's complement negation of the B operand by inverting B and
+        the two&#700;s complement negation of the B operand by inverting B and
         then adding one (which can be done by forcing the carry-in of the
         32-bit add to be 1).  Start by implementing the 32-bit add using a
-        ripple-carry architecture (you'll get to improve on this later on in
-        the course).  You'll have to construct the 32-input NOR gate required
+        ripple-carry architecture (you&#700;ll get to improve on this later on in
+        the course).  You&#700;ll have to construct the 32-input NOR gate required
         to compute <tt>Z</tt> using a tree of smaller fan-in gates (the parts
         library only has gates with up to 4 inputs).</p>
 
@@ -397,7 +397,7 @@
 
       <p>With this encoding, <tt>SFN[0]</tt> is 0 for a left shift and 1
         for a right shift and <tt>SFN[1]</tt> controls the sign extension logic on
-        right shift.  For SHL and SHR, 0's are shifted into the vacated bit
+        right shift.  For SHL and SHR, 0&#700;s are shifted into the vacated bit
         positions.  For SRA ("shift right arithmetic"), the vacated bit
         positions are all filled with A[31], the sign bit of the original data
         so that the result will be the same as dividing the original data by
@@ -406,7 +406,7 @@
       <p>The simplest implementation is to build two shifters &mdash; one
         for shifting left and one for shifting right &mdash; and then use a
         2-way 32-bit multiplexer to select the appropriate answer as the
-        module's output.  It's easy to build a shifter after noticing that a
+        module&#700;s output.  It&#700;s easy to build a shifter after noticing that a
         multi-bit shift can be accomplished by cascading shifts by various
         powers of 2.  For example, a 13-bit shift can be implemented by a
         shift of 8, followed by a shift of 4, followed by a shift of 1.  So
@@ -427,19 +427,19 @@
 
       <p><b>Final tests</b></p>
 
-      <p>When you've completed the design of the four sub-modules, select
+      <p>When you&#700;ve completed the design of the four sub-modules, select
         the ALU module and run its test.  This runs each of the test suites
-        that you've used to debug the component subcircuits, so unless there's
-        some unforeseen interaction among your blocks you're likely to pass
+        that you&#700;ve used to debug the component subcircuits, so unless there&#700;s
+        some unforeseen interaction among your blocks you&#700;re likely to pass
         the test.  When this test completes successfully, the system will mark
         your design as complete.</p>
 
       <h3>Problem 2. Testing the ALU</h3>
 
-      <p>In this lab's design problem (see above), you'll be building
+      <p>In this lab&#700;s design problem (see above), you&#700;ll be building
         a 32-bit arithmetic and logic unit (ALU) that performs arithmetic
         and logic operations on 32-bit operands, producing a 32-bit result.
-        You'll use this circuit in the design of the Beta later this
+        You&#700;ll use this circuit in the design of the Beta later this
         semester.  You may want to work on the design problem first and
         come back to this problem.</p>
 
@@ -449,7 +449,7 @@
 
       <p>No designer I know thinks testing is fun &mdash; designing the
         circuit seems so much more interesting than making sure it works.
-        But a buggy design isn't much fun either!  Remember that a good
+        But a buggy design isn&#700;t much fun either!  Remember that a good
         engineer not only <i>knows</i> how to build good designs but also
         <i>actually</i> builds good designs, and that means testing the
         design to make sure it does what you say it does.</p>
@@ -488,11 +488,11 @@
 
         <li>Consider a 32-bit adder with 64 inputs (two 32-bit input operands,
           assume CIN is tied to ground as shown in the diagram below)
-          and 32 outputs (the 32-bit result).  Assume we don't know anything
-          about the internal circuitry and so can't rule out the possibility
+          and 32 outputs (the 32-bit result).  Assume we don&#700;t know anything
+          about the internal circuitry and so can&#700;t rule out the possibility
           that it might get the wrong answer for any particular combination
           of inputs.  In other words, just because the adder got the correct
-          answer for 2 + 3 doesn't allow us to draw any conclusions about
+          answer for 2 + 3 doesn&#700;t allow us to draw any conclusions about
           what answer it would get for 2 + 7.  If we could apply one test
           vector every 100ns, how long would it take to exhaustively test
           the adder?</li>
@@ -503,7 +503,7 @@
 
         <li>
           <p>Clearly, testing a 32-bit adder by trying all combinations of
-            input values isn't a good plan!
+            input values isn&#700;t a good plan!
             Shown below is a schematic for a 32-bit ripple-carry adder.</p>
 
           <p><center><img src="2.gif" width="500"/></center></p>
@@ -525,7 +525,7 @@
             choices for A[N-1] and B[N-1].</p>
 
           <p>If we want to set CI[N] to 0, what values should A[N-1] and B[N-1]
-            be set to?  If we want to set CI[N] to 1?  Assume that we can't
+            be set to?  If we want to set CI[N] to 1?  Assume that we can&#700;t
             assume anything about the value of CI[N-1].</p>
 
           <answer type="menu" id="1C1">
@@ -545,7 +545,7 @@
 
           <p>With this strategy we can test the even bits of the adder in
             parallel with one set of test vectors and test the odd bits of the
-            adder in parallel with another set of test vectors.  Here's a set
+            adder in parallel with another set of test vectors.  Here&#700;s a set
             of 10 test vectors that should test all combinations of input values
             for each FA in a 32-bit ripple-carry adder:</p>
 
@@ -565,23 +565,23 @@
         </li>
 
         <li>
-          <p>Three of the compare unit's inputs (Z, V and N) come from the
+          <p>Three of the compare unit&#700;s inputs (Z, V and N) come from the
             adder/subtractor running in subtract mode computing A-B:</p>
 
           <div>
             <p>Z = 1 if A-B is 0</p>
             <p>N = 1 if A-B is negative (OUT[31] = 1)</p>
-            <p>V = 1 if there's been an overflow.  The ALU, which only has
+            <p>V = 1 if there&#700;s been an overflow.  The ALU, which only has
               an adder, computes A-B as A+(-B) = A+(~B)+1.  Let XB = ~B, the
               bit-wise complement of B. An overflow occurs if the sign
-              of the result (OUT[31]) differs from the signs of the adder's operands
+              of the result (OUT[31]) differs from the signs of the adder&#700;s operands
               (A[31], XB[31]).  Note that if the signs of A and XB differ, the
               addition cannot produce an overflow.</p>
           </div>
 
           <p>To test the compare
-            unit, we'll need to pick operands for the adder/subtractor that
-            generate all possible combinations of Z, V and N.  It's easy to
+            unit, we&#700;ll need to pick operands for the adder/subtractor that
+            generate all possible combinations of Z, V and N.  It&#700;s easy to
             see that any combination with Z = 1 and N = 1 is not possible
             (the output of the adder cannot be negative and zero at the same
             time!).  It also turns out that combinations with Z = 1 and V =

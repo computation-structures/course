@@ -46,9 +46,9 @@
       <h3>Problem 1.  CMOS VTC</h3>
 
       <p>Recall from lecture that the voltage transfer characteristic (VTC)
-      is computed by setting a gate's input voltage to a sequence of values
-      and measuring the gate's output for each input voltage, waiting until
-      the circuit has reached a steady state.  We'll use the DC sweep
+      is computed by setting a gate&#700;s input voltage to a sequence of values
+      and measuring the gate&#700;s output for each input voltage, waiting until
+      the circuit has reached a steady state.  We&#700;ll use the DC sweep
       capability of Jade to do the measurements and plot the results.</p>
 
       <p>The schematic below includes a CMOS inverter with its gate
@@ -84,7 +84,7 @@
       right. Moving the mouse over the plot will produce a measurement for
       each curve at the indicated point.</p>
 
-      <p>We've chosen \(V_{OL}=0.3V\) and \(V_{OH}=2.7V\).
+      <p>We&#700;ve chosen \(V_{OL}=0.3V\) and \(V_{OH}=2.7V\).
       Using the VTC (the red curve on the plot, labeled "out"),
       determine appropriate values for \(V_{IL}\) and \(V_{IH}\).</p>
 
@@ -123,8 +123,8 @@
         margin, compromising the noise immunity of the gate (the noise immunity
         is smaller of the two noise margins).</p>
 
-      <p>The problem is that the VTC isn't centered because in the
-      manufacturing process we're modeling, n-channel MOSFETs have much
+      <p>The problem is that the VTC isn&#700;t centered because in the
+      manufacturing process we&#700;re modeling, n-channel MOSFETs have much
       better conductance than p-channel MOSFETs.  To compensate, increase
       the width of the PFET beyond its initial value of 8 by double clicking
       the PFET in the schematic and changing the value for its scaled width.
@@ -158,9 +158,9 @@
 
       <h3>Problem 2. Contamination and propagation times</h3>
 
-      <p>Let's measure the propagation and contamination times of a
+      <p>Let&#700;s measure the propagation and contamination times of a
       CMOS inverter.  To provide realistic input waveforms and output
-      loading, we'll use a chain of 3 CMOS inverters and make our
+      loading, we&#700;ll use a chain of 3 CMOS inverters and make our
       measurements on the output of the middle inverter:</p>
 
       <answer type="iframe" tool_name="Jade" width="100%" height="500" src="../tools/jade_workbook.html" style="border:none;"><![CDATA[
@@ -188,7 +188,7 @@
       <button>OK</button> to accept the preset 25ns simulation time.  On the
       resulting plot, zoom in on the first input transition, which should
       give you a plot like the one shown to the right.  To zoom in: double-click
-      on one of the plots (it doesn't matter which) at the time where you
+      on one of the plots (it doesn&#700;t matter which) at the time where you
       want to zoom in &mdash; each double-click will increase the horizontal
       magnification, but keep the plot stable at the time the mouse is
       pointing to.</p>
@@ -197,7 +197,7 @@
 
       $$V_{OL}=0.3V,V_{IL}=1.1V, V_{IH}=1.8V, V_{OH}=2.7V$$
 
-      <p>We'll start by measuring the contamination and propagation times for
+      <p>We&#700;ll start by measuring the contamination and propagation times for
       the falling input transition at t=10ns.  The contamination time is the delay
       from when the input becomes <i>invalid</i> as it crosses
       \(V_{IH}\) and when the output becomes <i>invalid</i> as it
@@ -269,7 +269,7 @@
       why do we have that rule?  Suppose we tried to build a CMOS buffer
       using an NFET pullup and PFET pulldown &mdash; what bad thing would happen?</p>
 
-      <p>To find out, let's run an experiment!  In the schematic below,
+      <p>To find out, let&#700;s run an experiment!  In the schematic below,
       the chain of three inverters from Question 2 have been changed to
       a chain of three CMOS buffers by interchanging the NFETs and PFETs.</p>
 
@@ -317,15 +317,15 @@
         <label>highest observed voltage for out3 (volts)</label>
       </answer>
 
-      <p>What's going on?  First note that the power supply (\(V_{DD}\))
+      <p>What&#700;s going on?  First note that the power supply (\(V_{DD}\))
         voltage is 3V and that an NFET is "off" when its \(V_{GS} =
         V_{G} - V_{S}\) is less than or equal to \(V_{TH}\),
-        which is 0.5V in the manufacturing process we're modeling.</p>
+        which is 0.5V in the manufacturing process we&#700;re modeling.</p>
 
       <p>Think about the NFET pullup in the first buffer in the chain: its
       gate is the node <tt>in</tt>, its drain is <tt>vdd</tt> and its source
       is <tt>out1</tt>.  The NFET pullup is "on" until its \(V_{GS}\)
-      falls below 0.5V.  When <tt>in</tt> is at 3V and the NFET's source
+      falls below 0.5V.  When <tt>in</tt> is at 3V and the NFET&#700;s source
       node <tt>out1</tt> reaches 2.5V, the NFET turns off and the source
       node voltage can raise no higher.  So \(V_{OH}\) for the first
       buffer is only 2.5V, a "threshold drop" below the power supply
@@ -336,7 +336,7 @@
       turns off when its \(V_{GS}\) falls below 0.5, but now
       \(V_{G}\) is only 2.5V, so \(V_{OH}\) for <tt>out2</tt>, the output
       of the second buffer, is only 2.0V, <i>two</i> threshold drops below
-      the power supply voltage.  We're slowly losing ground here &mdash; the
+      the power supply voltage.  We&#700;re slowly losing ground here &mdash; the
       threshold drops are accumulating!</p>
 
       <p>By the time we get to the third buffer in the chain, its output
@@ -347,7 +347,7 @@
       PFET pulldowns and the \(V_{OL}\) for each buffer increases by a threshold
       as we go down the chain.</p>
 
-      <p>This is why we don't use PFETs in pulldown circuits or NFETs in
+      <p>This is why we don&#700;t use PFETs in pulldown circuits or NFETs in
       pullup circuits &mdash; in that configuration we observe threshold drops
       in the max and min output voltages, which accumulate and cause the
       buffers to produce meaningless outputs.</p>
@@ -434,7 +434,7 @@
       overwhelm the pullup path and the gate will appear to work correctly.</p>
 
       <p>Of course, in the buggy circuit, when both the pulldown and pullup
-      are conducting, there's basically short between power and ground, and
+      are conducting, there&#700;s basically short between power and ground, and
       a lot of power is dissipated! The test includes a plot of I(Vdd), the
       current supplied by the power supply. If your gate design is fully
       complementary, the plot of I(Vdd) will look something like</p>
@@ -448,7 +448,7 @@
       <p>But if the gate is not complementary, current flows continuously
       &mdash; look at the plot below between 10ns and 20ns.  In this buggy
       circuit, the pulldown and pullup are both conducting, providing a
-      continuous path between \(V_{DD}\) and GND.  This isn't what we want!  So if
+      continuous path between \(V_{DD}\) and GND.  This isn&#700;t what we want!  So if
       you see this behavior in your circuit, please change your gate design
       so that the pulldown and pullup paths are complementary.</p>
 

@@ -66,7 +66,7 @@
         </answer>
 
         <li>
-          What is the smallest possible value for the ROM's contamination delay that still
+          What is the smallest possible value for the ROM&#700;s contamination delay that still
           ensures the necessary timing specifications are met?</li>
 
         <answer type="number" id="1C">
@@ -75,7 +75,7 @@
         </answer>
 
         <li>
-          Assume that the ROM's \(t_{\textrm{CD}} = 3\textrm{ns}\).  What is the shortest possible
+          Assume that the ROM&#700;s \(t_{\textrm{CD}} = 3\textrm{ns}\).  What is the shortest possible
           clock period that still ensures that the necessary timing specifications are met?</li>
 
         <answer type="number" id="1D">
@@ -234,8 +234,8 @@
 
       <p>We now refer to this device as a Turing Machine (TM) and use it as
         our definition for what it means to be computable, i.e., we believe
-        (Church's Thesis) that a function is algorithmically computable if and
-        only if it's computable by a TM.</p>
+        (Church&#700;s Thesis) that a function is algorithmically computable if and
+        only if it&#700;s computable by a TM.</p>
 
       <p>The goal of this lab is write the FSM controller for a TM that
         checks to see if the string of left and right parentheses it finds on
@@ -335,7 +335,7 @@
         specified value.
       </ul>
 
-      <p>Here's an example file that defines a control FSM with three
+      <p>Here&#700;s an example file that defines a control FSM with three
         states (s1, s2 and s3) and two possible tape symbols: "1" and "-"
         (recall that the "-" symbol is predefined).  There is a single tape
         configuration defined called "test" which consists of a blank tape.
@@ -368,8 +368,8 @@ action s2 1 s2     1 r
 action s3 - s2     1 l
 action s3 1 *halt* 1 r</pre></p>
 
-      <p>You'll find an instance of TMSim, our TM simulator, at the bottom
-        of this webpage.  Here's what the TM simulator
+      <p>You&#700;ll find an instance of TMSim, our TM simulator, at the bottom
+        of this webpage.  Here&#700;s what the TM simulator
         looks like:</p>
 
       <p><center><img src="10.png" width="600" /></center></p>
@@ -398,7 +398,7 @@ action s3 1 *halt* 1 r</pre></p>
         <p><i>Test selection:</i> radio button to select which test
           tape to use.  A <button>Checkoff</button> will also be displayed.  Clicking on
           <button>Checkoff</button> will run all the test tapes and, if they
-          all pass, you'll be able to submit your design file online.</p>
+          all pass, you&#700;ll be able to submit your design file online.</p>
       </ul>
 
       <p><b>Well-formed parenthesis string checker</b></p>
@@ -408,7 +408,7 @@ action s3 1 *halt* 1 r</pre></p>
         of the head will be at the leftmost non-blank symbol on the tape, i.e., at
         the left end of the parenthesis string. Your TM should
         halt with a current symbol of "1" if the parens balance, or a current
-        symbol of "0" if the parens don't balance.  The head should be
+        symbol of "0" if the parens don&#700;t balance.  The head should be
         positioned over the "0" or "1" on the tape.  Note that there are no
         constraints on what the rest of the tape contains.</p>
 
@@ -435,12 +435,12 @@ action s3 1 *halt* 1 r</pre></p>
 }
 ]]></answer>
 
-      <p>Note that you're welcome to add your own test tapes while
-        debugging your implementation, but you'll need to comment them out
+      <p>Note that you&#700;re welcome to add your own test tapes while
+        debugging your implementation, but you&#700;ll need to comment them out
         before running the checkoff tests (otherwise the checksum mechanism
         will get confused).</p>
 
-      <p>Scoring: The number of points you'll receive at the Check-off
+      <p>Scoring: The number of points you&#700;ll receive at the Check-off
         meeting is determined by the number of states in your TM definition:</p>
       <ul>
         4 points: 2 states<br/>
@@ -485,12 +485,12 @@ action s3 1 *halt* 1 r</pre></p>
         transition diagram.</p>
 
       <p>The details of the implementation are up to you.  Of course,
-        you'll need some number D registers to hold the current state.
+        you&#700;ll need some number D registers to hold the current state.
         The next-state and output logic could be logic gates (see L06
         slides 23 and 24) or our "standard" ROM plus register setup (see
         L06 slide 11).</p>
 
-      <p>The steps you'll need to follow to complete the design are
+      <p>The steps you&#700;ll need to follow to complete the design are
         outlined on slides 8 and 9 of L06.  See the diagram on slide 11 of
         L06 for one way to handle setting an initial state during reset.</p>
 
@@ -507,9 +507,9 @@ action s3 1 *halt* 1 r</pre></p>
 
         <p>To build a ROM, set the memory component to have a single
           port with the desired number of address inputs and data outputs.
-          Connect its CLK and WE inputs to 0'1, which will disable the
+          Connect its CLK and WE inputs to 0&#700;1, which will disable the
           ability to write into the memory, making it read-only.  And
-          connect its OE input to 1'1 which will enable the D outputs:</p>
+          connect its OE input to 1&#700;1 which will enable the D outputs:</p>
 
         <p><center><img src="4_2.png" width="200" /></center></p>
 

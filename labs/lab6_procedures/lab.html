@@ -30,7 +30,7 @@
         </center>
       </div>
 
-      <h2>Procedures and Stacks</h2>
+      <h2>Lab 6: Procedures and Stacks</h2>
 
       <p>When entering numeric values in the answer fields, you can use
         integers (1000, 0x3E8, 0b1111101000), floating-point numbers
@@ -329,7 +329,7 @@ def quicksort(array, left, right):
         versions of the code as comments.</p>
 
       <p>Arrays are stored in consecutive locations of memory.  In this
-        lab, we're dealing with arrays of integers, so each array element
+        lab, we&#700;re dealing with arrays of integers, so each array element
         occupies a 32-bit word.  Since the memory is byte addressed,
         consecutive elements of an integer array have addresses that differ by 4.
         Integer arrays are always <i>word aligned</i>, <i>i.e.</i>, the byte
@@ -337,7 +337,7 @@ def quicksort(array, left, right):
         bits.  When a program refers to an entire array, the value that gets
         passed around is the address of the first array element, <i>i.e.</i>,
         the address of <tt>array[0]</tt>.  For example,
-        here's a simple procedure that adds two consecutive array elements:</p>
+        here&#700;s a simple procedure that adds two consecutive array elements:</p>
       <pre class="jsim">def add_pair(array,i): return array[i] + array[i+1]</pre>
       The corresponding assembly language code would be
       <pre class="jsim">add_pair:
@@ -374,19 +374,19 @@ def quicksort(array, left, right):
         function.</p>
 
       <p>Select the <code>Quicksort</code> tab in the BSim window, click <em>Assemble</em>
-        to translate it to binary.  If successful, you'll now see a
+        to translate it to binary.  If successful, you&#700;ll now see a
         window onto an operating (simulated) Beta running the binary
         translation of your program.  The upper-left displays the contents
-        of the Beta's registers, the lower-left a region of memory containing
+        of the Beta&#700;s registers, the lower-left a region of memory containing
         the translated code, and to the right two regions of memory (one
         near the top of the stack.  Explore this view a bit: scroll the
         lower-left region and observe labels, hex values, and (where
         sensible) values decoded as Beta instructions.
         Most of these are from the checkoff program and associated infrastructure;
-        but at the end of the non-zero contents, you'll see your empty
+        but at the end of the non-zero contents, you&#700;ll see your empty
         partition and quicksort procedures.</p>
 
-      <p>Run the code, by hitting the <em>play</em> button; you'll see the
+      <p>Run the code, by hitting the <em>play</em> button; you&#700;ll see the
         Beta stepping through instructions, updating the display.</p>
 
       <div class="hint">
@@ -403,7 +403,7 @@ def quicksort(array, left, right):
       updates.  You should see some output from the checkoff program in
       the <em>console</em> window at the bottom of your screen.
 
-      <p><em>Good news</em> - you've passed the first two test cases!  Looking
+      <p><em>Good news</em> - you&#700;ve passed the first two test cases!  Looking
         at the console output, notice that Test 1 involves a sequence of 1
         element, and Test 2 involves a sequence of length 2 thats already in
         order.  These trivial test cases are already sorted, so your do-nothing
@@ -439,8 +439,8 @@ def quicksort(array, left, right):
         </li>
       </ol>
 
-      <p>In fact, you'll notice systematic values in registers; these are used by
-        the checkoff program to check that you're properly saving/restoring registers.</p>
+      <p>In fact, you&#700;ll notice systematic values in registers; these are used by
+        the checkoff program to check that you&#700;re properly saving/restoring registers.</p>
 
       <p>Your next project, and the main task of this lab, is to fill in
         the code for the two procedures and get them working correctly.
@@ -463,7 +463,7 @@ def quicksort(array, left, right):
       <p><b><em>partition:</em></b> Implement the code in <code>partition</code>,
         and debug it (again, using various test cases).  Although this code is
         more complex than <code>quicksort</code>, it avoids the complication
-        of recursive calls, making debugging easier.  Once you're
+        of recursive calls, making debugging easier.  Once you&#700;re
         convinced <code>partition</code> works properly, move on to the next
         step.</p>
 
@@ -506,7 +506,7 @@ def quicksort(array, left, right):
         of <code>array</code> elements, implying that they range from zero
         through one less than the length of <code>array</code>.  This
         constraint turns out to be not strictly true in all cases in our
-        implementation.  As our last exercise, we'll explore an exception that
+        implementation.  As our last exercise, we&#700;ll explore an exception that
         arises during execution of our <code>quicksort</code> implementation.</p>
 
       <p>Insert a breakpoint in your <code>quicksort</code> procedure,
@@ -537,7 +537,7 @@ def quicksort(array, left, right):
           </answer>
         </li>
 
-        <li>What's the current value in element zero of the array?
+        <li>What&#700;s the current value in element zero of the array?
 
           <answer type="number" id="x4" width="20">
             <label>Value in array[0]</label>

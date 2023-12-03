@@ -49,7 +49,7 @@
 
       <p>The following questions are multiple-choice.  You can, of
       course, simply keep guessing until you get the right answer.  But
-      you'll be in a much better position to take the quizzes if you take
+      you&#700;ll be in a much better position to take the quizzes if you take
       the time to actually figure out the answers.</p>
 
       <ol type="A">
@@ -71,7 +71,7 @@
           <choice> stay about the same </choice>
           <choice> increase noticeably </choice>
           <choice> decrease noticeably </choice>
-          <choice> change noticeably, but can't tell which way </choice>
+          <choice> change noticeably, but can&#700;t tell which way </choice>
         </answer>
         <li>
         To <i>decrease</i> the output rise time of a CMOS gate one could</li>
@@ -94,7 +94,7 @@
           <label> F(1,1,1,1) will be </label>
           <choice> 0 </choice>
           <choice> 1 </choice>
-          <choice> can't tell </choice>
+          <choice> can&#700;t tell </choice>
         </answer>
       </ol>
 
@@ -194,14 +194,14 @@
       <h3>Problem 4.  Design Problem: 3-bit adder</h3>
 
       <p>Your mission is to design and test a CMOS circuit that
-      performs addition of two two's-complement 3-bit numbers, producing a 4-bit
+      performs addition of two two&#700;s-complement 3-bit numbers, producing a 4-bit
       result:<p>
 
       <p><center><img src="10.png"/></center></p>
 
       <p><b>Ripple-carry adders</b></p>
 
-      <p>Let's start with a simple ripple-carry adder based on the
+      <p>Let&#700;s start with a simple ripple-carry adder based on the
       full-adder module, which has 3 inputs (\(A\), \(B\) and \(C_{IN}\))
       and 2 outputs (\(S\) and \(C_{OUT}\)).  The full adder computes the
       sum of \(A\), \(B\) and \(C_{IN}\) and outputs the 2-bit answer on
@@ -253,17 +253,17 @@
       <p>Typically \(S\) is implemented using two cascaded 2-input XOR gates.
       You can use ANDs and ORs in a sum-of-products implementation for \(C_{out}\),
       but for speed think about using three 2-input NANDs and one 3-input
-      NAND to implement \(C_{out}\) (remember that by Demorgan's Law two cascaded
+      NAND to implement \(C_{out}\) (remember that by Demorgan&#700;s Law two cascaded
       NANDs are logically equivalent to a cascade of AND/OR).</p>
 
       <p><b>Build your own gate library</b></p>
 
-      <p>Since we're using individual gates to implement the logic, a good
+      <p>Since we&#700;re using individual gates to implement the logic, a good
       place to start is to build your own gate library (e.g., inverter,
       2-input NAND, 2-input XOR, ...), test them individually, and
-      then use them to implement your design.  It's much easier to debug
+      then use them to implement your design.  It&#700;s much easier to debug
       your circuit module-by-module rather than as one big lump.  XOR
-      can be a challenging gate to design; here's one suggestion for how it
+      can be a challenging gate to design; here&#700;s one suggestion for how it
       might be implemented based on the observation that \(\textrm{XOR}(A,B)\) is
       true when \(A\) and \(B\) are <i>not</i> \(11\) or \(00\):</p>
 
@@ -280,7 +280,7 @@
       the Z wire.  The triangle symbol at the bottom is a connection to
       ground; the T-shaped symbol at the top is a connection to \(V_{DD}\).</p>
 
-      <p>Click on the button below to open the Jade instance where you'll enter your design.</p>
+      <p>Click on the button below to open the Jade instance where you&#700;ll enter your design.</p>
 
       <answer type="window" tool_name="Jade" id="8" height="500" src="../tools/jade_workbook.html"
               placeholder="Enter the required circuitry using the interactive schematic editor, then click &#x3C;span style=&#x22;color:green;&#x22;&#x3E;&#x2714;&#x3c;/span&#x3E; in the tool bar of the Schematic tab to run the provided tests."><![CDATA[
@@ -294,10 +294,10 @@
 }
 ]]></answer>
 
-      <p>We've provided skeleton modules for most of the logic gates &mdash;
+      <p>We&#700;ve provided skeleton modules for most of the logic gates &mdash;
       each module includes a schematic icon and a functional test, but
-      you'll need to build the schematic for any gates you use in your design.
-      We've provided schematics for the inverter and for the AND and OR gates,
+      you&#700;ll need to build the schematic for any gates you use in your design.
+      We&#700;ve provided schematics for the inverter and for the AND and OR gates,
       which are built using the corresponding NAND and NOR gates.</p>
 
       <p>Suggested steps:</p>
@@ -305,7 +305,7 @@
       <ol type="1">
 
         <li>Select the "/adder/fa" module using the module selection box at
-        the top.  Design the circuit you'll use to implement the FA functionality
+        the top.  Design the circuit you&#700;ll use to implement the FA functionality
         then click and drag the gates needed from the parts bin on the right into
         your schematic.  Arrange the gates and input/output ports tastefully,
         then add wires to make the appropriate connections.</li>
@@ -321,7 +321,7 @@
         gate schematic looks like.
 
         <p>Now click the green checkmark in the toolbar in order to run
-          the test to verify that you've correctly implemented the gate.</p>
+          the test to verify that you&#700;ve correctly implemented the gate.</p>
         </li>
 
         <li>Once all the necessary logic gates have been designed and

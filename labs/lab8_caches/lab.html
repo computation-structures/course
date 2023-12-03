@@ -46,9 +46,9 @@
       <h3>Problem 1.  Cache Architectures</h3>
 
       <p>Please read <A href="#controls">"Appendix: BSim Cache Simulation"</A>
-        below to learn how to drive the cache simulator that's built into BSim.</p>
+        below to learn how to drive the cache simulator that&#700;s built into BSim.</p>
 
-      <p>We'll be using the following test program to explore the
+      <p>We&#700;ll be using the following test program to explore the
         behavior of caches:</p>
 
       <pre class="jsim">.include "beta.uasm"
@@ -111,7 +111,7 @@ loop:                  // add up elements in array
 
       <p>Try assembling the program, opening the cache control, turning
         on the cache, then clicking on the "Run Fast" control, which runs
-        the test in a continuous loop.  You'll observe that with the
+        the test in a continuous loop.  You&#700;ll observe that with the
         initial placement of the instructions and the array, and the initial
         cache configuration, the cache hit ratio is essentially 1.00.</p>
 
@@ -133,7 +133,7 @@ loop:                  // add up elements in array
 
       <p>The key to understanding cache performance is understanding how
         the memory address received from the CPU is processed by the cache
-        hardware.  Here's the right recipe:</p>
+        hardware.  Here&#700;s the right recipe:</p>
 
       <ol type="1">
         <li> Look at the assembly language program to determine
@@ -145,7 +145,7 @@ loop:                  // add up elements in array
           control panel to determine how each memory address is divided
           into offset, index and tag fields.  The index bits determine the
           cache line and the tag bits of the address are compared with the
-          the tag field of the selected cache line to determine if there's
+          the tag field of the selected cache line to determine if there&#700;s
           a hit.</li>
       </ol>
 
@@ -212,7 +212,7 @@ loop:                  // add up elements in array
 
       <p><b>Collisions</b></p>
 
-      <p>Now let's change the location of the A array in memory by modifying
+      <p>Now let&#700;s change the location of the A array in memory by modifying
         the appropriate line in the assembly language program to be</p>
 
       <pre class="jsim">A = 0x300        // starting address of array A</pre>
@@ -274,7 +274,7 @@ loop:                  // add up elements in array
         </li>
       </ol>
 
-      <p>Why is the long-term instruction fetch hit ratio .904?  Let's do
+      <p>Why is the long-term instruction fetch hit ratio .904?  Let&#700;s do
         the calculations for one complete iteration of the <i>outer</i>
         loop, which involves N (16) iterations of the inner loop.  Consider
         execution starting with the instruction at <tt>test:</tt> and ending
@@ -285,8 +285,8 @@ loop:                  // add up elements in array
         you compare the cache statistics between two successive iterations
         of the outer loop and use the difference to answer the questions
         below.  Or, of course, you can simply figure it out from the
-        assembly language program!    We're interested in the steady
-        state behavior, so don't use measurements from the first iteration
+        assembly language program!    We&#700;re interested in the steady
+        state behavior, so don&#700;t use measurements from the first iteration
         of the loop, which would include cumpulsory misses when filling
         the empty cache.
       </div>
@@ -348,7 +348,7 @@ loop:                  // add up elements in array
               line.  And so on for the other collisions in the
               direct-mapped cache.</choice> 
 
-            <choice> There's a bug in the cache simulation. </choice>
+            <choice> There&#700;s a bug in the cache simulation. </choice>
           </answer>
         </li>
       </ol>
@@ -358,7 +358,7 @@ loop:                  // add up elements in array
         them not to collide either by appropriate choice of addressing or by
         using a 2-way set-associative cache.</p>
 
-      <p>Now let's consider what happens when we access a much larger
+      <p>Now let&#700;s consider what happens when we access a much larger
         array.  Modify the assembly language program to be</p>
 
       <pre class="jsim">A = 0x300        // starting address of array A
@@ -389,7 +389,7 @@ N = 64           // size of data region (words)</pre>
         recently used" when a cache line needs to be replaced due to a
         data miss.  This means the instructions in the inner loop will always
         be in one way of the cache after the initial instruction fetch.
-        So it's just the 2 instructions at the beginning of the outer loop
+        So it&#700;s just the 2 instructions at the beginning of the outer loop
         and the one at the end that generate the 3 misses for each
         iteration of the outer loop.  Running the numbers: total
         instruction fetches = 64*5+3 = 323; total misses = 3; Ifetch hit
@@ -397,7 +397,7 @@ N = 64           // size of data region (words)</pre>
 
       <p><img src="1.png" width="150" style="float:right;margin-left:10px;"/></p>
 
-      <p>To analyze the Dfetch hit ratio, it's helpful to refer to
+      <p>To analyze the Dfetch hit ratio, it&#700;s helpful to refer to
         the figure on the right, which sketches the layout of a 2-way
         set-associative cache with 64 total words.  The instructions occupy
         lines 0-7 in one of the ways (shown conceptually as the shaded area
@@ -419,7 +419,7 @@ N = 64           // size of data region (words)</pre>
       <p> Since the cache is 2-way set-associative, two addresses
         that collide can both reside in the cache.  So 75% of the
         array values (those that map to cache lines 8 through 31)
-        will stay in the cache once they're loaded.  But 25%
+        will stay in the cache once they&#700;re loaded.  But 25%
         of the array elements also collide with the instructions.</p>
 
       <ol type="A" start="10">
@@ -436,14 +436,14 @@ N = 64           // size of data region (words)</pre>
         </li>
       </ol>
 
-      <p>It's these 25% of the array elements that collide with
+      <p>It&#700;s these 25% of the array elements that collide with
         each other that lead to cache misses and refills from
         one iteration of the outer loop to the next.  Hence the .75
         hit ratio for Dfetches.</p>
 
       <p><b>Block size (words/cache line)</b></p>
 
-      <p>Finally, let's make one last adjustment to the cache controls:
+      <p>Finally, let&#700;s make one last adjustment to the cache controls:
         change the words/line to the value 2, still keeping the address of
         the array at 0x300.  This changes the layout of
         the cache once again: each of the 2 ways now has 16 cache lines,
@@ -451,7 +451,7 @@ N = 64           // size of data region (words)</pre>
         a cache line will be from a memory location whose byte address is
         a multiple of 8, the second word will be from the following memory
         location.  When a cache line is refilled both words are read
-        from memory and stored in the cache -- there's no notion of a
+        from memory and stored in the cache -- there&#700;s no notion of a
         partially-filled cache line.</p>
 
       <p>Suppose <tt>A[53]</tt> is resident in our cache as currently
@@ -471,7 +471,7 @@ N = 64           // size of data region (words)</pre>
           </answer>
 
           <p>If <tt>A[53]</tt> is resident in the cache, in which
-            cache line will it reside?  In other words, what's the value
+            cache line will it reside?  In other words, what&#700;s the value
             of the index field of the address you entered above?</p>
           <answer type="number" id="K3" width="5">
             <label>Value for the index field?</label>
@@ -499,9 +499,9 @@ N = 64           // size of data region (words)</pre>
       <p>Doubling the number of words/line has halved the number of
         Dread misses in each iteration of the outer loop!  Why?  The
         refill triggered by each miss brings in two entries from the array,
-        the one that's needed to satisfy the current LD instruction, and
+        the one that&#700;s needed to satisfy the current LD instruction, and
         the memory location that will be accessed by LD in the next
-        iteration of the inner loop.  For example, if there's a miss when
+        iteration of the inner loop.  For example, if there&#700;s a miss when
         loading A[7], both A[6] and A[7] are brought into the cache.
         On the next iteration, the load of A[6] will be a hit! So every
         second LD access is now a hit.</p>
@@ -510,7 +510,7 @@ N = 64           // size of data region (words)</pre>
         of the principal of locality.  An increased words/line will bring
         in neighboring array elements on a miss and those neighbors will
         be accessed in successive iterations.  So at a slightly larger
-        refill cost (bringing in the extra words), there's a big impact
+        refill cost (bringing in the extra words), there&#700;s a big impact
         on the miss rate.</p>
 
       <h3>Problem 2.  Design Problem: Set-associative Instruction Cache</h3>
@@ -535,35 +535,35 @@ N = 64           // size of data region (words)</pre>
 
       <p><b>Instructions</b></p>
 
-      <p>In this lab, you'll design a 2-way set-associative instruction
+      <p>In this lab, you&#700;ll design a 2-way set-associative instruction
         cache with a block size of 2 and an LRU replacement strategy.
         Most modern CPUs use separate caches for instruction fetch and
         data accesses as the first level of their memory hierarchy.  That
         way misses from data accesses will never interfere with cached
         instructions, potentially increasing the hit rate of the
         instruction cache.  Instruction caches can be simpler since they
-        don't have to deal with write requests and so don't need the
+        don&#700;t have to deal with write requests and so don&#700;t need the
         machinery associated with dirty bits, write back, etc.</p>
 
-      <p>We'll test your design using the <tt>/caches/test</tt> module:</p>
+      <p>We&#700;ll test your design using the <tt>/caches/test</tt> module:</p>
 
       <div>
         <svg viewbox="20 120 720 220"><g id="grid" stroke="rgb(230,230,230)" stroke-width="0.2" fill="none" transform="translate(345.0625 316.9375) scale(1.953125)"></g><g id="content" stroke="rgb(88,110,117)" stroke-width="1" stroke-linecap="round" fill="none" transform="translate(345.0625 316.9375) scale(1.953125)"><g><line x1="-128" y1="-32" x2="-136" y2="-32" stroke-width="1" stroke="rgb(0,0,0)"></line><text fill="rgb(0,0,0)" style="font: 5pt sans-serif" x="-139" y="-32" stroke="none" text-anchor="end" dy="0.4em">ia[31:0]</text></g><g><line x1="-128" y1="-56" x2="-136" y2="-56" stroke-width="1" stroke="rgb(0,0,0)"></line><text fill="rgb(0,0,0)" style="font: 5pt sans-serif" x="-139" y="-56" stroke="none" text-anchor="end" dy="0.4em">id[31:0]</text></g><g><line x1="-128" y1="-72" x2="-136" y2="-72" stroke-width="1" stroke="rgb(0,0,0)"></line><text fill="rgb(0,0,0)" style="font: 5pt sans-serif" x="-139" y="-72" stroke="none" text-anchor="end" dy="0.4em">irdy</text></g><g><line x1="-128" y1="0" x2="-136" y2="0" stroke-width="1" stroke="rgb(0,0,0)"></line><text fill="rgb(0,0,0)" style="font: 5pt sans-serif" x="-139" y="0" stroke="none" text-anchor="end" dy="0.4em">clk</text></g><g><line x1="-128" y1="-16" x2="-136" y2="-16" stroke-width="1" stroke="rgb(0,0,0)"></line><text fill="rgb(0,0,0)" style="font: 5pt sans-serif" x="-139" y="-16" stroke="none" text-anchor="end" dy="0.4em">reset</text></g><g><line x1="-16" y1="-72" x2="-8" y2="-72" stroke-width="1" stroke="rgb(0,0,0)"></line><text fill="rgb(0,0,0)" style="font: 5pt sans-serif" x="-5" y="-72" stroke="none" text-anchor="start" dy="0.4em">xma[31:3]</text></g><g><line x1="-16" y1="-56" x2="-8" y2="-56" stroke-width="1" stroke="rgb(0,0,0)"></line><text fill="rgb(0,0,0)" style="font: 5pt sans-serif" x="-5" y="-56" stroke="none" text-anchor="start" dy="0.4em">xdata[63:0]</text></g><g><line x1="152" y1="-40" x2="160" y2="-40" stroke-width="1" stroke="rgb(0,0,0)"></line><text fill="rgb(0,0,0)" style="font: 5pt sans-serif" x="163" y="-40" stroke="none" text-anchor="start" dy="0.4em">xdata[63:0]</text></g><g><line x1="80" y1="-16" x2="72" y2="-16" stroke-width="1" stroke="rgb(0,0,0)"></line><text fill="rgb(0,0,0)" style="font: 5pt sans-serif" x="69" y="-16" stroke="none" text-anchor="end" dy="0.4em">0'1</text></g><g><line x1="80" y1="-24" x2="72" y2="-24" stroke-width="1" stroke="rgb(0,0,0)"></line><text fill="rgb(0,0,0)" style="font: 5pt sans-serif" x="69" y="-24" stroke="none" text-anchor="end" dy="0.4em">0'1</text></g><g><line x1="80" y1="-32" x2="72" y2="-32" stroke-width="1" stroke="rgb(0,0,0)"></line><text fill="rgb(0,0,0)" style="font: 5pt sans-serif" x="69" y="-32" stroke="none" text-anchor="end" dy="0.4em">1'1</text></g><g><line x1="80" y1="-40" x2="72" y2="-40" stroke-width="1" stroke="rgb(0,0,0)"></line><text fill="rgb(0,0,0)" style="font: 5pt sans-serif" x="69" y="-40" stroke="none" text-anchor="end" dy="0.4em">xma[11:3]</text></g><g><line x1="88" y1="-64" x2="144" y2="-64" stroke-width="1" stroke="rgb(0,0,0)"></line><line x1="88" y1="-64" x2="88" y2="-8" stroke-width="1" stroke="rgb(0,0,0)"></line><line x1="144" y1="-64" x2="144" y2="-8" stroke-width="1" stroke="rgb(0,0,0)"></line><line x1="88" y1="-48" x2="144" y2="-48" stroke-width="1" stroke="rgb(0,0,0)"></line><line x1="80" y1="-40" x2="88" y2="-40" stroke-width="1" stroke="rgb(0,0,0)"></line><text fill="rgb(0,0,0)" style="font: 4pt sans-serif" x="89" y="-40" stroke="none" text-anchor="start" dy="0.4em">A[8:0]</text><line x1="144" y1="-40" x2="152" y2="-40" stroke-width="1" stroke="rgb(0,0,0)"></line><text fill="rgb(0,0,0)" style="font: 4pt sans-serif" x="143" y="-40" stroke="none" text-anchor="end" dy="0.4em">D[63:0]</text><line x1="80" y1="-32" x2="88" y2="-32" stroke-width="1" stroke="rgb(0,0,0)"></line><text fill="rgb(0,0,0)" style="font: 4pt sans-serif" x="89" y="-32" stroke="none" text-anchor="start" dy="0.4em">OE</text><line x1="80" y1="-24" x2="88" y2="-24" stroke-width="1" stroke="rgb(0,0,0)"></line><text fill="rgb(0,0,0)" style="font: 4pt sans-serif" x="89" y="-24" stroke="none" text-anchor="start" dy="0.4em">WE</text><line x1="80" y1="-16" x2="88" y2="-16" stroke-width="1" stroke="rgb(0,0,0)"></line><line x1="88" y1="-18" x2="92" y2="-16" stroke-width="1" stroke="rgb(0,0,0)"></line><line x1="88" y1="-14" x2="92" y2="-16" stroke-width="1" stroke="rgb(0,0,0)"></line><line x1="88" y1="-8" x2="144" y2="-8" stroke-width="1" stroke="rgb(0,0,0)"></line><text fill="rgb(0,0,0)" style="font: 5pt sans-serif" x="116" y="-56" stroke="none" text-anchor="middle" dy="-0.1em">Main</text><text fill="rgb(0,0,0)" style="font: 5pt sans-serif" x="116" y="-56" stroke="none" text-anchor="middle" dy="0.9em">512×64</text></g></g><g id="selected" stroke="rgb(211,54,130)" stroke-width="1" stroke-linecap="round" fill="none" transform="translate(345.0625 316.9375) scale(1.953125)"><g stroke="black" stroke-width="1" fill="black"><line x1="-24" y1="-96" x2="-24" y2="8" stroke-width="1" stroke="rgb(211,54,130)"></line><line x1="-120" y1="-96" x2="-120" y2="8" stroke-width="1" stroke="rgb(211,54,130)"></line><line x1="-24" y1="-96" x2="-120" y2="-96" stroke-width="1" stroke="rgb(211,54,130)"></line><line x1="-120" y1="8" x2="-24" y2="8" stroke-width="1" stroke="rgb(211,54,130)"></line><text fill="rgb(211,54,130)" style="font: 10pt bold sans-serif" x="-72" y="-86" stroke="none" text-anchor="middle" dy="0.4em">ICACHE</text><text fill="rgb(211,54,130)" style="font: 6pt sans-serif" x="-26" y="-56" stroke="none" text-anchor="end" dy="0.4em">xdata[63:0]</text><text fill="rgb(211,54,130)" style="font: 6pt sans-serif" x="-26" y="-72" stroke="none" text-anchor="end" dy="0.4em">xma[31:3]</text><text fill="rgb(211,54,130)" style="font: 6pt sans-serif" x="-118" y="-56" stroke="none" text-anchor="start" dy="0.4em">id[31:0]</text><text fill="rgb(211,54,130)" style="font: 6pt sans-serif" x="-118" y="-72" stroke="none" text-anchor="start" dy="0.4em">irdy</text><text fill="rgb(211,54,130)" style="font: 6pt sans-serif" x="-118" y="0" stroke="none" text-anchor="start" dy="0.4em">clk</text><text fill="rgb(211,54,130)" style="font: 6pt sans-serif" x="-118" y="-16" stroke="none" text-anchor="start" dy="0.4em">reset</text><text fill="rgb(211,54,130)" style="font: 6pt sans-serif" x="-118" y="-32" stroke="none" text-anchor="start" dy="0.4em">ia[31:0]</text><line x1="-128" y1="-56" x2="-120" y2="-56" stroke-width="1" stroke="rgb(211,54,130)"></line><line x1="-16" y1="-56" x2="-24" y2="-56" stroke-width="1" stroke="rgb(211,54,130)"></line><line x1="-16" y1="-72" x2="-24" y2="-72" stroke-width="1" stroke="rgb(211,54,130)"></line><line x1="-128" y1="-72" x2="-120" y2="-72" stroke-width="1" stroke="rgb(211,54,130)"></line><line x1="-128" y1="0" x2="-120" y2="0" stroke-width="1" stroke="rgb(211,54,130)"></line><line x1="-128" y1="-16" x2="-120" y2="-16" stroke-width="1" stroke="rgb(211,54,130)"></line><line x1="-128" y1="-32" x2="-120" y2="-32" stroke-width="1" stroke="rgb(211,54,130)"></line></g><circle cx="72" cy="-40" r="2" fill="none" stroke="rgb(0,0,0)"></circle><circle cx="72" cy="-32" r="2" fill="none" stroke="rgb(0,0,0)"></circle><circle cx="72" cy="-24" r="2" fill="none" stroke="rgb(0,0,0)"></circle><circle cx="72" cy="-16" r="2" fill="none" stroke="rgb(0,0,0)"></circle><circle cx="160" cy="-40" r="2" fill="none" stroke="rgb(0,0,0)"></circle><circle cx="-8" cy="-56" r="2" fill="none" stroke="rgb(0,0,0)"></circle><circle cx="-8" cy="-72" r="2" fill="none" stroke="rgb(0,0,0)"></circle><circle cx="-136" cy="-16" r="2" fill="none" stroke="rgb(0,0,0)"></circle><circle cx="-136" cy="0" r="2" fill="none" stroke="rgb(0,0,0)"></circle><circle cx="-136" cy="-72" r="2" fill="none" stroke="rgb(0,0,0)"></circle><circle cx="-136" cy="-56" r="2" fill="none" stroke="rgb(0,0,0)"></circle><circle cx="-136" cy="-32" r="2" fill="none" stroke="rgb(0,0,0)"></circle></g></svg>
       </div>
 
       <p>On the right of the diagram is the 64-bit wide main memory --
-        we're only showing the one port used for reading instructions.
+        we&#700;re only showing the one port used for reading instructions.
         This memory takes <i>two</i> clock cycles to complete a read operation.
         The 64-bit width is a perfect match for the 2-word block size, i.e.,
         a single access to main memory can refill an entire line of cache.</p>
 
-      <p>You'll be designing the component on the left, highlighted in
+      <p>You&#700;ll be designing the component on the left, highlighted in
         red.  On its left are the interface signals that connect to the
         instruction address (<tt>ia[31:0]</tt>) and instruction data
-        (<tt>id[31:0]</tt>).  There's one additional signal, <tt>irdy</tt>, that
+        (<tt>id[31:0]</tt>).  There&#700;s one additional signal, <tt>irdy</tt>, that
         the cache generates to tell the Beta that the cache has completed the
         requested instruction fetch during the current clock period.  If
-        there's a cache hit, the request is completed in the cycle it is
+        there&#700;s a cache hit, the request is completed in the cycle it is
         issued.  Otherwise, it will take two additional cycles before the request
         is complete since the cache will have to access the slower main
         memory.</p>
@@ -571,7 +571,7 @@ N = 64           // size of data region (words)</pre>
       <p>These signals are described in detail in the final section
         of this document.</p>
 
-      <p>You'll be entering your cache circuitry in the schematic for
+      <p>You&#700;ll be entering your cache circuitry in the schematic for
         the <tt>/caches/icache</tt> module.  To test your design, use
         the <tt>/caches/test</tt> module.</p>
 
@@ -626,7 +626,7 @@ N = 64           // size of data region (words)</pre>
         32x89 memory.  One port is used for reading out the valid/tag/data
         information for the requested cache line, and the other port is used
         to write valid/tag/data information when a cache line is refilled.
-        So you'll need to add something like the following to the <tt>icache</tt>
+        So you&#700;ll need to add something like the following to the <tt>icache</tt>
         schematic:</p>
 
       <center><div style="width:500px">
@@ -635,9 +635,9 @@ N = 64           // size of data region (words)</pre>
 
       <p>To initialize the valid bits for each line to 0, the initial
         contents for each location should be specified as 0.  To do this,
-        edit the memory's contents property and enter 32 lines of 0.</p>
+        edit the memory&#700;s contents property and enter 32 lines of 0.</p>
 
-      <p>Of course, you'll have two of these with the appropriate changes to signal
+      <p>Of course, you&#700;ll have two of these with the appropriate changes to signal
         names to keep the valid/tag/data info separate.  <tt>xdata[63:0]</tt>
         is the 64-bit data coming back from main memory during a refill
         operation.  The write enable signal (<tt>cwe0</tt>) is discussed in
@@ -647,7 +647,7 @@ N = 64           // size of data region (words)</pre>
 
       <p>On each cycle, the cache reads the line requested by the cache
         line index field of the instruction address and then checks to see
-        if there's a cache hit by comparing the tag fields of the cache line
+        if there&#700;s a cache hit by comparing the tag fields of the cache line
         and instruction address:</p>
 
       <center><div style="width:487px">
@@ -656,9 +656,9 @@ N = 64           // size of data region (words)</pre>
 
       <p>We get a cache hit if the tags match, the cache line is
         valid and (so we deal with start up correctly) if the reset signal
-        is 0.  Here we've used the handy <tt>/caches/equal24</tt> module
-        that compares two 24-bit values and tells us if they're equal.
-        Again, you'll need a copy of this logic for each way.</p>
+        is 0.  Here we&#700;ve used the handy <tt>/caches/equal24</tt> module
+        that compares two 24-bit values and tells us if they&#700;re equal.
+        Again, you&#700;ll need a copy of this logic for each way.</p>
 
       <p>So now we know if a request has hit in either of the ways.
         The next step is to deal with misses and generate the <tt>irdy</tt>
@@ -674,13 +674,13 @@ N = 64           // size of data region (words)</pre>
       <ul>
         <li>a request is a <i>hit</i> if in one of the ways the
           selected cache line is valid, the address tag field matches
-          the cache line's tag field, and <tt>reset = 0</tt>.</li>
+          the cache line&#700;s tag field, and <tt>reset = 0</tt>.</li>
 
         <li>a request is a <i>miss</i> if neither way reported a hit:
           $\textrm{miss}= \overline{\textrm{reset}} \cdot \overline{\textrm{hit0}} \cdot \overline{\textrm{hit1}}$.</li>
       </ul>
 
-      Here's how the FSM controls the cache to handle requests.  Note that
+      Here&#700;s how the FSM controls the cache to handle requests.  Note that
       the control signals for each state are summarized in a table below.
 
       <ul>
@@ -698,10 +698,10 @@ N = 64           // size of data region (words)</pre>
           way is least recently used.  This is accomplished
           in two clock cycles via FSM states <tt>R1</tt> and <tt>R2</tt>.
           The selected way is updated from <tt>xdata[63:0]</tt> at the end of
-          the <tt>R2</tt> cycle.  At the same time as we're updating the
+          the <tt>R2</tt> cycle.  At the same time as we&#700;re updating the
           cache line we can use <tt>ia[2]</tt> to select between
           <tt>XDATA[31:0]</tt> or <tt>XDATA[63:32]</tt> to supply the value of
-          <tt>id[31:0]</tt>.  Since we're completing the request, <tt>irdy</tt>
+          <tt>id[31:0]</tt>.  Since we&#700;re completing the request, <tt>irdy</tt>
           is set to 1 during the <tt>R2</tt> cycle.</li>
 
       </ul>
@@ -717,7 +717,7 @@ N = 64           // size of data region (words)</pre>
         When editing the contents property of the ROM, remember that you need
         to indicate the radix for each number you enter.  <tt>101</tt> is the number
         one hundred and one, <tt>0b101</tt> is the number 5.  For ROMs used as
-        FSM controllers, you'll almost always want to use the <tt>0b</tt> prefix.
+        FSM controllers, you&#700;ll almost always want to use the <tt>0b</tt> prefix.
       </div>
 
       <p>The <tt>irdy</tt> and <tt>cwe</tt> outputs are determined by the
@@ -747,8 +747,8 @@ N = 64           // size of data region (words)</pre>
       <p>The <tt>cwe</tt> signal is combined with the LRU state (see below) to
         generate the write enables for the two ways (<tt>cwe0</tt> and <tt>cwe1</tt>).</p>
 
-      <p>So a request takes either 1 cycle to complete if it's a hit or
-        3 cycles to complete if it's a miss. Here's a table showing
+      <p>So a request takes either 1 cycle to complete if it&#700;s a hit or
+        3 cycles to complete if it&#700;s a miss. Here&#700;s a table showing
         where <tt>id[31:0]</tt> comes from</p>
 
       <center><table cellpadding="5" border="1" style="border-collapse:collapse;">
@@ -777,11 +777,11 @@ N = 64           // size of data region (words)</pre>
       <p><b>LRU replacement strategy</b></p>
 
       <p>The final piece of the puzzle is figuring out which way to
-        replace when there's a miss and we're reading the required data
+        replace when there&#700;s a miss and we&#700;re reading the required data
         from main memory.  For a 2-way set-associative cache, we only need
         one bit of state for each cache line.  If the state bit is 0, then
         way 0 holds the LRU cache line. If the state bit is 1, then way 1
-        holds the LRU cache line.  Once we know which way is LRU, it's
+        holds the LRU cache line.  Once we know which way is LRU, it&#700;s
         easy to generate the correct write enable (<tt>cwe0</tt>
         or <tt>cwe1</tt>) for the ways:</p>
 
@@ -791,15 +791,15 @@ N = 64           // size of data region (words)</pre>
 
       <p>To initialize the LRU bits for each line to 0, the initial
         contents for each location of the LRU state memory should be
-        specified as 0.  To do this, edit the memory's contents property and
+        specified as 0.  To do this, edit the memory&#700;s contents property and
         enter 32 lines of 0.</p>
 
       <p>The LRU state needs to be updated at the end of every
         request, i.e., whenever <tt>irdy</tt> is 1.  If there was a hit
-        in way 0, or if we're updating way 0 during a refill, then
+        in way 0, or if we&#700;re updating way 0 during a refill, then
         we set the LRU state bit to 1, indicating that way 1 now holds the
         LRU cache line.  In other words, if we just finished accessing
-        way 0 to complete the request, it's now the most recently used
+        way 0 to complete the request, it&#700;s now the most recently used
         cache line!  And vice versa.</p>
 
       <p><b>Testing</b></p>
@@ -807,7 +807,7 @@ N = 64           // size of data region (words)</pre>
       <p>To test your icache design, switch to the <tt>/caches/test</tt>
         module, click the green checkmark, and hope for the best!</p>
 
-      <p>Here's a rundown of the requests made:</p>
+      <p>Here&#700;s a rundown of the requests made:</p>
 
       <ul>
         <li>read from location 0x000.  This should be a miss since all
@@ -824,7 +824,7 @@ N = 64           // size of data region (words)</pre>
           For cache line 0, way 1 is now LRU.</li>
 
         <li>read from location 0x100.  This location also maps to line
-          0 and should be a miss.  But this time it's line 0 of way 1 that
+          0 and should be a miss.  But this time it&#700;s line 0 of way 1 that
           gets refilled.  For cache line 0, way 0 is now LRU.</li>
 
         <li>read from location 0x004.  This should be a hit in line
@@ -864,8 +864,8 @@ N = 64           // size of data region (words)</pre>
 
       <p><b>Description of cache input/output signals</b></p>
 
-      <p>Here's a table describing the interface signals that connect
-        to the Beta's memory interface.</p>
+      <p>Here&#700;s a table describing the interface signals that connect
+        to the Beta&#700;s memory interface.</p>
 
       <table border="1" cellpadding="3" style="border-collapse:collapse">
         <tr>
@@ -916,7 +916,7 @@ N = 64           // size of data region (words)</pre>
         </tr>
       </table>
 
-      <p>And here's a table describing the interface signals that connect
+      <p>And here&#700;s a table describing the interface signals that connect
         to main memory.</p>
 
       <table border="1" cellpadding="3" style="border-collapse:collapse">
