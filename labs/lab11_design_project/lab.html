@@ -429,12 +429,10 @@
           0, the other assuming the carry-in is 1.  Use a MUX to select the
           appropriate answers when the correct carry-in from the low half is
           known. 
-          The <A href="../../lectures/L08_Design_Tradeoffs.md" target="_blank">Design
-          Tradeoffs lecture</A> has some additional design hints for carry-select
+          The Design Tradeoffs lecture has some additional design hints for carry-select
           adders.</li>
 
-        <li><i>Carry-lookahead adder</i> (see the
-          <A href="../../lectures/L08_Design_Tradeoffs.md" target="_blank">Design Tradeoffs lecture</A>.
+        <li><i>Carry-lookahead adder</i> (see the Design Tradeoffs lecture).
           Basic idea: we can compute the
           carry-in for each bit using a tree of lookahead modules, resulting in
           a t<sub>PD</sub> that grows logarithmically with the size of the
