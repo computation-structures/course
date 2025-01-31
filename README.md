@@ -55,7 +55,7 @@ Enjoy!
 
   * Online labs:
 
-    * <a href="https://raw.githack.com/computation-structures/course/main/labs/lab1_cmos/lab.html">Lab 1: CMOS Technology</a>
+    * <a href="labs/lab1_cmos/lab.html">Lab 1: CMOS Technology</a>
 
     * <a href="https://raw.githack.com/computation-structures/course/main/labs/lab2_adder/lab.html">Lab 2: CMOS Adder</a>
 
