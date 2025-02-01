@@ -1,4 +1,4 @@
-View online at: [https://computation-structures.github.io/course](https://computation-structures.github.io/course)
+View course online at: [https://computation-structures.github.io/course](https://computation-structures.github.io/course)
 
 Github repo: [https://github.com/computation-structures/course](https://github.com/computation-structures/course)
 
