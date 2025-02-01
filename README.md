@@ -1,6 +1,6 @@
 View online at: [https://computation-structures.github.io/course](https://computation-structures.github.io/course)
 
-Github repo: phttps://github.com/computation-structures/course](https://github.com/computation-structures/course)
+Github repo: [https://github.com/computation-structures/course](https://github.com/computation-structures/course)
 
 <hr/>
 
