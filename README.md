@@ -1,3 +1,5 @@
+View online at: [https://computation-structures.github.io/course](https://computation-structures.github.io/course)
+
 <p align="center"><img src="course_in_a_box/title.png"/></p>
 
 Computation Structures (6.004) is a sophomore-level subject offered by
@@ -37,7 +39,7 @@ Enjoy!
 
 * **Part 1: Digital Circuits**
 
-  * L01. Basics of Information: <a href="lectures/L01_Basics_of_Information.md">Lecture</a>, <a href="worksheets/pdfs/L01_worksheet.pdf">Worksheet</a>
+  * L01. Basics of Information: <a href="lectures/L01_Basics_of_Information.html">Lecture</a>, <a href="worksheets/pdfs/L01_worksheet.pdf">Worksheet</a>
 
   * L02. The Digital Abstraction: <a href="lectures/L02_The_Digital_Abstraction.md">Lecture</a>, <a href="worksheets/pdfs/L02_worksheet.pdf">Worksheet</a>
 
@@ -57,11 +59,11 @@ Enjoy!
 
     * <a href="labs/lab1_cmos/lab.html">Lab 1: CMOS Technology</a>
 
-    * <a href="https://raw.githack.com/computation-structures/course/main/labs/lab2_adder/lab.html">Lab 2: CMOS Adder</a>
+    * <a href="labs/lab2_adder/lab.html">Lab 2: CMOS Adder</a>
 
-    * <a href="https://raw.githack.com/computation-structures/course/main/labs/lab3_fsm/lab.html">Lab 3:FSMs</a>
+    * <a href="labs/lab3_fsm/lab.html">Lab 3:FSMs</a>
 
-    * <a href="https://raw.githack.com/computation-structures/course/main/labs/lab4_alu/lab.html">Lab 4: 32-bit ALU</a>
+    * <a href="labs/lab4_alu/lab.html">Lab 4: 32-bit ALU</a>
 
 * **Part 2: Programmable Architectures**
 
@@ -83,13 +85,13 @@ Enjoy!
 
   * Online labs:
 
-    * <a href="https://raw.githack.com/computation-structures/course/main/labs/lab5_assembly/lab.html">Lab 5: Assembly Language</a>
+    * <a href="labs/lab5_assembly/lab.html">Lab 5: Assembly Language</a>
 
-    * <a href="https://raw.githack.com/computation-structures/course/main/labs/lab6_procedures/lab.html">Lab 6: Procedures &amp; Stacks</a>
+    * <a href="labs/lab6_procedures/lab.html">Lab 6: Procedures &amp; Stacks</a>
 
-    * <a href="https://raw.githack.com/computation-structures/course/main/labs/lab7_beta/lab.html">Lab 7: Building the Beta</a>
+    * <a href="labs/lab7_beta/lab.html">Lab 7: Building the Beta</a>
 
-    * <a href="https://raw.githack.com/computation-structures/course/main/labs/lab8_caches/lab.html">Lab 8: Caches</a>
+    * <a href="labs/lab8_caches/lab.html">Lab 8: Caches</a>
 
 * **Part 3: Computer Organization**
 
@@ -109,8 +111,8 @@ Enjoy!
 
   * Online labs:
 
-    * <a href="https://raw.githack.com/computation-structures/course/main/labs/lab9_assembly/lab.html">Lab 9: Emulating Instructions</a>
+    * <a href="labs/lab9_assembly/lab.html">Lab 9: Emulating Instructions</a>
 
-    * <a href="https://raw.githack.com/computation-structures/course/main/labs/lab10_tinyos/lab.html">Lab 10: Tiny Operating System</a>
+    * <a href="labs/lab10_tinyos/lab.html">Lab 10: Tiny Operating System</a>
 
-    * <a href="https://raw.githack.com/computation-structures/course/main/labs/lab11_design_project/lab.html">Lab 11: Optimizing the Beta</a> (optional, extra points!)
+    * <a href="labs/lab11_design_project/lab.html">Lab 11: Optimizing the Beta</a> (optional, extra points!)
