@@ -1,5 +1,9 @@
 View online at: [https://computation-structures.github.io/course](https://computation-structures.github.io/course)
 
+Github repo: phttps://github.com/computation-structures/course](https://github.com/computation-structures/course)
+
+<hr/>
+
 <p align="center"><img src="course_in_a_box/title.png"/></p>
 
 Computation Structures (6.004) is a sophomore-level subject offered by
