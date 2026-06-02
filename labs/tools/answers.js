@@ -237,8 +237,9 @@ answers = (function () {
                 var style = adiv.attr('style') || 'border:none;';
                 var initialState = adiv.html() || '{}';  // use html() to get CDATA
 
-                // strip out <!--[CDATA[ ... ]]--> tags, if any
-                initialState = initialState.replace(/<!--\[CDATA\[([^]*?)\]\]-->/g,
+                // strip out <![CDATA[ ... ]]> tags, if any
+                // jquery html function returns <!--[CDATA[ ... ]]-->
+                initialState = initialState.replace(/\<!(?:--)?\[CDATA\[([^]*?)\]\](?:--)?>/g,
                                                      function(m,body) {
                                                          return body;
                                                      });
