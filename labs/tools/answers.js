@@ -51,7 +51,16 @@ answers = (function () {
             event = event.originalEvent;
             if (event.origin != window.location.origin) return;
 
-            var answer = JSON.parse(event.data);
+            // Explicitly ignore React DevTools internal message traffic
+            // generated when React Developer Tools extension has been loaded into Chrome
+            const messageData = event.data;
+            if (
+                messageData && 
+                    (messageData.source === 'react-devtools-content-script' ||
+                     messageData.source === 'react-devtools-bridge')
+            ) return;
+
+            var answer = JSON.parse(messageData);
             var id = answer.id;
             if (id && update_handlers[id])
                 update_handlers[id](answer,false);
