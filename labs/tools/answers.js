@@ -98,7 +98,7 @@ answers = (function () {
                 if (id in saved_answers) {
                     answer = saved_answers[id];
                     // if version has changed, throw away old answer
-                    if (answer.version != version)
+                    if ((answer.version || '1') != version)
                         answer = {id: id, version: version};
                 } else {
                     answer = {id: id, version: version};
