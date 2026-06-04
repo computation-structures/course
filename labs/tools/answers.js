@@ -29,8 +29,27 @@ answers = (function () {
 
     var update_handlers;  // {id: function to call with new answer}
 
+    const answer_prologue = `
+      <div style="margin: 10px; border: 1px solid black; padding: 10px; background-color: #FFE;">
+        All your exercise answers for this course are saved by the browser in
+        its local storage associated with this website.  You can use the buttons below
+        to load/save the stored answers from/to your local system.
+        Note that loading will overwrite all answers currently saved by the browser.
+        <br>
+        <center>
+          Save: <a download="saved_answers.json" href="#" onclick="answers.save_answers(this);"><button>Save</button></a>
+          <span style="margin-left: 2em;">Load:</span>
+          <input id="filename" type="file"/>
+          <button onclick="answers.load_answers(document.getElementById('filename'));">Load</button>
+        </center>
+      </div>
+    `;
+
     function setup_answers() {
-        // first replace $paramaters with their values
+        // add load/save info to top of any page that has answer tags
+        $('article').prepend(answer_prologue);
+
+        // first replace $parameters with their values
         $('body').html(substitute_parameters($('body').html()));
 
         // extract relevant portion of document pathname
@@ -176,7 +195,7 @@ answers = (function () {
                 else
                     input.attr('placeholder','type the Enter key to check answer.');
 
-	        input.on('change',function () {
+	            input.on('change',function () {
                     if (answer === undefined) return;
                     var check;
                     if (type == 'text') {
@@ -1171,6 +1190,7 @@ answers = (function () {
     }
 
     function save_answers(a) {
+        localStorage.setItem('_save_timestamp_', Date.now());
         a.setAttribute('href','data:text/plain;base64,'+utoa(JSON.stringify(localStorage)));
     }
 

@@ -16,20 +16,6 @@
 
   <body>
     <article class="markdown-body">
-      <div style="margin: 10px; border: 1px solid black; padding: 10px; background-color: #FFE;">
-        All your exercise answers for this page are saved by the browser in local storage
-        associated with this page.  You can use the buttons below
-        to load/save the answers on your system.  Note that loading will overwrite
-        any answers currently saved by the browser.
-        <br>
-        <center>
-          Save: <a download="saved_lab_11.json" href="#" onclick="answers.save_answers(this);"><button>Save</button></a>
-          <span style="margin-left: 2em;">Load:</span>
-          <input id="filename" type="file"/>
-          <button onclick="answers.load_answers(document.getElementById('filename'));">Load</button>
-        </center>
-      </div>
-
       <h1>Optimizing the Beta</h1>
 
       <p>Useful links:</p>
@@ -167,25 +153,20 @@
         only supplies a RESET signal (high during the first cycle, low
         afterwards) and sets the clock period.  The test is set up to run 1104
         cycles, after which the test checks certain locations of this memory
-        to see that the benchmark has completed successfully.  If your design
-        passes verification, you can submit it to the on-line checkoff system
-        to record the number of points your design has received.  The points
-        are determined by the following formula:</p>
+        to see that the benchmark has completed successfully.  The Benmark
+        is determined by the following formula:</p>
 
-      <center>
-        Benmark = 1e-10/(&lt; ending simulation time in seconds &gt; * &lt; size in meter<sup>2</sup> &gt; )<br/>
-        Points = round(Benmark)/2  [min = 0, max = 20]<br/>
-        <br/>
-      </center>
+      <p><center>
+        Benmark = 1e-10/(&lt; ending simulation time in seconds &gt; * &lt; size in meter<sup>2</sup> &gt; )
+      </center></p>
 
       <p>The smaller your circuit and the shorter the time it takes to
         complete the simulation, the better the Benmark.  A good Beta design
         completed as described in the Lab 7 handout has a Benmark of 15 or
-        more (depending on various design choices) and would receive a few
-        points if submitted.  Earning 10 points on the design project is very
-        doable.  Earning 15 points is within reach but will require close
+        more (depending on various design choices).  Achieving a Benmark of 20 on the design project is very
+        doable.  Achieving a Benmark of 30 is within reach but will require close
         attention to all the details listed in the Hints section
-        below. Earning all 20 points will require insight and a
+        below. Achieving a Benmark of 40 or more will require insight and a
         considerable investment of time.</p>
 
       <p><b>Your first step</b> should be to load your current Beta design
@@ -383,7 +364,8 @@
             the EXE stage: we'll compute the address in the first cycle and do the
             memory access in the second cycle.  Let's call these two cycles MEM1
             and MEM2.  You'll need to convert the PC_IF, PC_EXE and IR_EXE
-            registers to load-enabled registers (see Slide 6 of L14); the load
+            registers to load-enabled registers (see the "Multi-Ported Register File"
+            slide in the "Building the Beta" lecture); the load
             enable should be hooked to <tt>not_stall</tt>.  And you'll need to add
             a register that holds the memory address between the output of the ALU
             and main memory.</p>
