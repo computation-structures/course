@@ -31,13 +31,18 @@ answers = (function () {
 
     const answer_prologue = `
       <div style="margin: 10px; border: 1px solid black; padding: 10px; background-color: #FFE;">
-        All your exercise answers for this course are saved by the browser in
+        <p>When entering numeric values in the answer fields, you can use
+        integers (1000, 0x3E8, 0b1111101000), floating-point numbers
+        (1000.0), scientific notation (1e3), engineering scale factors
+        (1K), or numeric expressions (3*300 + 100).</p>
+
+        <p> All your exercise answers for this course are saved by the browser in
         its local storage associated with this website.  You can use the buttons below
         to load/save the stored answers from/to your local system.
-        Note that loading will overwrite all answers currently saved by the browser.
+        Note that loading will overwrite all answers currently saved by the browser.</p>
         <br>
         <center>
-          Save: <a download="saved_answers.json" href="#" onclick="answers.save_answers(this);"><button>Save</button></a>
+          Save: <a href="#" onclick="answers.save_answers(this);" download="saved_answers.json"><button>Save</button></a>
           <span style="margin-left: 2em;">Load:</span>
           <input id="filename" type="file"/>
           <button onclick="answers.load_answers(document.getElementById('filename'));">Load</button>
