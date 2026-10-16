@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Roboant</title>
+    <script src="jquery-3.2.1.min.js"></script>
+    <style>
+      html, body {
+          height: 100%;
+          background-color: #EEE;
+      }
+      .roboant {
+          position: absolute;
+          top: 5px;
+          bottom: 5px;
+          right: 5px;
+          left: 5px;
+          padding: 5px;
+          display: flex;
+      }
+      #fsm {
+          width: 200px;
+          white-space: pre;
+          padding: 5px;
+      }
+      .ui {
+          flex-grow: 1;
+          display: flex;
+          flex-flow: column;
+          margin-left: 0.5em;
+      }
+      #select, #controls {
+          text-align: center;
+      }
+      #map {
+          flex-grow: 1;
+          background-color: blue;
+          margin-top: 0.5em;
+          margin-botton: 0.5em;
+          width: 100%;
+          height: 100%;
+      }
+      .ctl {
+          font-size: small;
+          margin: 0.5em .1em 0.5em .1em;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="roboant">
+      <textarea id="fsm" spellcheck="false">
+; fsm from lecture
+;          |        T T      
+;state L R | next   L R F
+;----------+-------------
+lost   0 0 | lost   0 0 1
+lost   1 - | rotccw 0 0 1
+lost   0 1 | rotccw 0 0 1
+rotccw 0 0 | wall1  1 0 0
+rotccw 1 - | rotccw 1 0 0
+rotccw 0 1 | rotccw 1 0 0
+wall1  - 0 | wall1  0 1 1
+wall1  - 1 | wall2  0 1 1
+wall2  1 - | rotccw 1 0 1
+wall2  0 1 | wall2  1 0 1
+wall2  0 0 | wall1  1 0 1
+      </textarea>
+      <div class="ui">
+        <div id="select"></div>
+        <svg id="map" xmlns="http://www.w3.org/2000/svg"></svg>
+        <div id="controls">
+          <button id="run" class="ctl stopped" onclick="run()">Run</button>
+          <button id="step" class="ctl stopped" onclick="step()">Step</button>
+          <button id="faster" class="ctl running" onclick="speed(0.5)">Faster</button>
+          <button id="slower" class="ctl running" onclick="speed(2.0)">Slower</button>
+          <button id="stop" class="ctl running" onclick="stop()">Stop</button>
+          <button id="reset" class="ctl" onclick="reset()">Reset</button>
+        </div>
+      </div>
+    </div>
+
+    <script>
+// X=wall, space=corridor, f=foo, s=start
+var maze_maps = {
+    m1: ['XXXXXXX',
+         'XXXXXfX',
+         'X     X',
+         'X XXXXX',
+         'X  X  X',
+         'XX X XX',
+         'X    sX',
+         'XXXXXXX'],
+    hampton: ["XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
+              "X        X      X      X          X",
+              "X XXXXXX X XXXXXX XXXX X XXXXXXXX X",
+              "X X      X X         X X        X X",
+              "X X XXXXXX X XXXXXXX X XXXXXXXX X X",
+              "X X X      X    X    X        X X X",
+              "X X X XXXXXXXXX X XXXXX XXXXX X X X",
+              "X X X X   X     X     X X X X X X X",
+              "X X   X X X XXXXXXXXX X X X X   X X",
+              "X XXX X X X X       X X X X X XXX X",
+              "X   X X X X Xf      X X X X X X   X",
+              "XXX X X X X X       X X X X X X XXX",
+              "X   X X X X XXXX XXXX X X X X X   X",
+              "X XXX X X X    X X    X X X   X X X",
+              "X X   X X XXXX X X XXXX X XXXXX X X",
+              "X X X   X    X X X      X       X X",
+              "X X XXXXXXXXXX X XXXXXXXXXXXXXXXX X",
+              "X X            X                  X",
+              "X XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
+              "X                                 X",
+              "XXXXXXXXXXXXXXXXsXXXXXXXXXXXXXXXXXX",
+              "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"]
+
+};
+var mazes = ['m1', 'hampton'];
+
+// helper function to create SVG elements with specified attributes
+function make_svg(tag,attrs) {
+    var el = document.createElementNS('http://www.w3.org/2000/svg', tag);
+    if (attrs) {
+        for (var k in attrs) el.setAttribute(k, attrs[k]);
+    }
+    return el;
+}
+
+var ant_cmd;  // function for commanding ant
+var ant_status = {state: 'lost', L: '0', R: '0', food: false};
+var ant_fsm = [];  // result of parsing FSM program: [[[state, L, R], [next, TL, TR, F]], ...]
+
+// user selects a new maze
+var current_maze;
+function select_maze(mname) {
+    current_maze = mname;
+    var maze = maze_maps[mname];
+    if (maze === undefined) return;
+    var h = maze.length;
+    var w = maze[0].length;
+    var mh,mw,scale,offsetx,offsety,food;
+
+    var map = $('#map');   // svg display area
+
+    // draw ant
+    var aradius = 1/6;
+    var ant = make_svg('g',{id: 'ant'});
+    var antenna_L = make_svg('line',{id: 'L', x1: 0, y1: 0, x2: 1.5*aradius, y2: 1.5*aradius,
+                                     stroke: 'green', 'stroke-width': 0.05});
+    ant.append(antenna_L);
+    var antenna_R = make_svg('line',{id: 'R', x1: 0, y1: 0, x2: -1.5*aradius, y2: 1.5*aradius,
+                                     stroke: 'green', 'stroke-width': 0.05});
+    ant.append(antenna_R);;
+    ant.append(make_svg('circle',{cx: 0, cy: 0, r: aradius, fill: 'green'}));
+
+    // draw maze
+    map.empty();
+    var g = make_svg('g');   // where we put transform to scale and center the maze
+    map.append(g);
+    var flocn,alocn;
+    for (var y = 0; y < h; y += 1) {
+        var row = maze[y];
+        for (var x = 0; x < w; x += 1) {
+            var tile = row.charAt(x);
+            if (tile == 'X') continue;
+            g.append(make_svg('rect',{x: x , y: y, width: 1.01, height: 1.01,
+                                      fill: 'white'}));
+            if (tile == 'f') flocn = {x: x, y: y};
+            else if (tile == 's') alocn = {x: x, y: y};
+        }
+    }
+    // place food and ant after all the corridor tiles have been drawn
+    if (flocn) {
+        food = make_svg('circle',{id: 'food', cx: flocn.x+0.5 , cy: flocn.y+0.5, r: 0.3, fill: 'magenta'});
+        g.append(food);
+    }
+    if (alocn) {
+        g.append(ant);
+        // center of ant positioned at center of tile facing north
+        ant.setAttribute('transform',`translate(${alocn.x+0.5},${alocn.y+0.5}) rotate(180)`);
+    }
+
+    // scale map to fill #map div
+    function set_scale() {
+        mh = map.height();
+        mw = map.width();
+        scale = Math.min(mw/w, mh/h);
+        offsetx = (mw-(w*scale))/2;
+        offsety = (mh-(h*scale))/2;
+        map.attr('viewBox',`0 0 ${mw} ${mh}`);
+        g.setAttribute('transform',`translate(${offsetx},${offsety}) scale(${scale})`);
+    }
+
+    var point = map[0].createSVGPoint();   // we'll use this to compute antenna coords
+
+    // return maze coords of antenna center
+    function antenna_location(a) {
+        var m1 = ant.transform.baseVal[0].matrix;   // ant translate matrix (.e, .f)
+        var m2 = ant.transform.baseVal[1].matrix;   // ant rotation matrix
+
+        // compute maze coords of antenna end point
+        point.x = a.x2.baseVal.value;
+        point.y = a.y2.baseVal.value;
+        var locn = point.matrixTransform(m2);    // ant rotation
+        locn.x += m1.e;   // ant translation
+        locn.y += m1.f;
+        return locn;
+    }
+
+    // is tile at coord a wall?
+    function is_wall(locn) {
+        return maze[Math.floor(locn.y)].charAt(Math.floor(locn.x)) == 'X';
+    }
+
+    // is coord food?
+    function is_food(locn) {
+        var foodx = food.cx.baseVal.value;
+        var foody = food.cy.baseVal.value;
+        var r = food.r.baseVal.value;
+        return (foodx - locn.x)**2 + (foody - locn.y)**2 <= r*r;
+    }
+
+    // rotate ant by specified degrees
+    function rotate_ant(a) {
+        var xform = ant.transform.baseVal[1];   // ant rotation transform
+        var new_angle = xform.angle + a;
+        if (new_angle < 0) new_angle += 360;
+        else if (new_angle > 360) new_angle -= 360;
+        xform.setRotate(new_angle,0,0);
+    }
+
+    // move ant forward specified distance
+    function step_ant(d) {
+        // convert forward in ant's frame to maze coords
+        point.x = 0;
+        point.y = d;
+        var locn = point.matrixTransform(ant.transform.baseVal[1].matrix);
+        var xform = ant.transform.baseVal[0];  // ant translation transform
+        xform.setTranslate(xform.matrix.e + locn.x, xform.matrix.f + locn.y);
+    }
+
+    // return [L, R, touching_food]
+    ant_cmd = function(tl, tr, f) {
+        // perform rotation
+        if (tr) {
+            if (!tl) rotate_ant(10);
+        } else if (tl) rotate_ant(-10);
+
+        // move forward if antennas not touching
+        var Lloc = antenna_location(antenna_L);
+        var Rloc = antenna_location(antenna_R);
+
+        if (f && !is_wall(Lloc) && !is_wall(Rloc))  step_ant(.05);
+
+        Lloc = antenna_location(antenna_L);
+        var L_touching = is_wall(Lloc);
+        antenna_L.setAttribute('stroke', L_touching ? 'red' : 'green');
+
+        Rloc = antenna_location(antenna_R);
+        var R_touching = is_wall(Rloc);
+        antenna_R.setAttribute('stroke', R_touching ? 'red' : 'green');
+
+        // update status
+        ant_status.L = L_touching ? '1' : '0';
+        ant_status.R = R_touching ? '1' : '0';
+        ant_status.food = is_food(Lloc) || is_food(Rloc);
+    };
+
+    /*
+    map.on('mousemove',function(evt) {
+        point.x = evt.clientX; point.y = evt.clientY;
+        var loc = point.matrixTransform(map[0].getScreenCTM().inverse());
+        $('#controls').text(`(${point.x},${point.y}) (${loc.x},${loc.y}) (${loc.x/scale},${loc.y/scale})`);
+    });
+    */
+
+    set_scale();   // initial scaling
+    $(window).off('resize');  // remove any previous resize handler
+    $(window).on('resize',set_scale);   // rescale if window size changes
+}
+
+function parse_fsm() {
+    ant_fsm.length = 0;
+    var pgm = $('#fsm').val().split('\n');
+    var start;
+    var end = 0;
+    for (var index = 0; index < pgm.length; index += 1) {
+        var line = pgm[index];
+        start = end;
+        end += line.length + 1;  // include newline
+
+        // ignore blank and comment lines
+        line = line.trim();
+        if (line.length == 0 || line.charAt(0)==';') continue;
+
+        // split pgm line into inputs and outputs
+        line = line.split(/[ ]*\|[ ]*/);
+        if (line.length != 2) {
+            $('#fsm').focus();
+            $('#fsm')[0].setSelectionRange(start,end);
+            return;
+        }
+
+        // split inputs into state, L, R
+        var inputs = line[0].trim().split(/[ \t]+/);
+        if (inputs.length != 3) {
+            $('#fsm').focus();
+            $('#fsm')[0].setSelectionRange(start,start+line[0].length+1);
+            return;
+        }
+
+        // split outputs into next, TL, TR, F
+        var outputs = line[1].trim().split(/[ \t]+/);
+        if (outputs.length != 4) {
+            $('#fsm').focus();
+            $('#fsm')[0].setSelectionRange(start + line[0].length + 1,end);
+            return;
+        }
+
+        ant_fsm.push([inputs, outputs, [start, end]]);
+    };
+}
+
+var timeout;
+var request_stop = false;
+var interval = 100;
+
+function reset(name) {
+    if (timeout) {
+        clearTimeout(timeout);
+        timeout = undefined;
+    }
+
+    if (name) current_maze = name;
+
+    // reset the ant and maze
+    ant_status.state = 'lost';
+    ant_status.L = '0';
+    ant_status.R = '0';
+    ant_status.food = false;
+    select_maze(current_maze);
+
+    $('.stopped').prop('disabled', false);
+    $('.running').prop('disabled', true);
+    $('#reset').prop('disabled', true);
+    interval = 100;
+}
+
+function step() {
+    $('#reset').prop('disabled', false);
+
+    // if ant has reached food, we're done
+    if (ant_status.food) {
+        request_stop = true;
+        return;
+    }
+
+    // look for input match in fsm pgm
+    for (var i = 0; i < ant_fsm.length; i += 1) {
+        var inputs = ant_fsm[i][0];
+        if (ant_status.state == inputs[0] &&
+            (inputs[1]=='-' || inputs[1]==ant_status.L) &&
+            (inputs[2]=='-' || inputs[2]==ant_status.R)) {
+            // a match! so perform action and update state
+            var start_end = ant_fsm[i][2];
+            $('#fsm').focus();
+            $('#fsm')[0].setSelectionRange(start_end[0], start_end[1]);
+
+            var outputs = ant_fsm[i][1];
+            ant_cmd(outputs[1]=='1', outputs[2]=='1', outputs[3]=='1');
+            ant_status.state = outputs[0];
+            break;
+        }
+    }
+}
+
+function run() {
+    $('.stopped').prop('disabled', true);
+    $('.running').prop('disabled', false);
+
+    function one_step() {
+        timeout = undefined;
+        step();
+        if (!request_stop)
+            timeout = setTimeout(one_step, interval);
+        else {
+            $('.stopped').prop('disabled', ant_status.food);
+            $('.running').prop('disabled', true);
+        }
+    }
+    request_stop = false;
+    one_step();
+}
+
+function stop() {
+    request_stop = true;
+}
+
+function speed(change) {
+    if ((change < 1 && interval > 4) ||
+        (change > 1 && interval < 1000))
+        interval *= change;
+}
+
+// set up roboant widget
+$(document).ready(function () {
+    // create checkboxes for selecting current maze
+    mazes.forEach(function (mname) {
+        var cb = $('<input type="radio" name="maze"/>').attr('value',mname);
+        cb.on('click', function (e) { reset(e.target.value); });
+        var cn = $('<span style="margin-right: 0.5em;"></span>').text(mname);
+        if (mname == mazes[0]) {
+            cb.attr('checked',1);
+        }
+        $('#select').append(cb, cn);
+    });
+
+    parse_fsm();
+    reset(mazes[0]);
+});
+    </script>
+  </body>
+</html>
