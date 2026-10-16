@@ -30,11 +30,15 @@ answers = (function () {
     var update_handlers;  // {id: function to call with new answer}
 
     const answer_prologue = `
-      <div style="margin: 10px; border: 1px solid black; padding: 10px; background-color: #FFE;">
+      <div class="answer-prologue">
         <p>When entering numeric values in the answer fields, you can use
         integers (1000, 0x3E8, 0b1111101000), floating-point numbers
         (1000.0), scientific notation (1e3), engineering scale factors
-        (1K), or numeric expressions (3*300 + 100).</p>
+        (1K), or numeric expressions (3*300 + 100).  Numeric expressions
+        can include calls to the following built-in functions:
+        <tt>abs, acos, asin, atan, atan2, ceil, cos, exp, floor, log, log10,
+        log2, max, min, pow, round, sin, sqrt</tt>.  The constants <tt>pi</tt>
+        and <tt>e</tt> are also available.</p>
 
         <p> All your exercise answers for this course are saved by the browser in
         its local storage associated with this website.  You can use the buttons below
@@ -109,8 +113,9 @@ answers = (function () {
             const tool_name = adiv.attr('tool_name') || 'tool';
             const custom_checker = adiv.attr('checker');
             const label = adiv.find('label');
-            const placeholder = adiv.attr('placeholder');
+            const placeholder = adiv.find('placeholder');
             const version = adiv.attr('version') || '1';
+            const explanation = adiv.find('explanation');
             let newdiv;
             let target;
 
@@ -163,8 +168,12 @@ answers = (function () {
                     a.removeClass('answer-right').removeClass('answer-wrong');
 
                     // apply new result, if any
-                    if (answer.check !== undefined)
+                    if (answer.check !== undefined) {
                         a.addClass('answer-'+answer.check);
+                        a.find('.answer-explanation').html(explanation)
+                        if (answer.expression_value)
+                            a.find('.answer-text-exp-value').html(`= ${answer.expression_value}`);
+                    }
                 }
 
                 // update saved state
@@ -192,7 +201,16 @@ answers = (function () {
 
             if (type == 'text' || type == 'number' || type == 'twos-complement' || type == 'expression') {
                 newdiv = $(answer_text_template);
-                if (label !== undefined) newdiv.find('label').html(label).attr('for',id);
+                if (label !== undefined)
+                    newdiv.find('label').html(label).attr('for',id);
+                if (answer.expression_value)
+                    newdiv.find('.answer-text-exp-value').html(`= ${answer.expression_value}`);
+                if (explanation !== undefined) {
+                    if (answer.check)
+                        newdiv.find('.answer-explanation').html(explanation);
+                    else
+                        newdiv.find('.answer-explanation').html('<explanation> Explanation can be viewed after you enter an answer.</explanation>');
+                }
                 const input = newdiv.find('input');
 
                 if (placeholder !== undefined)
@@ -373,7 +391,7 @@ answers = (function () {
         localStorage.setItem(locn,JSON.stringify(answers));
     }
 
-    var answer_text_template = '<div class="answer"><div class="answer-row"><label class="answer-label"></label><input type="text" class="answer-text-input" style="height:35px; width:100%;"></input><div class="answer-check"></div></div><div class="answer-message"></div></div>';
+    var answer_text_template = '<div class="answer"><div class="answer-row"><label class="answer-label"></label><div class="answer-text"><input type="text" class="answer-text-input" style="height:35px; width:100%;"></input><div class="answer-text-exp-value"></div></div><div class="answer-check"></div></div><div class="answer-message"></div><div class="answer-explanation"></div></div>';
 
     // expected="value"
     function check_text(id,expected,answer) {
@@ -385,9 +403,10 @@ answers = (function () {
     // expected="value,tolerance"
     function check_numeric_answer(type,expected,answer) {
         answer.check = 'wrong';
+        answer.message = undefined;
         expected = expected.split(',');
 
-        var v = calculate(expected[0]);
+        var [v, _] = calculate(expected[0]);
         if (typeof v == 'string') {
             answer.message('Bad expected value: '+expected[0]);
             return;
@@ -396,23 +415,24 @@ answers = (function () {
         var tolerance = 0;
         if (expected.length > 1) {
             var tol = expected[1];
-            if (tol[tol.length-1] == '%')
+            if (tol[tol.length-1] == '%') {
                 tolerance = Math.abs(v)*parseFloat(tol.substring(0,tol.length - 1))*.01;
-            else
+            } else
                 tolerance = parseFloat(expected[1]);
 
             if (isNaN(tolerance) || tolerance < 0) {
-                answer.message('Bad tolerance: '+expected[1]);
+                answer.message = 'Bad tolerance: '+expected[1];
                 return;
             }
         }
 
-        var got = calculate(answer.value);
+        var [got, is_expression] = calculate(answer.value);
         if (typeof got == 'string') {
             answer.message = got;   // error message
             return;
         }
 
+        if (is_expression) answer.expression_value = got;
         answer.check = (got >= v - tolerance && got <= v + tolerance) ? 'right' : 'wrong';
         answer.message = undefined;
     }
@@ -429,7 +449,7 @@ answers = (function () {
         }
         
         expected = expected.split(',');
-        let v = calculate(expected[0]);
+        let [v,_] = calculate(expected[0]);
         if (typeof v == 'string') {
             answer.message('Bad expected value: '+expected[0]);
             return;
@@ -446,12 +466,14 @@ answers = (function () {
         }
 
         v = complement_wrap(v, bitwidth);
-        const got = complement_wrap(calculate(answer.value), bitwidth);
+        const [got, is_expression] = calculate(answer.value);
+        got = complement_wrap(got, bitwidth);
         if (typeof got == 'string') {
             answer.message = got;   // error message
             return;
         }
 
+        if (is_expression) answer.expression_value = got;
         answer.check = (got == v) ? 'right' : 'wrong';
         answer.message = undefined;
     }
@@ -1088,19 +1110,20 @@ answers = (function () {
         return parse_expression(tokens);
     }
 
+    // return (value, exp) where exp==true if text was an expression
     function calculate(text,environment) {
         if (environment === undefined) environment = built_in_environment;
         try {
             var tree = parse(text);
-            return evaluate(tree, environment);
+            return [evaluate(tree, environment), typeof tree != 'number'];
         }
         catch (err) {
-            return err;
+            return [err, false];
         }
     }
      
     ////////////////////////////////////////////////////////////
-    //   Synchornization support
+    //   Synchronization support
     ////////////////////////////////////////////////////////////
 
     // retrieve workbook state from localStorage

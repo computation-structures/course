@@ -1,6 +1,13 @@
 .xyzzy {
     display: none;
 }
+.answer-prologue {
+    font-size: small;
+    margin: 10px;
+    border: 1px solid black;
+    padding: 10px;
+    background-color: #FFE;
+}
 .answer {
     margin-top: 0.5em;
     margin-bottom: 0.5em;
@@ -18,15 +25,22 @@
     display: table-cell;
     width: 1px;
     padding-right: 0.25em;
-    vertical-align: middle;
+    vertical-align: top;
     white-space: nowrap;
+}
+.answer-text {
+    display: table-cell;
+    width: 100%;
+    vertical-align: top;
 }
 .answer-text-input {
     display: table-cell;
     width: 100%;
     background-color: white;
-    vertical-align: middle;
     font-size: 16px;
+}
+.answer-text-exp-value {
+    color: #CCC;
 }
 .answer-choice-input {
     display: table-cell;
@@ -42,10 +56,10 @@
     width: 16px;
     padding-left: 0.5em;
     font-size: 20px;
-    vertical-align: middle;
+    vertical-align: top;
 }
 .answer-right .answer-check::before {
-    content: "\2714";
+    content: "\2713";
     color: green;
 }
 .answer-wrong .answer-check::before {
@@ -83,6 +97,22 @@ div.hint {
 }
 .answer-message {
     color: blue;
+}
+.answer-explanation {
+    font-size: small;
+    font-style: italic;
+    margin: 1em 2em 0 1em;
+}
+.answer-explanation:not(:empty)::before {
+    content: "Explanation";
+    text-decoration: underline;
+    margin-right: 0.3em;
+}
+.answer-explanation explanation {
+    display: none;
+}
+.answer-explanation:hover explanation {
+    display: inline-block;
 }
 .plot-container {
     background-color: #EEEEEE;
@@ -143,4 +173,12 @@ iframe.tool {
     border: 1px solid black;
     resize:both;
     overflow: auto;
+}
+.check-yourself {
+    margin: 0.5em 0 0.5em 0;
+    border-top: 1px solid black;
+    padding: 0.5em;
+    background-color: #EFE;
+    border-bottom: 1px solid black;
+    margin-bottom: 0.5em;
 }

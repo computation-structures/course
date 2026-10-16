@@ -9,6 +9,11 @@
     <script src="../labs/tools/MathJax/tex-chtml.js" id="MathJax-script" async></script>
     <script src="../labs/tools/github.js"></script>
     <link rel="stylesheet" href="../labs/tools/github.css">
+
+    <script src="../labs/tools/jquery-3.2.1.min.js"></script>
+    <link rel="stylesheet" href="../labs/tools/labs.css">
+    <link rel="stylesheet" href="../labs/tools/font-awesome.css">
+    <script src="../labs/tools/answers.js"></script>
   </head>
 
   <body>
@@ -190,6 +195,79 @@ the most information when we learn that the card is the suicide
 King and the least information when we learn that the card is
 not the Ace of Spades.</p>
 
+<div class="check-yourself">
+<i>Check yourself: LE1.1 Quantifying Information</i><br/><br/>
+
+For the problems below enter your responses as numeric values or numeric
+expressions which can include calls to the built-in functions.  The built-in
+function <tt>log2(x)</tt> returns the log-base-2 of its argument.
+  
+<ol type="A">
+    <li>You&#700;re given a standard deck of 52 playing cards that you start
+        to turn face up, card by card. So far as you know, they're in
+        completely random order.
+        <ul>
+            <li> How many new bits of information do you get when the first card
+                is flipped over and you learn exactly which card it is?
+
+                <answer type="number" id="LE1.1.1" expected="5.700,.1%">
+                    <placeholder>&pm;10%</placeholder>
+                    <label>Information received (bits):</label>
+                    <explanation>
+                        Before the first card was flipped over there are 52 choices
+                        for what we&#700;ll see on the first flip. Turning the first card
+                        over narrows the choice down to a single card, so we&#700;ve received
+                        $log_2(52/1)$ bits of information.
+                    </explanation>
+                </answer>
+            </li>
+
+            <li>The fifth card?
+                <answer type="number" id="LE1.1.2" expected="5.585,.1%">
+                    <placeholder>&pm;10%</placeholder>
+                    <label>Information received (bits):</label>
+                    <explanation>
+                        After flipping over 4 cards, there are 48 choices for the
+                        next card, so flipping over the fifth card gives us $log_2(48/1)$
+                        bits of information.
+                    </explanation>
+                </answer>
+            </li>
+
+            <li>The last card?
+                <answer type="number" id="LE1.1.3" expected="0">
+                    <placeholder>&pm;10%</placeholder>
+                    <label>Information received (bits):</label>
+                    <explanation>
+                        If all but one card has been flipped over, we know
+                        ahead of time what the final card has to be so we don't receive
+                        any information from the last flip. Using the formula, there is
+                        only 1 &#8220;choice&#8221; for the card before the card is flipped and we
+                        have the same &#8220;choice&#8221; afterwards, so, we receive $log_2(1/1)$ = 0
+                        bits of information.
+                    </explanation>
+                </answer>
+            </li>
+        </ul>
+        <li>
+            Z is an unknown N-bit binary number (N &gt; 3). You are told
+            that the first three bits of Z are 011. How many bits of information
+            about Z have you been given?
+            <answer type="number" id="LE1.1.4" expected="3">
+                <label>Information received (bits):</label>
+                <explanation>
+                    Since we were told about 3 bits of Z, it would make sense
+                    intuitively that we've been given 3 bits of information! Turning
+                    to the formulas: there are $2^N$ N-bit binary numbers and
+                    $2^{N-3}$ N-bit binary numbers that begin with 011. So we've
+                    been given $log_2(2^N/2^{N-3}) = log_2(2^3)$ = 3 bits of
+                    information (whew!).
+                </explanation>
+            </answer>
+        </li>
+</ol>
+</div>
+
 <p align="center"><img style="height:450px;" src="lecture_slides/info/Slide7.png"/></p>
 
 <p>In the next section we&#700;re going to start our discussion
@@ -259,6 +337,63 @@ better.</p>
 we&#700;d have the perfect encoding.  Alas, perfection is, as
 always, a tough goal, so most of the time we&#700;ll have to
 settle for getting close.</p>
+
+<div class="check-yourself">
+<i>Check yourself: LE1.2 Entropy</i><br/><br/>
+
+Please compute the entropy associated with each the following random
+variables.  You may find it helpful to enter expressions rather than
+numbers.  Note that the function <tt>log2(...)</tt> computes the
+log-base-2 of its argument.  You can type in an entire expression to
+evaluate, e.g., <tt>.3*log2(1/.3) + .7*log2(1/.7)</tt>.  Answers that
+include decimal places must be within 10% of the correct solution to
+be marked correct.
+
+<ol type="A">
+
+  <li>The flip of an unfair coin, where $p(\textrm{heads}) = 0.999$ and $p(\textrm{tails}) = 0.001$.
+
+      <answer type="number" id="LE1.2.1" expected=".0114,10%">
+          <placeholder>&pm;10%</placeholder>
+          <label>Entropy (bits):</label>
+          <explanation>
+              $$ \begin{align*}
+              Entropy &= (\textrm{heads})\cdot\log_2(\frac{1}{p(\textrm{heads})}) +
+              p(\textrm{tails})\cdot\log_2(\frac{1}{p(\textrm{tails})}) \\
+              &= 0.999*log_2(1/.999) + 0.001*log_2(1/.001) = .0114
+              \end{align*} $$
+          </explanation>
+      </answer>
+  </li>
+
+  <li>The random choice of one of the 16 hex digits, where the probability
+  of choosing any particular digit is $1/16$.
+
+      <answer type="number" id="LE1.2.2" expected="4">
+          <label>Entropy (bits):</label>
+          <explanation>
+              $$ \begin{align*}
+              Entropy &= \sum\limits_{i=0}^{15} p_i\cdot\log_2(\frac{1}{p_i}) \\
+              &= \frac{1}{16}*log2(\frac{1}{\frac{1}{16}}) + \frac{1}{16}*log2(\frac{1}{\frac{1}{16}}) + ... + \frac{1}{16}*log2(\frac{1}{\frac{1}{16}}) \\
+              &= 16*\frac{1}{16}*log2(16) = 4
+              \end{align*} $$
+          </explanation>
+      </answer>
+  </li>
+
+  <li>The quiz grade of a randomly-chosen student, where in the
+  100-student class the grade distribution was 27 A's, 38 B's, 23 C's, 8 D's, and 4 F's.
+
+      <answer type="number" id="LE1.2.3" expected="2.005,10%">
+          <placeholder>&pm;10%</placeholder>
+          <label>Entropy (bits):</label>
+          <explanation>
+              Entropy = $0.27*log2(100/27) + 0.38*log2(100/38) + 0.23*log2(100/23) + 0.08*log2(100/8) + 0.04*log2(100/4)$
+          </explanation>
+      </answer>
+  </li>
+</ol>
+</div>
 
 <h2>Encodings</h2>
 
@@ -375,6 +510,32 @@ English text in computing and communication.  ASCII has 94
 printing characters, so the associated entropy is $\log_2(94)$
 or 6.555 bits, so we would use 7 bits in our fixed-length
 encoding for each character.</p>
+
+<div class="check-yourself">
+    <i>Check yourself: LE1.3 Fixed-length Encodings</i>
+    <p>For the following problems, your answer should be specified as an integer.</p>
+    <ol type="A">
+        <li>How many bits are needed to encode the 10 decimal digits
+            {0, 1, 2, 3, 4, 5, 6, 7, 8, 9}?
+            <answer type="number" id="LE1.3.1" expected="4">
+                <label>Number of bits:</label>
+                <explanation>
+                    The amount of information in 10 decimal digits is
+                    $log_2(10) = 3.322$.  So the number of bits required to encode
+                    that is the next whole number of bits, which is 4 bits.
+                </explanation>
+            </answer>
+        </li>
+        <li>How many bits are needed to encode the 86 ASCII characters?
+            <answer type="number" id="LE1.3.2" expected="7">
+                <label>Number of bits:</label>
+                <explanation>
+                    The amount of information in 86 ASCII characters is
+                    $log_2(86) = 6.426$, which, when rounded up, is 7 bits.
+                </explanation>
+            </answer>
+    </ol>
+</div>
 
 <h2>Encoding Numbers</h2>
 
@@ -527,6 +688,55 @@ hand at the following exercises.  All you need to remember is
 how to do binary addition and two&#700;s complement negation
 (which is <i>bitwise complement and add 1</i>).</p>
 
+<div class="check-yourself">
+    <i>Check yourself: LE1.4 Encoding Numbers</i>
+    <ol type="A">
+        <li>
+            Convert the following decimal numbers to 6 bit 2's complement representation
+            binary numbers.  Please enter the binary numbers as exactly 6 binary digits
+            using the format 0bXXXXXX.
+            <answer type="text" id="LE1.4.1.1" expected="001111">
+                <label>15 = 0b</label>
+            </answer>
+            <answer type="text" id="LE1.4.1.2" expected="110001">
+                <label>-15 = 0b</label>
+            </answer>
+            <answer type="text" id="LE1.4.1.3" expected="000110">
+                <label>6 = 0b</label>
+            </answer>
+            <answer type="text" id="LE1.4.1.4" expected="111010">
+                <label>-6 = 0b</label>
+            </answer>
+            <answer type="text" id="LE1.4.1.5" expected="010101">
+                <label>21 = 0b</label>
+            </answer>
+            <answer type="text" id="LE1.4.1.6" expected="101011">
+                <label>-21 = 0b</label>
+                <explanation>
+                    Binary numbers are represented in the same manner as
+                    decimal numbers with the least significant bit representing
+                    the 2<sup>0</sup> position, the next bit to the left being the
+                    2<sup>1</sup> position, the next 2<sup>2</sup> and so on.  So
+                    to represent the positive number 15 which is equal to 8 + 4 +
+                    2 + 1 = 2<sup>3</sup> + 2<sup>2</sup> + 2<sup>1</sup> +
+                    2<sup>0</sup> = 0b001111.  There are 1's in the 0, 1, 2, and 3
+                    positions and 0's in the 4, and 5 positions.  Similary, 6 = 4
+                    + 2 = 2<sup>2</sup> + 2<sup>1</sup> = 0b000110 indicating that
+                    the only positions that are non-zero are the 1 and 2 bits.
+                    Finally, 21 = 16 + 4 + 1 = 2<sup>4</sup> + 2<sup>2</sup> +
+                    2<sup>0</sup> = 0b010101 with 1's in the 0, 2, and 4 positions
+                    and 0's elsewhere.</p>
+                    <p> In order to convert these numbers to a negative numbers,
+                        the way to do that in binary is to first flip all the bits and
+                        then add 1. </p>
+                    <p> So -15 = 0b110000 +1 = 0b110001.<br/>  -6 = 0b111001 + 1 =
+                        0b111010.<br/>  Finally, -21 = 0b101010 + 1 = 0b101011.</p>
+                </explanation>
+            </answer>
+        </li>
+    </ol>
+</div>
+
 <h2>Variable-length Encodings</h2>
 
 <p align="center"><img style="height:450px;" src="lecture_slides/info/Slide17.png"/></p>
@@ -601,6 +811,10 @@ general, it would be nice to have a systematic way to generate
 the best-possible variable-length code, and that&#700;s the
 subject of the next video.</p>
 
+<div class="check-yourself">
+<i>Check yourself: LE1.5 Variable-length Encoding</i><br/><br/>
+</div>
+
 <p align="center"><img style="height:450px;" src="lecture_slides/info/Slide19.png"/></p>
 
 <p>Given a set of symbols and their probabilities, Huffman&#700;s
@@ -672,6 +886,10 @@ occur again and again.  Compression can achieve dramatic
 reductions from the original file size.  If you&#700;d like to
 learn more, look up &#8220;LZW&#8221; on Wikipedia to read about
 the Lempel-Ziv-Welch data compression algorithm.</p>
+
+<div class="check-yourself">
+<i>Check yourself: LE1.6 Huffman Encoding</i><br/><br/>
+</div>
 
 <h2>Error Detection</h2>
 
@@ -796,6 +1014,10 @@ words far enough apart, as measured by Hamming distance, so that
 $E$ errors can&#700;t corrupt one valid code word so that it
 looks like another valid code word.</p>
 
+<div class="check-yourself">
+<i>Check yourself: LE1.7 Error Detection</i><br/><br/>
+</div>
+
 <h2>Error Correction</h2>
 
 <p align="center"><img style="height:450px;" src="lecture_slides/info/Slide27.png"/></p>
@@ -829,6 +1051,10 @@ insights: by choosing code words far enough apart (as measured
 by Hamming distance) we can ensure that we can detect and even
 correct errors that have corrupted our encoded data.  Pretty
 neat!</p>
+
+<div class="check-yourself">
+<i>Check yourself: LE1.8 Error Correction</i><br/><br/>
+</div>
 
 <h2>Summary</h2>
 
